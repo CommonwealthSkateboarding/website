@@ -1,0 +1,29 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Main Site
+GET     /                           controllers.Application.index(page: Long ?=0)
+GET     /page/:page                 controllers.Application.index(page: Long)
+GET     /news/:id                   controllers.Application.showNews(id: Long)
+GET     /shop                       controllers.Application.shop()
+GET     /camp                       controllers.Application.camp()
+GET     /events                     controllers.Application.events()
+GET     /about                      controllers.Application.about()
+
+# Session
+GET     /login                      controllers.Application.login()
+GET     /logout                     com.feth.play.module.pa.controllers.Authenticate.logout
+GET     /authenticate/:provider     com.feth.play.module.pa.controllers.Authenticate.authenticate(provider: String)
+GET     /authenticate/:provider/denied     controllers.Application.oAuthDenied(provider: String)
+
+# Admin
+GET     /newsAdmin                  controllers.Admin.adminIndex(page: Long ?=0)
+GET     /newsAdmin/new              controllers.Admin.addNewsPage()
+POST    /newsAdmin/new              controllers.Admin.addNewsItem()
+GET     /newsAdmin/:page            controllers.Admin.adminIndex(page: Long)
+GET     /newsAdmin/:id/edit         controllers.Admin.editNewsPage(id: Long)
+POST    /newsAdmin/:id/edit         controllers.Admin.updateNewsItem(id: Long)
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.at(path="/public", file)

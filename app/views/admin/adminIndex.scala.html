@@ -1,0 +1,45 @@
+@(news: List[NewsItem], page: Long, hasNextPage: Boolean, localUser: models.User = null)
+@adminParent(localUser) {
+
+<section id="blog">
+    <article>
+        <header>
+            <a href="/newsAdmin/new">Add a new news item</a>
+        </header>
+        <main></main>
+    </article>
+
+@for(index <- 0 until news.size) {
+<article>
+    <header>
+        <h1>@news(index).title @if(news(index).expires && (null != news(index).expireDate)) { <i>Expires: @news(index).expireDate.format("MM/dd/yyyy")</i> }</h1>
+        <div class="meta">
+            <div class="date">
+                <time>@news(index).createDate.format("MMMM dd, yyyy")</time>
+            </div>
+            <div class="tags">
+                <a href="#">News</a> / <a href="#">Site</a>
+            </div>
+        </div>
+    </header>
+    <main>
+        @Html(news(index).content)
+    </main>
+    <footer>
+        @if(news(index).extendedContent) {
+        <a href="/news/@news(index).id" class="more">Read More</a>
+        }
+        <a href="/newsAdmin/@news(index).id/edit" class="comments">Edit</a>
+    </footer>
+</article>
+}
+
+@if(page >= 1) {
+<a href="/newsAdmin/@(page-1)">Previous Page</a>
+}
+@if(hasNextPage) {
+<a href="/newsAdmin/@(page+1)">Next Page</a>
+}
+</section>
+
+}

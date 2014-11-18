@@ -1,0 +1,35 @@
+@(localUser: models.User = null)
+@adminParent(localUser) {
+
+<section id="blog">
+    <article>
+        <header>
+            <h1>Add a New News Item</h1>
+            <div class="meta">
+                <div class="date">
+                    <time>Now</time>
+                </div>
+                <div class="tags">
+                    <a href="#">News</a> / <a href="#">Site</a>
+                </div>
+            </div>
+        </header>
+        <main>
+            <form action="@routes.Admin.addNewsItem()" method="post">
+                <label>Title:</label><br/><input type="text" name="title" /><br/>
+                <label>Content:</label><br/><textarea name="content" id="newContent"></textarea><br/>
+                <label>Extended Content:</label><br/><textarea name="extendedContent" id="newExtendedContent"></textarea><br/>
+                <label>Sticky:</label><br/><input type="checkbox" name="sticky" /><br/>
+                <label>Expires:</label><br/><input type="checkbox" name="expires" /><br/>
+                <label>Expiration Date:</label><br/><input type="text" name="expireDate" id="datepicker" /><br/>
+                <input type="submit" id="submit" value="Add News Item" />
+            </form>
+        </main>
+        <footer>
+            <a href="#" class="more">Read More</a>
+            <a href="#" class="comments">Comments</a>
+        </footer>
+    </article>
+</section> <!-- /#blog -->
+
+}

@@ -1,0 +1,29 @@
+@(news: NewsItem)
+
+@main() {
+
+<section id="blog">
+    <article>
+        <header>
+            <h1>@news.title</h1>
+            <div class="meta">
+                <div class="date">
+                    <time>@news.createDate.format("MMMM dd, yyyy")</time>
+                </div>
+                <div class="tags">
+                    <a href="#">News</a> / <a href="#">Site</a>
+                </div>
+            </div>
+        </header>
+        <main>
+            @Html(news.content)
+            <br><br>
+            @Html(news.extendedContent)
+        </main>
+        <footer>
+            <a href="/">Back to the main site</a>
+        </footer>
+    </article>
+</section> <!-- /#blog -->
+
+}

@@ -1,0 +1,43 @@
+@(news: List[NewsItem], page: Long, hasNextPage: Boolean)
+
+@main() {
+
+<section id="blog">
+    @for(index <- 0 until news.size) {
+        <article>
+            <header>
+                @if(news(index).extendedContent) {
+                <h1><a href="/news/@news(index).id" class="more">@news(index).title</a></h1>
+                } else {
+                    <h1>@news(index).title</h1>
+                }
+                <div class="meta">
+                    <div class="date">
+                        <time>@news(index).createDate.format("MMMM dd, yyyy")</time>
+                    </div>
+                    <div class="tags">
+                        <a href="#">News</a> / <a href="#">Site</a>
+                    </div>
+                </div>
+            </header>
+            <main>
+                @Html(news(index).content)
+            </main>
+            <footer>
+                @if(news(index).extendedContent) {
+                <a href="/news/@news(index).id" class="more">Read More</a>
+                }
+                <!--<a href="/news/@news(index).id#comments" class="comments">Comments</a>-->
+            </footer>
+        </article>
+    }
+
+    @if(page >= 1) {
+    <a href="/page/@(page-1)">Previous Page</a>
+    }
+    @if(hasNextPage) {
+        <a href="/page/@(page+1)">Next Page</a>
+    }
+</section> <!-- /#blog -->
+
+}
