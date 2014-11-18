@@ -6,8 +6,8 @@ A work in progress.
 Dependencies
 -------
 
-mysql
-typesafe-activator
+* mysql
+* typesafe-activator
 
 Preparation
 -------
@@ -15,12 +15,14 @@ Preparation
 * brew install mysql
 * brew services start mysql
 * mysql -uroot
-    * CREATE DATABASE cw;
+ 	* CREATE DATABASE cw;
 	* GRANT ALL PRIVILEGES ON cw.* TO cw@localhost IDENTIFIED BY ‘sterlingarcher';
 	* exit;
 * brew install typesafe-activator
 
-Building
+Running
 -------
 
 from the project directory (in a terminal) run 'activator run'.
+
+Application will be running on http://localhost:9000
