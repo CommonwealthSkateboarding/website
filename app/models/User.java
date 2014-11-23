@@ -1,26 +1,19 @@
 package models;
 
-        import java.util.Arrays;
-        import java.util.Collections;
-        import java.util.HashSet;
-        import java.util.List;
-        import java.util.Set;
+import java.util.*;
 
-        import javax.persistence.CascadeType;
-        import javax.persistence.Entity;
-        import javax.persistence.Id;
-        import javax.persistence.OneToMany;
-        import javax.persistence.Table;
+import javax.persistence.*;
 
-        import play.data.validation.Constraints;
-        import play.db.ebean.Model;
+import be.objectify.deadbolt.core.models.Permission;
+import be.objectify.deadbolt.core.models.Role;
+import be.objectify.deadbolt.core.models.Subject;
+import com.feth.play.module.pa.user.*;
+import play.data.format.Formats;
+import play.data.validation.Constraints;
+import play.db.ebean.Model;
 
-        import com.avaje.ebean.Ebean;
-        import com.avaje.ebean.ExpressionList;
-        import com.feth.play.module.pa.user.AuthUser;
-        import com.feth.play.module.pa.user.AuthUserIdentity;
-        import com.feth.play.module.pa.user.EmailIdentity;
-        import com.feth.play.module.pa.user.NameIdentity;
+import com.avaje.ebean.Ebean;
+import com.avaje.ebean.ExpressionList;
 
 /**
  * Created by cdelargy on 11/17/14.
@@ -28,7 +21,7 @@ package models;
 
 @Entity
 @Table(name = "users")
-public class User extends Model {
+public class User extends Model implements Subject {
     /**
      *
      */
@@ -45,12 +38,25 @@ public class User extends Model {
 
     public String name;
 
+    public boolean admin;
+
+    @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
+    public Date lastLogin;
+
     public boolean active;
 
     public boolean emailValidated;
 
+    @ManyToMany
+    public List<SecurityRole> roles;
+
     @OneToMany(cascade = CascadeType.ALL)
     public List<LinkedAccount> linkedAccounts;
+
+    @Override
+    public List<? extends Role> getRoles() {
+        return roles;
+    }
 
     public static final Finder<Long, User> find = new Finder<Long, User>(
             Long.class, User.class);
@@ -88,15 +94,15 @@ public class User extends Model {
 
     public static User create(final AuthUser authUser) {
         final User user = new User();
+        user.roles = Collections.singletonList(SecurityRole
+                .findByRoleName(controllers.Application.USER_ROLE));
         user.active = true;
+        user.lastLogin = new Date();
         user.linkedAccounts = Collections.singletonList(LinkedAccount
                 .create(authUser));
 
         if (authUser instanceof EmailIdentity) {
             final EmailIdentity identity = (EmailIdentity) authUser;
-            // Remember, even when getting them from FB & Co., emails should be
-            // verified within the application as a security breach there might
-            // break your security as well!
             user.email = identity.getEmail();
             user.emailValidated = false;
         }
@@ -110,7 +116,14 @@ public class User extends Model {
         }
 
         user.save();
+        user.saveManyToManyAssociations("roles");
         return user;
+    }
+
+    public static void setLastLoginDate(final AuthUser knownUser) {
+        final User u = User.findByAuthUserIdentity(knownUser);
+        u.lastLogin = new Date();
+        u.save();
     }
 
     public static void merge(final AuthUser oldUser, final AuthUser newUser) {
@@ -146,4 +159,13 @@ public class User extends Model {
         return LinkedAccount.findByProviderKey(this, providerKey);
     }
 
+    @Override
+    public List<? extends Permission> getPermissions() {
+        return null;
+    }
+
+    @Override
+    public String getIdentifier() {
+        return Long.toString(id);
+    }
 }

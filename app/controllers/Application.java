@@ -14,13 +14,11 @@ public class Application extends Controller {
 
     public static final int PER_PAGE = 5;
     public static final String STICKY_REVERSE_DATE_ORDER = "sticky DESC, createDate DESC";
-    public static final String FLASH_MESSAGE_KEY = "message";
-    public static final String FLASH_ERROR_KEY = "error";
+    public static final String USER_ROLE = "USER";
 
     public static Result oAuthDenied(final String providerKey) {
         com.feth.play.module.pa.controllers.Authenticate.noCache(response());
-        flash(FLASH_ERROR_KEY, "You need to accept the OAuth connection in order to use this website!");
-        return redirect(routes.Application.index(0));
+        return redirect(routes.Application.login());
     }
 
     public static Result login() {

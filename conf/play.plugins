@@ -1,2 +1,4 @@
+1500:com.typesafe.plugin.CommonsMailerPlugin
+10000:be.objectify.deadbolt.java.DeadboltPlugin
 10005:services.AdminUserServicePlugin
 10010:com.feth.play.module.pa.providers.oauth2.google.GoogleAuthProvider

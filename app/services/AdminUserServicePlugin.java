@@ -50,7 +50,13 @@ public class AdminUserServicePlugin extends UserServicePlugin {
     @Override
     public AuthUser link(final AuthUser oldUser, final AuthUser newUser) {
         User.addLinkedAccount(oldUser, newUser);
-        return null;
+        return newUser;
     }
 
+    @Override
+    public AuthUser update(final AuthUser knownUser) {
+        // User logged in again, bump last login date
+        User.setLastLoginDate(knownUser);
+        return knownUser;
+    }
 }

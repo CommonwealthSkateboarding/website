@@ -1,6 +1,10 @@
 package controllers;
 
+import be.objectify.deadbolt.java.actions.Group;
+import be.objectify.deadbolt.java.actions.Restrict;
 import com.feth.play.module.pa.PlayAuthenticate;
+import com.typesafe.plugin.MailerAPI;
+import com.typesafe.plugin.MailerPlugin;
 import models.NewsItem;
 import models.User;
 import play.data.Form;
@@ -16,6 +20,7 @@ import views.html.admin.adminIndex;
 import java.util.Date;
 import java.util.List;
 
+@Restrict({@Group("ADMIN")})
 @Security.Authenticated(Secured.class)
 public class Admin extends Controller {
 
@@ -80,6 +85,18 @@ public class Admin extends Controller {
         news.save();
 
         return redirect(routes.Admin.adminIndex(0));
+    }
+
+    /**
+     * Stub implementation for future emailin'
+     */
+    public static void sendEmail(String recipient, String sender, String subject, String message){
+        MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
+        mail.setSubject(subject);
+        mail.setRecipient(recipient);
+        mail.setFrom(sender);
+        String body = views.html.email.simple.render(message).body();
+        mail.sendHtml(body);
     }
 
 }
