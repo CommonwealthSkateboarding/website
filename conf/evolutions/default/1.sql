@@ -36,7 +36,6 @@ create table users (
   id                        bigint auto_increment not null,
   email                     varchar(255),
   name                      varchar(255),
-  admin                     tinyint(1) default 0,
   last_login                datetime,
   active                    tinyint(1) default 0,
   email_validated           tinyint(1) default 0,

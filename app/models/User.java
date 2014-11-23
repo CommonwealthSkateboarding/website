@@ -38,8 +38,6 @@ public class User extends Model implements Subject {
 
     public String name;
 
-    public boolean admin;
-
     @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
     public Date lastLogin;
 
