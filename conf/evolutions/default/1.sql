@@ -22,7 +22,7 @@ create table news_item (
 
 INSERT INTO `news_item` (`id`, `expires`, `expire_date`, `create_date`, `title`, `content`, `extended_content`, `sticky`)
 VALUES
-	(1, 0, NULL, '2014-11-18 05:00:25', 'Sticky News', 'Sticky', '', 1),
+	(1, 0, NULL, '2014-11-18 05:00:25', 'Sticky News', 'Sticky<br><br><div style=\"text-align: center;\"><img src=\"http://i.imgur.com/iMCMwXH.gif\"></div>', '', 1),
 	(11, 0, NULL, '2014-11-18 05:00:40', 'Not sticky 2nd post', '2nd', 'Extended 2nd', 0),
 	(21, 1, '2014-11-17 00:00:00', '2014-11-18 05:00:55', 'Expires in the past', 'expired', '', 0);
 

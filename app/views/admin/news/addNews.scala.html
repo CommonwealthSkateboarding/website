@@ -1,0 +1,29 @@
+@(localUser: models.security.User = null)
+@import admin.wrapper
+@wrapper(localUser, "news", "addNews") {
+<h3><i class="fa fa-angle-right"></i> News</h3>
+<div class="row mt">
+    <div class="col-lg-12">
+        <div class="form-panel">
+            <h4 class="mb"><i class="fa fa-angle-right"></i> Add New News Item</h4>
+            <form action="@routes.Admin.addNewsItem()" method="post" class="form-horizontal style-form">
+                <label>Title:</label><br/><input type="text" name="title" class="form-control" /><br/>
+                <label>Content:</label><br/><textarea name="content" id="newContent" class="form-control"></textarea><br/>
+                <label>Extended Content:</label><br/><textarea name="extendedContent" id="newExtendedContent" class="form-control"></textarea><br/>
+                <label>Sticky:</label><br/><input type="checkbox" name="sticky" class="form-control" /><br/>
+                <label>Expires:</label><br/><input type="checkbox" name="expires" class="form-control" /><br/>
+                <label>Expiration Date:</label><br/><input type="text" name="expireDate" id="datepicker" class="form-control" /><br/>
+                <input type="submit" id="submit" value="Add News Item" class="btn btn-theme" />
+            </form>
+        </div>
+    </div>
+</div><!-- col-lg-12-->
+</div><!-- /row -->
+<script>
+    $(document).ready(function(){
+        $("#datepicker").datepicker({});
+        $("#newContent").cleditor({});
+        $("#newExtendedContent").cleditor({});
+    });
+</script>
+}

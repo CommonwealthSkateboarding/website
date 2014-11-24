@@ -1,0 +1,44 @@
+@(localUser: models.security.User = null)
+@import admin.wrapper
+@wrapper(localUser, "member", "addMember") {
+
+<h3><i class="fa fa-angle-right"></i> Membership Database</h3>
+<div class="row mt">
+    <div class="col-lg-12">
+        <div class="form-panel">
+            <h4 class="mb"><i class="fa fa-angle-right"></i> Add New Member</h4>
+                <form action="@routes.Admin.addMember()" method="post" class="form-horizontal style-form">
+                    <label>Name:</label><br/><input type="text" name="name" class="form-control" /><br/>
+                    <label>Parent Name:</label><br/><input type="text" name="parentName" class="form-control" /><br/>
+                    <label>Address:</label><br/><input type="text" name="address" class="form-control" /><br/>
+                    <label>City:</label><br/><input type="text" name="city" class="form-control" /><br/>
+                    <label>State:</label><br/><input type="text" name="state" class="form-control" /><br/>
+                    <label>Country:</label><br/><input type="text" name="country" class="form-control" /><br/>
+                    <label>Birth Date:</label><br/><input name="birthDate" id="datepicker" class="form-control" /><br/>
+                    <label>Telephone:</label><br/><input type="text" name="telephone" class="form-control" /><br/>
+                    <label>Email Address:</label><br/><input type="text" name="email" class="form-control" /><br/>
+                    <label>Emergency Contact Name:</label><br/><input type="text" name="emergencyContactName" class="form-control" /><br/>
+                    <label>Emergency Contact Number:</label><br/><input type="text" name="emergencyContactNumber" class="form-control" /><br/>
+                    <label>Notes:</label><br/><textarea name="notes" id="notes"></textarea><br/>
+                    <label>Session Passes:</label><br/>
+                    <select name="sessionPasses" class="form-control">
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select><br/>
+                    <input type="submit" id="submit" value="Add Member" class="btn btn-theme"/>
+                </form>
+            </div>
+        </div>
+    </div><!-- col-lg-12-->
+</div><!-- /row -->
+    <script>
+        $(document).ready(function(){
+            $("#datepicker").datepicker({});
+            $("#notes").cleditor({});
+        });
+    </script>
+}

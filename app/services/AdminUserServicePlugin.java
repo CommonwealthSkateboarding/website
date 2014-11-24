@@ -1,6 +1,6 @@
 package services;
 
-        import models.User;
+        import models.security.User;
         import play.Application;
 
         import com.feth.play.module.pa.user.AuthUser;

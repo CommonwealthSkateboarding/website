@@ -1,0 +1,43 @@
+@(localUser: models.security.User = null, activeSection: String, activePage: String)
+
+@import com.feth.play.module.pa.views.html._
+<aside>
+    <div id="sidebar"  class="nav-collapse ">
+        <ul class="sidebar-menu" id="nav-accordion">
+
+            <p class="centered"><img src="@localUser.photoUrl" class="img-circle" width="60"></a></p>
+            <h5 class="centered">@localUser.name</h5>
+
+            <li class="mt">
+                <a href="/admin" @if(activeSection=="dashboard") { class="active" }>
+                    <i class="fa fa-dashboard"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li class="sub-menu">
+                <a @if(activeSection=="member") { class="active" } href="javascript:;" >
+                    <i class="fa fa-book"></i>
+                    <span>Members</span>
+                </a>
+                <ul class="sub">
+                    <li @if(activePage=="listMembers") { class="active" }><a href="@routes.Admin.memberIndex(0)">Member List</a></li>
+                </ul>
+                <ul class="sub">
+                    <li @if(activePage=="addMember") { class="active" }><a href="@routes.Admin.addMemberPage()">Add Member</a></li>
+                </ul>
+            </li>
+            <li class="sub-menu">
+                <a @if(activeSection=="news") { class="active" } href="javascript:;" >
+                <i class="fa fa-book"></i>
+                <span>News/Blog</span>
+                </a>
+                <ul class="sub">
+                    <li @if(activePage=="existingNews") { class="active" }><a href="@routes.Admin.newsIndex(0)">View/Edit News</a></li>
+                </ul>
+                <ul class="sub">
+                    <li @if(activePage=="addNews") { class="active" }><a href="@routes.Admin.addNewsPage()">Add News</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</aside>

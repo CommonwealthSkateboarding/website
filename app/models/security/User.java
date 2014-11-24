@@ -1,4 +1,4 @@
-package models;
+package models.security;
 
 import java.util.*;
 
@@ -37,6 +37,8 @@ public class User extends Model implements Subject {
     public String email;
 
     public String name;
+
+    public String photoUrl;
 
     @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
     public Date lastLogin;
@@ -104,6 +106,13 @@ public class User extends Model implements Subject {
             user.email = identity.getEmail();
             user.emailValidated = false;
         }
+
+        if (authUser instanceof PicturedIdentity) {
+            final PicturedIdentity identity = (PicturedIdentity) authUser;
+            user.photoUrl = identity.getPicture();
+            user.emailValidated = false;
+        }
+
 
         if (authUser instanceof NameIdentity) {
             final NameIdentity identity = (NameIdentity) authUser;

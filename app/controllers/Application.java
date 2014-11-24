@@ -1,7 +1,7 @@
 package controllers;
 
 import com.avaje.ebean.Expr;
-import models.NewsItem;
+import models.site.NewsItem;
 import play.db.ebean.Model;
 import play.mvc.*;
 
@@ -22,7 +22,7 @@ public class Application extends Controller {
     }
 
     public static Result login() {
-        return ok(login.render());
+        return redirect(com.feth.play.module.pa.controllers.routes.Authenticate.authenticate("google"));
     }
 
     public static Result index(Long page) {

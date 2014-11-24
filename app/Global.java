@@ -27,7 +27,7 @@ public class Global extends GlobalSettings {
             public Call afterAuth() {
                 // The user will be redirected to this page after authentication
                 // if no original URL was saved
-                return routes.Admin.adminIndex(0);
+                return routes.Admin.newsIndex(0);
             }
 
             @Override

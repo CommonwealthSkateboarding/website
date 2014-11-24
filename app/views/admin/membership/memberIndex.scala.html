@@ -1,0 +1,57 @@
+@(members: List[models.skatepark.Membership], page: Long, hasNextPage: Boolean, localUser: models.security.User = null)
+@import admin.wrapper
+@wrapper(localUser, "member", "listMembers") {
+
+<h3><i class="fa fa-angle-right"></i> Member Database</h3>
+<div class="row mt">
+    <div class="col-lg-12">
+        <div class="content-panel">
+            <h4><i class="fa fa-angle-right"></i> Recently Visited</h4>
+            <section id="unseen">
+                @if(hasNextPage||page>=1) {
+                    <nav>
+                        <ul class="pager">
+                            @if(page >= 1) {
+                            <li class="previous"><a href="/admin/members/@(page-1)"><span aria-hidden="true">&larr;</span> Previous Page</a></li>
+                            }
+                            @if(hasNextPage) {
+                            <li class="next"><a href="/admin/members/@(page+1)">Next Page<span aria-hidden="true">&rarr;</span></a></li>
+                            }
+                        </ul>
+                    </nav>
+                }
+                <table class="table table-bordered table-striped table-condensed">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Last Visited</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @for(index <- 0 until members.size) {
+                        @defining(members(index)) { member =>
+                            <tr>
+                                <td>@member.name</td>
+                                <td>@member.lastVisited</td>
+                            </tr>
+                        }
+                    }
+                    </tbody>
+                </table>
+                @if(hasNextPage||page>=1) {
+                    <nav>
+                        <ul class="pager">
+                            @if(page >= 1) {
+                            <li class="previous"><a href="/admin/members/@(page-1)"><span aria-hidden="true">&larr;</span> Previous Page</a></li>
+                            }
+                            @if(hasNextPage) {
+                            <li class="next"><a href="/admin/members/@(page+1)">Next Page<span aria-hidden="true">&rarr;</span></a></li>
+                            }
+                        </ul>
+                    </nav>
+                }
+            </section>
+        </div><!-- /content-panel -->
+    </div><!-- /col-lg-4 -->
+</div><!-- /row -->
+}

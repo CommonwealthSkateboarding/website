@@ -21,11 +21,4 @@ $(document).ready(function(){
 	$('.next.arrow').click(function() {
 		$('#carousel').slickNext();
 	});
-
-	$("#datepicker").datepicker();
-
-    $("#newContent").cleditor({});
-
-    $("#newExtendedContent").cleditor({});
-
 });

@@ -1,4 +1,4 @@
-package models;
+package models.site;
 
 import play.data.format.Formats;
 import play.data.validation.Constraints;

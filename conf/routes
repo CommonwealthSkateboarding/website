@@ -18,12 +18,20 @@ GET     /authenticate/:provider     com.feth.play.module.pa.controllers.Authenti
 GET     /authenticate/:provider/denied     controllers.Application.oAuthDenied(provider: String)
 
 # Admin
-GET     /newsAdmin                  controllers.Admin.adminIndex(page: Long ?=0)
-GET     /newsAdmin/new              controllers.Admin.addNewsPage()
-POST    /newsAdmin/new              controllers.Admin.addNewsItem()
-GET     /newsAdmin/:page            controllers.Admin.adminIndex(page: Long)
-GET     /newsAdmin/:id/edit         controllers.Admin.editNewsPage(id: Long)
-POST    /newsAdmin/:id/edit         controllers.Admin.updateNewsItem(id: Long)
+GET     /admin                  controllers.Admin.index()
+GET     /admin/news             controllers.Admin.newsIndex(page: Long ?=0)
+GET     /admin/news/new         controllers.Admin.addNewsPage()
+POST    /admin/news/new         controllers.Admin.addNewsItem()
+GET     /admin/news/:page       controllers.Admin.newsIndex(page: Long)
+GET     /admin/news/:id/edit    controllers.Admin.editNewsPage(id: Long)
+POST    /admin/news/:id/edit    controllers.Admin.updateNewsItem(id: Long)
+
+GET     /admin/members          controllers.Admin.memberIndex(page: Long ?=0)
+GET     /admin/members/new      controllers.Admin.addMemberPage()
+POST    /admin/members/new      controllers.Admin.addMember()
+GET     /admin/members/:page    controllers.Admin.memberIndex(page: Long)
+GET     /admin/members/search   controllers.Admin.findMemberPage()
+GET /test1 controllers.Admin.test1()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

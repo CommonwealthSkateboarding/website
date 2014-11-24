@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package models;
+package models.security;
 
         import javax.persistence.Entity;
         import javax.persistence.Id;
