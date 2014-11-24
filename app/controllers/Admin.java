@@ -156,7 +156,6 @@ public class Admin extends Controller {
         u.addNewUnlimitedPass(m, getLocalUser(session()), new Date(), 3);
 
         return ok(m.id + " " + v.id + " " + u.id);
-
     }
 
 }
