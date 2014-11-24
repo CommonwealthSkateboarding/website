@@ -18,6 +18,7 @@ import play.mvc.Result;
 import play.mvc.Security;
 import views.html.admin.index;
 import views.html.admin.membership.addMember;
+import views.html.admin.membership.editMember;
 import views.html.admin.news.addNews;
 import views.html.admin.news.editNews;
 import views.html.admin.news.newsIndex;
@@ -31,6 +32,7 @@ import java.util.List;
 public class Admin extends Controller {
 
     public static final int PER_PAGE = 25;
+    public static final String RECENT_VISIT_ORDER = "lastVisited DESC";
 
     public static User getLocalUser(final Http.Session session) {
         final User localUser = User.findByAuthUserIdentity(PlayAuthenticate.getUser(session));
@@ -93,7 +95,7 @@ public class Admin extends Controller {
 
     public static Result memberIndex(Long page) {
         boolean hasNextPage = false;
-        List<Membership> list = new Model.Finder(Long.class, Membership.class).setMaxRows(PER_PAGE+1)
+        List<Membership> list = new Model.Finder(Long.class, Membership.class).orderBy(RECENT_VISIT_ORDER).setMaxRows(PER_PAGE+1)
                 .setFirstRow(page.intValue() * PER_PAGE).findList();
         if (list.size() == (PER_PAGE + 1)) { // if there is another page after
             list.remove(PER_PAGE);
@@ -110,18 +112,47 @@ public class Admin extends Controller {
         return ok(addMember.render(getLocalUser(session())));
     }
 
-    public static Result findMemberPage() {
-        //TODO impl
-        return ok(addMember.render(getLocalUser(session())));
+    public static Result findMember() {
+        Long page = new Long(0);
+        String searchName = (String) Form.form().bindFromRequest().get().getData().get("name");
+        List<Membership> results = Membership.find.where()
+                .like("name", "%" + searchName + "%").orderBy(RECENT_VISIT_ORDER).findList();
+        return ok(memberIndex.render(results, page, false, getLocalUser(session())));
     }
 
-
-    public static Result editMemberPage(Long id) {
-        NewsItem news = (NewsItem) new Model.Finder(Long.class, NewsItem.class).byId(id);
-        if (null == news) {
-            return redirect(routes.Admin.newsIndex(0)); // not found
+    public static Result memberProfile(Long id) {
+        Membership member = (Membership) new Model.Finder(Long.class, Membership.class).byId(id);
+        if (null == member) {
+            return redirect(routes.Admin.memberIndex(0)); // not found
         }
-        return ok(editNews.render(news, getLocalUser(session())));
+        return ok(editMember.render(member, getLocalUser(session())));
+    }
+
+    public static Result updateMembership(Long id) {
+        Membership member = (Membership) new Model.Finder(Long.class, Membership.class).byId(id);
+        if (null == member) {
+            return notFound("Bad member id");
+        };
+
+        Membership newMember = Form.form(Membership.class).bindFromRequest().get();
+
+        member.address = newMember.address;
+        member.birthDate = newMember.birthDate;
+        member.city = newMember.city;
+        member.country = newMember.country;
+        member.email = newMember.email;
+        member.emergencyContactName = newMember.emergencyContactName;
+        member.emergencyContactNumber = newMember.emergencyContactNumber;
+        member.name = newMember.name;
+        member.notes = newMember.notes;
+        member.parentName = newMember.parentName;
+        member.state = newMember.state;
+        member.telephone = newMember.telephone;
+        member.zipcode = newMember.zipcode;
+
+        member.save();
+
+        return redirect(routes.Admin.memberIndex(0));
     }
 
     public static Result addMember() {

@@ -27,6 +27,8 @@ public class Membership extends Model {
 
     public String state;
 
+    public String zipcode;
+
     public String country;
 
     @Temporal(TemporalType.DATE)
@@ -58,4 +60,7 @@ public class Membership extends Model {
 
     @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
     public Date lastVisited;
+
+    public static final Finder<Long, Membership> find = new Finder<Long, Membership>(
+            Long.class, Membership.class);
 }

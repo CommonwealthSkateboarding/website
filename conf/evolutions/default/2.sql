@@ -27,6 +27,7 @@ create table membership (
   address                   varchar(255),
   city                      varchar(255),
   state                     varchar(255),
+  zipcode                   varchar(16),
   country                   varchar(255),
   birth_date                datetime,
   telephone                 varchar(255),

@@ -26,11 +26,13 @@ GET     /admin/news/:page       controllers.Admin.newsIndex(page: Long)
 GET     /admin/news/:id/edit    controllers.Admin.editNewsPage(id: Long)
 POST    /admin/news/:id/edit    controllers.Admin.updateNewsItem(id: Long)
 
-GET     /admin/members          controllers.Admin.memberIndex(page: Long ?=0)
-GET     /admin/members/new      controllers.Admin.addMemberPage()
-POST    /admin/members/new      controllers.Admin.addMember()
-GET     /admin/members/:page    controllers.Admin.memberIndex(page: Long)
-GET     /admin/members/search   controllers.Admin.findMemberPage()
+GET     /admin/members              controllers.Admin.memberIndex(page: Long ?=0)
+GET     /admin/members/:id/edit     controllers.Admin.memberProfile(id: Long)
+POST    /admin/members/:id/edit     controllers.Admin.updateMembership(id: Long)
+GET     /admin/members/new          controllers.Admin.addMemberPage()
+POST    /admin/members/find         controllers.Admin.findMember()
+POST    /admin/members/new          controllers.Admin.addMember()
+GET     /admin/members/:page        controllers.Admin.memberIndex(page: Long)
 GET /test1 controllers.Admin.test1()
 
 # Map static resources from the /public folder to the /assets URL path

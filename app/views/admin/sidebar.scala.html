@@ -20,7 +20,7 @@
                     <span>Members</span>
                 </a>
                 <ul class="sub">
-                    <li @if(activePage=="listMembers") { class="active" }><a href="@routes.Admin.memberIndex(0)">Member List</a></li>
+                    <li @if(activePage=="existingMembers") { class="active" }><a href="@routes.Admin.memberIndex(0)">Member List</a></li>
                 </ul>
                 <ul class="sub">
                     <li @if(activePage=="addMember") { class="active" }><a href="@routes.Admin.addMemberPage()">Add Member</a></li>
