@@ -5,8 +5,6 @@ create table unlimited_pass (
   membership_id             bigint,
   added_by_id               bigint,
   created                   datetime,
-  uses                      bigint,
-  last_used                 datetime,
   starts                    datetime,
   expires                   datetime,
   constraint pk_unlimited_pass primary key (id))

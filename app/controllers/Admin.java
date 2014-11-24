@@ -19,11 +19,14 @@ import play.mvc.Security;
 import views.html.admin.index;
 import views.html.admin.membership.addMember;
 import views.html.admin.membership.editMember;
+import views.html.admin.membership.viewMember;
 import views.html.admin.news.addNews;
 import views.html.admin.news.editNews;
 import views.html.admin.news.newsIndex;
 import views.html.admin.membership.memberIndex;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -120,7 +123,29 @@ public class Admin extends Controller {
         return ok(memberIndex.render(results, page, false, getLocalUser(session())));
     }
 
-    public static Result memberProfile(Long id) {
+    public static Result addUnlimitedPass(Long id) {
+        String expectedPattern = "MM/dd/yyyy";
+        SimpleDateFormat formatter = new SimpleDateFormat(expectedPattern);
+        try {
+            Date startDate = formatter.parse((String) Form.form().bindFromRequest().data().get("startDate"));
+            int duration = Integer.parseInt((String) Form.form().bindFromRequest().data().get("length"));
+            Membership member = Membership.find.byId(id);
+            UnlimitedPass pass = UnlimitedPass.addNewUnlimitedPass(member, getLocalUser(session()), startDate, duration);
+        } catch (ParseException e) {
+            return internalServerError(); //todo better handling?
+        }
+        return redirect(routes.Admin.viewMemberPage(id));
+    }
+
+    public static Result viewMemberPage(Long id) {
+        Membership member = (Membership) new Model.Finder(Long.class, Membership.class).byId(id);
+        if (null == member) {
+            return redirect(routes.Admin.memberIndex(0)); // not found
+        }
+        return ok(viewMember.render(member, getLocalUser(session())));
+    }
+
+    public static Result editMemberPage(Long id) {
         Membership member = (Membership) new Model.Finder(Long.class, Membership.class).byId(id);
         if (null == member) {
             return redirect(routes.Admin.memberIndex(0)); // not found

@@ -26,12 +26,6 @@ public class UnlimitedPass extends Model {
     @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
     public Date created;
 
-    public int uses;
-
-    @Temporal(TemporalType.DATE)
-    @Formats.DateTime(pattern="MM/dd/yyyy")
-    public Date lastUsed;
-
     @Temporal(TemporalType.DATE)
     @Formats.DateTime(pattern="MM/dd/yyyy")
     public Date starts;
@@ -60,12 +54,16 @@ public class UnlimitedPass extends Model {
         ret.starts = startDate;
         ret.expires = endDate;
         ret.membership = membership;
-        ret.uses = 0;
 
         membership.unlimitedPasses.add(ret);
         membership.save();
 
         return ret;
+    }
+
+    public boolean isValid() {
+        Date now = new Date();
+        return (this.starts.before(now) && this.expires.after(now));
     }
 
 }
