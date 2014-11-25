@@ -184,7 +184,7 @@ public class Admin extends Controller {
 
         member.save();
 
-        return redirect(routes.Admin.memberIndex(0));
+        return redirect(routes.Admin.viewMemberPage(member.id));
     }
 
     public static Result addMember() {
