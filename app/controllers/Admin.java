@@ -137,6 +137,13 @@ public class Admin extends Controller {
         return redirect(routes.Admin.viewMemberPage(id));
     }
 
+    public static Result addSessionPass(Long id) {
+        Membership member = Membership.find.byId(id);
+        member.sessionPasses = (member.sessionPasses + 1);
+        member.save();
+        return redirect(routes.Admin.viewMemberPage(id));
+    }
+
     public static Result viewMemberPage(Long id) {
         Membership member = (Membership) new Model.Finder(Long.class, Membership.class).byId(id);
         if (null == member) {

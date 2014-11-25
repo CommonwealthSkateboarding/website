@@ -30,6 +30,7 @@ GET     /admin/members                          controllers.Admin.memberIndex(pa
 GET     /admin/members/:id/view                 controllers.Admin.viewMemberPage(id: Long)
 GET     /admin/members/:id/visit                controllers.Admin.memberSessionVisit(id: Long)
 GET     /admin/members/:id/visit/:pId           controllers.Admin.memberPassVisit(id: Long, pId: Long)
+GET     /admin/members/:id/sessionPass/new      controllers.Admin.addSessionPass(id: Long)
 POST    /admin/members/:id/unlimitedPass/new    controllers.Admin.addUnlimitedPass(id: Long)
 GET     /admin/members/:id/edit                 controllers.Admin.editMemberPage(id: Long)
 POST    /admin/members/:id/edit                 controllers.Admin.updateMembership(id: Long)

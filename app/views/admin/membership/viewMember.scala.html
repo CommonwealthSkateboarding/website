@@ -107,7 +107,7 @@
                     <p>@member.sessionPasses Passes Remaining</p>
                     <div class="row">
                         <div class="col-md-6">
-                            <a href="" class="btn btn-theme btn-block disabled">Add</a>
+                            <a href="@routes.Admin.addSessionPass(member.id)" class="btn btn-theme btn-block">Add</a>
                         </div>
                         <div class="col-md-6">
                             <p><a href="@routes.Admin.memberSessionVisit(member.id)" class="btn btn-theme btn-block @if(0 == member.sessionPasses || member.checkedInToday()) { disabled } ">Use</a></p>
