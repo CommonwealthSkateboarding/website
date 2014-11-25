@@ -52,7 +52,7 @@
                         @defining(members(index)) { member =>
                             <tr>
                                 <td>@member.name</td>
-                                <td>@if(member.checkedInToday()) { <span class="label label-success">Today</span> } @member.lastVisited</td>
+                                <td>@if(member.checkedInToday()) { <span class="label label-success">Today</span> } <span class="timeago" title="@if(null != member.lastVisited) { @member.lastVisited.format("yyyy-MM-dd HH:mm:ss") }">@if(null == member.lastVisited) { <span class="label label-danger">Never</span> }</span></td>
                                 <td><a href="@routes.Admin.viewMemberPage(member.id)" class="btn btn-theme btn-block">View</a></td>
                                 <td><a href="@routes.Admin.editMemberPage(member.id)" class="btn btn-theme btn-block">Edit</a></td>
                             </tr>
@@ -76,4 +76,10 @@
         </div><!-- /content-panel -->
     </div><!-- /col-lg-4 -->
 </div><!-- /row -->
+
+<script>
+    $(document).ready(function(){
+        $("span.timeago").timeago();
+    });
+</script>
 }
