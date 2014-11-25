@@ -192,7 +192,7 @@ public class Admin extends Controller {
         membership.createDate = new Date();
         membership.save();
 
-        return redirect(routes.Admin.memberIndex(0));
+        return redirect(routes.Admin.viewMemberPage(membership.id));
     }
 
     public static Result memberSessionVisit(Long memberId)
