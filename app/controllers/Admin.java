@@ -137,6 +137,25 @@ public class Admin extends Controller {
         return redirect(routes.Admin.viewMemberPage(id));
     }
 
+    public static Result editUnlimitedPass(Long id) {
+        Long memberId;
+        String expectedPattern = "MM/dd/yyyy";
+        SimpleDateFormat formatter = new SimpleDateFormat(expectedPattern);
+        try {
+            Date startDate = formatter.parse((String) Form.form().bindFromRequest().data().get("startDate"));
+            Date expireDate = formatter.parse((String) Form.form().bindFromRequest().data().get("expireDate"));
+            UnlimitedPass pass = UnlimitedPass.find.byId(id);
+            pass.starts = startDate;
+            pass.expires = expireDate;
+            pass.save();
+            memberId = pass.membership.id; //for return redirect
+
+        } catch (ParseException e) {
+            return internalServerError(); //todo better handling?
+        }
+        return redirect(routes.Admin.viewMemberPage(memberId));
+    }
+
     public static Result addSessionPass(Long id) {
         Membership member = Membership.find.byId(id);
         member.sessionPasses = (member.sessionPasses + 1);

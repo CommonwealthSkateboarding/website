@@ -5,6 +5,7 @@ import play.data.validation.Constraints;
 import play.db.ebean.Model;
 
 import javax.persistence.*;
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -95,5 +96,10 @@ public class Membership extends Model {
             this.credit = (this.credit - amount);
         }
         this.save();
+    }
+
+    public String prettyCredit() {
+        DecimalFormat df = new DecimalFormat("0.00");
+        return "$" + df.format((null != credit)?credit:0.00);
     }
 }
