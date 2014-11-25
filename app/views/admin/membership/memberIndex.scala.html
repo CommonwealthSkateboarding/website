@@ -52,7 +52,7 @@
                         @defining(members(index)) { member =>
                             <tr>
                                 <td>@member.name</td>
-                                <td>@member.lastVisited</td>
+                                <td>@if(member.checkedInToday()) { <span class="label label-success">Today</span> } @member.lastVisited</td>
                                 <td><a href="@routes.Admin.viewMemberPage(member.id)" class="btn btn-theme btn-block">View</a></td>
                                 <td><a href="@routes.Admin.editMemberPage(member.id)" class="btn btn-theme btn-block">Edit</a></td>
                             </tr>

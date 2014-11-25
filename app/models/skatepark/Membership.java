@@ -5,6 +5,7 @@ import play.data.validation.Constraints;
 import play.db.ebean.Model;
 
 import javax.persistence.*;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -63,4 +64,12 @@ public class Membership extends Model {
 
     public static final Finder<Long, Membership> find = new Finder<Long, Membership>(
             Long.class, Membership.class);
+
+    public boolean checkedInToday() {
+        Calendar today = Calendar.getInstance();
+        today.set(Calendar.HOUR_OF_DAY, 0);
+        today.set(Calendar.MINUTE, 0);
+        today.set(Calendar.SECOND, 0);
+        return (this.lastVisited.after(today.getTime()));
+    }
 }

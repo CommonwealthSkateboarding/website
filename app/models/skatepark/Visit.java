@@ -25,19 +25,22 @@ public class Visit extends Model {
     @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
     public Date time;
 
+    public boolean unlimitedPassVisit;
+
     public static final Finder<Long, Visit> find = new Finder<Long, Visit>(
             Long.class, Visit.class);
 
     /**
      * Adds new visit for a member
      */
-    public void addVisit(final Membership membership, final User verifiedBy) {
+    public static void addVisit(final Membership membership, final User verifiedBy, boolean unlimitedPassVisit) {
 
         final Visit ret = new Visit();
 
         ret.membership = membership;
         ret.time = new Date();
         ret.verifiedBy = verifiedBy;
+        ret.unlimitedPassVisit = unlimitedPassVisit;
 
         ret.save();
     }

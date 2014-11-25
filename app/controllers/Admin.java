@@ -188,6 +188,44 @@ public class Admin extends Controller {
         return redirect(routes.Admin.memberIndex(0));
     }
 
+    public static Result memberSessionVisit(Long memberId)
+    {
+        Membership member = (Membership) new Model.Finder(Long.class, Membership.class).byId(memberId);
+        if (null == member) {
+            return notFound("Bad member id");
+        };
+        if (member.sessionPasses == 0) {
+            return badRequest("Member doesn't have enough session passes");
+        }
+
+        Visit.addVisit(member, getLocalUser(session()), false);
+        member.sessionPasses = (member.sessionPasses - 1);
+        member.lastVisited = new Date();
+        member.save();
+
+        return redirect(routes.Admin.viewMemberPage(memberId));
+    }
+
+    public static Result memberPassVisit(Long memberId, Long unlimitedPassId)
+    {
+        Membership member = (Membership) new Model.Finder(Long.class, Membership.class).byId(memberId);
+        if (null == member) {
+            return notFound("Bad member id");
+        };
+        UnlimitedPass pass = (UnlimitedPass) new Model.Finder(Long.class, UnlimitedPass.class).byId(unlimitedPassId);
+        if (null == pass) {
+            return notFound("Bad pass id");
+        };
+        if (!pass.isValid()) {
+            return badRequest("This pass is not valid for use");
+        }
+
+        Visit.addVisit(member, getLocalUser(session()), true);
+        member.lastVisited = new Date();
+        member.save();
+
+        return redirect(routes.Admin.viewMemberPage(memberId));
+    }
     /**
      * Stub implementation for future emailin'
      */
@@ -198,20 +236,6 @@ public class Admin extends Controller {
         mail.setFrom(sender);
         String body = views.html.email.simple.render(message).body();
         mail.sendHtml(body);
-    }
-
-    public static Result test1(){
-        Membership m = new Membership();
-        m.name = "Bob Shmob";
-        m.save();
-
-        Visit v = new Visit();
-        v.addVisit(m, getLocalUser(session()));
-
-        UnlimitedPass u = new UnlimitedPass();
-        u.addNewUnlimitedPass(m, getLocalUser(session()), new Date(), 3);
-
-        return ok(m.id + " " + v.id + " " + u.id);
     }
 
 }

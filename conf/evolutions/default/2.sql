@@ -14,6 +14,7 @@ create table visit (
   id                        bigint auto_increment not null,
   membership_id             bigint,
   verified_by_id            bigint,
+  unlimited_pass_visit      tinyint(1) default 0,
   time                      datetime,
   constraint pk_visit primary key (id))
 ;

@@ -6,6 +6,11 @@
     <div class="col-lg-12">
         <div class="row">
             <div class="col-lg-8 col-md-8 col-sm-8 mb">
+                @if(member.checkedInToday()) {
+                    <div class="alert alert-success">
+                        <h4><i class="fa fa-check-circle fa-2x"></i> @member.name Checked In Today!</h4>
+                    </div>
+                }
                 <div class="showback">
                     <a href="@routes.Admin.editMemberPage(member.id)" class="btn btn-theme pull-right">Edit</a>
                     <h4><i class="fa fa-angle-right"></i> Member Details</h4>
@@ -65,20 +70,6 @@
                     </table>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-4 mb">
-                <div class="showback">
-                    <h4><i class="fa fa-angle-right"></i> Session Passes</h4>
-                    <p>@member.sessionPasses Passes Remaining</p>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <a href="" class="btn btn-theme btn-block disabled">Add</a>
-                        </div>
-                        <div class="col-md-6">
-                            <p><a href="" class="btn btn-theme btn-block @if(0 == member.sessionPasses) { disabled } disabled">Use</a></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="col-lg-4 col-md-4 col-sm-4">
                 <div class="showback">
                     <h4><i class="fa fa-angle-right"></i> Unlimited Passes</h4>
@@ -88,7 +79,7 @@
                                 <h4>@pass.starts.format("MM/dd/yyyy") - @pass.expires.format("MM/dd/yyyy")</h4>
                                 @if(pass.isValid()) {
                                     <div class="col-md-12 mb">
-                                        <a href="" class="btn btn-success btn-block disabled">Check In</a>
+                                        <a href="@routes.Admin.memberPassVisit(member.id, pass.id)" class="btn btn-success btn-block @if(member.checkedInToday()) { disabled }">Check In</a>
                                     </div>
                                 }
                             </div>
@@ -107,6 +98,21 @@
                         </select>
                         <input type="submit" id="submit_unlimited_pass" value="Add Unlimited Pass" class="btn btn-theme btn-block"/>
                     </form>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-4 mb">
+                <div class="showback">
+                    <h4><i class="fa fa-angle-right"></i> Session Passes</h4>
+                    <p>@member.sessionPasses Passes Remaining</p>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <a href="" class="btn btn-theme btn-block disabled">Add</a>
+                        </div>
+                        <div class="col-md-6">
+                            <p><a href="@routes.Admin.memberSessionVisit(member.id)" class="btn btn-theme btn-block @if(0 == member.sessionPasses || member.checkedInToday()) { disabled } ">Use</a></p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
