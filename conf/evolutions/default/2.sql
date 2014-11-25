@@ -37,6 +37,7 @@ create table membership (
   session_passes            bigint,
   create_date               datetime,
   last_visited              datetime,
+  credit                    DECIMAL(13, 2),
   constraint pk_membership primary key (id))
 ;
 

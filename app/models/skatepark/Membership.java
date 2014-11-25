@@ -52,6 +52,8 @@ public class Membership extends Model {
 
     public int sessionPasses;
 
+    public Double credit;
+
     @OneToMany(cascade = CascadeType.ALL)
     public List<Visit> visits;
 
@@ -75,5 +77,23 @@ public class Membership extends Model {
         } else {
             return false;
         }
+    }
+
+    public void deposit(Double amount) {
+        if (null == this.credit) {
+            this.credit = amount;
+        } else {
+            this.credit = (this.credit + amount);
+        }
+        this.save();
+    }
+
+    public void spend(Double amount) {
+        if (null == this.credit) {
+            this.credit = (0 - amount);
+        } else {
+            this.credit = (this.credit - amount);
+        }
+        this.save();
     }
 }

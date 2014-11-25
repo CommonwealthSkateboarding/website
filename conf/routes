@@ -38,6 +38,8 @@ GET     /admin/members/new                      controllers.Admin.addMemberPage(
 POST    /admin/members/find                     controllers.Admin.findMember()
 POST    /admin/members/new                      controllers.Admin.addMember()
 GET     /admin/members/:page                    controllers.Admin.memberIndex(page: Long)
+POST    /admin/members/:id/addCredit            controllers.Admin.addCredit(id: Long)
+POST    /admin/members/:id/subtractCredit       controllers.Admin.subtractCredit(id: Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

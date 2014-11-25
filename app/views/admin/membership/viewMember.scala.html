@@ -70,6 +70,42 @@
                     </table>
                 </div>
             </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-4">
+                <div class="showback">
+                    <h4 class="pull-right"><span class="label label-default">@if(null != member.credit) { $@member.credit } else { $0.00 }</span></h4>
+                    <h4><i class="fa fa-angle-right"></i> Food Credit</h4>
+
+                    <div class="row">
+                        <div class="collapse-group">
+                            <form action="@routes.Admin.addCredit(member.id)" method="post" class="form-inline collapse text-center" role="form">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <label class="sr-only" for="addAmount">Add credit amount</label>
+                                        <div class="input-group-addon">$</div>
+                                        <input type="text" name="amount" class="form-control" id="addAmount" placeholder="0.00">
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-default">Add Credit</button>
+                            </form>
+                            <p><a class="btn" id="addCredit" href="#">Add Credit &raquo;</a></p>
+                        </div>
+                        <div class="collapse-group">
+                            <form action="@routes.Admin.subtractCredit(member.id)" method="post" class="form-inline collapse text-center" role="form">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <label class="sr-only" for="subtractAmount">Subtract credit amount</label>
+                                        <div class="input-group-addon">$</div>
+                                        <input type="text" name="amount" class="form-control" id="subtractAmount" placeholder="0.00">
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-default">Subtract Credit</button>
+                            </form>
+                            <p><a class="btn" id="subtractCredit" href="#">Subtract Credit &raquo;</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="col-lg-4 col-md-4 col-sm-4">
                 <div class="showback">
                     <h4><i class="fa fa-angle-right"></i> Unlimited Passes</h4>
@@ -121,6 +157,18 @@
 <script>
     $(document).ready(function(){
         $("#datepicker").datepicker({});
+        $("#addCredit").on('click', function(e) {
+            e.preventDefault();
+            var $this = $(this);
+            var $collapse = $this.closest('.collapse-group').find('.collapse');
+            $collapse.collapse('toggle');
+        });
+        $("#subtractCredit").on('click', function(e) {
+            e.preventDefault();
+            var $this = $(this);
+            var $collapse = $this.closest('.collapse-group').find('.collapse');
+            $collapse.collapse('toggle');
+        });
     });
 </script>
 }

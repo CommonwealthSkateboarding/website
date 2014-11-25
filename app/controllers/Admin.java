@@ -233,6 +233,20 @@ public class Admin extends Controller {
 
         return redirect(routes.Admin.viewMemberPage(memberId));
     }
+
+    public static Result addCredit(Long memberId) {
+        Double amount = Double.parseDouble((String) Form.form().bindFromRequest().data().get("amount"));
+        Membership member = (Membership) new Model.Finder(Long.class, Membership.class).byId(memberId);
+        member.deposit(amount);
+        return redirect(routes.Admin.viewMemberPage(memberId));
+    }
+
+    public static Result subtractCredit(Long memberId) {
+        Double amount = Double.parseDouble((String) Form.form().bindFromRequest().data().get("amount"));
+        Membership member = (Membership) new Model.Finder(Long.class, Membership.class).byId(memberId);
+        member.spend(amount);
+        return redirect(routes.Admin.viewMemberPage(memberId));
+    }
     /**
      * Stub implementation for future emailin'
      */
