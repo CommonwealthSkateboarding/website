@@ -19,6 +19,7 @@ public class MyDeadboltHandler extends AbstractDeadboltHandler {
             // user is logged in
             return F.Promise.pure(null);
         } else {
+            PlayAuthenticate.storeOriginalUrl(context);
             return F.Promise.promise(new F.Function0<Result>()
             {
                 @Override
