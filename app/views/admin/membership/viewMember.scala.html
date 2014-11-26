@@ -154,11 +154,14 @@
                     <h4><i class="fa fa-angle-right"></i> Session Passes</h4>
                     <p>@member.sessionPasses Passes Remaining</p>
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
+                            <p><a href="@routes.Admin.memberSessionVisit(member.id)" class="btn btn-theme btn-block @if(0 == member.sessionPasses || member.checkedInToday()) { disabled } ">Check In</a></p>
+                        </div>
+                        <div class="col-md-4">
                             <a href="@routes.Admin.addSessionPass(member.id)" class="btn btn-theme btn-block">Add</a>
                         </div>
-                        <div class="col-md-6">
-                            <p><a href="@routes.Admin.memberSessionVisit(member.id)" class="btn btn-theme btn-block @if(0 == member.sessionPasses || member.checkedInToday()) { disabled } ">Use</a></p>
+                        <div class="col-md-4">
+                            <a href="@routes.Admin.subtractSessionPass(member.id)" class="btn btn-theme btn-block @if(0 == member.sessionPasses) { disabled }">Subtract</a>
                         </div>
                     </div>
                 </div>

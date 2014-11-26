@@ -163,6 +163,17 @@ public class Admin extends Controller {
         return redirect(routes.Admin.viewMemberPage(id));
     }
 
+    public static Result subtractSessionPass(Long id) {
+        Membership member = Membership.find.byId(id);
+        if (member.sessionPasses < 1) {
+            return unauthorized("Member does not have an available session pass");
+        } else {
+            member.sessionPasses = (member.sessionPasses - 1);
+            member.save();
+            return redirect(routes.Admin.viewMemberPage(id));
+        }
+    }
+
     public static Result viewMemberPage(Long id) {
         Membership member = (Membership) new Model.Finder(Long.class, Membership.class).byId(id);
         if (null == member) {

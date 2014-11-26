@@ -31,6 +31,8 @@ GET     /admin/members/:id/view                 controllers.Admin.viewMemberPage
 GET     /admin/members/:id/visit                controllers.Admin.memberSessionVisit(id: Long)
 GET     /admin/members/:id/visit/:pId           controllers.Admin.memberPassVisit(id: Long, pId: Long)
 GET     /admin/members/:id/sessionPass/new      controllers.Admin.addSessionPass(id: Long)
+GET     /admin/members/:id/addSessionPass       controllers.Admin.addSessionPass(id: Long)
+GET     /admin/members/:id/subtractSessionPass  controllers.Admin.subtractSessionPass(id: Long)
 POST    /admin/members/:id/unlimitedPass/new    controllers.Admin.addUnlimitedPass(id: Long)
 POST    /admin/members/unlimitedPass/:id/edit   controllers.Admin.editUnlimitedPass(id: Long)
 GET     /admin/members/:id/edit                 controllers.Admin.editMemberPage(id: Long)
