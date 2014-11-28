@@ -62,8 +62,8 @@ public class Membership extends Model {
     @Formats.DateTime(pattern="MM/dd/yyyy")
     public Date createDate;
 
-    @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
-    public Date lastVisited;
+    @OneToOne
+    public Visit lastVisit;
 
     public static final Finder<Long, Membership> find = new Finder<Long, Membership>(
             Long.class, Membership.class);
@@ -73,8 +73,8 @@ public class Membership extends Model {
         today.set(Calendar.HOUR_OF_DAY, 0);
         today.set(Calendar.MINUTE, 0);
         today.set(Calendar.SECOND, 0);
-        if (null != this.lastVisited) {
-            return (this.lastVisited.after(today.getTime()));
+        if (null != this.lastVisit) {
+            return (this.lastVisit.time.after(today.getTime()));
         } else {
             return false;
         }

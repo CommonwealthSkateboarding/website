@@ -25,8 +25,7 @@ public class Visit extends Model {
     @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
     public Date time;
 
-    @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
-    public Date previousVisitDate;
+    public Visit previousVisit;
 
     public boolean unlimitedPassVisit;
 
@@ -42,7 +41,7 @@ public class Visit extends Model {
 
         ret.membership = membership;
         ret.time = new Date();
-        ret.previousVisitDate = membership.lastVisited;
+        ret.previousVisit = membership.lastVisit;
         ret.verifiedBy = verifiedBy;
         ret.unlimitedPassVisit = unlimitedPassVisit;
 

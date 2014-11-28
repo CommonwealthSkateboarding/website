@@ -185,7 +185,7 @@
                             <td><img src="@localUser.photoUrl" class="img-circle" width="20"> @logs(index).user.name</td>
                             <td>
                                 @logs(index).delta
-                                @if((null != logs(index).visit) && (logs(index).visit.time == member.lastVisited)) {
+                                @if((null != logs(index).visit) && (logs(index).visit == member.lastVisit)) {
                                     <a href="@routes.Admin.undoVisit(logs(index).visit.id)" class="pull-right"><i class="fa fa-undo"></i></a>
                                 }
                             </td>

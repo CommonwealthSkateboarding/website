@@ -37,7 +37,7 @@ import java.util.List;
 public class Admin extends Controller {
 
     public static final int PER_PAGE = 25;
-    public static final String RECENT_VISIT_ORDER = "lastVisited DESC";
+    public static final String RECENT_VISIT_ORDER = "lastVisit.time DESC";
     public static final String RECENT_EVENT_ORDER = "timestamp DESC";
 
     public static User getLocalUser(final Http.Session session) {
@@ -252,7 +252,7 @@ public class Admin extends Controller {
 
         Visit visit = Visit.addVisit(member, getLocalUser(session()), false);
         member.sessionPasses = (member.sessionPasses - 1);
-        member.lastVisited = visit.time;
+        member.lastVisit = visit;
         member.save();
 
         audit("Checked in " + member.name + " with a session pass", member, visit);
@@ -274,7 +274,7 @@ public class Admin extends Controller {
         }
 
         Visit visit = Visit.addVisit(member, getLocalUser(session()), true);
-        member.lastVisited = visit.time;
+        member.lastVisit = visit;
         member.save();
 
         audit("Checked in " + member.name + " with an unlimited pass", member, visit);
@@ -293,9 +293,9 @@ public class Admin extends Controller {
         } else {
             audit("Undid an unlimited pass visit from " + visit.membership.name, visit.membership, null);
         }
-        if (visit.membership.lastVisited.equals(visit.time)) {
+        if (visit.membership.lastVisit.equals(visit)) {
             // Reset the last visited date in the membership if applicable
-            visit.membership.lastVisited = visit.previousVisitDate;
+            visit.membership.lastVisit = visit.previousVisit;
         }
         visit.membership.save();
 

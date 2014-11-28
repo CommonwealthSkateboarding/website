@@ -16,7 +16,7 @@ create table visit (
   verified_by_id            bigint,
   unlimited_pass_visit      tinyint(1) default 0,
   time                      datetime,
-  previous_visit_date       datetime,
+  previous_visit_id         bigint,
   constraint pk_visit primary key (id))
 ;
 
@@ -37,7 +37,7 @@ create table membership (
   notes                     text,
   session_passes            bigint,
   create_date               datetime,
-  last_visited              datetime,
+  last_visit_id             bigint,
   credit                    DECIMAL(13, 2),
   constraint pk_membership primary key (id))
 ;
