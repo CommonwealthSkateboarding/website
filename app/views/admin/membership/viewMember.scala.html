@@ -1,171 +1,200 @@
-@(member: models.skatepark.Membership, localUser: models.security.User = null)
+@(member: models.skatepark.Membership, logs: List[models.security.AuditRecord], localUser: models.security.User = null)
 @import admin.wrapper
 @wrapper(localUser, "member", "existingMembers") {
 <h3><i class="fa fa-angle-right"></i> Membership Database</h3>
 <div class="row mt">
     <div class="col-lg-12">
-        <div class="row">
-            <div class="col-lg-8 col-md-8 col-sm-8 mb">
-                @if(member.checkedInToday()) {
-                    <div class="alert alert-success">
-                        <h2 class="text-center"><i class="fa fa-check-circle"></i> @member.name Checked In Today!</h2>
-                    </div>
-                }
-                <div class="showback">
-                    <a href="@routes.Admin.editMemberPage(member.id)" class="btn btn-theme pull-right">Edit</a>
-                    <h4><i class="fa fa-angle-right"></i> Member Details</h4>
-                    <table class="table table-bordered">
-                        <tr>
-                            <td>Name</td>
-                            <td>@member.name</td>
-                        </tr>
-                        <tr>
-                            <td>Parent Name</td>
-                            <td>@member.parentName</td>
-                        </tr>
-                        <tr>
-                            <td>Address</td>
-                            <td>@member.address</td>
-                        </tr>
-                        <tr>
-                            <td>City</td>
-                            <td>@member.city</td>
-                        </tr>
-                        <tr>
-                            <td>State</td>
-                            <td>@member.state</td>
-                        </tr>
-                        <tr>
-                            <td>Zipcode</td>
-                            <td>@member.zipcode</td>
-                        </tr>
-                        <tr>
-                            <td>Country</td>
-                            <td>@member.country</td>
-                        </tr>
-                        <tr>
-                            <td>Birth Date</td>
-                            <td>@if(null != member.birthDate) { @member.birthDate.format("MM/dd/yyyy") }</td>
-                        </tr>
-                        <tr>
-                            <td>Telephone</td>
-                            <td>@member.telephone</td>
-                        </tr>
-                        <tr>
-                            <td>Email Address</td>
-                            <td>@member.email</td>
-                        </tr>
-                        <tr>
-                            <td>Emergency Contact Name</td>
-                            <td>@member.emergencyContactName</td>
-                        </tr>
-                        <tr>
-                            <td>Emergency Contact Number</td>
-                            <td>@member.emergencyContactNumber</td>
-                        </tr>
-                        <tr>
-                            <td>Notes</td>
-                            <td>@Html(member.notes)</td>
-                        </tr>
-                    </table>
+        <div class="col-lg-8 col-md-8 col-sm-8">
+            @if(member.checkedInToday()) {
+                <div class="alert alert-success">
+                    <h2 class="text-center"><i class="fa fa-check-circle"></i> @member.name Checked In Today!</h2>
                 </div>
+            }
+            <div class="showback">
+                <a href="@routes.Admin.editMemberPage(member.id)" class="btn btn-theme pull-right">Edit</a>
+                <h4><i class="fa fa-angle-right"></i> Member Details</h4>
+                <table class="table table-bordered">
+                    <tr>
+                        <td>Name</td>
+                        <td>@member.name</td>
+                    </tr>
+                    <tr>
+                        <td>Parent Name</td>
+                        <td>@member.parentName</td>
+                    </tr>
+                    <tr>
+                        <td>Address</td>
+                        <td>@member.address</td>
+                    </tr>
+                    <tr>
+                        <td>City</td>
+                        <td>@member.city</td>
+                    </tr>
+                    <tr>
+                        <td>State</td>
+                        <td>@member.state</td>
+                    </tr>
+                    <tr>
+                        <td>Zipcode</td>
+                        <td>@member.zipcode</td>
+                    </tr>
+                    <tr>
+                        <td>Country</td>
+                        <td>@member.country</td>
+                    </tr>
+                    <tr>
+                        <td>Birth Date</td>
+                        <td>@if(null != member.birthDate) { @member.birthDate.format("MM/dd/yyyy") }</td>
+                    </tr>
+                    <tr>
+                        <td>Telephone</td>
+                        <td>@member.telephone</td>
+                    </tr>
+                    <tr>
+                        <td>Email Address</td>
+                        <td>@member.email</td>
+                    </tr>
+                    <tr>
+                        <td>Emergency Contact Name</td>
+                        <td>@member.emergencyContactName</td>
+                    </tr>
+                    <tr>
+                        <td>Emergency Contact Number</td>
+                        <td>@member.emergencyContactNumber</td>
+                    </tr>
+                    <tr>
+                        <td>Notes</td>
+                        <td>@Html(member.notes)</td>
+                    </tr>
+                </table>
             </div>
+        </div>
 
-            <div class="col-lg-4 col-md-4 col-sm-4">
-                <div class="showback">
-                    <h4 class="pull-right"><span class="label label-default">@member.prettyCredit()</span></h4>
-                    <h4><i class="fa fa-angle-right"></i> Food Credit</h4>
+        <div class="col-lg-4 col-md-4 col-sm-4">
+            <div class="showback">
+                <h4 class="pull-right"><span class="label label-default">@utils.Formatter.prettyDollars(member.credit)</span></h4>
+                <h4><i class="fa fa-angle-right"></i> Food Credit</h4>
 
-                    <div class="row">
-                        <div class="collapse-group">
-                            <form action="@routes.Admin.addCredit(member.id)" method="post" class="form-inline collapse text-center" role="form">
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <label class="sr-only" for="addAmount">Add credit amount</label>
-                                        <div class="input-group-addon">$</div>
-                                        <input type="text" name="amount" class="form-control" id="addAmount" placeholder="0.00">
-                                    </div>
+                <div class="row">
+                    <div class="collapse-group">
+                        <form action="@routes.Admin.addCredit(member.id)" method="post" class="form-inline collapse text-center" role="form">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <label class="sr-only" for="addAmount">Add credit amount</label>
+                                    <div class="input-group-addon">$</div>
+                                    <input type="text" name="amount" class="form-control" id="addAmount" placeholder="0.00">
                                 </div>
-                                <button type="submit" class="btn btn-default">Add Credit</button>
-                            </form>
-                            <p><a class="btn" id="addCredit" href="#">Add Credit &raquo;</a></p>
-                        </div>
-                        <div class="collapse-group">
-                            <form action="@routes.Admin.subtractCredit(member.id)" method="post" class="form-inline collapse text-center" role="form">
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <label class="sr-only" for="subtractAmount">Subtract credit amount</label>
-                                        <div class="input-group-addon">$</div>
-                                        <input type="text" name="amount" class="form-control" id="subtractAmount" placeholder="0.00">
-                                    </div>
-                                </div>
-                                <button type="submit" class="btn btn-default">Subtract Credit</button>
-                            </form>
-                            <p><a class="btn" id="subtractCredit" href="#">Subtract Credit &raquo;</a></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-4">
-                <div class="showback">
-                    <h4><i class="fa fa-angle-right"></i> Unlimited Passes</h4>
-                    @for(index <- 0 until member.unlimitedPasses.size) {
-                        @defining(member.unlimitedPasses(index)) { pass =>
-                            <div class="col-md-12 @if(pass.isValid()) { bg-success } else { bg-warning }">
-                                <div class="collapse-group">
-                                    <form action="@routes.Admin.editUnlimitedPass(pass.id)" method="post" class="form-inline collapse text-center" role="form">
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <input name="startDate" class="form-control" id="datepickerA@index" value="@pass.starts.format("MM/dd/yyyy")" placeholder="Start Date"/> -
-                                                <input name="expireDate" class="form-control" id="datepickerB@index" value="@pass.expires.format("MM/dd/yyyy")" placeholder="End Date"/>
-                                            </div>
-                                        </div>
-                                        <button type="submit" class="btn btn-default">Update Pass Info</button>
-                                    </form>
-                                    <p><a class="btn pull-right" id="modifyPass@index" href="#">Edit</a></p>
-                                </div>
-                                <h4>@pass.starts.format("MM/dd/yyyy") - @pass.expires.format("MM/dd/yyyy")</h4>
-                                @if(pass.isValid()) {
-                                    <div class="col-md-12 mb">
-                                        <a href="@routes.Admin.memberPassVisit(member.id, pass.id)" class="btn btn-success btn-block @if(member.checkedInToday()) { disabled }">Check In</a>
-                                    </div>
-                                }
                             </div>
-                        }
-                    }
-                    <h4><i class="fa fa-angle-right"></i> Add Unlimited Pass</h4>
-                    <form action="@routes.Admin.addUnlimitedPass(member.id)" method="post" class="form-horizontal">
-                        <input name="startDate" class="form-control" id="datepicker" placeholder="Start Date"/>
-                        <select name="length" class="form-control">
-                            <option value="1">1 month</option>
-                            <option value="2">2 months</option>
-                            <option value="3">3 months</option>
-                            <option value="4">4 months</option>
-                            <option value="5">5 months</option>
-                            <option value="6">6 months</option>
-                        </select>
-                        <input type="submit" id="submit_unlimited_pass" value="Add Unlimited Pass" class="btn btn-theme btn-block"/>
-                    </form>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-4 col-sm-4 mb">
-                <div class="showback">
-                    <h4><i class="fa fa-angle-right"></i> Session Passes</h4>
-                    <p>@member.sessionPasses Passes Remaining</p>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <p><a href="@routes.Admin.memberSessionVisit(member.id)" class="btn btn-theme btn-block @if(0 == member.sessionPasses || member.checkedInToday()) { disabled } ">Check In</a></p>
-                        </div>
-                        <div class="col-md-4">
-                            <a href="@routes.Admin.addSessionPass(member.id)" class="btn btn-theme btn-block">Add</a>
-                        </div>
-                        <div class="col-md-4">
-                            <a href="@routes.Admin.subtractSessionPass(member.id)" class="btn btn-theme btn-block @if(0 == member.sessionPasses) { disabled }">Subtract</a>
-                        </div>
+                            <button type="submit" class="btn btn-default">Add Credit</button>
+                        </form>
+                        <p><a class="btn" id="addCredit" href="#">Add Credit &raquo;</a></p>
+                    </div>
+                    <div class="collapse-group">
+                        <form action="@routes.Admin.subtractCredit(member.id)" method="post" class="form-inline collapse text-center" role="form">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <label class="sr-only" for="subtractAmount">Subtract credit amount</label>
+                                    <div class="input-group-addon">$</div>
+                                    <input type="text" name="amount" class="form-control" id="subtractAmount" placeholder="0.00">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-default">Subtract Credit</button>
+                        </form>
+                        <p><a class="btn" id="subtractCredit" href="#">Subtract Credit &raquo;</a></p>
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="col-lg-4 col-md-4 col-sm-4">
+            <div class="showback">
+                <h4><i class="fa fa-angle-right"></i> Unlimited Passes</h4>
+                @for(index <- 0 until member.unlimitedPasses.size) {
+                    @defining(member.unlimitedPasses(index)) { pass =>
+                        <div class="col-md-12 @if(pass.isValid()) { bg-success } else { bg-warning }">
+                            <div class="collapse-group">
+                                <form action="@routes.Admin.editUnlimitedPass(pass.id)" method="post" class="form-inline collapse text-center" role="form">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <input name="startDate" class="form-control" id="datepickerA@index" value="@pass.starts.format("MM/dd/yyyy")" placeholder="Start Date"/> -
+                                            <input name="expireDate" class="form-control" id="datepickerB@index" value="@pass.expires.format("MM/dd/yyyy")" placeholder="End Date"/>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-default">Update Pass Info</button>
+                                </form>
+                                <p><a class="btn pull-right" id="modifyPass@index" href="#">Edit</a></p>
+                            </div>
+                            <h4>@pass.starts.format("MM/dd/yyyy") - @pass.expires.format("MM/dd/yyyy")</h4>
+                            @if(pass.isValid()) {
+                                <div class="col-md-12 mb">
+                                    <a href="@routes.Admin.memberPassVisit(member.id, pass.id)" class="btn btn-success btn-block @if(member.checkedInToday()) { disabled }">Check In</a>
+                                </div>
+                            }
+                        </div>
+                    }
+                }
+                <h4><i class="fa fa-angle-right"></i> Add Unlimited Pass</h4>
+                <form action="@routes.Admin.addUnlimitedPass(member.id)" method="post" class="form-horizontal">
+                    <input name="startDate" class="form-control" id="datepicker" placeholder="Start Date"/>
+                    <select name="length" class="form-control">
+                        <option value="1">1 month</option>
+                        <option value="2">2 months</option>
+                        <option value="3">3 months</option>
+                        <option value="4">4 months</option>
+                        <option value="5">5 months</option>
+                        <option value="6">6 months</option>
+                    </select>
+                    <input type="submit" id="submit_unlimited_pass" value="Add Unlimited Pass" class="btn btn-theme btn-block"/>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-4 col-sm-4">
+            <div class="showback">
+                <h4><i class="fa fa-angle-right"></i> Session Passes</h4>
+                <p>@member.sessionPasses Passes Remaining</p>
+                <div class="row">
+                    <div class="col-md-4">
+                        <p><a href="@routes.Admin.memberSessionVisit(member.id)" class="btn btn-theme btn-block @if(0 == member.sessionPasses || member.checkedInToday()) { disabled } ">Check In</a></p>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="@routes.Admin.addSessionPass(member.id)" class="btn btn-theme btn-block">Add</a>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="@routes.Admin.subtractSessionPass(member.id)" class="btn btn-theme btn-block @if(0 == member.sessionPasses) { disabled }">Subtract</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="form-panel">
+            <h4><i class="fa fa-angle-right"></i> Recently Changed</h4>
+            <section id="unseen">
+                <table class="table table-bordered table-striped table-condensed">
+                    <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Action</th>
+                        <th>Time</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @for(index <- 0 until logs.size) {
+                        <tr>
+                            <td><img src="@localUser.photoUrl" class="img-circle" width="20"> @logs(index).user.name</td>
+                            <td>
+                                @logs(index).delta
+                                @if((null != logs(index).visit) && (logs(index).visit.time == member.lastVisited)) {
+                                    <a href="@routes.Admin.undoVisit(logs(index).visit.id)" class="pull-right"><i class="fa fa-undo"></i></a>
+                                }
+                            </td>
+                            <td><span class="timeago" title="@logs(index).timestamp.format("yyyy-MM-dd'T'HH:mmZ")"></span></td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </section>
         </div>
     </div>
 </div>
@@ -194,6 +223,8 @@
                 $collapse.collapse('toggle');
             });
         }
+        $("span.timeago").timeago();
     });
 </script>
 }
+

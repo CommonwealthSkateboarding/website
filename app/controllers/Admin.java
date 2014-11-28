@@ -5,6 +5,7 @@ import be.objectify.deadbolt.java.actions.Restrict;
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.typesafe.plugin.MailerAPI;
 import com.typesafe.plugin.MailerPlugin;
+import models.security.AuditRecord;
 import models.security.User;
 import models.site.NewsItem;
 import models.skatepark.Membership;
@@ -17,6 +18,7 @@ import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Security;
 import views.html.admin.index;
+import views.html.admin.logIndex;
 import views.html.admin.membership.addMember;
 import views.html.admin.membership.editMember;
 import views.html.admin.membership.viewMember;
@@ -36,6 +38,7 @@ public class Admin extends Controller {
 
     public static final int PER_PAGE = 25;
     public static final String RECENT_VISIT_ORDER = "lastVisited DESC";
+    public static final String RECENT_EVENT_ORDER = "timestamp DESC";
 
     public static User getLocalUser(final Http.Session session) {
         final User localUser = User.findByAuthUserIdentity(PlayAuthenticate.getUser(session));
@@ -73,6 +76,7 @@ public class Admin extends Controller {
         newsItem.createDate = new Date();
         newsItem.save();
 
+        audit("Added a news item '" + newsItem.title + "'", null, newsItem);
         return redirect(routes.Admin.newsIndex(0));
     }
 
@@ -93,6 +97,8 @@ public class Admin extends Controller {
 
         news.save();
 
+        audit("Updated a news item '" + news.title + "'", null, news);
+
         return redirect(routes.Admin.newsIndex(0));
     }
 
@@ -107,6 +113,7 @@ public class Admin extends Controller {
 
         return ok(memberIndex.render(list, page, hasNextPage, getLocalUser(session())));
     }
+
     public static Result index() {
         return ok(index.render(getLocalUser(session())));
 }
@@ -131,6 +138,7 @@ public class Admin extends Controller {
             int duration = Integer.parseInt((String) Form.form().bindFromRequest().data().get("length"));
             Membership member = Membership.find.byId(id);
             UnlimitedPass pass = UnlimitedPass.addNewUnlimitedPass(member, getLocalUser(session()), startDate, duration);
+            audit("Added an unlimited pass for " + pass.membership.name, pass.membership, pass);
         } catch (ParseException e) {
             return internalServerError(); //todo better handling?
         }
@@ -149,6 +157,7 @@ public class Admin extends Controller {
             pass.expires = expireDate;
             pass.save();
             memberId = pass.membership.id; //for return redirect
+            audit("Edited an unlimited pass for " + pass.membership.name, pass.membership, pass);
 
         } catch (ParseException e) {
             return internalServerError(); //todo better handling?
@@ -160,6 +169,7 @@ public class Admin extends Controller {
         Membership member = Membership.find.byId(id);
         member.sessionPasses = (member.sessionPasses + 1);
         member.save();
+        audit("Added a session pass for " + member.name, member, null);
         return redirect(routes.Admin.viewMemberPage(id));
     }
 
@@ -170,6 +180,7 @@ public class Admin extends Controller {
         } else {
             member.sessionPasses = (member.sessionPasses - 1);
             member.save();
+            audit("Deducted a session pass from " + member.name, member, null);
             return redirect(routes.Admin.viewMemberPage(id));
         }
     }
@@ -179,7 +190,8 @@ public class Admin extends Controller {
         if (null == member) {
             return redirect(routes.Admin.memberIndex(0)); // not found
         }
-        return ok(viewMember.render(member, getLocalUser(session())));
+        List<AuditRecord> logs = AuditRecord.find.where().eq("membership_id", id).orderBy("timestamp DESC").findList();
+        return ok(viewMember.render(member, logs, getLocalUser(session())));
     }
 
     public static Result editMemberPage(Long id) {
@@ -214,6 +226,8 @@ public class Admin extends Controller {
 
         member.save();
 
+        audit("Updated " + member.name + " in the membership database", member, null);
+
         return redirect(routes.Admin.viewMemberPage(member.id));
     }
 
@@ -222,11 +236,12 @@ public class Admin extends Controller {
         membership.createDate = new Date();
         membership.save();
 
+        audit("Added " + membership.name + " to the membership database", membership, null);
+
         return redirect(routes.Admin.viewMemberPage(membership.id));
     }
 
-    public static Result memberSessionVisit(Long memberId)
-    {
+    public static Result memberSessionVisit(Long memberId) {
         Membership member = (Membership) new Model.Finder(Long.class, Membership.class).byId(memberId);
         if (null == member) {
             return notFound("Bad member id");
@@ -235,16 +250,17 @@ public class Admin extends Controller {
             return badRequest("Member doesn't have enough session passes");
         }
 
-        Visit.addVisit(member, getLocalUser(session()), false);
+        Visit visit = Visit.addVisit(member, getLocalUser(session()), false);
         member.sessionPasses = (member.sessionPasses - 1);
-        member.lastVisited = new Date();
+        member.lastVisited = visit.time;
         member.save();
+
+        audit("Checked in " + member.name + " with a session pass", member, visit);
 
         return redirect(routes.Admin.viewMemberPage(memberId));
     }
 
-    public static Result memberPassVisit(Long memberId, Long unlimitedPassId)
-    {
+    public static Result memberPassVisit(Long memberId, Long unlimitedPassId) {
         Membership member = (Membership) new Model.Finder(Long.class, Membership.class).byId(memberId);
         if (null == member) {
             return notFound("Bad member id");
@@ -257,17 +273,42 @@ public class Admin extends Controller {
             return badRequest("This pass is not valid for use");
         }
 
-        Visit.addVisit(member, getLocalUser(session()), true);
-        member.lastVisited = new Date();
+        Visit visit = Visit.addVisit(member, getLocalUser(session()), true);
+        member.lastVisited = visit.time;
         member.save();
 
+        audit("Checked in " + member.name + " with an unlimited pass", member, visit);
+
         return redirect(routes.Admin.viewMemberPage(memberId));
+    }
+
+    public static Result undoVisit(Long id) {
+        Visit visit = Visit.find.byId(id);
+        if (null == visit) {
+            return notFound("Bad visit id");
+        };
+        if (!visit.unlimitedPassVisit) {
+            visit.membership.sessionPasses = (visit.membership.sessionPasses + 1);
+            audit("Undid a session pass visit from " + visit.membership.name + " and refunded a session pass", visit.membership, null);
+        } else {
+            audit("Undid an unlimited pass visit from " + visit.membership.name, visit.membership, null);
+        }
+        if (visit.membership.lastVisited.equals(visit.time)) {
+            // Reset the last visited date in the membership if applicable
+            visit.membership.lastVisited = visit.previousVisitDate;
+        }
+        visit.membership.save();
+
+        //visit.delete();
+
+        return redirect(routes.Admin.viewMemberPage(visit.membership.id));
     }
 
     public static Result addCredit(Long memberId) {
         Double amount = Double.parseDouble((String) Form.form().bindFromRequest().data().get("amount"));
         Membership member = (Membership) new Model.Finder(Long.class, Membership.class).byId(memberId);
         member.deposit(amount);
+        audit("Added " + utils.Formatter.prettyDollars(amount) + " credit to " + member.name + "'s membership", member, null);
         return redirect(routes.Admin.viewMemberPage(memberId));
     }
 
@@ -275,18 +316,49 @@ public class Admin extends Controller {
         Double amount = Double.parseDouble((String) Form.form().bindFromRequest().data().get("amount"));
         Membership member = (Membership) new Model.Finder(Long.class, Membership.class).byId(memberId);
         member.spend(amount);
+        audit("Subtracted " + utils.Formatter.prettyDollars(amount) + " credit from " + member.name + "'s membership", member, null);
         return redirect(routes.Admin.viewMemberPage(memberId));
     }
     /**
      * Stub implementation for future emailin'
      */
-    public static void sendEmail(String recipient, String sender, String subject, String message){
+    public static void sendEmail(String recipient, String sender, String subject, String message) {
         MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
         mail.setSubject(subject);
         mail.setRecipient(recipient);
         mail.setFrom(sender);
         String body = views.html.email.simple.render(message).body();
         mail.sendHtml(body);
+    }
+
+    private static void audit(String description, Membership membership, Object payload) {
+        AuditRecord log = new AuditRecord();
+        log.delta = description;
+        log.user = getLocalUser(session());
+        log.timestamp = new Date();
+        log.membership = membership;
+        if (null == payload) {
+            // chill
+        } else if (payload.getClass().equals(NewsItem.class)) {
+            log.newsItem = (NewsItem) payload;
+        } else if (payload.getClass().equals(UnlimitedPass.class)) {
+            log.unlimitedPass = (UnlimitedPass) payload;
+        } else if (payload.getClass().equals(Visit.class)) {
+            log.visit = (Visit) payload;
+        }
+        log.save();
+    }
+
+    public static Result logIndex(Long page) {
+        boolean hasNextPage = false;
+        List<AuditRecord> list = AuditRecord.find.orderBy(RECENT_EVENT_ORDER).setMaxRows(PER_PAGE+1)
+                .setFirstRow(page.intValue() * PER_PAGE).findList();
+        if (list.size() == (PER_PAGE + 1)) { // if there is another page after
+            list.remove(PER_PAGE);
+            hasNextPage = true;
+        }
+
+        return ok(logIndex.render(list, page, hasNextPage, getLocalUser(session())));
     }
 
 }

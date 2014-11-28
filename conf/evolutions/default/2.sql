@@ -16,6 +16,7 @@ create table visit (
   verified_by_id            bigint,
   unlimited_pass_visit      tinyint(1) default 0,
   time                      datetime,
+  previous_visit_date       datetime,
   constraint pk_visit primary key (id))
 ;
 
@@ -43,6 +44,18 @@ create table membership (
 
 alter table users add photo_url varchar(255);
 
+create table audit_record (
+  id                        bigint auto_increment not null,
+  user_id                   bigint,
+  membership_id             bigint,
+  news_item_id              bigint,
+  unlimited_pass_id         bigint,
+  visit_id                  bigint,
+  timestamp                 datetime,
+  delta                     varchar(255),
+  constraint pk_audit_record primary key (id))
+;
+
 # --- !Downs
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -54,6 +67,8 @@ drop table visit;
 drop table membership;
 
 alter table users drop column photo_url;
+
+drop table audit_record;
 
 SET FOREIGN_KEY_CHECKS=1;
 

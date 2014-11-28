@@ -97,9 +97,4 @@ public class Membership extends Model {
         }
         this.save();
     }
-
-    public String prettyCredit() {
-        DecimalFormat df = new DecimalFormat("0.00");
-        return "$" + df.format((null != credit)?credit:0.00);
-    }
 }

@@ -5,7 +5,7 @@
     <div id="sidebar"  class="nav-collapse ">
         <ul class="sidebar-menu" id="nav-accordion">
 
-            <p class="centered"><img src="@localUser.photoUrl" class="img-circle" width="60"></a></p>
+            <p class="centered"><img src="@localUser.photoUrl" class="img-circle" width="60"></p>
             <h5 class="centered">@localUser.name</h5>
 
             <li class="mt">
@@ -37,6 +37,12 @@
                 <ul class="sub">
                     <li @if(activePage=="addNews") { class="active" }><a href="@routes.Admin.addNewsPage()">Add News</a></li>
                 </ul>
+            </li>
+            <li class="sub-menu">
+                <a @if(activeSection=="log") { class="active" } href="@routes.Admin.logIndex()" >
+                    <i class="fa fa-book"></i>
+                    <span>Audit Log</span>
+                </a>
             </li>
         </ul>
     </div>
