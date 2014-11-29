@@ -219,7 +219,7 @@
                     <tbody>
                     @for(index <- 0 until logs.size) {
                         <tr>
-                            <td><img src="@localUser.photoUrl" class="img-circle" width="20"> @logs(index).user.name</td>
+                            <td><img src="@logs(index).user.photoUrl" class="img-circle" width="20"> @logs(index).user.name</td>
                             <td>
                                 @logs(index).delta
                                 @if((null != logs(index).visit) && (logs(index).visit.isValidNow())) {
