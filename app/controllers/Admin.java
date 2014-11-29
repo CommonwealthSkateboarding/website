@@ -438,15 +438,17 @@ public class Admin extends Controller {
 
     @Restrict({@Group("USER_ADMIN")})
     public static Result setUserRole(Long userId, Long roleId, boolean state) {
-        System.out.println(userId + " " + roleId + " " + state);
         User user = User.find.byId(userId);
         SecurityRole role = SecurityRole.find.byId(roleId);
         if (state) {
             user.roles.add(role);
+            audit("Added role " + role.roleName + " for " + user.name, null, null);
         } else {
             user.roles.remove(role);
+            audit("Removed role " + role.roleName + " for " + user.name, null, null);
         }
         user.save();
+
         return redirect(routes.Admin.userIndex());
     }
 
