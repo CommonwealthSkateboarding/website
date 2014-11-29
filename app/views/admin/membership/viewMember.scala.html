@@ -122,6 +122,7 @@
     <div class="col-lg-4 col-md-4 col-sm-4">
         <div class="showback">
             <h4><i class="fa fa-angle-right"></i> Unlimited Passes</h4>
+            <div class="row">
             @for(index <- 0 until member.unlimitedPasses.size) {
                 @defining(member.unlimitedPasses(index)) { pass =>
                     <div class="col-md-12 @if(pass.isValid()) { bg-success } else { bg-warning }">
@@ -146,22 +147,23 @@
                     </div>
                 }
             }
-            <div>
-            <div class="collapse-group">
-                <form action="@routes.Admin.addUnlimitedPass(member.id)" method="post" class="form-horizontal collapse">
-                    <input name="startDate" class="form-control" id="datepicker" placeholder="Start Date"/>
-                    <select name="length" class="form-control">
-                        <option value="1">1 month</option>
-                        <option value="2">2 months</option>
-                        <option value="3">3 months</option>
-                        <option value="4">4 months</option>
-                        <option value="5">5 months</option>
-                        <option value="6">6 months</option>
-                    </select>
-                    <input type="submit" id="submit_unlimited_pass" value="Add Unlimited Pass" class="btn btn-theme btn-block"/>
-                </form>
-                <p><a class="btn btn-xs btn-default btn-block" id="addUnlimitedPass" href="#">Add Unlimited Pass &raquo;</a></p>
             </div>
+            <div>
+                <div class="collapse-group">
+                    <form action="@routes.Admin.addUnlimitedPass(member.id)" method="post" class="form-horizontal collapse">
+                        <input name="startDate" class="form-control" id="datepicker" placeholder="Start Date"/>
+                        <select name="length" class="form-control">
+                            <option value="1">1 month</option>
+                            <option value="2">2 months</option>
+                            <option value="3">3 months</option>
+                            <option value="4">4 months</option>
+                            <option value="5">5 months</option>
+                            <option value="6">6 months</option>
+                        </select>
+                        <input type="submit" id="submit_unlimited_pass" value="Add Unlimited Pass" class="btn btn-theme btn-block"/>
+                    </form>
+                    <p><a class="btn btn-xs btn-default btn-block" id="addUnlimitedPass" href="#">Add Unlimited Pass &raquo;</a></p>
+                </div>
             </div>
         </div>
     </div>
@@ -221,7 +223,7 @@
                                 @logs(index).delta
                                 @if((null != logs(index).visit) && (logs(index).visit.isValidNow())) {
                                     <a href="@routes.Admin.undoVisit(logs(index).visit.id)" class="pull-right">
-                                        <span class="label label-warning">Refund</span></a>
+                                        <span class="label label-warning">Undo/Refund</span></a>
                                 }
                             </td>
                             <td><span class="timeago" title="@logs(index).timestamp.format("yyyy-MM-dd'T'HH:mmZ")"></span></td>
