@@ -12,6 +12,7 @@ import models.site.NewsItem;
 import models.skatepark.Membership;
 import models.skatepark.UnlimitedPass;
 import models.skatepark.Visit;
+import org.apache.commons.lang3.time.DateUtils;
 import play.data.Form;
 import play.db.ebean.Model;
 import play.mvc.Controller;
@@ -31,6 +32,7 @@ import views.html.admin.userIndex;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -46,6 +48,13 @@ public class Admin extends Controller {
     public static User getLocalUser(final Http.Session session) {
         final User localUser = User.findByAuthUserIdentity(PlayAuthenticate.getUser(session));
         return localUser;
+    }
+
+    public static Result index() {
+        Date lastWeek = DateUtils.addDays(new Date(), -7);
+        lastWeek = DateUtils.ceiling(lastWeek, Calendar.DATE);
+        List<Visit> visits = Visit.find.where().eq("refunded", false).where().gt("time", lastWeek).findList();
+        return ok(index.render(visits, getLocalUser(session())));
     }
 
     @Restrict({@Group("BLOG")})
@@ -121,10 +130,6 @@ public class Admin extends Controller {
 
         return ok(memberIndex.render(list, page, hasNextPage, getLocalUser(session())));
     }
-
-    public static Result index() {
-        return ok(index.render(getLocalUser(session())));
-}
 
     public static Result addMemberPage() {
         return ok(addMember.render(getLocalUser(session())));
