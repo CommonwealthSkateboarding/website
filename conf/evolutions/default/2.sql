@@ -59,6 +59,10 @@ create table audit_record (
   constraint pk_audit_record primary key (id))
 ;
 
+INSERT INTO security_role (id, role_name)
+VALUES (5,"BLOG"),
+       (6, "USER_ADMIN");
+
 # --- !Downs
 
 SET FOREIGN_KEY_CHECKS=0;

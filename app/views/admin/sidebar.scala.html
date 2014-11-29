@@ -1,5 +1,6 @@
 @(localUser: models.security.User = null, activeSection: String, activePage: String)
-
+@import be.objectify.deadbolt.java.views.html._
+@import be.objectify.deadbolt.core.utils.TemplateUtils._
 @import com.feth.play.module.pa.views.html._
 <aside>
     <div id="sidebar"  class="nav-collapse ">
@@ -26,18 +27,28 @@
                     <li @if(activePage=="addMember") { class="active" }><a href="@routes.Admin.addMemberPage()">Add Member</a></li>
                 </ul>
             </li>
-            <li class="sub-menu">
-                <a @if(activeSection=="news") { class="active" } href="javascript:;" >
-                <i class="fa fa-book"></i>
-                <span>News/Blog</span>
-                </a>
-                <ul class="sub">
-                    <li @if(activePage=="existingNews") { class="active" }><a href="@routes.Admin.newsIndex(0)">View/Edit News</a></li>
-                </ul>
-                <ul class="sub">
-                    <li @if(activePage=="addNews") { class="active" }><a href="@routes.Admin.addNewsPage()">Add News</a></li>
-                </ul>
-            </li>
+            @restrict(la(as("BLOG"))) {
+                <li class="sub-menu">
+                    <a @if(activeSection=="news") { class="active" } href="javascript:;" >
+                        <i class="fa fa-book"></i>
+                        <span>News/Blog</span>
+                    </a>
+                    <ul class="sub">
+                        <li @if(activePage=="existingNews") { class="active" }><a href="@routes.Admin.newsIndex(0)">View/Edit News</a></li>
+                    </ul>
+                    <ul class="sub">
+                        <li @if(activePage=="addNews") { class="active" }><a href="@routes.Admin.addNewsPage()">Add News</a></li>
+                    </ul>
+                </li>
+            }
+            @restrict(la(as("USER_ADMIN"))) {
+                <li class="sub-menu">
+                    <a @if(activeSection=="user") { class="active" } href="@routes.Admin.userIndex()" >
+                        <i class="fa fa-book"></i>
+                        <span>User Admin</span>
+                    </a>
+                </li>
+            }
             <li class="sub-menu">
                 <a @if(activeSection=="log") { class="active" } href="@routes.Admin.logIndex()" >
                     <i class="fa fa-book"></i>

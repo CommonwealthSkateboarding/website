@@ -47,14 +47,14 @@ public class User extends Model implements Subject {
 
     public boolean emailValidated;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     public List<SecurityRole> roles;
 
     @OneToMany(cascade = CascadeType.ALL)
     public List<LinkedAccount> linkedAccounts;
 
     @Override
-    public List<? extends Role> getRoles() {
+    public List<SecurityRole> getRoles() {
         return roles;
     }
 

@@ -6,6 +6,7 @@ import com.feth.play.module.pa.PlayAuthenticate;
 import com.typesafe.plugin.MailerAPI;
 import com.typesafe.plugin.MailerPlugin;
 import models.security.AuditRecord;
+import models.security.SecurityRole;
 import models.security.User;
 import models.site.NewsItem;
 import models.skatepark.Membership;
@@ -26,6 +27,7 @@ import views.html.admin.news.addNews;
 import views.html.admin.news.editNews;
 import views.html.admin.news.newsIndex;
 import views.html.admin.membership.memberIndex;
+import views.html.admin.userIndex;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -39,12 +41,14 @@ public class Admin extends Controller {
     public static final int PER_PAGE = 25;
     public static final String RECENT_VISIT_ORDER = "lastVisit.time DESC";
     public static final String RECENT_EVENT_ORDER = "timestamp DESC";
+    public static final String USER_LAST_LOGIN_ORDER = "lastLogin DESC";
 
     public static User getLocalUser(final Http.Session session) {
         final User localUser = User.findByAuthUserIdentity(PlayAuthenticate.getUser(session));
         return localUser;
     }
 
+    @Restrict({@Group("BLOG")})
     public static Result newsIndex(Long page) {
         boolean hasNextPage = false;
         Date now = new Date();
@@ -59,10 +63,12 @@ public class Admin extends Controller {
         return ok(newsIndex.render(news, page, hasNextPage, getLocalUser(session())));
     }
 
+    @Restrict({@Group("BLOG")})
     public static Result addNewsPage() {
         return ok(addNews.render(getLocalUser(session())));
     }
 
+    @Restrict({@Group("BLOG")})
     public static Result editNewsPage(Long id) {
         NewsItem news = (NewsItem) new Model.Finder(Long.class, NewsItem.class).byId(id);
         if (null == news) {
@@ -71,6 +77,7 @@ public class Admin extends Controller {
         return ok(editNews.render(news, getLocalUser(session())));
     }
 
+    @Restrict({@Group("BLOG")})
     public static Result addNewsItem() {
         NewsItem newsItem = Form.form(NewsItem.class).bindFromRequest().get();
         newsItem.createDate = new Date();
@@ -80,6 +87,7 @@ public class Admin extends Controller {
         return redirect(routes.Admin.newsIndex(0));
     }
 
+    @Restrict({@Group("BLOG")})
     public static Result updateNewsItem(Long id) {
         NewsItem news = (NewsItem) new Model.Finder(Long.class, NewsItem.class).byId(id);
         if (null == news) {
@@ -419,6 +427,27 @@ public class Admin extends Controller {
         }
 
         return ok(logIndex.render(list, page, hasNextPage, getLocalUser(session())));
+    }
+
+    @Restrict({@Group("USER_ADMIN")})
+    public static Result userIndex() {
+        List<User> users = User.find.orderBy(USER_LAST_LOGIN_ORDER).findList();
+        List<SecurityRole> roles = SecurityRole.find.findList();
+        return ok(userIndex.render(users, roles, getLocalUser(session())));
+    }
+
+    @Restrict({@Group("USER_ADMIN")})
+    public static Result setUserRole(Long userId, Long roleId, boolean state) {
+        System.out.println(userId + " " + roleId + " " + state);
+        User user = User.find.byId(userId);
+        SecurityRole role = SecurityRole.find.byId(roleId);
+        if (state) {
+            user.roles.add(role);
+        } else {
+            user.roles.remove(role);
+        }
+        user.save();
+        return redirect(routes.Admin.userIndex());
     }
 
 }
