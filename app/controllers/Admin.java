@@ -185,12 +185,33 @@ public class Admin extends Controller {
         }
     }
 
+    public static Result addAllDayPass(Long id) {
+        Membership member = Membership.find.byId(id);
+        member.allDayPasses = (member.allDayPasses + 1);
+        member.save();
+        audit("Added an all day pass for " + member.name, member, null);
+        return redirect(routes.Admin.viewMemberPage(id));
+    }
+
+    public static Result subtractAllDayPass(Long id) {
+        Membership member = Membership.find.byId(id);
+        if (member.allDayPasses < 1) {
+            return unauthorized("Member does not have an available all day pass");
+        } else {
+            member.allDayPasses = (member.allDayPasses - 1);
+            member.save();
+            audit("Deducted an all day pass from " + member.name, member, null);
+            return redirect(routes.Admin.viewMemberPage(id));
+        }
+    }
+
     public static Result viewMemberPage(Long id) {
         Membership member = (Membership) new Model.Finder(Long.class, Membership.class).byId(id);
         if (null == member) {
             return redirect(routes.Admin.memberIndex(0)); // not found
         }
-        List<AuditRecord> logs = AuditRecord.find.where().eq("membership_id", id).orderBy("timestamp DESC").findList();
+        List<AuditRecord> logs = AuditRecord.find.where().eq("membership_id", id)
+                .orderBy("timestamp DESC").setMaxRows(PER_PAGE).findList();
         return ok(viewMember.render(member, logs, getLocalUser(session())));
     }
 
@@ -241,7 +262,7 @@ public class Admin extends Controller {
         return redirect(routes.Admin.viewMemberPage(membership.id));
     }
 
-    public static Result memberSessionVisit(Long memberId) {
+    public static Result sessionVisit(Long memberId) {
         Membership member = (Membership) new Model.Finder(Long.class, Membership.class).byId(memberId);
         if (null == member) {
             return notFound("Bad member id");
@@ -250,12 +271,31 @@ public class Admin extends Controller {
             return badRequest("Member doesn't have enough session passes");
         }
 
-        Visit visit = Visit.addVisit(member, getLocalUser(session()), false);
+        Visit visit = Visit.addVisit(member, getLocalUser(session()), Visit.VisitType.SESSION);
         member.sessionPasses = (member.sessionPasses - 1);
         member.lastVisit = visit;
         member.save();
 
         audit("Checked in " + member.name + " with a session pass", member, visit);
+
+        return redirect(routes.Admin.viewMemberPage(memberId));
+    }
+
+    public static Result allDayVisit(Long memberId) {
+        Membership member = (Membership) new Model.Finder(Long.class, Membership.class).byId(memberId);
+        if (null == member) {
+            return notFound("Bad member id");
+        };
+        if (member.allDayPasses == 0) {
+            return badRequest("Member doesn't have enough all day passes");
+        }
+
+        Visit visit = Visit.addVisit(member, getLocalUser(session()), Visit.VisitType.ALL_DAY);
+        member.allDayPasses = (member.allDayPasses - 1);
+        member.lastVisit = visit;
+        member.save();
+
+        audit("Checked in " + member.name + " with an all day pass", member, visit);
 
         return redirect(routes.Admin.viewMemberPage(memberId));
     }
@@ -273,7 +313,7 @@ public class Admin extends Controller {
             return badRequest("This pass is not valid for use");
         }
 
-        Visit visit = Visit.addVisit(member, getLocalUser(session()), true);
+        Visit visit = Visit.addVisit(member, getLocalUser(session()), Visit.VisitType.UNLIMITED);
         member.lastVisit = visit;
         member.save();
 
@@ -287,19 +327,39 @@ public class Admin extends Controller {
         if (null == visit) {
             return notFound("Bad visit id");
         };
-        if (!visit.unlimitedPassVisit) {
+        if (visit.visitType == Visit.VisitType.SESSION) {
             visit.membership.sessionPasses = (visit.membership.sessionPasses + 1);
             audit("Undid a session pass visit from " + visit.membership.name + " and refunded a session pass", visit.membership, null);
-        } else {
+        } else if (visit.visitType == Visit.VisitType.ALL_DAY) {
+            visit.membership.allDayPasses = (visit.membership.allDayPasses + 1);
+            audit("Undid an all day pass visit from " + visit.membership.name + " and refunded an all day pass", visit.membership, null);
+        } else if (visit.visitType == Visit.VisitType.UNLIMITED) {
             audit("Undid an unlimited pass visit from " + visit.membership.name, visit.membership, null);
         }
-        if (visit.membership.lastVisit.equals(visit)) {
+        if (null != visit.membership.lastVisit && visit.membership.lastVisit.equals(visit)) {
             // Reset the last visited date in the membership if applicable
             visit.membership.lastVisit = visit.previousVisit;
         }
+        visit.refunded = true;
+        visit.save();
         visit.membership.save();
 
-        //visit.delete();
+        return redirect(routes.Admin.viewMemberPage(visit.membership.id));
+    }
+
+    public static Result extendSessionVisit(Long id) {
+        Visit visit = Visit.find.byId(id);
+        if (null == visit) {
+            return notFound("Bad visit id");
+        };
+        if (visit.visitType != Visit.VisitType.SESSION) {
+            return internalServerError("Can't extend a non-session visit");
+        } else {
+            visit.expires = null;
+            visit.visitType = Visit.VisitType.ALL_DAY;
+            audit("Extended a visit from session to all day for " + visit.membership.name, visit.membership, visit);
+            visit.save();
+        }
 
         return redirect(routes.Admin.viewMemberPage(visit.membership.id));
     }

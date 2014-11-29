@@ -14,8 +14,10 @@ create table visit (
   id                        bigint auto_increment not null,
   membership_id             bigint,
   verified_by_id            bigint,
-  unlimited_pass_visit      tinyint(1) default 0,
+  type                      varchar(16),
   time                      datetime,
+  expires                   datetime,
+  refunded                  tinyint(1) default 0,
   previous_visit_id         bigint,
   constraint pk_visit primary key (id))
 ;
@@ -36,6 +38,7 @@ create table membership (
   emergency_contact_number  varchar(255),
   notes                     text,
   session_passes            bigint,
+  all_day_passes            bigint,
   create_date               datetime,
   last_visit_id             bigint,
   credit                    DECIMAL(13, 2),

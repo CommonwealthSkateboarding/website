@@ -52,6 +52,7 @@ public class Membership extends Model {
     public List<UnlimitedPass> unlimitedPasses;
 
     public int sessionPasses;
+    public int allDayPasses;
 
     public Double credit;
 
