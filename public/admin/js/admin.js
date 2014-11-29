@@ -85,4 +85,6 @@ $(function() {
     //    popovers
 
         $('.popovers').popover();
+
+        $.timeago.settings.allowFuture = true;
 });

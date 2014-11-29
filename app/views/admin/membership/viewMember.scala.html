@@ -10,6 +10,7 @@
                     <div class="alert alert-success">
                         <h2 class="text-center"><i class="fa fa-check-circle"></i> @member.name Checked In Today!</h2>
                         @if(member.lastVisit.visitType == VisitType.SESSION) {
+                            <p class="text-center">The pass will expire in <span class="timeago" title="@member.lastVisit.expires.format("yyyy-MM-dd'T'HH:mmZ")"></span></p>
                             <p class="text-center"><a href="@routes.Admin.extendSessionVisit(member.lastVisit.id)" class="btn btn-success btn-block">Upgrade the pass to all-day</a></p>
                         }
                     </div>
