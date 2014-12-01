@@ -18,6 +18,7 @@ create table visit (
   time                      datetime,
   expires                   datetime,
   refunded                  tinyint(1) default 0,
+  visit_type                varchar(16) DEFAULT NULL,
   previous_visit_id         bigint,
   constraint pk_visit primary key (id))
 ;
@@ -76,6 +77,8 @@ drop table membership;
 alter table users drop column photo_url;
 
 drop table audit_record;
+
+DELETE FROM security_role WHERE id=5 OR id=6;
 
 SET FOREIGN_KEY_CHECKS=1;
 
