@@ -29,13 +29,15 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @for(index <- 0 until logs.size) {
+                    @for(log <- logs) {
                     <tr>
-                        <td><img src="@logs(index).user.photoUrl" class="img-circle" width="20"> @logs(index).user.name</td>
+                        <td><img src="@log.user.photoUrl" class="img-circle" width="20"> @log.user.name</td>
                         <td>
-                            @logs(index).delta
+                            @log.delta
+                                @if(null != log.newsItem) { <a href="@routes.Application.showNews(log.newsItem.id)"><span class="label label-primary pull-right"><i class="fa fa-pencil-square"></i></span></a> }
+                                @if(null != log.membership) { <a href="@routes.Admin.viewMemberPage(log.membership.id)"><span class="label label-primary pull-right"><i class="fa fa-user"></i></span></a> }
                         </td>
-                        <td><span class="timeago" title="@logs(index).timestamp.format("yyyy-MM-dd'T'HH:mmZ")"></span></td>
+                        <td><span class="timeago" title="@log.timestamp.format("yyyy-MM-dd'T'HH:mmZ")"></span></td>
                     </tr>
                     }
                     </tbody>
