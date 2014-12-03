@@ -9,9 +9,9 @@
             <h4 class="mb"><i class="fa fa-angle-right"></i> Edit Member</h4>
             <form action="@routes.Admin.updateCamp(camp.id)" method="post" class="form-horizontal style-form">
                 <label>Title:</label><br/><input type="text" name="title" value="@camp.title" class="form-control" /><br/>
-                <label>Start Date:</label><br/><input name="startDate" id="datepicker1" value="@if(null != camp.startDate) { camp.startDate.format("MM/dd/yyyy") }" class="form-control" /><br/>
-                <label>End Date:</label><br/><input name="endDate" id="datepicker2" value="@if(null != camp.endDate) { camp.endDate.format("MM/dd/yyyy") }" class="form-control" /><br/>
-                <label>Registration End Date:</label><br/><input name="registrationEndDate" id="datepicker3" value="@if(null != camp.registrationEndDate) { camp.registrationEndDate.format("MM/dd/yyyy") }" class="form-control" /><br/>
+                <label>Start Date:</label><br/><input name="startDate" id="datepicker1" value="@camp.startDate.format("MM/dd/yyyy")" class="form-control" /><br/>
+                <label>End Date:</label><br/><input name="endDate" id="datepicker2" value="@camp.endDate.format("MM/dd/yyyy")" class="form-control" /><br/>
+                <label>Registration End Date:</label><br/><input name="registrationEndDate" id="datepicker3" value="@camp.registrationEndDate.format("MM/dd/yyyy")" class="form-control" /><br/>
                 <label>Maximum Registrations:</label><br/><input type="text" name="maxRegistrations" value="@camp.maxRegistrations" class="form-control" /><br/>
                 <label>Description:</label><br/><textarea name="description" id="description">@camp.description</textarea><br/>
                 <label>Cost:</label><br/>$<input type="text" name="cost" value="@camp.cost" class="form-control" /><br/>
