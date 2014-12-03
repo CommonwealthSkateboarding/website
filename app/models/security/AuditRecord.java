@@ -1,6 +1,7 @@
 package models.security;
 
 import models.site.NewsItem;
+import models.skatepark.Camp;
 import models.skatepark.Membership;
 import models.skatepark.UnlimitedPass;
 import models.skatepark.Visit;
@@ -35,6 +36,9 @@ public class AuditRecord extends Model {
 
     @ManyToOne
     public Visit visit;
+
+    @ManyToOne
+    public Camp camp;
 
     public Date timestamp;
 

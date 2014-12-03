@@ -27,6 +27,18 @@
                     <li @if(activePage=="addMember") { class="active" }><a href="@routes.Admin.addMemberPage()">Add Member</a></li>
                 </ul>
             </li>
+            <li class="sub-menu">
+                <a @if(activeSection=="camps") { class="active" } href="javascript:;" >
+                    <i class="fa fa-book"></i>
+                    <span>Camps</span>
+                </a>
+                <ul class="sub">
+                    <li @if(activePage=="viewCamp") { class="active" }><a href="@routes.Admin.campIndex()">Camp List</a></li>
+                </ul>
+                <ul class="sub">
+                    <li @if(activePage=="addCamp") { class="active" }><a href="@routes.Admin.addCampPage()">Add Camp</a></li>
+                </ul>
+            </li>
             @restrict(la(as("BLOG"))) {
                 <li class="sub-menu">
                     <a @if(activeSection=="news") { class="active" } href="javascript:;" >

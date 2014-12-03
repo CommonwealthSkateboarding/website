@@ -10,10 +10,13 @@ import java.util.List;
 /**
  * Created by cdelargy on 11/30/14.
  */
+@Entity
 public class Camp extends Model {
 
     @Id
     public Long id;
+
+    public String title;
 
     @OneToMany(cascade = CascadeType.ALL)
     public List<Registration> registrations;
