@@ -48,8 +48,14 @@ GET     /admin/members/:page                    controllers.Admin.memberIndex(pa
 POST    /admin/members/:id/addCredit            controllers.Admin.addCredit(id: Long)
 POST    /admin/members/:id/subtractCredit       controllers.Admin.subtractCredit(id: Long)
 GET     /admin/log                              controllers.Admin.logIndex(page: Long ?=0)
-GET     /admin/users                             controllers.Admin.userIndex()
-GET     /admin/users/setUserRole                 controllers.Admin.setUserRole(userId: Long, roleId: Long, state:Boolean)
+GET     /admin/users                            controllers.Admin.userIndex()
+GET     /admin/users/setUserRole                controllers.Admin.setUserRole(userId: Long, roleId: Long, state:Boolean)
+GET     /admin/camps                            controllers.Admin.campIndex()
+GET     /admin/camps/new                        controllers.Admin.addCampPage()
+GET     /admin/camps/:id                        controllers.Admin.viewCampPage(id: Long)
+GET     /admin/camps/:id/edit                   controllers.Admin.editCampPage(id: Long)
+POST    /admin/camp/new                         controllers.Admin.addCamp()
+POST    /admin/camps/:id/edit                   controllers.Admin.updateCamp(id: Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

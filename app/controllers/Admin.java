@@ -9,6 +9,7 @@ import models.security.AuditRecord;
 import models.security.SecurityRole;
 import models.security.User;
 import models.site.NewsItem;
+import models.skatepark.Camp;
 import models.skatepark.Membership;
 import models.skatepark.UnlimitedPass;
 import models.skatepark.Visit;
@@ -19,6 +20,10 @@ import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Security;
+import views.html.admin.camp.addCamp;
+import views.html.admin.camp.editCamp;
+import views.html.admin.camp.viewCamp;
+import views.html.admin.camp.campIndex;
 import views.html.admin.index;
 import views.html.admin.logIndex;
 import views.html.admin.membership.addMember;
@@ -418,9 +423,11 @@ public class Admin extends Controller {
             log.unlimitedPass = (UnlimitedPass) payload;
         } else if (payload.getClass().equals(Visit.class)) {
             log.visit = (Visit) payload;
+        } else if (payload.getClass().equals(Camp.class)) {
+            log.camp = (Camp) payload;
         }
-        log.save();
-    }
+            log.save();
+        }
 
     public static Result logIndex(Long page) {
         boolean hasNextPage = false;
@@ -455,6 +462,65 @@ public class Admin extends Controller {
         user.save();
 
         return redirect(routes.Admin.userIndex());
+    }
+
+    public static Result campIndex() {
+        List<Camp> camps = Camp.find.findList();
+        return ok(campIndex.render(camps, getLocalUser(session())));
+    }
+
+    public static Result viewCampPage(Long id) {
+        Camp camp = (Camp) new Model.Finder(Long.class, Camp.class).byId(id);
+        if (null == camp) {
+            return redirect(routes.Admin.campIndex()); // not found
+        }
+        return ok(viewCamp.render(camp, getLocalUser(session())));
+    }
+
+    public static Result addCampPage() {
+        return ok(addCamp.render(getLocalUser(session())));
+    }
+
+    public static Result addCamp() {
+        Camp camp = Form.form(Camp.class).bindFromRequest().get();
+        camp.createDate = new Date();
+        camp.save();
+
+        audit("Added " + camp.title + " to the camp database", null, camp);
+
+        return redirect(routes.Admin.viewCampPage(camp.id));
+    }
+
+    public static Result editCampPage(Long id) {
+        Camp camp = (Camp) new Model.Finder(Long.class, Camp.class).byId(id);
+        if (null == camp) {
+            return redirect(routes.Admin.campIndex()); // not found
+        }
+        return ok(editCamp.render(camp, getLocalUser(session())));
+    }
+
+    public static Result updateCamp(Long id) {
+        Camp camp = (Camp) new Model.Finder(Long.class, Camp.class).byId(id);
+        if (null == camp) {
+            return notFound("Bad camp id");
+        };
+
+        Camp newCamp = Form.form(Camp.class).bindFromRequest().get();
+
+        camp.cost = newCamp.cost;
+        camp.description = newCamp.description;
+        camp.endDate = newCamp.endDate;
+        camp.maxRegistrations = newCamp.maxRegistrations;
+        camp.registrationEndDate = newCamp.registrationEndDate;
+        camp.scheduleDescription = newCamp.scheduleDescription;
+        camp.startDate = newCamp.startDate;
+        camp.title = newCamp.title;
+
+        camp.save();
+
+        audit("Updated " + camp.title + " in the camp database", null, camp);
+
+        return redirect(routes.Admin.viewCampPage(camp.id));
     }
 
 }
