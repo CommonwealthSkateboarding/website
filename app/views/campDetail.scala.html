@@ -1,9 +1,9 @@
-@(camps: List[models.skatepark.Camp])
+@(camp: models.skatepark.Camp)
 
 @main() {
 
 <section id="blog">
-    <h2>Camp Overview Page</h2>
+    <h2>Camp Detail Page</h2>
     <table class="table table-bordered table-striped table-condensed">
         <thead>
         <tr>
@@ -17,7 +17,6 @@
         </tr>
         </thead>
         <tbody>
-        @for(camp <- camps) {
         <tr>
             <td><a href="@routes.Application.campDetail(camp.id)">@camp.title</a></td>
             <td>@camp.startDate.format("MM/dd/yyyy")</td>
@@ -27,8 +26,8 @@
             <td>@utils.Formatter.prettyDollars(camp.cost)</td>
             <td>@camp.scheduleDescription</td>
         </tr>
-        }
         </tbody>
     </table>
+    <a href="@routes.Application.camp()">All Camps</a>
 </section>
 }

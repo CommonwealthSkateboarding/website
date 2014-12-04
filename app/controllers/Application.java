@@ -2,11 +2,14 @@ package controllers;
 
 import com.avaje.ebean.Expr;
 import models.site.NewsItem;
+import models.skatepark.Camp;
+import org.apache.commons.lang3.time.DateUtils;
 import play.db.ebean.Model;
 import play.mvc.*;
 
 import views.html.*;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -55,7 +58,18 @@ public class Application extends Controller {
         return ok(shop.render());
     }
     public static Result camp(){
-        return ok(camp.render());
+        Date tomorrow = new Date();
+        tomorrow = DateUtils.ceiling(tomorrow, Calendar.DATE);
+        List<Camp> camps = Camp.find.where().gt("registrationEndDate", tomorrow).findList();
+        return ok(camp.render(camps));
+    }
+
+    public static Result campDetail(Long id) {
+        Camp camp = (Camp) new Model.Finder(Long.class, Camp.class).byId(id);
+        if (null == camp) {
+            return redirect(routes.Application.camp()); // not found
+        }
+        return ok(campDetail.render(camp));
     }
     public static Result events(){
         return ok(events.render());

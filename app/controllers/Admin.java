@@ -9,10 +9,7 @@ import models.security.AuditRecord;
 import models.security.SecurityRole;
 import models.security.User;
 import models.site.NewsItem;
-import models.skatepark.Camp;
-import models.skatepark.Membership;
-import models.skatepark.UnlimitedPass;
-import models.skatepark.Visit;
+import models.skatepark.*;
 import org.apache.commons.lang3.time.DateUtils;
 import play.data.Form;
 import play.db.ebean.Model;
@@ -20,10 +17,7 @@ import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Security;
-import views.html.admin.camp.addCamp;
-import views.html.admin.camp.editCamp;
-import views.html.admin.camp.viewCamp;
-import views.html.admin.camp.campIndex;
+import views.html.admin.camp.*;
 import views.html.admin.index;
 import views.html.admin.logIndex;
 import views.html.admin.membership.addMember;
@@ -521,6 +515,60 @@ public class Admin extends Controller {
         audit("Updated " + camp.title + " in the camp database", null, camp);
 
         return redirect(routes.Admin.viewCampPage(camp.id));
+    }
+
+    public static Result campRegistrationPage(Long id) {
+        Camp camp = (Camp) new Model.Finder(Long.class, Camp.class).byId(id);
+        if (null == camp) {
+            return notFound("Bad camp id");
+        };
+        return ok(campRegistration.render(camp, getLocalUser(session())));
+    }
+
+    public static Result addCampRegistration(Long id) {
+        Camp camp = (Camp) new Model.Finder(Long.class, Camp.class).byId(id);
+        if (null == camp) {
+            return notFound("Bad camp id");
+        };
+
+        Registration registration = Form.form(Registration.class).bindFromRequest().get();
+
+        registration.timestamp = new Date();
+        registration.camp = camp;
+
+        registration.save();
+
+        audit("Added registration for " + registration.participantName + " to " + camp.title, null, camp);
+
+        return redirect(routes.Admin.viewCampPage(id));
+    }
+
+    public static Result editCampRegistrationPage(Long id) {
+        Registration reg = (Registration) new Model.Finder(Long.class, Registration.class).byId(id);
+        if (null == reg) {
+            return notFound("Bad registration id");
+        };
+        return ok(editCampRegistration.render(reg, getLocalUser(session())));
+
+    }
+
+    public static Result editCampRegistration(Long id) {
+        Registration reg = (Registration) new Model.Finder(Long.class, Registration.class).byId(id);
+        if (null == reg) {
+            return notFound("Bad registration id");
+        };
+
+        Registration newReg = Form.form(Registration.class).bindFromRequest().get();
+
+        reg.notes = newReg.notes;
+        reg.paid = newReg.paid;
+        reg.participantName = newReg.participantName;
+        reg.paymentType = newReg.paymentType;
+        reg.save();
+
+        audit("Edited registration for " + reg.participantName + " to " + reg.camp.title, null, reg.camp);
+
+        return redirect(routes.Admin.viewCampPage(reg.camp.id));
     }
 
 }

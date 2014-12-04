@@ -18,7 +18,7 @@ create table registration (
   id                        bigint auto_increment NOT NULL,
   camp_id                   bigint NOT NULL,
   paid                      tinyint(1) NOT NULL DEFAULT 0,
-  payment_type              varchar(16) NOT NULL,
+  payment_type              varchar(16),
   participant_name          varchar(255) NOT NULL,
   notes                     text,
   timestamp                 datetime NOT NULL,

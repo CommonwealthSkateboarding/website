@@ -19,6 +19,7 @@
                         <th>Registrations</th>
                         <th>Cost</th>
                         <th>Schedule</th>
+                        <th>Manual Registration</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -32,6 +33,7 @@
                             <td>@camp.registrations.size()/@camp.maxRegistrations</td>
                             <td>@utils.Formatter.prettyDollars(camp.cost)</td>
                             <td>@camp.scheduleDescription</td>
+                            <td><a href="@routes.Admin.campRegistrationPage(camp.id)" class="btn btn-success btn-xs">Add New Registration</a></td>
                         </tr>
                     }
                     </tbody>
