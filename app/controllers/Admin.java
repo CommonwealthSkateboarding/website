@@ -403,7 +403,7 @@ public class Admin extends Controller {
         mail.sendHtml(body);
     }
 
-    private static void audit(String description, Membership membership, Object payload) {
+    public static void audit(String description, Membership membership, Object payload) {
         AuditRecord log = new AuditRecord();
         log.delta = description;
         log.user = getLocalUser(session());

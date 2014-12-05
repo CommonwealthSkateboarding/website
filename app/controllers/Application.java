@@ -3,7 +3,9 @@ package controllers;
 import com.avaje.ebean.Expr;
 import models.site.NewsItem;
 import models.skatepark.Camp;
+import models.skatepark.Registration;
 import org.apache.commons.lang3.time.DateUtils;
+import play.data.Form;
 import play.db.ebean.Model;
 import play.mvc.*;
 
@@ -76,5 +78,37 @@ public class Application extends Controller {
     }
     public static Result about(){
         return ok(about.render());
+    }
+
+    public static Result registerForCampWithStripe(Long id) {
+
+        Camp camp = (Camp) new Model.Finder(Long.class, Camp.class).byId(id);
+        if (null == camp) {
+            //TODO: Log this extremely hard to produce error condition
+            return redirect(routes.Application.camp()); // not found
+        }
+
+        String name = (String) Form.form().bindFromRequest().data().get("name");
+        String billingName = (String) Form.form().bindFromRequest().data().get("billingName");
+        String email = (String) Form.form().bindFromRequest().data().get("email");
+        String stripeToken = (String) Form.form().bindFromRequest().data().get("stripeToken");
+
+        Registration reg = new Registration();
+
+        reg.camp = camp;
+        reg.paid = true; //TODO: still need to charge stripe to get payment
+        reg.participantName = name;
+        reg.paymentType = Registration.PaymentType.STRIPE;
+        reg.timestamp = new Date();
+        reg.notes = "Paid on the web by " + billingName + " (" + email + ")"
+                + " and generated a stripe TEST token of: " + stripeToken;
+        reg.save();
+
+        Admin.audit("Added registration from web for " + name, null, camp);
+
+        //TODO: Send successful registration email
+        //TODO: Redirect to page acknowledging registration
+
+        return ok("Success. Details at: " + routes.Admin.viewCampPage(id));
     }
 }

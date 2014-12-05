@@ -22,6 +22,8 @@ public class Registration extends Model {
         SQUARE,
         @EnumValue("ONLINE")
         ONLINE,
+        @EnumValue("STRIPE")
+        STRIPE,
         @EnumValue("OTHER")
         OTHER
     }
