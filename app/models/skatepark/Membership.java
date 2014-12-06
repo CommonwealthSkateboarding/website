@@ -6,9 +6,7 @@ import play.db.ebean.Model;
 
 import javax.persistence.*;
 import java.text.DecimalFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by cdelargy on 11/23/14.
@@ -97,5 +95,39 @@ public class Membership extends Model {
             this.credit = (this.credit - amount);
         }
         this.save();
+    }
+
+    /**
+     * Should help rendering by hiding passes which are old and not valid. Will include the latest expired pass if
+     * there are no unexpired passes
+     * @return list of unlimited passes for display
+     */
+    public List<UnlimitedPass> getUnlimitedPassesForDisplay() {
+        Date now = new Date();
+        UnlimitedPass lastExpired = null;
+        List<UnlimitedPass> passes = new ArrayList<UnlimitedPass>();
+        passes.addAll(unlimitedPasses);
+        for (UnlimitedPass pass : unlimitedPasses) {
+            if (pass.expires.before(now)) {
+                passes.remove(pass);
+                if (null == lastExpired || lastExpired.expires.before(pass.expires)) {
+                    lastExpired = pass;
+                }
+            }
+        }
+
+        Collections.sort(passes, new Comparator<UnlimitedPass>() {
+            public int compare(UnlimitedPass p1, UnlimitedPass p2) {
+                if (p1.expires == null || p2.expires == null)
+                    return 0;
+                return p1.expires.compareTo(p2.expires);
+            }
+        });
+
+        if (passes.isEmpty() && null != lastExpired) {
+            passes.add(lastExpired);
+        }
+
+        return passes;
     }
 }
