@@ -20,20 +20,15 @@ import play.mvc.Security;
 import views.html.admin.camp.*;
 import views.html.admin.index;
 import views.html.admin.logIndex;
-import views.html.admin.membership.addMember;
-import views.html.admin.membership.editMember;
-import views.html.admin.membership.viewMember;
+import views.html.admin.membership.*;
 import views.html.admin.news.addNews;
 import views.html.admin.news.editNews;
 import views.html.admin.news.newsIndex;
-import views.html.admin.membership.memberIndex;
 import views.html.admin.userIndex;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Restrict({@Group("ADMIN")})
 @Security.Authenticated(Secured.class)
@@ -120,7 +115,7 @@ public class Admin extends Controller {
 
     public static Result memberIndex(Long page) {
         boolean hasNextPage = false;
-        List<Membership> list = new Model.Finder(Long.class, Membership.class).orderBy(RECENT_VISIT_ORDER).setMaxRows(PER_PAGE+1)
+        List<Membership> list = Membership.find.orderBy(RECENT_VISIT_ORDER).setMaxRows(PER_PAGE+1)
                 .setFirstRow(page.intValue() * PER_PAGE).findList();
         if (list.size() == (PER_PAGE + 1)) { // if there is another page after
             list.remove(PER_PAGE);
@@ -128,6 +123,32 @@ public class Admin extends Controller {
         }
 
         return ok(memberIndex.render(list, page, hasNextPage, getLocalUser(session())));
+    }
+
+    public static Result unlimitedPassHoldersPage() {
+        Date now = new Date();
+        Date lastMonth = DateUtils.addMonths(new Date(), -1);
+        lastMonth = DateUtils.ceiling(lastMonth, Calendar.DATE);
+        List<UnlimitedPass> list = UnlimitedPass.find.where().gt("expires", lastMonth)
+                .where().lt("starts", now).orderBy("expires").findList();
+
+        Map<Membership, UnlimitedPass> current = new HashMap<Membership, UnlimitedPass>();
+        Map<Membership, UnlimitedPass> expired = new HashMap<Membership, UnlimitedPass>();
+
+        for (UnlimitedPass pass : list) {
+            if (pass.isValid()) {
+                current.put(pass.membership, pass);
+                if (expired.containsKey(pass.membership)) {
+                    expired.remove(pass.membership);
+                }
+            } else if (!expired.containsKey(pass.membership) && !current.containsKey(pass.membership)) {
+                expired.put(pass.membership, pass);
+            } else if (expired.containsKey(pass.membership) && expired.get(pass.membership).expires.before(pass.expires)) {
+                expired.put(pass.membership, pass);
+            }
+        }
+
+        return ok(unlimitedPassHolders.render(current, expired, getLocalUser(session())));
     }
 
     public static Result addMemberPage() {

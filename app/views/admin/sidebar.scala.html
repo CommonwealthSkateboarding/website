@@ -26,6 +26,10 @@
                 <ul class="sub">
                     <li @if(activePage=="addMember") { class="active" }><a href="@routes.Admin.addMemberPage()">Add Member</a></li>
                 </ul>
+                <ul class="sub">
+                    <li @if(activePage=="unlimitedPassHolders") { class="active" }><a href="@routes.Admin.unlimitedPassHoldersPage()">Unlimited Pass Holders</a></li>
+                </ul>
+
             </li>
             <li class="sub-menu">
                 <a @if(activeSection=="camps") { class="active" } href="javascript:;" >

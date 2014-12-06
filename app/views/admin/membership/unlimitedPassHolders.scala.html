@@ -1,0 +1,73 @@
+@(current: Map[models.skatepark.Membership,models.skatepark.UnlimitedPass],
+  expired: Map[models.skatepark.Membership,models.skatepark.UnlimitedPass], localUser: models.security.User = null)
+@import admin.wrapper
+@wrapper(localUser, "member", "unlimitedPassHolders") {
+
+<h3><i class="fa fa-angle-right"></i> Membership Database</h3>
+<div class="row mb">
+    <div class="col-lg-6">
+        <div class="showback">
+            <h4><i class="fa fa-angle-right"></i> Currently Active Unlimited Memberships (@current.size)</h4>
+            <section id="unseen">
+                <table class="table table-bordered table-striped table-condensed">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Unlimited Pass Through</th>
+                        <th>View</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @for((member, pass) <- current) {
+                        @if(pass.isValid()) {
+                            <tr>
+                                <td>@member.name</td>
+                                <td>Pass expires @pass.expires.format("MM/dd/yyyy")
+                                    (<span class="timeago" title="@pass.expires.format("yyyy-MM-dd'T'HH:mmZ")"></span>)
+                                </td>
+                                <td><a href="@routes.Admin.viewMemberPage(member.id)" class="btn btn-theme btn-block">View</a></td>
+                            </tr>
+                        }
+                    }
+                    </tbody>
+                </table>
+            </section>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="showback">
+            <h4><i class="fa fa-angle-right"></i> Unlimited Memberships Expired in the Last Month (@expired.size)</h4>
+            <section id="unseen">
+                <table class="table table-bordered table-striped table-condensed">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Unlimited Pass Through</th>
+                        <th>View</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @for((member, pass) <- expired) {
+                        @if(!pass.isValid()) {
+                            <tr>
+                                <td>@member.name</td>
+                                <td>Pass expired @pass.expires.format("MM/dd/yyyy")
+                                    (<span class="timeago" title="@pass.expires.format("yyyy-MM-dd'T'HH:mmZ")"></span>)
+                                </td>
+                                <td><a href="@routes.Admin.viewMemberPage(member.id)" class="btn btn-theme btn-block">View</a></td>
+                            </tr>
+                        }
+                    }
+                    </tbody>
+                </table>
+            </section>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function(){
+        $("span.timeago").timeago();
+    });
+</script>
+}

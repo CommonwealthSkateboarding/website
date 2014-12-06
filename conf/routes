@@ -29,6 +29,7 @@ GET     /admin/news/:id/edit    controllers.Admin.editNewsPage(id: Long)
 POST    /admin/news/:id/edit    controllers.Admin.updateNewsItem(id: Long)
 
 GET     /admin/members                          controllers.Admin.memberIndex(page: Long ?=0)
+GET     /admin/members/unlimitedPassHolders     controllers.Admin.unlimitedPassHoldersPage()
 GET     /admin/members/:id/view                 controllers.Admin.viewMemberPage(id: Long)
 GET     /admin/members/:id/visit/session        controllers.Admin.sessionVisit(id: Long)
 GET     /admin/members/:id/visit/allday         controllers.Admin.allDayVisit(id: Long)
