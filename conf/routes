@@ -20,7 +20,7 @@ GET     /authenticate/:provider     com.feth.play.module.pa.controllers.Authenti
 GET     /authenticate/:provider/denied     controllers.Application.oAuthDenied(provider: String)
 
 # Admin
-GET     /admin                  controllers.Admin.index()
+GET     /admin                  controllers.Admin.dashboard()
 GET     /admin/news             controllers.Admin.newsIndex(page: Long ?=0)
 GET     /admin/news/new         controllers.Admin.addNewsPage()
 POST    /admin/news/new         controllers.Admin.addNewsItem()
