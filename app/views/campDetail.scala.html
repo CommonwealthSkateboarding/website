@@ -32,6 +32,11 @@
     @if(camp.registrations.size() < camp.maxRegistrations) {
         <br><br>
         <h2>Register for this camp now</h2>
+
+        @******************************************
+        * https://stripe.com/docs/tutorials/forms *
+        ******************************************@
+
         <form action="@routes.Application.registerForCampWithStripe(camp.id)" method="POST" id="payment-form">
             <span class="payment-errors"></span>
 
