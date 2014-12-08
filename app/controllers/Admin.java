@@ -44,10 +44,10 @@ public class Admin extends Controller {
         return localUser;
     }
 
-    public static Result index() {
-        Date lastWeek = DateUtils.addDays(new Date(), -7);
-        lastWeek = DateUtils.ceiling(lastWeek, Calendar.DATE);
-        List<Visit> visits = Visit.find.where().eq("refunded", false).where().gt("time", lastWeek).findList();
+    public static Result dashboard() {
+        Date lastTwoWeeks = DateUtils.addDays(new Date(), -14);
+        lastTwoWeeks = DateUtils.ceiling(lastTwoWeeks, Calendar.DATE);
+        List<Visit> visits = Visit.find.where().eq("refunded", false).where().gt("time", lastTwoWeeks).findList();
         return ok(index.render(visits, getLocalUser(session())));
     }
 
