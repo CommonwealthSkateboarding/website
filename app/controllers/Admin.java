@@ -243,8 +243,11 @@ public class Admin extends Controller {
         if (null == member) {
             return redirect(routes.Admin.memberIndex(0)); // not found
         }
-        List<AuditRecord> logs = AuditRecord.find.where().eq("membership_id", id)
-                .orderBy("timestamp DESC").setMaxRows(PER_PAGE).findList();
+
+        Date lastMonth = DateUtils.addMonths(new Date(), -1);
+        lastMonth = DateUtils.ceiling(lastMonth, Calendar.DATE);
+        List<AuditRecord> logs = AuditRecord.find.where().eq("membership_id", id).where().gt("timestamp", lastMonth)
+                .orderBy("timestamp DESC").findList();
         return ok(viewMember.render(member, logs, getLocalUser(session())));
     }
 
