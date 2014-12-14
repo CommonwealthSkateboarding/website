@@ -198,17 +198,9 @@
     <div class="showback">
         <h4 class="pull-right"><span class="label label-default">@member.sessionPasses Remaining</span></h4>
         <h4><i class="fa fa-angle-right"></i> Session Passes</h4>
-        <div class="row">
-            <div class="col-md-4">
-                <p><a href="@routes.Admin.sessionVisit(member.id)" class="btn btn-theme btn-block @if(0 == member.sessionPasses || member.checkedInToday()) { disabled } ">Check In</a></p>
-            </div>
-            <div class="col-md-4">
-                <a href="@routes.Admin.addSessionPass(member.id)" class="btn btn-theme btn-block">Add</a>
-            </div>
-            <div class="col-md-4">
-                <a href="@routes.Admin.subtractSessionPass(member.id)" class="btn btn-theme btn-block @if(0 == member.sessionPasses) { disabled }">Subtract</a>
-            </div>
-        </div>
+        <p><a href="@routes.Admin.sessionVisit(member.id)" class="btn btn-theme btn-block @if(0 == member.sessionPasses || member.checkedInToday()) { disabled } ">Check In</a></p>
+        <a href="@routes.Admin.addSessionPass(member.id)" class="btn btn-xs btn-default btn-block">Add</a>
+        <a href="@routes.Admin.subtractSessionPass(member.id)" class="btn btn-xs btn-default btn-block @if(0 == member.sessionPasses) { disabled }">Subtract</a>
     </div>
 </div>
 
@@ -216,17 +208,9 @@
     <div class="showback">
         <h4 class="pull-right"><span class="label label-default">@member.allDayPasses Remaining</span></h4>
         <h4><i class="fa fa-angle-right"></i> All Day Passes</h4>
-        <div class="row">
-            <div class="col-md-4">
-                <p><a href="@routes.Admin.allDayVisit(member.id)" class="btn btn-theme btn-block @if(0 == member.allDayPasses || member.checkedInToday()) { disabled } ">Check In</a></p>
-            </div>
-            <div class="col-md-4">
-                <a href="@routes.Admin.addAllDayPass(member.id)" class="btn btn-theme btn-block">Add</a>
-            </div>
-            <div class="col-md-4">
-                <a href="@routes.Admin.subtractAllDayPass(member.id)" class="btn btn-theme btn-block @if(0 == member.allDayPasses) { disabled }">Subtract</a>
-            </div>
-        </div>
+        <p><a href="@routes.Admin.allDayVisit(member.id)" class="btn btn-theme btn-block @if(0 == member.allDayPasses || member.checkedInToday()) { disabled } ">Check In</a></p>
+        <a href="@routes.Admin.addAllDayPass(member.id)" class="btn btn-xs btn-default btn-block">Add</a>
+        <a href="@routes.Admin.subtractAllDayPass(member.id)" class="btn btn-xs btn-default btn-block @if(0 == member.allDayPasses) { disabled }">Subtract</a>
     </div>
 </div>
 <script>
