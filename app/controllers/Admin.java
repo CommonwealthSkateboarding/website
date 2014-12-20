@@ -198,11 +198,11 @@ public class Admin extends Controller {
         return redirect(routes.Admin.viewMemberPage(memberId));
     }
 
-    public static Result addSessionPass(Long id) {
+    public static Result addSessionPass(Long id, int passes) {
         Membership member = Membership.find.byId(id);
-        member.sessionPasses = (member.sessionPasses + 1);
+        member.sessionPasses = (member.sessionPasses + passes);
         member.save();
-        audit("Added a session pass for " + member.name, member, null);
+        audit("Added " + passes + " session " + ((passes == 1)?"pass":"passes") + " for " + member.name, member, null);
         return redirect(routes.Admin.viewMemberPage(id));
     }
 
