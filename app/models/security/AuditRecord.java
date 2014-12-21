@@ -1,10 +1,7 @@
 package models.security;
 
 import models.site.NewsItem;
-import models.skatepark.Camp;
-import models.skatepark.Membership;
-import models.skatepark.UnlimitedPass;
-import models.skatepark.Visit;
+import models.skatepark.*;
 import play.db.ebean.Model;
 
 import javax.persistence.Entity;
@@ -39,6 +36,9 @@ public class AuditRecord extends Model {
 
     @ManyToOne
     public Camp camp;
+
+    @ManyToOne
+    public Event event;
 
     public Date timestamp;
 

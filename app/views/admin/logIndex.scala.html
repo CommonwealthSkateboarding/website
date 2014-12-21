@@ -43,6 +43,7 @@
                                 @if(null != log.newsItem) { <a href="@routes.Application.showNews(log.newsItem.id)"><span class="label label-primary pull-right"><i class="fa fa-pencil-square"></i></span></a> }
                                 @if(null != log.membership) { <a href="@routes.Admin.viewMemberPage(log.membership.id)"><span class="label label-primary pull-right"><i class="fa fa-user"></i></span></a> }
                                 @if(null != log.camp) { <a href="@routes.Admin.viewCampPage(log.camp.id)"><span class="label label-primary pull-right"><i class="fa fa-group"></i></span></a> }
+                                @if(null != log.event) { <a href="@routes.Admin.viewEventPage(log.event.id)"><span class="label label-primary pull-right"><i class="fa fa-calendar"></i></span></a> }
                         </td>
                         <td><span class="timeago" title="@log.timestamp.format("yyyy-MM-dd'T'HH:mmZ")"></span></td>
                     </tr>

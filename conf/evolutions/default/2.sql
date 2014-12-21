@@ -80,5 +80,7 @@ drop table audit_record;
 
 DELETE FROM security_role WHERE id=5 OR id=6;
 
+DELETE FROM users_security_role WHERE security_role_id=5 or security_role_id=6;
+
 SET FOREIGN_KEY_CHECKS=1;
 

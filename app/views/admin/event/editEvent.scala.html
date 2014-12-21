@@ -1,0 +1,53 @@
+@(event: models.skatepark.Event, localUser: models.security.User = null)
+@import admin.wrapper
+@wrapper(localUser, "events", "viewEvent") {
+
+<h3><i class="fa fa-angle-right"></i> Event Database</h3>
+<div class="row mt">
+    <div class="col-lg-12">
+        <div class="form-panel">
+            <h4 class="mb"><i class="fa fa-angle-right"></i> Edit Event</h4>
+            <form action="@routes.Admin.editEvent(event.id)" method="post" class="form-horizontal style-form">
+                <label>Event Name:</label><br/><input type="text" name="name" class="form-control" value="@event.name"/><br/>
+                <label>Date:</label><br/><input type="text" id="date" value="@event.startTime.format("yyyy-MM-dd")" class="form-control" data-date-format="yyyy-mm-dd" /><br/>
+                <label>Start Time:</label><br/><input type="text" id="start" value="@event.startTime.format("h:mm a")" class="form-control" /><br/>
+                <label>End Time:</label><br/><input type="text" id="end" value="@event.endTime.format("h:mm a")" class="form-control" /><br/>
+                </p>
+
+                <!-- Hidden form elements for model binding -->
+                <input type="text" name="startTime" id="startTime" value="@event.startTime.format("yyyy-MM-dd h:mm a")" hidden/>
+                <input type="text" name="endTime" id="endTime" value="@event.endTime.format("yyyy-MM-dd h:mm a")" hidden/>
+
+                <label>Publicly Visible:</label><br/><input type="checkbox" name="publicVisibility" @if(event.publicVisibility){checked} class="form-control" /><br/>
+                <label>Reserve Entire Park:</label><br/><input type="checkbox" name="reservePark" @if(event.reservePark){checked} class="form-control" /><br/>
+                <label>Notes:</label><br/><textarea name="notes" id="notes">@event.notes</textarea><br/>
+                <input type="submit" id="submit" value="Edit Event" class="btn btn-theme"/>
+            </form>
+        </div>
+    </div>
+</div>
+    <script>
+        $(document).ready(function(){
+            $("#notes").cleditor({});
+            $('#start').timepicker({
+                'timeFormat': 'h:i A',
+                'minTime': '8:00am',
+                'maxTime': '11:59pm'
+            });
+            $('#end').timepicker({
+                'timeFormat': 'h:i A',
+                'minTime': '8:00am',
+                'maxTime': '11:59pm'
+            });
+            $('#date').datepicker({
+                'autoclose': true
+            });
+            $('#start').on('changeTime', function() {
+                $('#startTime').val($('#date').val() + " " + $('#start').val());
+            });
+            $('#end').on('changeTime', function() {
+                $('#endTime').val($('#date').val() + " " + $('#end').val());
+            });
+        });
+    </script>
+}

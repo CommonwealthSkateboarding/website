@@ -37,4 +37,6 @@ drop table camp;
 
 drop table registration;
 
+alter table audit_record drop column camp_id;
+
 SET FOREIGN_KEY_CHECKS=1;

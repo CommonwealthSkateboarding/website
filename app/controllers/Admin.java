@@ -18,6 +18,10 @@ import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Security;
 import views.html.admin.camp.*;
+import views.html.admin.event.addEvent;
+import views.html.admin.event.editEvent;
+import views.html.admin.event.eventIndex;
+import views.html.admin.event.viewEvent;
 import views.html.admin.index;
 import views.html.admin.logIndex;
 import views.html.admin.membership.*;
@@ -443,6 +447,8 @@ public class Admin extends Controller {
             log.visit = (Visit) payload;
         } else if (payload.getClass().equals(Camp.class)) {
             log.camp = (Camp) payload;
+        } else if (payload.getClass().equals(Event.class)) {
+            log.event = (Event) payload;
         }
             log.save();
         }
@@ -482,11 +488,13 @@ public class Admin extends Controller {
         return redirect(routes.Admin.userIndex());
     }
 
+    @Restrict({@Group("CAMP")})
     public static Result campIndex() {
         List<Camp> camps = Camp.find.findList();
         return ok(campIndex.render(camps, getLocalUser(session())));
     }
 
+    @Restrict({@Group("CAMP")})
     public static Result viewCampPage(Long id) {
         Camp camp = (Camp) new Model.Finder(Long.class, Camp.class).byId(id);
         if (null == camp) {
@@ -495,10 +503,12 @@ public class Admin extends Controller {
         return ok(viewCamp.render(camp, getLocalUser(session())));
     }
 
+    @Restrict({@Group("CAMP")})
     public static Result addCampPage() {
         return ok(addCamp.render(getLocalUser(session())));
     }
 
+    @Restrict({@Group("CAMP")})
     public static Result addCamp() {
         Camp camp = Form.form(Camp.class).bindFromRequest().get();
         camp.createDate = new Date();
@@ -509,6 +519,7 @@ public class Admin extends Controller {
         return redirect(routes.Admin.viewCampPage(camp.id));
     }
 
+    @Restrict({@Group("CAMP")})
     public static Result editCampPage(Long id) {
         Camp camp = (Camp) new Model.Finder(Long.class, Camp.class).byId(id);
         if (null == camp) {
@@ -517,6 +528,7 @@ public class Admin extends Controller {
         return ok(editCamp.render(camp, getLocalUser(session())));
     }
 
+    @Restrict({@Group("CAMP")})
     public static Result updateCamp(Long id) {
         Camp camp = (Camp) new Model.Finder(Long.class, Camp.class).byId(id);
         if (null == camp) {
@@ -541,6 +553,7 @@ public class Admin extends Controller {
         return redirect(routes.Admin.viewCampPage(camp.id));
     }
 
+    @Restrict({@Group("CAMP")})
     public static Result campRegistrationPage(Long id) {
         Camp camp = (Camp) new Model.Finder(Long.class, Camp.class).byId(id);
         if (null == camp) {
@@ -549,6 +562,7 @@ public class Admin extends Controller {
         return ok(campRegistration.render(camp, getLocalUser(session())));
     }
 
+    @Restrict({@Group("CAMP")})
     public static Result addCampRegistration(Long id) {
         Camp camp = (Camp) new Model.Finder(Long.class, Camp.class).byId(id);
         if (null == camp) {
@@ -567,6 +581,7 @@ public class Admin extends Controller {
         return redirect(routes.Admin.viewCampPage(id));
     }
 
+    @Restrict({@Group("CAMP")})
     public static Result editCampRegistrationPage(Long id) {
         Registration reg = (Registration) new Model.Finder(Long.class, Registration.class).byId(id);
         if (null == reg) {
@@ -576,6 +591,7 @@ public class Admin extends Controller {
 
     }
 
+    @Restrict({@Group("CAMP")})
     public static Result editCampRegistration(Long id) {
         Registration reg = (Registration) new Model.Finder(Long.class, Registration.class).byId(id);
         if (null == reg) {
@@ -593,6 +609,68 @@ public class Admin extends Controller {
         audit("Edited registration for " + reg.participantName + " to " + reg.camp.title, null, reg.camp);
 
         return redirect(routes.Admin.viewCampPage(reg.camp.id));
+    }
+
+    @Restrict({@Group("EVENTS")})
+    public static Result eventIndex() {
+        Date now = new Date();
+        List<Event> upcomingEvents = Event.find.orderBy("startTime").where().gt("startTime", now).findList();
+        List<Event> pastEvents = Event.find.orderBy("startTime DESC").where().lt("startTime", now).findList();
+        return ok(eventIndex.render(upcomingEvents, pastEvents, getLocalUser(session())));
+    }
+
+    @Restrict({@Group("EVENTS")})
+    public static Result addEventPage() {
+        return ok(addEvent.render(getLocalUser(session())));
+    }
+
+    @Restrict({@Group("EVENTS")})
+    public static Result addEvent() {
+        Event event = Form.form(Event.class).bindFromRequest().get();
+        event.save();
+
+        audit("Added " + event.name + " to the event database", null, event);
+        return redirect(routes.Admin.viewEventPage(event.id));
+    }
+
+    @Restrict({@Group("EVENTS")})
+    public static Result viewEventPage(Long id) {
+        Event event = Event.find.byId(id);
+        if (null == event) {
+            return redirect(routes.Admin.eventIndex()); // not found
+        }
+        return ok(viewEvent.render(event, getLocalUser(session())));
+    }
+
+    @Restrict({@Group("EVENTS")})
+    public static Result editEventPage(Long id) {
+        Event event = Event.find.byId(id);
+        if (null == event) {
+            return redirect(routes.Admin.eventIndex()); // not found
+        }
+        return ok(editEvent.render(event, getLocalUser(session())));
+    }
+
+    @Restrict({@Group("EVENTS")})
+    public static Result editEvent(Long id) {
+        Event event = Event.find.byId(id);
+        if (null == event) {
+            return notFound("Bad event id");
+        };
+
+        Event newEvent = Form.form(Event.class).bindFromRequest().get();
+
+        event.endTime = newEvent.endTime;
+        event.name = newEvent.name;
+        event.notes = newEvent.notes;
+        event.publicVisibility = newEvent.publicVisibility;
+        event.reservePark = newEvent.reservePark;
+        event.startTime = newEvent.startTime;
+        event.save();
+
+        audit("Edited event for " + event.name, null, event);
+
+        return redirect(routes.Admin.viewEventPage(event.id));
     }
 
 }

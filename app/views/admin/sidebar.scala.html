@@ -31,18 +31,34 @@
                 </ul>
 
             </li>
-            <li class="sub-menu">
-                <a @if(activeSection=="camps") { class="active" } href="javascript:;" >
+            @restrict(la(as("CAMP"))) {
+                <li class="sub-menu">
+                    <a @if(activeSection=="camps") { class="active" } href="javascript:;" >
+                        <i class="fa fa-book"></i>
+                        <span>Camps</span>
+                    </a>
+                    <ul class="sub">
+                        <li @if(activePage=="viewCamp") { class="active" }><a href="@routes.Admin.campIndex()">Camp List</a></li>
+                    </ul>
+                    <ul class="sub">
+                        <li @if(activePage=="addCamp") { class="active" }><a href="@routes.Admin.addCampPage()">Add Camp</a></li>
+                    </ul>
+                </li>
+            }
+            @restrict(la(as("EVENTS"))) {
+                <li class="sub-menu">
+                    <a @if(activeSection=="events") { class="active" } href="javascript:;" >
                     <i class="fa fa-book"></i>
-                    <span>Camps</span>
-                </a>
-                <ul class="sub">
-                    <li @if(activePage=="viewCamp") { class="active" }><a href="@routes.Admin.campIndex()">Camp List</a></li>
-                </ul>
-                <ul class="sub">
-                    <li @if(activePage=="addCamp") { class="active" }><a href="@routes.Admin.addCampPage()">Add Camp</a></li>
-                </ul>
-            </li>
+                    <span>Events</span>
+                    </a>
+                    <ul class="sub">
+                        <li @if(activePage=="viewEvent") { class="active" }><a href="@routes.Admin.eventIndex()">Event List</a></li>
+                    </ul>
+                    <ul class="sub">
+                        <li @if(activePage=="addEvent") { class="active" }><a href="@routes.Admin.addEventPage()">Add Event</a></li>
+                    </ul>
+                </li>
+            }
             @restrict(la(as("BLOG"))) {
                 <li class="sub-menu">
                     <a @if(activeSection=="news") { class="active" } href="javascript:;" >
