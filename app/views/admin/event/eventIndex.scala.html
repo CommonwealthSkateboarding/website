@@ -15,10 +15,11 @@
                         <th>Date</th>
                         <th>Start Time</th>
                         <th>End Time</th>
-                        <th>Public Visibility</th>
-                        <th>Entire Park Reserved</th>
+                        <th>Public</th>
+                        <th>Park Reserved</th>
                         <th>View</th>
                         <th>Edit</th>
+                        <th>Archive</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -32,6 +33,7 @@
                             <td>@event.reservePark</td>
                             <td><a href="@routes.Admin.viewEventPage(event.id)" class="btn btn-theme btn-block">View</a></td>
                             <td><a href="@routes.Admin.editEventPage(event.id)" class="btn btn-theme btn-block">Edit</a></td>
+                            <td><a href="@routes.Admin.archiveEvent(event.id)" class="btn btn-theme btn-block">Archive</a></td>
                         </tr>
                     }
                     </tbody>
@@ -50,10 +52,11 @@
                         <th>Date</th>
                         <th>Start Time</th>
                         <th>End Time</th>
-                        <th>Public Visibility</th>
-                        <th>Entire Park Reserved</th>
+                        <th>Public</th>
+                        <th>Park Reserved</th>
                         <th>View</th>
                         <th>Edit</th>
+                        <th>Archive</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -67,6 +70,7 @@
                         <td>@event.reservePark</td>
                         <td><a href="@routes.Admin.viewEventPage(event.id)" class="btn btn-theme btn-block">View</a></td>
                         <td><a href="@routes.Admin.editEventPage(event.id)" class="btn btn-theme btn-block">Edit</a></td>
+                        <td><a href="@routes.Admin.archiveEvent(event.id)" class="btn btn-theme btn-block">Archive</a></td>
                     </tr>
                     }
                     </tbody>

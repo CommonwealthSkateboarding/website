@@ -21,6 +21,10 @@
                 <td>@event.reservePark</td>
             </tr>
             <tr>
+                <td>Archived/Hidden</td>
+                <td>@event.archived</td>
+            </tr>
+            <tr>
                 <td>Date</td>
                 <td>@if(null != event.startTime) { @event.startTime.format("MM/dd/yyyy") }</td>
             </tr>

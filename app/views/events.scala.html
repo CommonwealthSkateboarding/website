@@ -1,5 +1,14 @@
-@()
+@(events: List[models.skatepark.Event])
 
 @main() {
-Events
+<ul>
+    @if(events.size() == 0) {
+        <i>No public events are currently scheduled.</i>
+    }
+    @for(event <- events) {
+        <li>@event.startTime.format("MM/dd/yyyy"): @event.name (@event.startTime.format("h:mm a")-@event.endTime.format("h:mm a"))<br/>
+            @Html(event.notes)
+        </li>
+    }
+</ul>
 }

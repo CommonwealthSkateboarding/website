@@ -8,6 +8,7 @@ create table event (
   notes                     text,
   start_time                datetime NOT NULL,
   end_time                  datetime NOT NULL,
+  archived                  tinyint(1) NOT NULL DEFAULT 0,
   constraint pk_event primary key (id))
 ;
 
@@ -25,7 +26,7 @@ drop table event;
 
 alter table audit_record drop column event_id;
 
-DELETE FROM security_role WHERE id=7;
+DELETE FROM security_role WHERE id=7 or id=8;
 
 DELETE FROM users_security_role WHERE security_role_id=7 OR security_role_id=8;
 

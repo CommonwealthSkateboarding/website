@@ -614,8 +614,8 @@ public class Admin extends Controller {
     @Restrict({@Group("EVENTS")})
     public static Result eventIndex() {
         Date now = new Date();
-        List<Event> upcomingEvents = Event.find.orderBy("startTime").where().gt("startTime", now).findList();
-        List<Event> pastEvents = Event.find.orderBy("startTime DESC").where().lt("startTime", now).findList();
+        List<Event> upcomingEvents = Event.find.orderBy("startTime").where().gt("endTime", now).where().eq("archived", false).findList();
+        List<Event> pastEvents = Event.find.orderBy("startTime DESC").where().lt("endTime", now).where().eq("archived", false).findList();
         return ok(eventIndex.render(upcomingEvents, pastEvents, getLocalUser(session())));
     }
 
@@ -660,6 +660,7 @@ public class Admin extends Controller {
 
         Event newEvent = Form.form(Event.class).bindFromRequest().get();
 
+        event.archived = newEvent.archived;
         event.endTime = newEvent.endTime;
         event.name = newEvent.name;
         event.notes = newEvent.notes;
@@ -668,9 +669,23 @@ public class Admin extends Controller {
         event.startTime = newEvent.startTime;
         event.save();
 
-        audit("Edited event for " + event.name, null, event);
+        audit("Edited event " + event.name, null, event);
 
         return redirect(routes.Admin.viewEventPage(event.id));
+    }
+
+    @Restrict({@Group("EVENTS")})
+    public static Result archiveEvent(Long id) {
+        Event event = Event.find.byId(id);
+        if (null == event) {
+            return redirect(routes.Admin.eventIndex()); // not found
+        }
+        event.archived = true;
+        event.save();
+
+        audit("Archived event " + event.name, null, event);
+
+        return redirect(routes.Admin.eventIndex());
     }
 
 }

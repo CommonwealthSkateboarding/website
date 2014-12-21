@@ -18,9 +18,10 @@
                 <input type="text" name="startTime" id="startTime" value="@event.startTime.format("yyyy-MM-dd h:mm a")" hidden/>
                 <input type="text" name="endTime" id="endTime" value="@event.endTime.format("yyyy-MM-dd h:mm a")" hidden/>
 
-                <label>Publicly Visible:</label><br/><input type="checkbox" name="publicVisibility" @if(event.publicVisibility){checked} class="form-control" /><br/>
+                <label>Public Visibility:</label><br/><input type="checkbox" name="publicVisibility" @if(event.publicVisibility){checked} class="form-control" /><br/>
                 <label>Reserve Entire Park:</label><br/><input type="checkbox" name="reservePark" @if(event.reservePark){checked} class="form-control" /><br/>
-                <label>Notes:</label><br/><textarea name="notes" id="notes">@event.notes</textarea><br/>
+                <label>Archived/Hidden:</label><br/><input type="checkbox" name="archived" @if(event.archived){checked} class="form-control" /><br/>
+                <label>Public Description/Notes:</label><br/><textarea name="notes" id="notes">@event.notes</textarea><br/>
                 <input type="submit" id="submit" value="Edit Event" class="btn btn-theme"/>
             </form>
         </div>

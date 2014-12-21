@@ -32,5 +32,7 @@ public class Event extends Model {
     @Formats.DateTime(pattern = "yyyy-MM-dd h:mm a")
     public Date endTime;
 
+    public boolean archived;
+
     public static final Finder<Long, Event> find = new Finder(Long.class, Event.class);
 }

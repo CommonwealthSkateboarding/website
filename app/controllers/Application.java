@@ -3,6 +3,7 @@ package controllers;
 import com.avaje.ebean.Expr;
 import models.site.NewsItem;
 import models.skatepark.Camp;
+import models.skatepark.Event;
 import models.skatepark.Registration;
 import org.apache.commons.lang3.time.DateUtils;
 import play.data.Form;
@@ -73,8 +74,11 @@ public class Application extends Controller {
         }
         return ok(campDetail.render(camp));
     }
-    public static Result events(){
-        return ok(events.render());
+    public static Result events() {
+        Date now = new Date();
+        List<Event> publicEvents = Event.find.orderBy("startTime").where().gt("endTime", now)
+                .where().eq("archived", false).where().eq("public_visibility", true).findList();
+        return ok(events.render(publicEvents));
     }
     public static Result about(){
         return ok(about.render());
