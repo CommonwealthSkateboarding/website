@@ -7,7 +7,7 @@
         <a href="@routes.Admin.editEventPage(event.id)" class="btn btn-theme pull-right">Edit</a>
         <h4><i class="fa fa-angle-right"></i> Event Details</h4>
         @for(warn <- event.findConflicts()){
-            <a href="@routes.Admin.viewEventPage(warn.id)" class="btn btn-danger btn-block"><i class="fa fa-warning"></i> @warn.name is also schedule at the same time!</a>
+            <a href="@routes.Admin.viewEventPage(warn.id)" class="btn btn-danger btn-block"><i class="fa fa-warning"></i> @warn.name is scheduled at the same time!</a>
         }
         <table class="table table-bordered">
             <tr>
