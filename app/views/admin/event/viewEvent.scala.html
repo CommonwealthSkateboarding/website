@@ -6,12 +6,14 @@
     <div class="showback">
         <a href="@routes.Admin.editEventPage(event.id)" class="btn btn-theme pull-right">Edit</a>
         <h4><i class="fa fa-angle-right"></i> Event Details</h4>
+        @for(warn <- event.findConflicts()){
+            <a href="@routes.Admin.viewEventPage(warn.id)" class="btn btn-danger btn-block"><i class="fa fa-warning"></i> @warn.name is also schedule at the same time!</a>
+        }
         <table class="table table-bordered">
             <tr>
                 <td>Name</td>
                 <td>@event.name</td>
             </tr>
-
             <tr>
                 <td>Public Visibility</td>
                 <td>@event.publicVisibility</td>
@@ -26,7 +28,7 @@
             </tr>
             <tr>
                 <td>Date</td>
-                <td>@if(null != event.startTime) { @event.startTime.format("MM/dd/yyyy") }</td>
+                <td>@if(null != event.startTime) { @event.startTime.format("EEEE, MM/dd/yyyy") }</td>
             </tr>
             <tr>
                 <td>Start Time</td>

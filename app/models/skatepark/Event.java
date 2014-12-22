@@ -1,12 +1,15 @@
 package models.skatepark;
 
+import com.avaje.ebean.Expr;
 import play.data.format.Formats;
 import play.db.ebean.Model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by cdelargy on 12/20/14.
@@ -35,4 +38,14 @@ public class Event extends Model {
     public boolean archived;
 
     public static final Finder<Long, Event> find = new Finder(Long.class, Event.class);
+
+    public List<Event> findConflicts() {
+        List<Event> results = new ArrayList<>();
+        if(this.reservePark) {
+            results = this.find.where()
+                    .and(Expr.gt("endTime", this.startTime), Expr.lt("startTime", this.endTime))
+                    .ne("id", this.id).eq("archived", false).findList();
+        }
+        return results;
+    }
 }
