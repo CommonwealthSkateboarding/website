@@ -8,6 +8,6 @@ import java.text.DecimalFormat;
 public class Formatter {
     public static String prettyDollars(Double dbl) {
         DecimalFormat df = new DecimalFormat("0.00");
-        return "$" + df.format((null != dbl)?dbl:0.00);
+        return ((dbl < 0)?"-$":"$") + df.format((null != dbl)?Math.abs(dbl):0.00);
     }
 }
