@@ -1,0 +1,36 @@
+@(members: List[models.skatepark.Membership], localUser: models.security.User = null)
+@import admin.wrapper
+@wrapper(localUser, "member", "negativeBalance") {
+
+<h3><i class="fa fa-angle-right"></i> Membership Database</h3>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="showback">
+            <h4><i class="fa fa-angle-right"></i> Negative Balances</h4>
+            <section id="unseen">
+                <table class="table table-bordered table-striped table-condensed">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Balance</th>
+                        <th>View</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @for(index <- 0 until members.size) {
+                        @defining(members(index)) { member =>
+                            <tr>
+                                <td>@member.name</td>
+                                <td>@utils.Formatter.prettyDollars(member.credit)</td>
+                                <td><a href="@routes.Admin.viewMemberPage(member.id)" class="btn btn-theme btn-block">View</a></td>
+                            </tr>
+                        }
+                    }
+                    </tbody>
+                </table>
+
+            </section>
+        </div>
+    </div>
+</div>
+}

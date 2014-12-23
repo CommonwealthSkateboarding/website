@@ -29,6 +29,10 @@
                 <ul class="sub">
                     <li @if(activePage=="unlimitedPassHolders") { class="active" }><a href="@routes.Admin.unlimitedPassHoldersPage()">Unlimited Pass Holders</a></li>
                 </ul>
+                <ul class="sub">
+                    <li @if(activePage=="negativeBalance") { class="active" }><a href="@routes.Admin.negativeBalancePage()">Negative Balances</a></li>
+                </ul>
+
 
             </li>
             @restrict(la(as("CAMP"))) {

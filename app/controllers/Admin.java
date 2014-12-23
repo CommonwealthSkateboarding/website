@@ -129,6 +129,12 @@ public class Admin extends Controller {
         return ok(memberIndex.render(list, page, hasNextPage, getLocalUser(session())));
     }
 
+    public static Result negativeBalancePage() {
+        List<Membership> list = Membership.find.orderBy("credit ASC").where().lt("credit", 0).findList();
+
+        return ok(negativeBalance.render(list, getLocalUser(session())));
+    }
+
     public static Result unlimitedPassHoldersPage() {
         Date now = new Date();
         Date lastMonth = DateUtils.addMonths(new Date(), -1);
