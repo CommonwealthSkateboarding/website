@@ -137,7 +137,7 @@ public class Admin extends Controller {
 
     public static Result unlimitedPassHoldersPage() {
         Date now = new Date();
-        Date lastMonth = DateUtils.addMonths(new Date(), -1);
+        Date lastMonth = DateUtils.addMonths(new Date(), -3);
         lastMonth = DateUtils.ceiling(lastMonth, Calendar.DATE);
         List<UnlimitedPass> list = UnlimitedPass.find.where().gt("expires", lastMonth)
                 .where().lt("starts", now).orderBy("expires").findList();
