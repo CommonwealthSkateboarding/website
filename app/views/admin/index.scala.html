@@ -1,14 +1,25 @@
-@(visits: List[models.skatepark.Visit], localUser: models.security.User = null)
+@(visits: List[models.skatepark.Visit], events: List[models.skatepark.Event], localUser: models.security.User = null)
 @import admin.wrapper
 @import utils.ChartUtil._
 @wrapper(localUser, "dashboard", "index") {
 
 <h3><i class="fa fa-angle-right"></i> Dashboard</h3>
-
 <div class="row mt">
     <div class="col-lg-12">
-        <div class="form-panel">
-            <img src="http://i.imgur.com/49i12Ug.png" class="img-responsive">
+        <div class="content-panel">
+            <h4><i class="fa fa-angle-right"></i> Events This Week</h4>
+            <div class="panel-body">
+                @if(events.size == 0) {
+                    <i>No events in the upcoming week</i>
+                }
+                @for(event <- events) {
+                    <p>
+                        <b>@event.name</b> @if(event.reservePark) {<span class="label label-danger">Park Reserved</span>}<br/>
+                        @if(null != event.startTime) { @event.startTime.format("EEEE, MM/dd/yyyy") }
+                        (@if(null != event.startTime){@event.startTime.format("h:mm a") } - @if(null != event.endTime) {@event.endTime.format("h:mm a")})
+                    </p>
+                }
+            </div>
         </div>
     </div>
 </div>

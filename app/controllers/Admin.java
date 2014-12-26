@@ -52,7 +52,14 @@ public class Admin extends Controller {
         Date lastTwoWeeks = DateUtils.addDays(new Date(), -14);
         lastTwoWeeks = DateUtils.ceiling(lastTwoWeeks, Calendar.DATE);
         List<Visit> visits = Visit.find.where().eq("refunded", false).where().gt("time", lastTwoWeeks).findList();
-        return ok(index.render(visits, getLocalUser(session())));
+
+        Date thisMorning = DateUtils.truncate(new Date(), Calendar.DATE);
+        Date nextWeek = DateUtils.ceiling(DateUtils.addDays(new Date(), 7), Calendar.DATE);
+
+        List<Event> events = Event.find.where().gt("startTime", thisMorning).where().lt("endTime", nextWeek)
+                .where().eq("archived", false).orderBy("startTime").findList();
+
+        return ok(index.render(visits, events, getLocalUser(session())));
     }
 
     @Restrict({@Group("BLOG")})
