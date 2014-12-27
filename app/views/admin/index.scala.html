@@ -15,7 +15,19 @@
                 @for(event <- events) {
                     <div class="panel panel-info">
                         <div class="panel-heading">
-                            @if(event.reservePark) {<span class="label label-danger pull-right">Park Reserved</span>}
+                            <span class="pull-right">
+                                @if(event.publicVisibility) {
+                                <span class="label label-warning">Public Event</span>
+                                } else {
+                                <span class="label label-info">Private Event</span>
+                                }
+                                &nbsp;
+                                @if(event.reservePark) {
+                                    <span class="label label-danger">Park Reserved</span>
+                                } else {
+                                    <span class="label label-info">Park Unreserved</span>
+                                }
+                            </span>
                             <b>@event.name</b> on
                             @if(null != event.startTime) { @event.startTime.format("EEEE, MM/dd/yyyy") }
                             (@if(null != event.startTime){@event.startTime.format("h:mm a") } - @if(null != event.endTime) {@event.endTime.format("h:mm a")})<br/>
