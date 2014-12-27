@@ -11,6 +11,7 @@
                 <label>Title:</label><br/><input type="text" name="title" value="@news.title" class="form-control"/><br/>
                 <label>Content:</label><br/><textarea name="content" id="newContent" class="form-control">@news.content</textarea><br/>
                 <label>Extended Content:</label><br/><textarea name="extendedContent" id="newExtendedContent" class="form-control">@news.extendedContent</textarea><br/>
+                <label>Front Page:</label><br/><input type="checkbox" name="frontPage" @if(news.frontPage){checked} class="form-control"/><br/>
                 <label>Sticky:</label><br/><input type="checkbox" name="sticky" @if(news.sticky){checked} class="form-control"/><br/>
                 <label>Expires:</label><br/><input type="checkbox" name="expires" @if(news.expires){checked} class="form-control"/><br/>
                 <label>Expiration Date:</label><br/><input name="expireDate" id="datepicker" value="@if(null != news.expireDate){@news.expireDate.format("MM/dd/yyyy")}" class="form-control"/><br/>

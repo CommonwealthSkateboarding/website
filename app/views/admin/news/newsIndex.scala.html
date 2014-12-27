@@ -25,6 +25,7 @@
                     <tr>
                         <th>Title</th>
                         <th>Create Date</th>
+                        <th>Front Page</th>
                         <th>Expires</th>
                         <th>Edit</th>
                     </tr>
@@ -35,11 +36,12 @@
                         <tr>
                             <td>@newsItem.title</td>
                             <td>@if(null != newsItem.createDate) { @newsItem.createDate.format("MMMM dd, yyyy") }</td>
+                            <td>@if(newsItem.frontPage) { <i class="fa fa-2x fa-check-circle"></i> }</td>
                             <td>@if(newsItem.expires){<i class="fa fa-clock-o"></i>} @if(null != newsItem.expireDate) { @newsItem.expireDate.format("MMMM dd, yyyy") }</td>
                             <td><a href="/admin/news/@newsItem.id/edit" class="btn btn-theme">Edit</a></td>
                         </tr>
                         <tr>
-                            <td colspan="4">@Html(news(index).content)</td>
+                            <td colspan="5">@Html(news(index).content)</td>
                         </tr>
                         }
                     }

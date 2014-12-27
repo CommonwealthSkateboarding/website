@@ -1,0 +1,41 @@
+@(blogs: List[models.site.NewsItem], page: Long, hasNextPage: Boolean)
+
+@main() {
+
+<section id="blog">
+    @for(blog <- blogs) {
+        <article>
+            <header>
+                @if(blog.extendedContent) {
+                <h1><a href="@routes.Application.showNews(blog.id)" class="more">@blog.title</a></h1>
+                } else {
+                    <h1>@blog.title</h1>
+                }
+                <div class="meta">
+                    <div class="date">
+                        <time>@blog.createDate.format("MMMM dd, yyyy")</time>
+                    </div>
+                    <div class="tags">
+                        <a href="#">News</a> / <a href="#">Site</a>
+                    </div>
+                </div>
+            </header>
+            <main>
+                @Html(blog.content)
+
+                @Html(blog.extendedContent)
+            </main>
+            <footer>
+            </footer>
+        </article>
+    }
+
+    @if(page >= 1) {
+    <a href="@routes.Application.blog(page-1)">Previous Page</a>
+    }
+    @if(hasNextPage) {
+        <a href="@routes.Application.blog(page+1)">Next Page</a>
+    }
+</section> <!-- /#blog -->
+
+}

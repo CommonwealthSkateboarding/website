@@ -14,6 +14,8 @@ create table event (
 
 alter table audit_record add event_id bigint;
 
+alter table news_item add front_page tinyint(1) NOT NULL DEFAULT 0;
+
 INSERT INTO security_role (id, role_name)
 VALUES (7,"EVENTS"),
        (8,"CAMP");
@@ -25,6 +27,8 @@ SET FOREIGN_KEY_CHECKS=0;
 drop table event;
 
 alter table audit_record drop column event_id;
+
+alter table news_item drop column front_page;
 
 DELETE FROM security_role WHERE id=7 or id=8;
 

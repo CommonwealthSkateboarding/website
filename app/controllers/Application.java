@@ -44,7 +44,7 @@ public class Application extends Controller {
     private static List<NewsItem> getNewsItems(Long page) {
         Date now = new Date();
         return new Model.Finder(Long.class, NewsItem.class)
-                .where().or(Expr.eq("expires", false), Expr.gt("expireDate", now))
+                .where().or(Expr.eq("expires", false), Expr.gt("expireDate", now)).where().eq("frontPage", true)
                 .setMaxRows(PER_PAGE+1).setFirstRow(page.intValue()*PER_PAGE).orderBy(STICKY_REVERSE_DATE_ORDER).findList();
     }
 
@@ -57,9 +57,22 @@ public class Application extends Controller {
         return ok(newsItem.render(news));
     }
 
+    public static Result blog(Long page) {
+        boolean hasNextPage = false;
+        Date now = new Date();
+        List<NewsItem> news = NewsItem.find.where().or(Expr.eq("expires", false), Expr.gt("expireDate", now))
+                .setMaxRows(PER_PAGE+1).setFirstRow(page.intValue()*PER_PAGE).orderBy("createDate DESC").findList();
+        if (news.size() == (PER_PAGE + 1)) { // if there is another page after
+            news.remove(PER_PAGE);
+            hasNextPage = true;
+        }
+        return ok(blog.render(news, page, hasNextPage));
+    }
+
     public static Result shop(){
         return ok(shop.render());
     }
+
     public static Result camp(){
         Date tomorrow = new Date();
         tomorrow = DateUtils.ceiling(tomorrow, Calendar.DATE);

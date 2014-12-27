@@ -36,4 +36,8 @@ public class NewsItem extends Model {
 
     public boolean sticky;
 
+    public boolean frontPage;
+
+    public static final Finder<Long, NewsItem> find = new Finder<>(Long.class, NewsItem.class);
+
 }

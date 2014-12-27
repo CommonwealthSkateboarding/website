@@ -1,19 +1,19 @@
 @(news: List[models.site.NewsItem], page: Long, hasNextPage: Boolean)
 
-@main() {
+@main("home", true) {
 
 <section id="blog">
-    @for(index <- 0 until news.size) {
+    @for(item <- news) {
         <article>
             <header>
-                @if(news(index).extendedContent) {
-                <h1><a href="/news/@news(index).id" class="more">@news(index).title</a></h1>
+                @if(item.extendedContent) {
+                <h1><a href="@routes.Application.showNews(item.id)" class="more">@item.title</a></h1>
                 } else {
-                    <h1>@news(index).title</h1>
+                    <h1>@item.title</h1>
                 }
                 <div class="meta">
                     <div class="date">
-                        <time>@news(index).createDate.format("MMMM dd, yyyy")</time>
+                        <time>@item.createDate.format("MMMM dd, yyyy")</time>
                     </div>
                     <div class="tags">
                         <a href="#">News</a> / <a href="#">Site</a>
@@ -21,22 +21,21 @@
                 </div>
             </header>
             <main>
-                @Html(news(index).content)
+                @Html(item.content)
             </main>
             <footer>
-                @if(news(index).extendedContent) {
-                <a href="/news/@news(index).id" class="more">Read More</a>
+                @if(item.extendedContent) {
+                    <a href="@routes.Application.showNews(item.id)" class="more">Read More</a>
                 }
-                <!--<a href="/news/@news(index).id#comments" class="comments">Comments</a>-->
             </footer>
         </article>
     }
 
     @if(page >= 1) {
-    <a href="/page/@(page-1)">Previous Page</a>
+    <a href="@routes.Application.index(page-1)">Previous Page</a>
     }
     @if(hasNextPage) {
-        <a href="/page/@(page+1)">Next Page</a>
+        <a href="@routes.Application.index(page+1)">Next Page</a>
     }
 </section> <!-- /#blog -->
 

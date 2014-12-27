@@ -116,6 +116,7 @@ public class Admin extends Controller {
         news.extendedContent = newNews.extendedContent;
         news.title = newNews.title;
         news.sticky = newNews.sticky;
+        news.frontPage = newNews.frontPage;
 
         news.save();
 
