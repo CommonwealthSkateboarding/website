@@ -13,11 +13,18 @@
                     <i>No events in the upcoming week</i>
                 }
                 @for(event <- events) {
-                    <p>
-                        <b>@event.name</b> @if(event.reservePark) {<span class="label label-danger">Park Reserved</span>}<br/>
-                        @if(null != event.startTime) { @event.startTime.format("EEEE, MM/dd/yyyy") }
-                        (@if(null != event.startTime){@event.startTime.format("h:mm a") } - @if(null != event.endTime) {@event.endTime.format("h:mm a")})
-                    </p>
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            @if(event.reservePark) {<span class="label label-danger pull-right">Park Reserved</span>}
+                            <b>@event.name</b> on
+                            @if(null != event.startTime) { @event.startTime.format("EEEE, MM/dd/yyyy") }
+                            (@if(null != event.startTime){@event.startTime.format("h:mm a") } - @if(null != event.endTime) {@event.endTime.format("h:mm a")})<br/>
+                        </div>
+                        <div class="panel-body">
+                            @Html(event.notes)
+                            @if(event.notes.size == 0) { <i>No additional details</i> }
+                        </div>
+                    </div>
                 }
             </div>
         </div>
