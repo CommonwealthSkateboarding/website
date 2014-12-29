@@ -36,15 +36,23 @@
                             (@if(null != event.startTime){@event.startTime.format("h:mm a") } - @if(null != event.endTime) {@event.endTime.format("h:mm a")})<br/>
                         </div>
                         <div class="panel-body">
-                            @Html(event.notes)
-                            @if(event.notes.size == 0) { <i>No public details</i> }
+                            <p>
+                                @Html(event.notes)
+                                @if(event.notes.size == 0) { <i>No public details</i> }
+                            </p>
                             @restrict(la(as("EVENTS"))) {
-                                <br/><br/>
-                                @Html(event.privateNotes)
-                                @if(event.privateNotes.size == 0) { <i>No private details</i> }
-                                <br/><br/><a href="@routes.Admin.viewEventPage(event.id)">View Event</a>
+                                <p>
+                                    @Html(event.privateNotes)
+                                    @if(event.privateNotes.size == 0) { <i>No private details</i> }
+                                </p>
                             }
                         </div>
+                        @restrict(la(as("EVENTS"))) {
+                            <div class="panel-footer">
+                                <a href="@routes.Admin.viewEventPage(event.id)" class="btn btn-theme btn-sm">View Event</a>
+                                <a href="@routes.Admin.editEventPage(event.id)" class="btn btn-theme btn-sm">Edit Event</a>
+                            </div>
+                        }
                     </div>
                 }
             </div>
