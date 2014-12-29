@@ -39,8 +39,12 @@
                 <td>@if(null != event.endTime) { @event.endTime.format("h:mm a") }</td>
             </tr>
             <tr>
-                <td>Notes</td>
+                <td>Public Notes</td>
                 <td>@Html(event.notes)</td>
+            </tr>
+            <tr>
+                <td>Private Notes</td>
+                <td>@Html(event.privateNotes)</td>
             </tr>
         </table>
     </div>

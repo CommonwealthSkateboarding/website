@@ -29,6 +29,9 @@ public class Event extends Model {
     @Column(columnDefinition = "text")
     public String notes;
 
+    @Column(columnDefinition = "text")
+    public String privateNotes;
+
     @Formats.DateTime(pattern = "yyyy-MM-dd h:mm a")
     public Date startTime;
 

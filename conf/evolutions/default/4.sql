@@ -6,6 +6,7 @@ create table event (
   public_visibility         tinyint(1) NOT NULL DEFAULT 0,
   reserve_park              tinyint(1) NOT NULL DEFAULT 0,
   notes                     text,
+  private_notes             text,
   start_time                datetime NOT NULL,
   end_time                  datetime NOT NULL,
   archived                  tinyint(1) NOT NULL DEFAULT 0,

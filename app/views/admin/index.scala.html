@@ -1,6 +1,9 @@
 @(visits: List[models.skatepark.Visit], events: List[models.skatepark.Event], localUser: models.security.User = null)
 @import admin.wrapper
 @import utils.ChartUtil._
+@import be.objectify.deadbolt.java.views.html._
+@import be.objectify.deadbolt.core.utils.TemplateUtils._
+@import com.feth.play.module.pa.views.html._
 @wrapper(localUser, "dashboard", "index") {
 
 <h3><i class="fa fa-angle-right"></i> Dashboard</h3>
@@ -34,7 +37,13 @@
                         </div>
                         <div class="panel-body">
                             @Html(event.notes)
-                            @if(event.notes.size == 0) { <i>No additional details</i> }
+                            @if(event.notes.size == 0) { <i>No public details</i> }
+                            @restrict(la(as("EVENTS"))) {
+                                <br/><br/>
+                                @Html(event.privateNotes)
+                                @if(event.privateNotes.size == 0) { <i>No private details</i> }
+                                <br/><br/><a href="@routes.Admin.viewEventPage(event.id)">View Event</a>
+                            }
                         </div>
                     </div>
                 }

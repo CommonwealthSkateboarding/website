@@ -21,7 +21,8 @@
                 <label>Public Visibility:</label><br/><input type="checkbox" name="publicVisibility" @if(event.publicVisibility){checked} class="form-control" /><br/>
                 <label>Reserve Entire Park:</label><br/><input type="checkbox" name="reservePark" @if(event.reservePark){checked} class="form-control" /><br/>
                 <label>Archived/Hidden:</label><br/><input type="checkbox" name="archived" @if(event.archived){checked} class="form-control" /><br/>
-                <label>Public Description/Notes:</label><br/><textarea name="notes" id="notes">@event.notes</textarea><br/>
+                <label>Public Notes:</label><br/><textarea name="notes" id="notes">@event.notes</textarea><br/>
+                <label>Private Notes:</label><br/><textarea name="privateNotes" id="privateNotes">@event.privateNotes</textarea><br/>
                 <input type="submit" id="submit" value="Edit Event" class="btn btn-theme btn-block"/>
             </form>
         </div>
@@ -30,6 +31,7 @@
     <script>
         $(document).ready(function(){
             $("#notes").cleditor({});
+            $("#privateNotes").cleditor({});
             $('#start').timepicker({
                 'timeFormat': 'h:i A',
                 'minTime': '8:00am',

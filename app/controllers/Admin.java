@@ -681,6 +681,7 @@ public class Admin extends Controller {
         event.publicVisibility = newEvent.publicVisibility;
         event.reservePark = newEvent.reservePark;
         event.startTime = newEvent.startTime;
+        event.privateNotes = newEvent.privateNotes;
         event.save();
 
         audit("Edited event " + event.name, null, event);
