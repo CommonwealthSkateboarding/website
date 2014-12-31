@@ -145,21 +145,27 @@ public class Admin extends Controller {
 
     public static Result unlimitedPassHoldersPage() {
         Date now = new Date();
-        Date lastMonth = DateUtils.addMonths(new Date(), -3);
-        lastMonth = DateUtils.ceiling(lastMonth, Calendar.DATE);
-        List<UnlimitedPass> list = UnlimitedPass.find.where().gt("expires", lastMonth)
+        Date threeMonthsAgo = DateUtils.addMonths(new Date(), -3);
+        threeMonthsAgo = DateUtils.ceiling(threeMonthsAgo, Calendar.DATE);
+        List<UnlimitedPass> currentList = UnlimitedPass.find.where().gt("expires", now)
                 .where().lt("starts", now).orderBy("expires").findList();
 
-        Map<Membership, UnlimitedPass> current = new HashMap<Membership, UnlimitedPass>();
-        Map<Membership, UnlimitedPass> expired = new HashMap<Membership, UnlimitedPass>();
+        List<UnlimitedPass> expiredList = UnlimitedPass.find.where().gt("expires", threeMonthsAgo)
+                .where().lt("expires", now).orderBy("expires").findList();
 
-        for (UnlimitedPass pass : list) {
-            if (pass.isValid()) {
+        Map<Membership, UnlimitedPass> current = new HashMap<>();
+        Map<Membership, UnlimitedPass> expired = new HashMap<>();
+
+        for (UnlimitedPass pass : currentList) {
+            // Override only with later expiry membership
+            if (current.containsKey(pass.membership) && current.get(pass.membership).expires.before(pass.expires)) {
                 current.put(pass.membership, pass);
-                if (expired.containsKey(pass.membership)) {
-                    expired.remove(pass.membership);
-                }
-            } else if (!expired.containsKey(pass.membership) && !current.containsKey(pass.membership)) {
+            } else if (!current.containsKey(pass.membership)) {
+                current.put(pass.membership, pass);
+            }
+        }
+        for (UnlimitedPass pass : expiredList) {
+            if (!expired.containsKey(pass.membership) && !current.containsKey(pass.membership)) {
                 expired.put(pass.membership, pass);
             } else if (expired.containsKey(pass.membership) && expired.get(pass.membership).expires.before(pass.expires)) {
                 expired.put(pass.membership, pass);
