@@ -1,0 +1,97 @@
+*, *:after, *:before { 
+	-moz-box-sizing: border-box; 
+	-webkit-box-sizing: border-box; 
+	box-sizing: border-box;
+}
+
+html {
+	// http://snook.ca/archives/html_and_css/font-size-with-rem
+	font-size: 62.5%;
+	-webkit-text-size-adjust: 100%;
+}
+
+html, body {
+	height: 100%;
+}
+
+body {
+	font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 1.4rem;
+	font-weight: normal;
+	-webkit-font-smoothing: antialiased;
+	-moz-font-feature-settings: "onum" 1, "kern" 1, "liga" 1;
+	-moz-font-feature-settings: "onum=1, kern=1, liga=1";
+	-ms-font-feature-settings: "onum" 1, "kern" 1, "liga" 1;
+	-o-font-feature-settings: "onum" 1, "kern" 1, "liga" 1;
+	-webkit-font-feature-settings: "onum" 1, "kern" 1, "liga" 1;
+	font-feature-settings: "onum" 1, "kern" 1, "liga" 1;
+	text-rendering: optimizeLegibility;
+}
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, input, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	vertical-align: baseline;
+	outline: none;
+}
+
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+
+ul, ol, menu, dir, h1, h2, h3, h4, h5, h6, p, blockquote, b, strong, hr {
+	-webkit-margin-before: 0;
+	-webkit-margin-after: 0;
+	-webkit-margin-start: 0;
+	-webkit-margin-end: 0;
+	-webkit-padding-start: 0;
+	-moz-padding-start: 0;
+	margin: 0;
+	border-style: none;
+}
+
+ul { list-style: none; }
+
+.fade { transition: all .1s ease-in; }
+a { text-decoration: none; @extend .fade; }
+
+.left { float: left; }
+.right { float: right; }
+.clear { clear: both; }
+
+.hide { display: none; }
+
+::selection {
+	background: fade_out($gold, .75);
+	color: fade_out($white, .25);
+}
+
+::-webkit-scrollbar {
+	-webkit-appearance: none;
+	position: absolute;
+	width: 10px;
+}
+
+::-webkit-scrollbar-track {
+	border: none;
+	background: fade_out($gray, .85);
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: fade_out($gold, .75);
+	border-radius: 2px;
+}

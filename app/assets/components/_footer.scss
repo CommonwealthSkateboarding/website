@@ -1,0 +1,57 @@
+body {
+	> footer {
+		display: flex;
+
+		background: linear-gradient(top, $black, lighten($black, 2));
+		background-size: 500%;
+		color: $gray;
+		font-size: 1.1rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		transition: background-size .3s;
+
+		margin-top: 100px;
+		padding: $small-margin*4;
+
+		&:hover {
+			background-size: 100%;
+			.info, nav {
+				opacity: 1;
+			}
+		}
+
+		.info, nav { 
+			opacity: .5;
+			transition: opacity 1s;
+			width: 50%; 
+		}
+
+		.info {
+
+		}
+
+		nav {
+			display: flex;
+			ul {
+				margin-right: 10px;
+				width: calc(100%/3 - 10px);
+
+				li {
+					.h5 { padding: $small-margin/2; }
+					a {
+						border-bottom: 1px solid fade_out($gold, .85);
+						color: $white;
+						display: block;
+						padding: $small-margin/2;
+
+						&:hover {
+							border-width: 3px;
+							color: $white;
+							//padding: $small-margin $small-margin/2;
+						}
+					}
+				}
+			}
+		}
+	}
+}

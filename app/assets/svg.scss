@@ -1,0 +1,14 @@
+$black: #131313;
+$gray: #858585;
+$gold: #9a8b60;
+$white: #FFF;
+$blue: #0066ae;
+
+// $colors: ($white $black $gray $gold);
+// $classes: (white black gray gold);
+// @each $class in $classes {
+// 	$i: index($classes, $class);
+// 	.#{$class} {
+// 		fill: nth($colors, $i);
+// 	}
+// }

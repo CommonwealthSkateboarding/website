@@ -8,10 +8,12 @@ Dependencies
 
 * mysql
 * typesafe-activator
+* sass
 
 Preparation
 -------
 
+* gem install sass
 * brew install mysql
 * brew services start mysql
 * mysql -uroot

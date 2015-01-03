@@ -1,0 +1,16 @@
+
+
+
+// loop through SVG classes on object
+// object.svg {
+// 	$colors: ($white $black $gray $gold);
+// 	$classes: (white black gray gold);
+// 	@each $class in $classes {
+// 		$i: index($classes, $class);
+// 		&.#{$class} {
+// 			svg path {
+// 				fill: nth($colors, $i);
+// 			}
+// 		}
+// 	}
+// }

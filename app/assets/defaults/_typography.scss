@@ -1,0 +1,50 @@
+h1, .h1 { 
+	font-size: 4.2rem; 
+	line-height: 4.4rem; 
+}
+
+h2, .h2 { 
+	font-size: 3.2rem; 
+	line-height: 3.6rem; 
+}
+
+h3, .h3 { 
+	font-size: 2.4rem; 
+	line-height: 2.8rem; 
+}
+
+h4, .h4 { }
+h5, .h5 { }
+
+h6, .h6 { font-size: 1rem; }
+
+p { font-size: 1.6rem; }
+
+.outline {
+	color: transparent;
+	display: block;
+	font-size: 13.2rem;
+	font-weight: 700;
+	letter-spacing: .02rem;
+	line-height: 13.4rem;
+	text-align: center;
+	text-transform: uppercase;
+	-webkit-font-smoothing: antialiased;
+	-webkit-text-stroke: .08rem $gold;
+	width: 100%;
+}
+
+.linethrough {
+	display: table;
+	white-space: nowrap;
+	&:before, &:after {
+		border-top: 1px solid fade_out($gold, .5);
+		content: '';
+		display: table-cell;
+		position: relative;
+		top: 2.8rem;
+		width: 45%;
+	}
+	&:before { right: 1.5%; }
+	&:after { left: 1.5%; }
+}

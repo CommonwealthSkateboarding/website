@@ -1,0 +1,97 @@
+body.home {
+	[id="carousel"] {
+
+		&:hover {
+			.slick-dots li:not(.slick-active) button { 
+				border-color: $gold;
+				opacity: .5; 
+
+				&:hover {
+					background: $gold;
+					opacity: 1;
+				}
+			}
+		}
+
+		.slick-list, .slick-track {
+			height: 100%;
+		}
+
+		.slick-dots {
+			top: calc(#{$banner-content-height} + #{$small-margin*8});
+			z-index: 800;
+
+			li {
+				height: $small-margin;
+				width: $small-margin;
+				margin: 0 $small-margin;
+
+				button {
+					background: transparent;
+					border-radius: 50%;
+					border: 2px solid $gold;
+					transition: opacity .3s, border .3s, background .1s;
+
+					height: $small-margin;
+					width: $small-margin; 
+
+					&::before { display: none; }
+				}
+
+				&:not(.slick-active) {
+					button { opacity: .05; }
+				}
+
+				&.slick-active {
+					button {
+						background: transparent;
+						border-color: $white;
+
+						&:hover {
+							background: $white;
+						}
+					}
+				}
+
+			}
+		}
+
+		.slide {
+
+			&.intro {
+				background: url("/img/index/banner/bg__001--park-with-logo.png") no-repeat;
+			}
+		
+			&.default  {
+				background: url("/img/index/banner/bg__001--default.png");
+			}
+
+			&.sale {	
+				background: 
+					radial-gradient(circle at top, fade_out($gold, .85) 0%, $black 50%),
+					url("/img/index/banner/bg__001--default.png");
+				text-align: center;
+
+				.outline {
+					font-size: 20rem;
+					line-height: 20rem;
+				}
+
+				.detail { 
+					color: $white;
+					font-size: 3.8rem; 
+					font-weight: 300;
+					letter-spacing: .5rem;
+					margin-top: $small-margin;
+					text-transform: uppercase;
+					@extend .linethrough;
+				}
+			}
+
+			&.extra {
+				background: radial-gradient(circle at top, fade_out($blue, .75) 0%, $black 50%);
+			}
+
+		}
+	}
+}
