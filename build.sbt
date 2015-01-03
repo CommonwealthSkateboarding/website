@@ -2,10 +2,6 @@ name := """cw"""
 
 resolvers += Resolver.url("Objectify Play Repository", url("http://deadbolt.ws/releases/"))(Resolver.ivyStylePatterns)
 
-resolvers += Resolver.url("GitHub repository", url("http://shaggyyeti.github.io/releases"))(Resolver.ivyStylePatterns)
-
-addSbtPlugin("default" % "sbt-sass" % "0.1.9")
-
 organization := "com.commonwealthskateboarding"
 
 version := "1.0-SNAPSHOT"
