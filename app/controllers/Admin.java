@@ -439,17 +439,6 @@ public class Admin extends Controller {
         audit("Subtracted " + utils.Formatter.prettyDollars(amount) + " credit from " + member.name + "'s membership", member, null);
         return redirect(routes.Admin.viewMemberPage(memberId));
     }
-    /**
-     * Stub implementation for future emailin'
-     */
-    public static void sendEmail(String recipient, String sender, String subject, String message) {
-        MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
-        mail.setSubject(subject);
-        mail.setRecipient(recipient);
-        mail.setFrom(sender);
-        String body = views.html.email.simple.render(message).body();
-        mail.sendHtml(body);
-    }
 
     public static void audit(String description, Membership membership, Object payload) {
         AuditRecord log = new AuditRecord();

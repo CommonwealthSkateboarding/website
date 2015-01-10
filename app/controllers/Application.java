@@ -105,10 +105,10 @@ public class Application extends Controller {
             return redirect(routes.Application.camp()); // not found
         }
 
-        String name = (String) Form.form().bindFromRequest().data().get("name");
-        String billingName = (String) Form.form().bindFromRequest().data().get("billingName");
-        String email = (String) Form.form().bindFromRequest().data().get("email");
-        String stripeToken = (String) Form.form().bindFromRequest().data().get("stripeToken");
+        String name = Form.form().bindFromRequest().data().get("name");
+        String billingName = Form.form().bindFromRequest().data().get("billingName");
+        String email = Form.form().bindFromRequest().data().get("email");
+        String stripeToken = Form.form().bindFromRequest().data().get("stripeToken");
 
         Registration reg = new Registration();
 
@@ -123,7 +123,8 @@ public class Application extends Controller {
 
         Admin.audit("Added registration from web for " + name, null, camp);
 
-        //TODO: Send successful registration email
+        Email.sendRegistrationConfirmation(email, reg);
+
         //TODO: Redirect to page acknowledging registration
 
         return ok("Success. Details at: " + routes.Admin.viewCampPage(id));
