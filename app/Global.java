@@ -1,5 +1,10 @@
+import controllers.Slack;
+import org.joda.time.DateTime;
+import org.joda.time.Seconds;
 import play.Application;
 import play.GlobalSettings;
+import play.Logger;
+import play.libs.Akka;
 import play.mvc.Call;
 
 import com.feth.play.module.pa.PlayAuthenticate;
@@ -8,13 +13,17 @@ import com.feth.play.module.pa.exceptions.AccessDeniedException;
 import com.feth.play.module.pa.exceptions.AuthException;
 
 import controllers.routes;
+import scala.concurrent.duration.Duration;
 
-/**
- * Largely adapted from https://github.com/joscha/play-authenticate
- */
+import java.util.concurrent.TimeUnit;
+
+
 public class Global extends GlobalSettings {
 
     public void onStart(final Application app) {
+        /**
+         * Largely adapted from https://github.com/joscha/play-authenticate
+         */
         PlayAuthenticate.setResolver(new Resolver() {
 
             @Override
@@ -65,6 +74,34 @@ public class Global extends GlobalSettings {
                 return null;
             }
         });
+
+        Akka.system().scheduler().schedule(
+                Duration.create(nextExecutionInSeconds(22, 0), TimeUnit.SECONDS),
+                Duration.create(24, TimeUnit.HOURS),
+                () -> {
+                    Logger.info("Executing daily attendance report");
+                    Slack.emitDailyAttendanceReport();
+                }, Akka.system().dispatcher()
+        );
+    }
+
+    private static int nextExecutionInSeconds(int hour, int minute){
+        return Seconds.secondsBetween(
+                new DateTime(),
+                nextExecution(hour, minute)
+        ).getSeconds();
+    }
+
+    private static DateTime nextExecution(int hour, int minute){
+        DateTime next = new DateTime()
+                .withHourOfDay(hour)
+                .withMinuteOfHour(minute)
+                .withSecondOfMinute(0)
+                .withMillisOfSecond(0);
+
+        return (next.isBeforeNow())
+                ? next.plusHours(24)
+                : next;
     }
 
 }
