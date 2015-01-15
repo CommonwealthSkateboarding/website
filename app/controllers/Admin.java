@@ -459,8 +459,9 @@ public class Admin extends Controller {
         } else if (payload.getClass().equals(Event.class)) {
             log.event = (Event) payload;
         }
-            log.save();
-        }
+        log.save();
+        Slack.emitAuditLog(log);
+    }
 
     public static Result logIndex(Long page) {
         boolean hasNextPage = false;
