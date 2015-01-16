@@ -75,6 +75,7 @@ public class Global extends GlobalSettings {
             }
         });
 
+        /**
         Akka.system().scheduler().schedule(
                 //2200 hours = 10PM in local timezone
                 Duration.create(nextExecutionInSeconds(22, 0), TimeUnit.SECONDS),
@@ -84,6 +85,7 @@ public class Global extends GlobalSettings {
                     Slack.emitDailyAttendanceReport();
                 }, Akka.system().dispatcher()
         );
+         **/
     }
 
     private static int nextExecutionInSeconds(int hour, int minute){

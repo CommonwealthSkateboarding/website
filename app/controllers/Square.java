@@ -25,10 +25,6 @@ import java.util.List;
 public class Square extends Controller {
     public static final String AUTHORIZATION_HEADER = "Authorization";
     public static final String BEARER_TOKEN = "Bearer " + play.Play.application().configuration().getString("square.token");
-    // Headers:
-        // Authorization: Bearer YOUR_ACCESS_TOKEN
-        // Accept: application/json
-        // qdq0cRgmvgFbSJmcrIsKJQ
 
     private static String BASE_URL = "https://connect.squareup.com/v1/me/";
     private static String INVENTORY_URL = BASE_URL + "inventory";
