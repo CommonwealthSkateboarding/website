@@ -26,7 +26,7 @@ public class Slack {
     private static String SLACKBOT_KEYS = Play.application().configuration().getString("slackbot.keys");
 
     private static final String SLACKBOT_AUDIT_CHANNEL = "#audit";
-    private static final String SLACKBOT_INVENTORY_CHANNEL = "#inventory";
+    private static final String SLACKBOT_FINANCE_CHANNEL = "#finance";
     private static final String SLACKBOT_GENERAL_CHANNEL = "#general";
 
     private static SlackApi api = new SlackApi("https://hooks.slack.com/services/" + SLACKBOT_KEYS);
@@ -87,6 +87,6 @@ public class Slack {
             sb.append("\n" + item.quantity.intValue() + "x " + item.name + " (" +
                     prettyDollars(item.total_money.amount/100) + ")");
         }
-        dispatch(new SlackMessage(SLACKBOT_INVENTORY_CHANNEL, null, sb.toString()));
+        dispatch(new SlackMessage(SLACKBOT_FINANCE_CHANNEL, null, sb.toString()));
     }
 }
