@@ -31,6 +31,8 @@ public class Tender {
         MANUAL, SCANNED, SQUARE_CASH, SQUARE_WALLET, SWIPED, WEB_FORM, OTHER
     }
 
+    public String id;
+
     //The type of tender.
     public Type type;
 
@@ -57,4 +59,8 @@ public class Tender {
 
     //The amount of total_money returned to the buyer as change.
     public Money change_back_money;
+
+    public Money refunded_money;
+
+    public String receipt_url;
 }

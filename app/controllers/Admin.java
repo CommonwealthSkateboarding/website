@@ -2,20 +2,15 @@ package controllers;
 
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.feth.play.module.pa.PlayAuthenticate;
-import com.typesafe.plugin.MailerAPI;
-import com.typesafe.plugin.MailerPlugin;
 import models.security.AuditRecord;
 import models.security.SecurityRole;
 import models.security.User;
 import models.site.NewsItem;
 import models.skatepark.*;
-import models.square.Order;
 import org.apache.commons.lang3.time.DateUtils;
 import play.data.Form;
 import play.db.ebean.Model;
-import play.libs.F;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -52,10 +47,6 @@ public class Admin extends Controller {
     }
 
     public static Result dashboard() {
-        List<Order> orders = Square.getOrders();
-        for(Order order : orders) {
-            System.out.println(order);
-        }
         Date lastTwoWeeks = DateUtils.addDays(new Date(), -14);
         lastTwoWeeks = DateUtils.ceiling(lastTwoWeeks, Calendar.DATE);
         List<Visit> visits = Visit.find.where().eq("refunded", false).where().gt("time", lastTwoWeeks).findList();

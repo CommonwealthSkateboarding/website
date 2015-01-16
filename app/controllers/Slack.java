@@ -2,13 +2,18 @@ package controllers;
 
 import models.security.AuditRecord;
 import models.skatepark.Visit;
+import models.square.Payment;
+import models.square.PaymentItemization;
 import net.gpedro.integrations.slack.SlackApi;
 import net.gpedro.integrations.slack.SlackMessage;
 import org.apache.commons.lang3.time.DateUtils;
+import play.Logger;
 import play.Play;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
+
+import static utils.Formatter.prettyDollars;
 
 /**
  * Created by cdelargy on 1/15/15.
@@ -20,7 +25,9 @@ public class Slack {
     // "id_1/id_2/token"
     private static String SLACKBOT_KEYS = Play.application().configuration().getString("slackbot.keys");
 
-    private static final String SLACKBOT_CHANNEL = "#audit";
+    private static final String SLACKBOT_AUDIT_CHANNEL = "#audit";
+    private static final String SLACKBOT_INVENTORY_CHANNEL = "#inventory";
+    private static final String SLACKBOT_GENERAL_CHANNEL = "#general";
 
     private static SlackApi api = new SlackApi("https://hooks.slack.com/services/" + SLACKBOT_KEYS);
 
@@ -29,12 +36,14 @@ public class Slack {
     private static void dispatch(SlackMessage msg) {
         if (null != SLACKBOT_KEYS) {
             api.call(msg);
+        } else {
+            Logger.info(msg.prepare().toString());
         }
     }
 
     public static void emitAuditLog(AuditRecord log) {
         // Set user's name when available
-        dispatch(new SlackMessage(SLACKBOT_CHANNEL, ((null == log.user)?null:log.user.name), (log.delta + " [<" +
+        dispatch(new SlackMessage(SLACKBOT_AUDIT_CHANNEL, ((null == log.user)?null:log.user.name), (log.delta + " [<" +
                 BASE_URL + routes.Admin.logIndex(0)) + "| Log>]"));
     }
 
@@ -66,7 +75,18 @@ public class Slack {
             sb.append("Total: " + totalAttendance);
         }
 
-        dispatch(new SlackMessage(SLACKBOT_CHANNEL, null, (sb.toString() + " [<" + BASE_URL +
+        dispatch(new SlackMessage(SLACKBOT_GENERAL_CHANNEL, null, (sb.toString() + " [<" + BASE_URL +
                 routes.Admin.dashboard()) + "| Dashboard>]"));
+    }
+
+    public static void emitPaymentDetails(Payment payment) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("<" + payment.receipt_url + "|Square order " + payment.id +
+                "> (" + prettyDollars(payment.total_collected_money.amount/100.0) + "):");
+        for (PaymentItemization item : Arrays.asList(payment.itemizations)) {
+            sb.append("\n" + item.quantity.intValue() + "x " + item.name + " (" +
+                    prettyDollars(item.total_money.amount/100) + ")");
+        }
+        dispatch(new SlackMessage(SLACKBOT_INVENTORY_CHANNEL, null, sb.toString()));
     }
 }

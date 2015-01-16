@@ -3,6 +3,8 @@ package controllers;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import models.square.Order;
+import models.square.Payment;
+import models.square.PaymentItemization;
 import models.square.SquareWebhook;
 import play.Logger;
 import play.api.libs.json.Json;
@@ -13,6 +15,7 @@ import play.mvc.Result;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -29,6 +32,8 @@ public class Square extends Controller {
 
     private static String BASE_URL = "https://connect.squareup.com/v1/me/";
     private static String INVENTORY_URL = BASE_URL + "inventory";
+    private static String PAYMENT_URL = BASE_URL + "payments/";
+
 
     private static String ORDERS_URL = BASE_URL + "orders?order=DESC";
 
@@ -41,11 +46,8 @@ public class Square extends Controller {
 
     public static List<Order> getOrders() {
         WSRequestHolder holder = WS.url(ORDERS_URL).setHeader(AUTHORIZATION_HEADER, BEARER_TOKEN);
-
         WSResponse response = holder.get().get(1000);
         JsonNode json = response.asJson();
-
-        System.out.println(json);
         ObjectMapper mapper = new ObjectMapper();
         Iterator<JsonNode> iter = json.elements();
         ArrayList<Order> orders = new ArrayList<Order>();
@@ -61,21 +63,31 @@ public class Square extends Controller {
         return orders;
     }
 
-    public static Result receiveWebhook() {
-        JsonNode json = request().body().asJson();
-        if(json == null) {
-            return badRequest("Expecting Json data");
-        } else {
-            SquareWebhook hook = null;
-            try {
-                ObjectMapper mapper = new ObjectMapper();
-                hook = mapper.readValue(json.asText(), SquareWebhook.class);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            Logger.info("entity id: " + hook.entity_id);
+    private static Payment getPayment(String paymentId) {
+        WSRequestHolder holder = WS.url(PAYMENT_URL + paymentId).setHeader(AUTHORIZATION_HEADER, BEARER_TOKEN);
+        WSResponse response = holder.get().get(10000);
+        //System.out.println(response.getBody());
+        Payment payment = null;
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            payment = mapper.readValue(response.getBody(), Payment.class);
+        } catch (IOException e) {
+            Logger.error("Bad conversion of square payment", e);
         }
+        return payment;
+    }
 
+    public static Result receiveWebhook() {
+        SquareWebhook hook = null;
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            hook = mapper.readValue(request().body().asText(), SquareWebhook.class);
+        } catch (IOException e) {
+            Logger.error("Bad conversion of square webhook invocation", e);
+        }
+        Payment payment = getPayment(hook.entity_id);
+        Slack.emitPaymentDetails(payment);
+        return ok();
     }
 
 }
