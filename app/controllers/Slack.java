@@ -90,8 +90,8 @@ public class Slack {
                 paymentMethods.append(":dollar:");
             }
         }
-        sb.append("<" + payment.receipt_url + "|Square order " + payment.id +
-                "> (" + prettyDollars(payment.total_collected_money.amount / 100.0) + "):" + paymentMethods.toString());
+        sb.append("<" + payment.receipt_url + "|Square order " + payment.id + "> (" +
+                prettyDollars(payment.total_collected_money.amount / 100.0) + " " + paymentMethods.toString() + ") ");
         for (PaymentItemization item : Arrays.asList(payment.itemizations)) {
             sb.append("\n" + item.quantity.intValue() + "x " + item.name + " (" +
                     prettyDollars(item.total_money.amount/100) + ")");
