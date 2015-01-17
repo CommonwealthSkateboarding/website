@@ -75,9 +75,10 @@ public class Square extends Controller {
 
     public static Result receiveWebhook() {
         SquareWebhook hook = null;
+        Logger.info("Receiving webhook: " + request().body().asJson().asText());
         try {
             ObjectMapper mapper = new ObjectMapper();
-            hook = mapper.readValue(request().body().asText(), SquareWebhook.class);
+            hook = mapper.readValue(request().body().asJson().asText(), SquareWebhook.class);
         } catch (IOException e) {
             Logger.error("Bad conversion of square webhook invocation", e);
         }
