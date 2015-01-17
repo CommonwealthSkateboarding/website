@@ -4,6 +4,7 @@ import models.security.AuditRecord;
 import models.skatepark.Visit;
 import models.square.Payment;
 import models.square.PaymentItemization;
+import models.square.Tender;
 import net.gpedro.integrations.slack.SlackApi;
 import net.gpedro.integrations.slack.SlackMessage;
 import org.apache.commons.lang3.time.DateUtils;
@@ -81,8 +82,16 @@ public class Slack {
 
     public static void emitPaymentDetails(Payment payment) {
         StringBuilder sb = new StringBuilder();
+        StringBuilder paymentMethods = new StringBuilder();
+        for (Tender t : Arrays.asList(payment.tender)) {
+            if(t.type == Tender.Type.CREDIT_CARD) {
+                paymentMethods.append(":credit_card:");
+            } else if (t.type == Tender.Type.CASH) {
+                paymentMethods.append(":dollar:");
+            }
+        }
         sb.append("<" + payment.receipt_url + "|Square order " + payment.id +
-                "> (" + prettyDollars(payment.total_collected_money.amount/100.0) + "):");
+                "> (" + prettyDollars(payment.total_collected_money.amount / 100.0) + "):" + paymentMethods.toString());
         for (PaymentItemization item : Arrays.asList(payment.itemizations)) {
             sb.append("\n" + item.quantity.intValue() + "x " + item.name + " (" +
                     prettyDollars(item.total_money.amount/100) + ")");
