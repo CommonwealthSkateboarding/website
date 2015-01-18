@@ -18,8 +18,6 @@ libraryDependencies += "com.feth" %% "play-authenticate" % "0.6.8"
 
 libraryDependencies += "be.objectify" %% "deadbolt-java" % "2.3.1"
 
-libraryDependencies += "com.newrelic.agent.java" % "newrelic-agent" % "3.12.1"
-
 // libraryDependencies += "com.stripe" % "stripe-java" % "1.20.0"
 
 libraryDependencies ++= Seq(
