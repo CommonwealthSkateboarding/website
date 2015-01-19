@@ -44,11 +44,11 @@
             </tr>
             <tr>
                 <td>Registration End Date</td>
-                <td>@event.registrationEndDate.format("MM/dd/yyyy")</td>
+                <td>@if(null != event.registrationEndDate) { @event.registrationEndDate.format("MM/dd/yyyy") }</td>
             </tr>
             <tr>
                 <td>Registrations</td>
-                <td>@event.registrations.size()/@event.maxRegistrations</td>
+                <td>@if(null != event.maxRegistrations) { @event.registrations.size()/@event.maxRegistrations }</td>
             </tr>
             <tr>
                 <td>Cost</td>

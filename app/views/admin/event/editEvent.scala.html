@@ -21,7 +21,7 @@
                 <label>Public Visibility:</label><br/><input type="checkbox" name="publicVisibility" @if(event.publicVisibility){checked} class="form-control" /><br/>
                 <label>Reserve Entire Park:</label><br/><input type="checkbox" name="reservePark" @if(event.reservePark){checked} class="form-control" /><br/>
                 <label>Registrable:</label><br/><input type="checkbox" name="registrable" @if(event.registrable){checked} class="form-control" /><br/>
-                <label>Registration End Date:</label><br/><input name="registrationEndDate" id="datepicker3" value="@event.registrationEndDate.format("MM/dd/yyyy")" class="form-control" /><br/>
+                <label>Registration End Date:</label><br/><input name="registrationEndDate" id="datepicker3" value="@if(event.registrationEndDate != null){event.registrationEndDate.format("MM/dd/yyyy")}" class="form-control" /><br/>
                 <label>Maximum Registrations:</label><br/><input type="text" name="maxRegistrations" value="@event.maxRegistrations" class="form-control" /><br/>
                 <label>Cost:</label><br/>$<input type="text" name="cost" value="@event.cost" class="form-control" /><br/>
                 <label>Archived/Hidden:</label><br/><input type="checkbox" name="archived" @if(event.archived){checked} class="form-control" /><br/>

@@ -72,8 +72,8 @@
                         <td>@if(null != event.startTime) { @event.startTime.format("MM/dd/yyyy") }</td>
                         <td>@if(null != event.startTime) { @event.startTime.format("h:mm a") }</td>
                         <td>@if(null != event.endTime) { @event.endTime.format("h:mm a") }</td>
-                        <td>@event.publicVisibility</td>
-                        <td>@event.reservePark</td>
+                        <td>@if(event.publicVisibility) { <i class="fa fa-2x fa-check-circle"></i> }</td>
+                        <td>@if(event.reservePark) { <i class="fa fa-2x fa-check-circle"></i> }</td>
                         <td><a href="@routes.Admin.viewEventPage(event.id)" class="btn btn-theme btn-block">View</a></td>
                         <td><a href="@routes.Admin.editEventPage(event.id)" class="btn btn-theme btn-block">Edit</a></td>
                         <td><a href="@routes.Admin.archiveEvent(event.id)" class="btn btn-theme btn-block">Archive</a></td>
