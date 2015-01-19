@@ -1,14 +1,38 @@
 @(events: List[models.skatepark.Event])
 
 @main() {
-<ul>
-    @if(events.size() == 0) {
-        <i>No public events are currently scheduled.</i>
-    }
-    @for(event <- events) {
-        <li>@event.startTime.format("MM/dd/yyyy"): @event.name (@event.startTime.format("h:mm a")-@event.endTime.format("h:mm a"))<br/>
-            @Html(event.notes)
-        </li>
-    }
-</ul>
+
+<section id="blog">
+    <h2>Events Overview Page</h2>
+    <table class="table table-bordered table-striped table-condensed">
+        <thead>
+            <tr>
+                <th>Event</th>
+                <th>Date</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Registration End Date</th>
+                <th>Registrations</th>
+                <th>Cost</th>
+            </tr>
+        </thead>
+        <tbody>
+        @for(event <- events) {
+        <tr>
+            <td><a href="@routes.Application.eventDetail(event.id)">@event.name</a></td>
+            <td>@event.startTime.format("MM/dd/yyyy")</td>
+            <td>@event.startTime.format("hh:mm a")</td>
+            <td>@event.endTime.format("hh:mm a")</td>
+            @if(event.registrable) {
+                <td>@event.registrationEndDate.format("MM/dd/yyyy")</td>
+                <td>@event.registrations.size()/@event.maxRegistrations</td>
+                <td>@utils.Formatter.prettyDollars(event.cost)</td>
+            } else {
+                <td colspan="3">Pre-registration is not available.</td>
+            }
+        </tr>
+        }
+        </tbody>
+    </table>
+</section>
 }

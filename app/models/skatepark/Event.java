@@ -1,12 +1,12 @@
 package models.skatepark;
 
+import be.objectify.deadbolt.java.views.html.pattern;
 import com.avaje.ebean.Expr;
 import play.data.format.Formats;
+import play.data.validation.Constraints;
 import play.db.ebean.Model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -37,6 +37,19 @@ public class Event extends Model {
 
     @Formats.DateTime(pattern = "yyyy-MM-dd h:mm a")
     public Date endTime;
+
+    public boolean registrable;
+
+    @Temporal(TemporalType.DATE)
+    @Formats.DateTime(pattern="MM/dd/yyyy")
+    public Date registrationEndDate;
+
+    public Integer maxRegistrations;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    public List<Registration> registrations;
+
+    public Double cost;
 
     public boolean archived;
 

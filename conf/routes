@@ -10,8 +10,10 @@ GET     /shop                       controllers.Application.shop()
 GET     /camp                       controllers.Application.camp()
 GET     /camp/:id                   controllers.Application.campDetail(id: Long)
 GET     /events                     controllers.Application.events()
+GET     /events/:id                 controllers.Application.eventDetail(id: Long)
 GET     /about                      controllers.Application.about()
 POST    /camp/:id/register          controllers.Application.registerForCampWithStripe(id: Long)
+POST    /event/:id/register         controllers.Application.registerForEventWithStripe(id: Long)
 
 # Session
 GET     /login                      controllers.Application.login()
@@ -76,6 +78,10 @@ GET     /admin/events/:id                       controllers.Admin.viewEventPage(
 GET     /admin/events/:id/edit                  controllers.Admin.editEventPage(id: Long)
 POST    /admin/events/:id/edit                  controllers.Admin.editEvent(id: Long)
 GET     /admin/events/:id/archive               controllers.Admin.archiveEvent(id: Long)
+GET     /admin/events/:id/register              controllers.Admin.eventRegistrationPage(id: Long)
+POST    /admin/events/:id/register              controllers.Admin.addEventRegistration(id: Long)
+GET     /admin/events/registration/:id/edit     controllers.Admin.editEventRegistrationPage(id: Long)
+POST    /admin/events/registration/:id/edit     controllers.Admin.editEventRegistration(id: Long)
 
 POST    /square/incoming                        controllers.Square.receiveWebhook()
 

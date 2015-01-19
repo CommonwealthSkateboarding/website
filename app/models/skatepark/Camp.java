@@ -37,7 +37,7 @@ public class Camp extends Model {
     @Formats.DateTime(pattern="MM/dd/yyyy")
     public Date registrationEndDate;
 
-    public int maxRegistrations;
+    public Integer maxRegistrations;
 
     @Column(columnDefinition = "text")
     public String description;

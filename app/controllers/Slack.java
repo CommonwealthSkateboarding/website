@@ -45,7 +45,7 @@ public class Slack {
     public static void emitAuditLog(AuditRecord log) {
         // Set user's name when available
         dispatch(new SlackMessage(SLACKBOT_AUDIT_CHANNEL, ((null == log.user)?null:log.user.name), (log.delta + " [<" +
-                BASE_URL + routes.Admin.logIndex(0)) + "| Log>]"));
+                BASE_URL + routes.Admin.logIndex(0)) + "|Log>]"));
     }
 
     public static void emitDailyAttendanceReport() {
@@ -77,7 +77,7 @@ public class Slack {
         }
 
         dispatch(new SlackMessage(SLACKBOT_GENERAL_CHANNEL, null, (sb.toString() + " [<" + BASE_URL +
-                routes.Admin.dashboard()) + "| Dashboard>]"));
+                routes.Admin.dashboard()) + "|Dashboard>]"));
     }
 
     public static void emitPaymentDetails(Payment payment) {

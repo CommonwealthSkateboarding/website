@@ -28,15 +28,27 @@ public class Registration extends Model {
         OTHER
     }
 
+    public enum RegistrationType {
+        @EnumValue("CAMP")
+        CAMP,
+        @EnumValue("EVENT")
+        EVENT
+    }
+
     @Id
     public Long id;
 
     @ManyToOne
     public Camp camp;
 
+    @ManyToOne
+    public Event event;
+
     public boolean paid;
 
     public PaymentType paymentType;
+
+    public RegistrationType registrationType;
 
     public String participantName;
 

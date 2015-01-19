@@ -16,7 +16,8 @@
                         <th>Start Time</th>
                         <th>End Time</th>
                         <th>Public</th>
-                        <th>Park Reserved</th>
+                        <th>Reserved</th>
+                        <th>Registrations</th>
                         <th>View</th>
                         <th>Edit</th>
                         <th>Archive</th>
@@ -35,6 +36,7 @@
                                     <a href="@routes.Admin.viewEventPage(warn.id)" class="btn btn-danger"><i class="fa fa-warning"></i> Conflict!</a>
                                 }
                             </td>
+                            <td>@if(event.registrable) { @event.registrations.size()/@event.maxRegistrations } else { n/a }</td>
                             <td><a href="@routes.Admin.viewEventPage(event.id)" class="btn btn-theme btn-block">View</a></td>
                             <td><a href="@routes.Admin.editEventPage(event.id)" class="btn btn-theme btn-block">Edit</a></td>
                             <td><a href="@routes.Admin.archiveEvent(event.id)" class="btn btn-theme btn-block">Archive</a></td>

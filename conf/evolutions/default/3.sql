@@ -16,7 +16,7 @@ create table camp (
 
 create table registration (
   id                        bigint auto_increment NOT NULL,
-  camp_id                   bigint NOT NULL,
+  camp_id                   bigint,
   paid                      tinyint(1) NOT NULL DEFAULT 0,
   payment_type              varchar(16),
   participant_name          varchar(255) NOT NULL,

@@ -93,6 +93,14 @@ public class Application extends Controller {
                 .where().eq("archived", false).where().eq("public_visibility", true).findList();
         return ok(events.render(publicEvents));
     }
+
+    public static Result eventDetail(Long id) {
+        Event event = (Event) new Model.Finder(Long.class, Event.class).byId(id);
+        if (null == event) {
+            return redirect(routes.Application.events()); // not found
+        }
+        return ok(eventDetail.render(event));
+    }
     public static Result about(){
         return ok(about.render());
     }
@@ -112,6 +120,7 @@ public class Application extends Controller {
 
         Registration reg = new Registration();
 
+        reg.registrationType = Registration.RegistrationType.CAMP;
         reg.camp = camp;
         reg.paid = true; //TODO: still need to charge stripe to get payment
         reg.participantName = name;
@@ -121,12 +130,45 @@ public class Application extends Controller {
                 + " and generated a stripe TEST token of: " + stripeToken;
         reg.save();
 
-        Admin.audit("Added registration from web for " + name, null, camp);
+        Admin.audit("Added registration for camp " + camp.title + " from web for " + name, null, camp);
 
-        Email.sendRegistrationConfirmation(email, reg);
+        Email.sendCampRegistrationConfirmation(email, reg);
 
         //TODO: Redirect to page acknowledging registration
 
         return ok("Success. Details at: " + routes.Admin.viewCampPage(id));
+    }
+    public static Result registerForEventWithStripe(Long id) {
+
+        Event event = (Event) new Model.Finder(Long.class, Event.class).byId(id);
+        if (null == event) {
+            //TODO: Log this extremely hard to produce error condition
+            return redirect(routes.Application.events()); // not found
+        }
+
+        String name = Form.form().bindFromRequest().data().get("name");
+        String billingName = Form.form().bindFromRequest().data().get("billingName");
+        String email = Form.form().bindFromRequest().data().get("email");
+        String stripeToken = Form.form().bindFromRequest().data().get("stripeToken");
+
+        Registration reg = new Registration();
+
+        reg.registrationType = Registration.RegistrationType.EVENT;
+        reg.event = event;
+        reg.paid = true; //TODO: still need to charge stripe to get payment
+        reg.participantName = name;
+        reg.paymentType = Registration.PaymentType.STRIPE;
+        reg.timestamp = new Date();
+        reg.notes = "Paid on the web by " + billingName + " (" + email + ")"
+                + " and generated a stripe TEST token of: " + stripeToken;
+        reg.save();
+
+        Admin.audit("Added registration for event " + event.name + " from web for " + name, null, event);
+
+        Email.sendEventRegistrationConfirmation(email, reg);
+
+        //TODO: Redirect to page acknowledging registration
+
+        return ok("Success. Details at: " + routes.Admin.viewEventPage(id));
     }
 }

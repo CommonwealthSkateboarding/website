@@ -1,0 +1,15 @@
+@(registration: models.skatepark.Registration)
+
+<p>Thanks for registering for Commonwealth Skatepark's event, @registration.event.name.</p>
+
+<p>This registration's confirmation ID is @registration.id and is valid for @registration.participantName.</p>
+
+<p>This event is scheduled on @registration.event.startTime.format("MM/dd/yyyy") between @registration.event.startTime.format("hh:mm a")
+    @registration.event.endTime.format("hh:mm a").</p>
+
+<p>For more information on this event, please see the event on
+    <a href="@play.Play.application().configuration().getString("application.baseUrl")@routes.Application.eventDetail(registration.event.id)">our website</a>.</p>
+
+<p>Thank you,<br/>Commonwealth Skatepark<br/>
+    <a href="@play.Play.application().configuration().getString("application.baseUrl")">@play.Play.application().configuration().getString("application.baseUrl")</a></p>
+

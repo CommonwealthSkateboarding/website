@@ -16,10 +16,7 @@ import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Security;
 import views.html.admin.camp.*;
-import views.html.admin.event.addEvent;
-import views.html.admin.event.editEvent;
-import views.html.admin.event.eventIndex;
-import views.html.admin.event.viewEvent;
+import views.html.admin.event.*;
 import views.html.admin.index;
 import views.html.admin.logIndex;
 import views.html.admin.membership.*;
@@ -581,6 +578,7 @@ public class Admin extends Controller {
 
         registration.timestamp = new Date();
         registration.camp = camp;
+        registration.registrationType = Registration.RegistrationType.CAMP;
 
         registration.save();
 
@@ -664,8 +662,7 @@ public class Admin extends Controller {
         Event event = Event.find.byId(id);
         if (null == event) {
             return notFound("Bad event id");
-        };
-
+        }
         Event newEvent = Form.form(Event.class).bindFromRequest().get();
 
         event.archived = newEvent.archived;
@@ -676,6 +673,10 @@ public class Admin extends Controller {
         event.reservePark = newEvent.reservePark;
         event.startTime = newEvent.startTime;
         event.privateNotes = newEvent.privateNotes;
+        event.cost = newEvent.cost;
+        event.maxRegistrations = newEvent.maxRegistrations;
+        event.registrable = newEvent.registrable;
+        event.registrationEndDate = newEvent.registrationEndDate;
         event.save();
 
         audit("Edited event " + event.name, null, event);
@@ -697,4 +698,62 @@ public class Admin extends Controller {
         return redirect(routes.Admin.eventIndex());
     }
 
+    @Restrict({@Group("EVENTS")})
+    public static Result eventRegistrationPage(Long id) {
+        Event event = (Event) new Model.Finder(Long.class, Event.class).byId(id);
+        if (null == event) {
+            return notFound("Bad event id");
+        };
+        return ok(eventRegistration.render(event, getLocalUser(session())));
+    }
+
+    @Restrict({@Group("EVENTS")})
+    public static Result addEventRegistration(Long id) {
+        Event event = (Event) new Model.Finder(Long.class, Event.class).byId(id);
+        if (null == event) {
+            return notFound("Bad event id");
+        };
+
+        Registration registration = Form.form(Registration.class).bindFromRequest().get();
+
+        registration.timestamp = new Date();
+        registration.event = event;
+        registration.registrationType = Registration.RegistrationType.EVENT;
+
+        registration.save();
+
+        audit("Added registration for " + registration.participantName + " to " + event.name, null, event);
+
+        return redirect(routes.Admin.viewEventPage(id));
+    }
+
+    @Restrict({@Group("EVENTS")})
+    public static Result editEventRegistrationPage(Long id) {
+        Registration reg = (Registration) new Model.Finder(Long.class, Registration.class).byId(id);
+        if (null == reg) {
+            return notFound("Bad registration id");
+        };
+        return ok(editEventRegistration.render(reg, getLocalUser(session())));
+
+    }
+
+    @Restrict({@Group("EVENTS")})
+    public static Result editEventRegistration(Long id) {
+        Registration reg = (Registration) new Model.Finder(Long.class, Registration.class).byId(id);
+        if (null == reg) {
+            return notFound("Bad registration id");
+        };
+
+        Registration newReg = Form.form(Registration.class).bindFromRequest().get();
+
+        reg.notes = newReg.notes;
+        reg.paid = newReg.paid;
+        reg.participantName = newReg.participantName;
+        reg.paymentType = newReg.paymentType;
+        reg.save();
+
+        audit("Edited registration for " + reg.participantName + " to " + reg.event.name, null, reg.event);
+
+        return redirect(routes.Admin.viewEventPage(reg.event.id));
+    }
 }
