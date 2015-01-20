@@ -579,6 +579,7 @@ public class Admin extends Controller {
         registration.timestamp = new Date();
         registration.camp = camp;
         registration.registrationType = Registration.RegistrationType.CAMP;
+        registration.confirmationId = org.apache.commons.lang3.RandomStringUtils.random(6, "ABCDEFGHJKMNPQRSTUVWXYZ23456789");
 
         registration.save();
 
@@ -719,6 +720,7 @@ public class Admin extends Controller {
         registration.timestamp = new Date();
         registration.event = event;
         registration.registrationType = Registration.RegistrationType.EVENT;
+        registration.confirmationId = org.apache.commons.lang3.RandomStringUtils.random(6, "ABCDEFGHJKMNPQRSTUVWXYZ23456789");
 
         registration.save();
 
