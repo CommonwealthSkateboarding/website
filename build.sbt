@@ -20,7 +20,7 @@ libraryDependencies += "be.objectify" %% "deadbolt-java" % "2.3.1"
 
 libraryDependencies += "com.newrelic.agent.java" % "newrelic-agent" % "3.12.1"
 
-// libraryDependencies += "com.stripe" % "stripe-java" % "1.20.0"
+libraryDependencies += "com.stripe" % "stripe-java" % "1.24.1"
 
 libraryDependencies ++= Seq(
   javaCore,

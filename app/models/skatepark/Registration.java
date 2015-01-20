@@ -57,5 +57,7 @@ public class Registration extends Model {
 
     public Date timestamp;
 
+    public String confirmationId;
+
     public static final Finder<Long, Registration> find = new Finder<Long, Registration>(Long.class, Registration.class);
 }

@@ -7,6 +7,7 @@ alter table event add cost decimal(13,2);
 
 alter table registration add event_id bigint;
 alter table registration add registration_type varchar(16) NOT NULL;
+alter table registration add confirmation_id varchar(16) NOT NULL;
 
 # --- !Downs
 
@@ -19,5 +20,6 @@ alter table event drop column cost;
 
 alter table registration drop column event_id;
 alter table registration drop column registration_type;
+alter table registration drop column confirmation_id;
 
 SET FOREIGN_KEY_CHECKS=1;

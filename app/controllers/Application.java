@@ -1,6 +1,7 @@
 package controllers;
 
 import com.avaje.ebean.Expr;
+import com.stripe.model.Charge;
 import models.site.NewsItem;
 import models.skatepark.Camp;
 import models.skatepark.Event;
@@ -12,9 +13,7 @@ import play.mvc.*;
 
 import views.html.*;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class Application extends Controller {
 
@@ -118,26 +117,28 @@ public class Application extends Controller {
         String email = Form.form().bindFromRequest().data().get("email");
         String stripeToken = Form.form().bindFromRequest().data().get("stripeToken");
 
+        Charge charge = Stripe.chargeStripe(camp.cost, stripeToken, "Registration for " + camp.title);
+
         Registration reg = new Registration();
 
         reg.registrationType = Registration.RegistrationType.CAMP;
         reg.camp = camp;
-        reg.paid = true; //TODO: still need to charge stripe to get payment
+        reg.paid = true;
         reg.participantName = name;
         reg.paymentType = Registration.PaymentType.STRIPE;
         reg.timestamp = new Date();
         reg.notes = "Paid on the web by " + billingName + " (" + email + ")"
-                + " and generated a stripe TEST token of: " + stripeToken;
+                + " and generated a stripe TEST chargeId of: " + charge.getId();
+        reg.confirmationId = org.apache.commons.lang3.RandomStringUtils.random(6, "ABCDEFGHJKMNPQRSTUVWXYZ23456789");
         reg.save();
 
         Admin.audit("Added registration for camp " + camp.title + " from web for " + name, null, camp);
 
         Email.sendCampRegistrationConfirmation(email, reg);
 
-        //TODO: Redirect to page acknowledging registration
-
-        return ok("Success. Details at: " + routes.Admin.viewCampPage(id));
+        return redirect(routes.Application.registrationPage());
     }
+
     public static Result registerForEventWithStripe(Long id) {
 
         Event event = (Event) new Model.Finder(Long.class, Event.class).byId(id);
@@ -151,24 +152,29 @@ public class Application extends Controller {
         String email = Form.form().bindFromRequest().data().get("email");
         String stripeToken = Form.form().bindFromRequest().data().get("stripeToken");
 
+        Charge charge = Stripe.chargeStripe(event.cost, stripeToken, "Registration for " + event.name);
+
         Registration reg = new Registration();
 
         reg.registrationType = Registration.RegistrationType.EVENT;
         reg.event = event;
-        reg.paid = true; //TODO: still need to charge stripe to get payment
+        reg.paid = true;
         reg.participantName = name;
         reg.paymentType = Registration.PaymentType.STRIPE;
         reg.timestamp = new Date();
         reg.notes = "Paid on the web by " + billingName + " (" + email + ")"
-                + " and generated a stripe TEST token of: " + stripeToken;
+                + " and generated a stripe chargeId of: " + charge.getId();
+        reg.confirmationId = org.apache.commons.lang3.RandomStringUtils.random(6, "ABCDEFGHJKMNPQRSTUVWXYZ23456789");
         reg.save();
 
         Admin.audit("Added registration for event " + event.name + " from web for " + name, null, event);
 
         Email.sendEventRegistrationConfirmation(email, reg);
 
-        //TODO: Redirect to page acknowledging registration
+        return redirect(routes.Application.registrationPage());
+    }
 
-        return ok("Success. Details at: " + routes.Admin.viewEventPage(id));
+    public static Result registrationPage() {
+        return ok(registrationPage.render());
     }
 }

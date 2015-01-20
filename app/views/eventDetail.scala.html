@@ -25,7 +25,7 @@
             <td>@event.startTime.format("hh:mm a")</td>
             <td>@event.endTime.format("hh:mm a")</td>
             @if(event.registrable) {
-                <td>@event.registrationEndDate.format("MM/dd/yyyy")</td>
+                <td>@if(null != event.registrationEndDate) { @event.registrationEndDate.format("MM/dd/yyyy") }</td>
                 <td>@event.registrations.size()/@event.maxRegistrations</td>
                 <td>@utils.Formatter.prettyDollars(event.cost)</td>
             }

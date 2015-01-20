@@ -14,6 +14,7 @@ GET     /events/:id                 controllers.Application.eventDetail(id: Long
 GET     /about                      controllers.Application.about()
 POST    /camp/:id/register          controllers.Application.registerForCampWithStripe(id: Long)
 POST    /event/:id/register         controllers.Application.registerForEventWithStripe(id: Long)
+GET     /registration               controllers.Application.registrationPage()
 
 # Session
 GET     /login                      controllers.Application.login()
