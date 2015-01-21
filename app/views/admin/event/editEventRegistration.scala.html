@@ -37,6 +37,7 @@
                 <select name="paymentType" class="form-control">
                     <option value="" @if(reg.paymentType == null){selected} >Not Paid</option>
                     <option value="CASH" @if(reg.paymentType.name() == "CASH"){selected} >Cash</option>
+                    <option value="STRIPE" @if(reg.paymentType.name() == "STRIPE"){selected} >Stripe</option>
                     <option value="SQUARE" @if(reg.paymentType.name() == "SQUARE"){selected} >Square</option>
                     <option value="OTHER" @if(reg.paymentType.name() == "OTHER"){selected} >Other (Add detail in notes)</option>
                 </select><br/>
