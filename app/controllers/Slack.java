@@ -10,7 +10,9 @@ import net.gpedro.integrations.slack.SlackMessage;
 import org.apache.commons.lang3.time.DateUtils;
 import play.Logger;
 import play.Play;
+import utils.TimeUtil;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -29,10 +31,13 @@ public class Slack {
     private static final String SLACKBOT_AUDIT_CHANNEL = "#audit";
     private static final String SLACKBOT_FINANCE_CHANNEL = "#finance";
     private static final String SLACKBOT_GENERAL_CHANNEL = "#general";
+    private static final long FIFTEEN_MINUTES_IN_MILLISECONDS = 1000*60*15;
 
     private static SlackApi api = new SlackApi("https://hooks.slack.com/services/" + SLACKBOT_KEYS);
 
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+
+    private static SimpleDateFormat squareDF = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
     private static void dispatch(SlackMessage msg) {
         if (null != SLACKBOT_KEYS) {
@@ -89,6 +94,18 @@ public class Slack {
             } else if (t.type == Tender.Type.CASH) {
                 paymentMethods.append(":dollar:");
             }
+        }
+        try {
+            Date created = squareDF.parse(payment.created_at);
+            Date now = new Date();
+            Long interval = (now.getTime() - created.getTime());
+
+            // if payment happened more than 15 minutes ago...
+            if (interval > FIFTEEN_MINUTES_IN_MILLISECONDS) {
+                sb.append("_Created " + TimeUtil.millisToLongDHMS(interval) + " ago_ :troll:\n");
+            }
+        } catch (ParseException e) {
+            Logger.error("Square sending unparse-able dates?", e);
         }
         sb.append("<" + payment.receipt_url + "|Square order " + payment.id + "> (" +
                 prettyDollars(payment.total_collected_money.amount / 100.0) + " " + paymentMethods.toString() + ") ");
