@@ -1,4 +1,4 @@
-@(issues: List[models.site.AdminIssue], localUser: models.security.User = null)
+@(issues: List[models.site.Issue], localUser: models.security.User = null)
 @import admin.wrapper
 @wrapper(localUser, "issues", "viewIssue") {
 <h3><i class="fa fa-angle-right"></i> Issue Database</h3>
