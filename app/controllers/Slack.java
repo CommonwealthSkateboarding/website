@@ -1,6 +1,7 @@
 package controllers;
 
 import models.security.AuditRecord;
+import models.site.Issue;
 import models.skatepark.Visit;
 import models.square.Payment;
 import models.square.PaymentItemization;
@@ -116,5 +117,15 @@ public class Slack {
         dispatch(new SlackMessage(SLACKBOT_FINANCE_CHANNEL, null, sb.toString()));
 
         return null;
+    }
+
+    public static void notifyOfNewIssue(Issue issue) {
+        dispatch(new SlackMessage(SLACKBOT_GENERAL_CHANNEL, issue.createdBy.name, ("New issue created: " + issue.title +
+                " [<" + BASE_URL + routes.Admin.issueIndex()) + "|View Issues>]"));
+    }
+
+    public static void notifyOfClosedIssue(Issue issue) {
+        dispatch(new SlackMessage(SLACKBOT_GENERAL_CHANNEL, issue.createdBy.name, ("Issue closed: " + issue.title +
+                " [<" + BASE_URL + routes.Admin.issueIndex()) + "|View Issues>]"));
     }
 }

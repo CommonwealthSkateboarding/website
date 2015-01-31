@@ -6,6 +6,7 @@ import com.feth.play.module.pa.PlayAuthenticate;
 import models.security.AuditRecord;
 import models.security.SecurityRole;
 import models.security.User;
+import models.site.Issue;
 import models.site.NewsItem;
 import models.skatepark.*;
 import org.apache.commons.lang3.time.DateUtils;
@@ -18,6 +19,8 @@ import play.mvc.Security;
 import views.html.admin.camp.*;
 import views.html.admin.event.*;
 import views.html.admin.index;
+import views.html.admin.issues.addIssue;
+import views.html.admin.issues.issueIndex;
 import views.html.admin.logIndex;
 import views.html.admin.membership.*;
 import views.html.admin.news.addNews;
@@ -62,7 +65,7 @@ public class Admin extends Controller {
         boolean hasNextPage = false;
         Date now = new Date();
         List<NewsItem> news = new Model.Finder(Long.class, NewsItem.class)
-                .setMaxRows(PER_PAGE+1).setFirstRow(page.intValue() * PER_PAGE).
+                .setMaxRows(PER_PAGE + 1).setFirstRow(page.intValue() * PER_PAGE).
                         orderBy(Application.STICKY_REVERSE_DATE_ORDER).findList();
 
         if (news.size() == (PER_PAGE + 1)) { // if there is another page after
@@ -454,6 +457,7 @@ public class Admin extends Controller {
         } else if (payload.getClass().equals(Event.class)) {
             log.event = (Event) payload;
         }
+        //TODO: Consider adding link for admin issues
         log.save();
         Slack.emitAuditLog(log);
     }
@@ -757,5 +761,56 @@ public class Admin extends Controller {
         audit("Edited registration for " + reg.participantName + " to " + reg.event.name, null, reg.event);
 
         return redirect(routes.Admin.viewEventPage(reg.event.id));
+    }
+
+    public static Result issueIndex() {
+        Date now = new Date();
+        List<Issue> issues = Issue.find.orderBy("created").where().isNull("resolved").findList();
+        return ok(issueIndex.render(issues, getLocalUser(session())));
+    }
+
+    public static Result addIssuePage() {
+        return ok(addIssue.render(getLocalUser(session())));
+    }
+
+    public static Result addIssue() {
+        Issue issue = Form.form(Issue.class).bindFromRequest().get();
+        issue.created = new Date();
+        issue.createdBy = getLocalUser(session());
+        issue.save();
+
+        audit("Added new open issue: " + issue.title, null, issue);
+
+        Slack.notifyOfNewIssue(issue);
+
+        return redirect(routes.Admin.issueIndex());
+    }
+
+    public static Result resolveIssue(Long id) {
+        Issue issue = Issue.find.byId(id);
+        if (null == issue) {
+            return redirect(routes.Admin.issueIndex()); // not found
+        }
+        issue.resolved = new Date();
+        issue.owner = getLocalUser(session());
+        issue.save();
+
+        Slack.notifyOfClosedIssue(issue);
+        audit("Resolved issue " + issue.title, null, issue);
+
+        return redirect(routes.Admin.issueIndex());
+    }
+
+    public static Result takeIssue(Long id) {
+        Issue issue = Issue.find.byId(id);
+        if (null == issue) {
+            return redirect(routes.Admin.issueIndex()); // not found
+        }
+        issue.owner = getLocalUser(session());
+        issue.save();
+
+        audit("Took ownership of issue " + issue.title, null, issue);
+
+        return redirect(routes.Admin.issueIndex());
     }
 }

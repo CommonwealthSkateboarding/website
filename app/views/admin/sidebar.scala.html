@@ -16,6 +16,18 @@
                 </a>
             </li>
             <li class="sub-menu">
+                <a @if(activeSection=="issues") { class="active" } href="javascript:;" >
+                    <i class="fa fa-book"></i>
+                    <span>Issues</span>
+                </a>
+                <ul class="sub">
+                    <li @if(activePage=="viewIssue") { class="active" }><a href="@routes.Admin.issueIndex()">View Issues</a></li>
+                </ul>
+                <ul class="sub">
+                    <li @if(activePage=="addIssue") { class="active" }><a href="@routes.Admin.addIssuePage()">Add Issue</a></li>
+                </ul>
+            </li>
+            <li class="sub-menu">
                 <a @if(activeSection=="member") { class="active" } href="javascript:;" >
                     <i class="fa fa-book"></i>
                     <span>Members</span>
@@ -32,8 +44,6 @@
                 <ul class="sub">
                     <li @if(activePage=="negativeBalance") { class="active" }><a href="@routes.Admin.negativeBalancePage()">Negative Balances</a></li>
                 </ul>
-
-
             </li>
             @restrict(la(as("CAMP"))) {
                 <li class="sub-menu">
