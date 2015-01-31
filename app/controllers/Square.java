@@ -40,18 +40,23 @@ public class Square extends Controller {
     public static List<Order> getOrders() {
         WSRequestHolder holder = WS.url(ORDERS_URL).setHeader(AUTHORIZATION_HEADER, BEARER_TOKEN);
         WSResponse response = holder.get().get(1000);
-        JsonNode json = response.asJson();
-        ObjectMapper mapper = new ObjectMapper();
-        Iterator<JsonNode> iter = json.elements();
-        ArrayList<Order> orders = new ArrayList<Order>();
-        while (iter.hasNext()) {
-            Order order = null;
-            try {
-                order = mapper.readValue(iter.next().asText(), Order.class);
-            } catch (IOException e) {
-                e.printStackTrace();
+        ArrayList<Order> orders = new ArrayList<>();
+        if (response.getStatus() != OK) {
+            Logger.error("Got bad response from square when getting orders: " + response.getBody().toString());
+        } else {
+            JsonNode json = response.asJson();
+            ObjectMapper mapper = new ObjectMapper();
+            Iterator<JsonNode> iter = json.elements();
+
+            while (iter.hasNext()) {
+                Order order = null;
+                try {
+                    order = mapper.readValue(iter.next().asText(), Order.class);
+                } catch (IOException e) {
+                    Logger.error("Unable to iterate through square orders", e);
+                }
+                orders.add(order);
             }
-            orders.add(order);
         }
         return orders;
     }
@@ -60,25 +65,29 @@ public class Square extends Controller {
         WSRequestHolder holder = WS.url(PAYMENT_URL + paymentId).setHeader(AUTHORIZATION_HEADER, BEARER_TOKEN);
         WSResponse response = holder.get().get(10000);
         Payment payment = null;
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            payment = mapper.readValue(response.getBody(), Payment.class);
-        } catch (IOException e) {
-            Logger.error("Bad conversion of square payment (perhaps token not configured?)", e);
+        if (response.getStatus() != OK) {
+            Logger.error("Got bad response from square when getting payment: " + response.getBody().toString());
+        } else {
+            try {
+                ObjectMapper mapper = new ObjectMapper();
+                payment = mapper.readValue(response.getBody(), Payment.class);
+            } catch (IOException e) {
+                Logger.error("Bad conversion of square payment (perhaps token not configured?)", e);
+            }
         }
         return payment;
     }
 
     public static Result receiveWebhook() {
-        SquareWebhook hook = null;
         try {
             ObjectMapper mapper = new ObjectMapper();
-            hook = mapper.readValue(request().body().asJson().toString(), SquareWebhook.class);
+            final SquareWebhook hook = mapper.readValue(request().body().asJson().toString(), SquareWebhook.class);
+            Promise<Payment> promisedPayment = Promise.promise(() -> getPayment(hook.entity_id));
+            promisedPayment.map(Slack::emitPaymentDetails);
         } catch (IOException e) {
             Logger.error("Bad conversion of square webhook invocation", e);
         }
-        Payment payment = getPayment(hook.entity_id);
-        Slack.emitPaymentDetails(payment);
+
         return ok();
     }
 

@@ -85,7 +85,7 @@ public class Slack {
                 routes.Admin.dashboard()) + "|Dashboard>]"));
     }
 
-    public static void emitPaymentDetails(Payment payment) {
+    public static Void emitPaymentDetails(Payment payment) {
         StringBuilder sb = new StringBuilder();
         StringBuilder paymentMethods = new StringBuilder();
         for (Tender t : Arrays.asList(payment.tender)) {
@@ -114,5 +114,7 @@ public class Slack {
                     prettyDollars(item.total_money.amount/100) + ")");
         }
         dispatch(new SlackMessage(SLACKBOT_FINANCE_CHANNEL, null, sb.toString()));
+
+        return null;
     }
 }
