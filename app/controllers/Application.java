@@ -7,6 +7,8 @@ import models.skatepark.Camp;
 import models.skatepark.Event;
 import models.skatepark.Registration;
 import org.apache.commons.lang3.time.DateUtils;
+import play.Logger;
+import play.cache.Cache;
 import play.data.Form;
 import play.db.ebean.Model;
 import play.mvc.*;
@@ -31,8 +33,13 @@ public class Application extends Controller {
     }
 
     public static Result index(Long page) {
+        String cacheKey = "newsPage" + page;
         boolean hasNextPage = false;
-        List<NewsItem> news = getNewsItems(page);
+        List<NewsItem> news = (List<NewsItem>) Cache.get(cacheKey);
+        if (null == news) {
+            news = getNewsItems(page);
+            Cache.set(cacheKey, news, 60 * 1); // cache for 1 minute
+        }
         if (news.size() == (PER_PAGE + 1)) { // if there is another page after
             news.remove(PER_PAGE);
             hasNextPage = true;
