@@ -1,97 +1,221 @@
-body.home {
-	[id="carousel"] {
+body {
 
-		&:hover {
-			.slick-dots li:not(.slick-active) button { 
-				border-color: $gold;
-				opacity: .5; 
+	&.home {
+
+		[id="carousel"] {
+			height: $banner-height;
+			font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+			overflow: hidden;
+
+			&:hover {
+
+				// When #carousel is :hover'd, bring arrows in to their default position.
+				.arrow {
+					&.prev { transform: translateX(0px); }
+					&.next { transform: translateX(0px); }
+				}
+
+				// When #carousel is :hover'd, make carousel navigation more prominent.
+				.slick-dots li:not(.slick-active) button { 
+					opacity: .5; 
+				}
+
+			}
+
+			.arrow {
+				height: $banner-content-height;
+				margin-top: $header-size;
+				min-width: $header-size;
+				position: absolute;
+				z-index: 300;
+
+				color: fade_out($gold, .85);
+				font-size: 7.2rem;
+				font-weight: 100;
+				cursor: pointer;
+				@extend .fade;
+
+				display: flex;
+				align-content: center;
+				align-items: center;
+				justify-content: center;
+
+				&.prev { left: 0; transform: translateX(-75px); }
+				&.next { right: 0; transform: translateX(75px); }
 
 				&:hover {
-					background: $gold;
-					opacity: 1;
+					color: $white;
+					//background: linear-gradient(left, fade_out($gold, .75), transparent);
 				}
-			}
-		}
+			 }
 
-		.slick-list, .slick-track {
-			height: 100%;
-		}
+			.slide {
+				display: flex;
+				height: 100%;
 
-		.slick-dots {
-			top: calc(#{$banner-content-height} + #{$small-margin*8});
-			z-index: 800;
+				background-size: 100%;
+				background-repeat: no-repeat;
 
-			li {
-				height: $small-margin;
-				width: $small-margin;
-				margin: 0 $small-margin;
+				.content {
+					display: flex;
+					align-items: center;
+					justify-content: flex-start;
 
-				button {
-					background: transparent;
-					border-radius: 50%;
-					border: 2px solid $gold;
-					transition: opacity .3s, border .3s, background .1s;
+					margin: $header-size;
+					padding: calc(#{$margin/2*2});
+					height: $banner-content-height;
+					width: 100%;
 
-					height: $small-margin;
-					width: $small-margin; 
+					.wrapper { 
+						width: 100%; 
 
-					&::before { display: none; }
-				}
+						.centered {
+							text-align: center;
+							width: 100%;
 
-				&:not(.slick-active) {
-					button { opacity: .05; }
-				}
+							> * { margin: 0 auto; }
+						}
+					}
 
-				&.slick-active {
+					.h1, .h2, .h3, .h4, .h5 { 
+						display: block;
+						font-family: "Roboto Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif;
+						font-weight: 700;
+						text-transform: uppercase; 
+					}
+
+					.h1 {  
+						@include rem(font-size, 60px);
+					}
+					.h2 { 
+						@include rem(font-size, 45px);
+					}
+					.h3 { 
+						@include rem(font-size, 36px); 
+					}
+					.h4 { 
+						@include rem(font-size, 24px);
+					}
+					.h5, 
+					p, li { 
+						@include rem(font-size, 15px);
+					}
+
 					button {
-						background: transparent;
-						border-color: $white;
+						appearance: none;
+						background: $gold;
+						border: none;
+						border-radius: 3px;
+						color: $white;
+						font-weight: 500;
+						margin-top: $margin;
 
 						&:hover {
 							background: $white;
+							color: $gold;
+						}
+						
+						&:focus { outline: none; }
+
+						&.camp.registration {
+							height: $margin*2;
+							padding: 9px;
+							transition: width .5s, background .3s;
+							width: 30%;
+
+							&:hover {
+								width: 60%;
+							}
 						}
 					}
 				}
 
-			}
-		}
+				&.intro {
+					background-image: image-url("index/banner/bg__001--park-with-logo.png");
 
-		.slide {
-
-			&.intro {
-				background: url("/img/index/banner/bg__001--park-with-logo.png") no-repeat;
-			}
-		
-			&.default  {
-				background: url("/img/index/banner/bg__001--default.png");
-			}
-
-			&.sale {	
-				background: 
-					radial-gradient(circle at top, fade_out($gold, .85) 0%, $black 50%),
-					url("/img/index/banner/bg__001--default.png");
-				text-align: center;
-
-				.outline {
-					font-size: 20rem;
-					line-height: 20rem;
+					.logo-oval { 
+						min-width: 200px;
+						max-width: 400px;
+						width: 100%;
+					}
+				}
+			
+				&.default  {
+					background-image: image-url("index/banner/bg__001--default.png");
 				}
 
-				.detail { 
-					color: $white;
-					font-size: 3.8rem; 
-					font-weight: 300;
-					letter-spacing: .5rem;
-					margin-top: $small-margin;
-					text-transform: uppercase;
-					@extend .linethrough;
+				&.camp {	
+					background-image: 
+						radial-gradient(circle at top, fade_out($gold, .85) 0%, $black 50%),
+						image-url("index/banner/bg__001--default.png");
+					text-align: center;
+
+					.title { 
+						color: $white;
+						font-size: 2vw; 
+						font-weight: 300;
+						letter-spacing: .5rem;
+						margin-top: $margin/2;
+						text-transform: uppercase;
+						@include linethrough(2vw/1.75);
+					}
+
+					.details {
+						.dates { font-weight: 700; }
+					}
+				}
+
+				&.extra {
+					background: radial-gradient(circle at top, fade_out($blue, .75) 0%, $black 50%);
 				}
 			}
 
-			&.extra {
-				background: radial-gradient(circle at top, fade_out($blue, .75) 0%, $black 50%);
+			.slick-list, .slick-track {
+				height: 100%;
 			}
 
+			.slick-dots {
+				top: calc(#{$banner-content-height} + #{$margin/2*9});
+				z-index: 800;
+
+				li {
+					height: $margin/2;
+					width: $margin/2;
+					margin: 0 $margin/2;
+
+					button {
+						background: transparent;
+						border-radius: 50%;
+						border: 2px solid $gold;
+						transition: opacity .3s, border .3s, background .1s;
+
+						height: $margin/2;
+						width: $margin/2; 
+
+						&:hover {
+							background: $gold;
+							opacity: 1;
+						}
+
+						&::before { display: none; }
+					}
+
+					&:not(.slick-active) {
+						button { opacity: .12; }
+					}
+
+					&.slick-active {
+						button {
+							background: transparent;
+							border-color: $white;
+
+							&:hover {
+								background: $white;
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 }

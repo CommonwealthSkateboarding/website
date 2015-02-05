@@ -3,6 +3,27 @@
 @main("home", true) {
 
 <section id="blog">
+
+    <article>
+        <header>
+            <h1>Blog Title</h1>
+            <div class="meta">
+                <div class="date">
+                    <time>Time, Day, Year</time>
+                </div>
+                <div class="tags">
+                        <a href="#">News</a> / <a href="#">Site</a>
+                    </div>
+                </div>
+            </header>
+            <main>
+                Article content goes here.
+            </main>
+            <footer>
+                <a href="#" class="more">Read More</a>
+            </footer>
+        </article>
+
     @for(item <- news) {
         <article>
             <header>

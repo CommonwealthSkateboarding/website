@@ -1,7 +1,41 @@
 
+//		"img Folder Reference"
+// 		Explanation: 
+//			Provides a lazy shortcut so you just have to type in the filename you are trying to access.
+// 		Usage:
+//			background-image: img-url("cats.jpg");
+//		Output:
+//			background-image: url("img/cats.jpg");
+
+// $http_path: "http://your-url-goes-here.com/path-to-your-directory/";
+$http_images_path: "img/";
+
+@function image-url($relative-url){
+  $tmpUrl: $http_images_path + $relative-url;
+  @return url($tmpUrl);
+}
 
 
-// loop through SVG classes on object
+//		"Strip Unit Value"
+// 		Explanation: 
+//			Strip the unit type from an integer. Try to avoid using.
+// 		Usage: 
+//			line-height: strip-unit(24px);
+//		Output:
+//			line-height: 24;
+
+@function strip-unit($num) {
+  @return $num / ($num * 0 + 1);
+}
+
+
+//		"Color SVG by Class Name"
+//		Explanation: 
+//			Assigns a color variable to a class on an <object> with a class of "svg", use that class 
+//			to define the fill attribute on an SVG.
+//				ex. .white { fill: $white; }
+//		Usage: <object ... class="white svg">
+
 // object.svg {
 // 	$colors: ($white $black $gray $gold);
 // 	$classes: (white black gray gold);

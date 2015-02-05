@@ -1,0 +1,55 @@
+@media screen and (max-width: 960px) {	
+	html { font-size: 90% !important; }
+}
+
+@media screen and (max-width: 700px) {
+	html { font-size: 80% !important; }
+}
+
+@media screen and (max-width: 600px) {
+	html { font-size: 70% !important; }
+
+	header[id="main"] {
+		nav {
+			> ul { 
+				//display: block !important; 
+
+				li { 
+					a { 
+						margin: 0 !important; 
+						width: 50% !important;
+					}
+				}
+			}
+		}
+	}
+
+	[id="carousel"] { display: none !important; }
+
+	[id="info"], [id="blog"] {
+		width: 100% !important;
+	}
+
+	[id="info"] {
+		order: 1 !important;
+	}
+
+	[id="blog"] {
+		order: 2 !important;
+	}
+}
+
+@media screen and (max-device-width: 420px) {
+	body.home {
+		background: red !important;
+	}
+
+	[id="carousel"] { 
+		//display: none !important;
+		//.arrow.prev, .arrow.next { display: none !important; }
+	}
+
+	header[id="main"] nav { display: none !important; }
+
+
+}

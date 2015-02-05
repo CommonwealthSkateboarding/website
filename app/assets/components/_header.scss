@@ -1,0 +1,146 @@
+header {
+
+		&[id="main"] {
+			//background: yellow;
+			//padding: $margin/2;
+			//height: $header-size;
+			padding: 9px;
+			position: absolute;
+			width: 100%;
+			z-index: 9000;
+
+			display: flex;
+			align-items: center;
+
+			.logo {
+				height: $header-size;
+				width: $header-size;
+
+				// transition-style: preserve-3d;
+				
+				// perspective: 1000px;
+				//transform: translateZ(-100px);
+
+				a { 
+					display: inline-block;
+					position: relative;
+					height: 100%;
+					width: 100%;
+
+					//margin-left: 20px;
+
+					span { 
+
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						transition: background 3s;
+
+						position: absolute;
+						height: 100%;
+						width: 100%;
+
+						// Colors
+						&.front { background: linear-gradient(to bottom right, $black, lighten($gold, 10), $gold); background-size: 1000%; }
+						&.bottom { background: linear-gradient(to bottom right, lighten($gold, 10), $gold); }
+
+						// Positioning
+						&.front { transform: rotateX(0deg) translateZ(50px); z-index: 9002; }
+						&.bottom { transform: rotateX(-90deg) translateZ(-52px);  z-index: 9001; }
+					}	
+				}
+
+				&:hover {
+					//transform: rotateX(90deg);
+					.front { background-size: 250%; transition: background 1s; }
+				}
+				
+			}
+
+			.news {
+				display: none;
+				//background: pink;
+				font-family: "Roboto Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif;
+				margin-left: $margin/2*2;
+				min-width: 500px;
+				//width: calc(50% - #{$margin/2});
+
+				.heading { 
+					color: $gray;
+					text-transform: uppercase;
+					font-weight: 700;
+				}
+
+				.item {
+					color: $gray;
+					text-transform: uppercase;
+
+					.date {
+						color: $white;
+						font-size: 1.6rem;
+						font-weight: 700;
+						margin-right: 5px;
+					}
+
+					.tag {
+						border-radius: 4px;
+						color: $white;
+						font-size: 1.2rem;
+						font-weight: 700;
+						margin: 0 5px;
+						padding: 3px 9px;
+
+						&.sale {
+							background: $blue;
+						}
+					}
+
+					.content {
+						font-size: 1.6rem;
+						font-weight: 700;
+					}
+				}
+			}
+
+			nav {
+				display: flex;
+				width: calc(100% - 100px);
+
+				ul li { list-style: none; }
+
+				> ul {
+					display: flex;
+					justify-content: flex-end;
+					margin-right: $margin;
+					width: 100%;
+
+					li {
+						a { 
+							@include rem(font-size, 1rem);
+							border-bottom: 2px solid transparent;
+							color: $gold;
+							display: inline;
+							font-family: "Roboto Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif;
+							font-weight: 700;
+							margin: 0 10px;
+							padding: 0 0 1px 0;
+							text-transform: uppercase;
+
+							&:hover {
+								border-bottom: 3px solid $gold;
+								color: $white;
+							}
+						}
+
+						&:first-of-type a { margin-left: 0; }
+						&:last-of-type a { margin-right: 0; }
+
+						ul {
+							display: none;
+						}
+					}
+				}
+			}
+		}
+		
+	} // /header
