@@ -51,7 +51,7 @@ POST    /admin/members/unlimitedPass/:id/edit   controllers.Admin.editUnlimitedP
 GET     /admin/members/unlimitedPass/:id/remove controllers.Admin.removeUnlimitedPass(id: Long)
 GET     /admin/members/:id/edit                 controllers.Admin.editMemberPage(id: Long)
 POST    /admin/members/:id/edit                 controllers.Admin.updateMembership(id: Long)
-GET     /admin/members/new                      controllers.Admin.addMemberPage()
+GET     /admin/members/new                      controllers.Admin.addMemberPage(name ?= null)
 POST    /admin/members/find                     controllers.Admin.findMember()
 POST    /admin/members/new                      controllers.Admin.addMember()
 GET     /admin/members/:page                    controllers.Admin.memberIndex(page: Long)

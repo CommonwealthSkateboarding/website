@@ -124,6 +124,11 @@
           displayKey: 'name',
           source: members.ttAdapter(),
           templates: {
+            empty: Handlebars.compile([
+              '<div class="empty-message">',
+              'Unable to find any members named "{{query}}". <a href="/admin/members/new?name={{query}}" class="btn btn-info">Add New Member</a>',
+              '</div>'
+              ].join('\n')),
             suggestion: Handlebars.compile('<p><h4>{{name}} {{#checkedInToday}}<span class="label label-success"><i class="fa fa-check"></i></span>{{/checkedInToday}}{{^checkedInToday}}<span class="label label-danger"><i class="fa fa-ban"></i></span>{{/checkedInToday}} <a href="/admin/members/{{id}}/view" class="label label-info">View</a></h4> Actions: {{#checkinable checkedInToday sessionPasses allDayPasses mostValidUnlimitedPass}}{{#if allDayPasses}}<a href="/admin/members/{{id}}/visit/allDay" class="btn btn-info">Check in With All Day Pass</a>{{/if}}{{#if sessionPasses}}<a href="/admin/members/{{id}}/visit/session" class="btn btn-info">Check in With Session Pass</a>{{/if}}{{/checkinable}} {{#poortown checkedInToday sessionPasses allDayPasses mostValidUnlimitedPass}}<a href="/admin/members/{{id}}/visit/sessionImmediate" class="btn btn-danger">Sell a session pass for today</a>{{/poortown}} {{#unlimable checkedInToday mostValidUnlimitedPass}}<a href="/admin/members/{{id}}/visit/{{mostValidUnlimitedPass.id}}" class="btn btn-success">Check in with unlimited pass</a>{{/unlimable}}</p>')
           }
         });

@@ -173,8 +173,8 @@ public class Admin extends Controller {
         return ok(unlimitedPassHolders.render(current, expired, getLocalUser(session())));
     }
 
-    public static Result addMemberPage() {
-        return ok(addMember.render(getLocalUser(session())));
+    public static Result addMemberPage(String name) {
+        return ok(addMember.render(name, getLocalUser(session())));
     }
 
     public static Result findMember() {

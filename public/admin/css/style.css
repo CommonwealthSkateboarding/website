@@ -256,7 +256,7 @@ ul.top-menu > li > .logout {
     height:17px;
     width:17px;
     display:inline-block;
-    background: url("../img/nav-expand.png") no-repeat top;
+    /*background: url("../img/nav-expand.png") no-repeat top;*/
     border-radius:3px;
     -moz-border-radius:3px;
     -webkit-border-radius:3px;
@@ -265,7 +265,7 @@ ul.top-menu > li > .logout {
     top:15px;
 }
 .active .dcjq-icon {
-    background: url("../img/nav-expand.png") no-repeat bottom;
+    /*background: url("../img/nav-expand.png") no-repeat bottom;*/
     border-radius:3px;
     -moz-border-radius:3px;
     -webkit-border-radius:3px;
@@ -2267,6 +2267,12 @@ label {
  span.twitter-typeahead {
    display: block;
    width: 100%;
+ }
+
+ .empty-message {
+   padding: 8px 20px;
+   font-size: 14px;
+   line-height: 18px;
  }
 
  .tt-suggestion {
