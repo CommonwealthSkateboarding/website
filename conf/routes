@@ -37,6 +37,7 @@ GET     /admin/members/unlimitedPassHolders     controllers.Admin.unlimitedPassH
 GET     /admin/members/negativeBalance          controllers.Admin.negativeBalancePage()
 GET     /admin/members/:id/view                 controllers.Admin.viewMemberPage(id: Long)
 GET     /admin/members/:id/visit/session        controllers.Admin.sessionVisit(id: Long)
+GET     /admin/members/:id/visit/sessionImmediate   controllers.Admin.immediateSessionVisit(id: Long)
 GET     /admin/members/:id/visit/allday         controllers.Admin.allDayVisit(id: Long)
 GET     /admin/members/:id/visit/:pId           controllers.Admin.memberPassVisit(id: Long, pId: Long)
 GET     /admin/members/visit/:id/undo           controllers.Admin.undoVisit(id: Long)
@@ -47,6 +48,7 @@ GET     /admin/members/:id/addAllDayPass        controllers.Admin.addAllDayPass(
 GET     /admin/members/:id/subtractAllDayPass   controllers.Admin.subtractAllDayPass(id: Long)
 POST    /admin/members/:id/unlimitedPass/new    controllers.Admin.addUnlimitedPass(id: Long)
 POST    /admin/members/unlimitedPass/:id/edit   controllers.Admin.editUnlimitedPass(id: Long)
+GET     /admin/members/unlimitedPass/:id/remove controllers.Admin.removeUnlimitedPass(id: Long)
 GET     /admin/members/:id/edit                 controllers.Admin.editMemberPage(id: Long)
 POST    /admin/members/:id/edit                 controllers.Admin.updateMembership(id: Long)
 GET     /admin/members/new                      controllers.Admin.addMemberPage()
@@ -91,6 +93,9 @@ GET     /admin/issues/new                       controllers.Admin.addIssuePage()
 POST    /admin/issues/new                       controllers.Admin.addIssue()
 GET     /admin/issues/:id/resolve               controllers.Admin.resolveIssue(id: Long)
 GET     /admin/issues/:id/take                  controllers.Admin.takeIssue(id: Long)
+
+GET     /admin/autocomplete/member/:search      controllers.Autocomplete.searchMembersByName(search)
+
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

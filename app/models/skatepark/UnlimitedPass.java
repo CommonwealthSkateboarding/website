@@ -1,5 +1,6 @@
 package models.skatepark;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import models.security.User;
 import play.data.format.Formats;
 import play.db.ebean.Model;
@@ -17,9 +18,11 @@ public class UnlimitedPass extends Model {
     @Id
     public Long id;
 
+    @JsonIgnore
     @ManyToOne
     public Membership membership;
 
+    @JsonIgnore
     @ManyToOne
     public User addedBy;
 

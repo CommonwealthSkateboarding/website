@@ -4,7 +4,7 @@
 @wrapper(localUser, "member", "existingMembers") {
 <h3><i class="fa fa-angle-right"></i> Membership Database</h3>
 <div class="col-lg-8 col-md-8 col-sm-8">
-    @if(member.checkedInToday()) {
+    @if(member.isCheckedInToday()) {
         @if(member.lastVisit.isValidNow()) {
             <div class="alert alert-success">
                 <h2 class="text-center"><i class="fa fa-check-circle"></i> @member.name Checked In Today!</h2>
@@ -157,18 +157,19 @@
                     <form action="@routes.Admin.editUnlimitedPass(pass.id)" method="post" class="form-inline collapse text-center" role="form">
                         <div class="form-group">
                             <div class="input-group">
-                                <input name="startDate" class="form-control" id="datepickerA@pass.id" value="@pass.starts.format("MM/dd/yyyy")" placeholder="Start Date"/> -
+                                <input name="startDate" class="form-control" id="datepickerA@pass.id" value="@pass.starts.format("MM/dd/yyyy")" placeholder="Start Date"/>
                                 <input name="expireDate" class="form-control" id="datepickerB@pass.id" value="@pass.expires.format("MM/dd/yyyy")" placeholder="End Date"/>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-default">Update Pass Info</button>
+                        <button type="submit" class="btn btn-block btn-default">Update Pass Info</button>
+                        <a href="@routes.Admin.removeUnlimitedPass(pass.id)" class="btn btn-block btn-danger">Delete this pass (can't undo)</a>
                     </form>
                     <p><a class="btn pull-right" id="modifyPass@pass.id" href="#">Edit</a></p>
                 </div>
                 <h4>@pass.starts.format("MM/dd/yyyy") - @pass.expires.format("MM/dd/yyyy")</h4>
                 @if(pass.isValid()) {
                     <div class="col-md-12 mb">
-                        <a href="@routes.Admin.memberPassVisit(member.id, pass.id)" class="btn btn-success btn-block @if(member.checkedInToday()) { disabled }">Check In</a>
+                        <a href="@routes.Admin.memberPassVisit(member.id, pass.id)" class="btn btn-success btn-block @if(member.isCheckedInToday()) { disabled }">Check In</a>
                     </div>
                 }
             </div>
@@ -198,7 +199,7 @@
     <div class="showback">
         <h4 class="pull-right"><span class="label label-default">@member.sessionPasses Remaining</span></h4>
         <h4><i class="fa fa-angle-right"></i> Session Passes</h4>
-        <p><a href="@routes.Admin.sessionVisit(member.id)" class="btn btn-theme btn-block @if(0 == member.sessionPasses || member.checkedInToday()) { disabled } ">Check In</a></p>
+        <p><a href="@routes.Admin.sessionVisit(member.id)" class="btn btn-theme btn-block @if(0 == member.sessionPasses || member.isCheckedInToday()) { disabled } ">Check In</a></p>
         <a href="@routes.Admin.addSessionPass(member.id, 1)" class="btn btn-xs btn-default btn-block">Add 1 Pass</a>
         <a href="@routes.Admin.addSessionPass(member.id, 10)" class="btn btn-xs btn-default btn-block">Add 10 Passes</a>
         <a href="@routes.Admin.subtractSessionPass(member.id)" class="btn btn-xs btn-default btn-block @if(0 == member.sessionPasses) { disabled }">Subtract</a>
@@ -209,7 +210,7 @@
     <div class="showback">
         <h4 class="pull-right"><span class="label label-default">@member.allDayPasses Remaining</span></h4>
         <h4><i class="fa fa-angle-right"></i> All Day Passes</h4>
-        <p><a href="@routes.Admin.allDayVisit(member.id)" class="btn btn-theme btn-block @if(0 == member.allDayPasses || member.checkedInToday()) { disabled } ">Check In</a></p>
+        <p><a href="@routes.Admin.allDayVisit(member.id)" class="btn btn-theme btn-block @if(0 == member.allDayPasses || member.isCheckedInToday()) { disabled } ">Check In</a></p>
         <a href="@routes.Admin.addAllDayPass(member.id)" class="btn btn-xs btn-default btn-block">Add</a>
         <a href="@routes.Admin.subtractAllDayPass(member.id)" class="btn btn-xs btn-default btn-block @if(0 == member.allDayPasses) { disabled }">Subtract</a>
     </div>

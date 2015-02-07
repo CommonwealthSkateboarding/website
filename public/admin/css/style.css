@@ -2239,4 +2239,45 @@ label {
     min-height: 900px;
 }
 
+ span.twitter-typeahead .tt-dropdown-menu {
+   width: 100%;
+   position: absolute;
+   top: 100%;
+   left: 0;
+   z-index: 1000;
+   display: none;
+   float: left;
+   min-width: 160px;
+   padding: 5px 0;
+   margin: 2px 0 0;
+   list-style: none;
+   font-size: 14px;
+   text-align: left;
+   background-color: #ffffff;
+   border: 1px solid #cccccc;
+   border: 1px solid rgba(0, 0, 0, 0.15);
+   border-radius: 4px;
+   -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+   background-clip: padding-box;
+   max-height: 350px;
+   overflow-y: auto;
+ }
+
+ span.twitter-typeahead {
+   display: block;
+   width: 100%;
+ }
+
+ .tt-suggestion {
+   padding: 8px 20px;
+   font-size: 14px;
+   line-height: 18px;
+ }
+
+ .tt-suggestion + .tt-suggestion {
+   font-size: 14px;
+   border-top: 1px solid #ccc;
+ }
+
 

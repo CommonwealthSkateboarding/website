@@ -1,5 +1,7 @@
 package models.skatepark;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import play.data.format.Formats;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
@@ -54,6 +56,7 @@ public class Membership extends Model {
 
     public Double credit;
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL)
     public List<Visit> visits;
 
@@ -61,13 +64,14 @@ public class Membership extends Model {
     @Formats.DateTime(pattern="MM/dd/yyyy")
     public Date createDate;
 
+    @JsonIgnore
     @OneToOne
     public Visit lastVisit;
 
     public static final Finder<Long, Membership> find = new Finder<Long, Membership>(
             Long.class, Membership.class);
 
-    public boolean checkedInToday() {
+    public boolean isCheckedInToday() {
         Calendar today = Calendar.getInstance();
         today.set(Calendar.HOUR_OF_DAY, 0);
         today.set(Calendar.MINUTE, 0);
@@ -97,11 +101,22 @@ public class Membership extends Model {
         this.save();
     }
 
+    public UnlimitedPass getMostValidUnlimitedPass() {
+        for (UnlimitedPass pass : unlimitedPasses) {
+            if (pass.isValid()) {
+                return pass;
+            }
+        }
+        return null;
+    }
+
     /**
      * Should help rendering by hiding passes which are old and not valid. Will include the latest expired pass if
      * there are no unexpired passes
      * @return list of unlimited passes for display
      */
+
+    @JsonIgnore
     public List<UnlimitedPass> getUnlimitedPassesForDisplay() {
         Date now = new Date();
         UnlimitedPass lastExpired = null;

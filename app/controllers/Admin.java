@@ -220,6 +220,13 @@ public class Admin extends Controller {
         return redirect(routes.Admin.viewMemberPage(memberId));
     }
 
+    public static Result removeUnlimitedPass(Long id) {
+        UnlimitedPass pass = UnlimitedPass.find.byId(id);
+        pass.delete();
+        audit("Deleted an unlimited pass for " + pass.membership.name, pass.membership, pass);
+        return redirect(routes.Admin.viewMemberPage(pass.membership.id));
+    }
+
     public static Result addSessionPass(Long id, int passes) {
         Membership member = Membership.find.byId(id);
         member.sessionPasses = (member.sessionPasses + passes);
@@ -335,6 +342,21 @@ public class Admin extends Controller {
         member.save();
 
         audit("Checked in " + member.name + " with a session pass", member, visit);
+
+        return redirect(routes.Admin.viewMemberPage(memberId));
+    }
+
+    public static Result immediateSessionVisit(Long memberId) {
+        Membership member = (Membership) new Model.Finder(Long.class, Membership.class).byId(memberId);
+        if (null == member) {
+            return notFound("Bad member id");
+        };
+
+        Visit visit = Visit.addVisit(member, getLocalUser(session()), Visit.VisitType.SESSION);
+        member.lastVisit = visit;
+        member.save();
+
+        audit("Checked in " + member.name + " with a session pass sold on the spot", member, visit);
 
         return redirect(routes.Admin.viewMemberPage(memberId));
     }
