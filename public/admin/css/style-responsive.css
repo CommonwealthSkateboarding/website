@@ -252,6 +252,11 @@
         border-color:#ccc ;
     }
 
+    span.twitter-typeahead .tt-dropdown-menu {
+        margin-top: -184px;
+        margin-left: 32px;
+    }
+
 }
 
 @media (max-width:320px) {
