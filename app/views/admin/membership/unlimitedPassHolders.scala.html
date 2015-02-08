@@ -24,6 +24,11 @@
                                 <td>@member.name</td>
                                 <td>Pass expires @pass.expires.format("MM/dd/yyyy")
                                     (<span class="timeago" title="@pass.expires.format("yyyy-MM-dd'T'HH:mmZ")"></span>)
+                                    @if(null != member.lastVisit) {
+                                        <br/>
+                                        Last visited @member.lastVisit.time.format("MM/dd/yyyy")
+                                        (<span class="timeago" title="@member.lastVisit.time.format("yyyy-MM-dd'T'HH:mmZ")"></span>)
+                                    }
                                 </td>
                                 <td><a href="@routes.Admin.viewMemberPage(member.id)" class="btn btn-theme btn-block">View</a></td>
                             </tr>
