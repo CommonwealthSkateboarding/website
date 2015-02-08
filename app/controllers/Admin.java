@@ -327,55 +327,44 @@ public class Admin extends Controller {
         return redirect(routes.Admin.viewMemberPage(membership.id));
     }
 
-    public static Result sessionVisit(Long memberId) {
+    public static Result sessionVisit(Long memberId, boolean soldOnSpot) {
         Membership member = (Membership) new Model.Finder(Long.class, Membership.class).byId(memberId);
         if (null == member) {
             return notFound("Bad member id");
         };
-        if (member.sessionPasses == 0) {
+        if (!soldOnSpot && member.sessionPasses == 0) {
             return badRequest("Member doesn't have enough session passes");
         }
 
         Visit visit = Visit.addVisit(member, getLocalUser(session()), Visit.VisitType.SESSION);
-        member.sessionPasses = (member.sessionPasses - 1);
+        if (!soldOnSpot) {
+            member.sessionPasses = (member.sessionPasses - 1);
+        }
         member.lastVisit = visit;
         member.save();
 
-        audit("Checked in " + member.name + " with a session pass", member, visit);
+        audit("Checked in " + member.name + " with a" + (soldOnSpot?"":" saved") + " session pass", member, visit);
 
         return redirect(routes.Admin.viewMemberPage(memberId));
     }
 
-    public static Result immediateSessionVisit(Long memberId) {
+    public static Result allDayVisit(Long memberId, boolean soldOnSpot) {
         Membership member = (Membership) new Model.Finder(Long.class, Membership.class).byId(memberId);
         if (null == member) {
             return notFound("Bad member id");
         };
-
-        Visit visit = Visit.addVisit(member, getLocalUser(session()), Visit.VisitType.SESSION);
-        member.lastVisit = visit;
-        member.save();
-
-        audit("Checked in " + member.name + " with a session pass sold on the spot", member, visit);
-
-        return redirect(routes.Admin.viewMemberPage(memberId));
-    }
-
-    public static Result allDayVisit(Long memberId) {
-        Membership member = (Membership) new Model.Finder(Long.class, Membership.class).byId(memberId);
-        if (null == member) {
-            return notFound("Bad member id");
-        };
-        if (member.allDayPasses == 0) {
+        if (!soldOnSpot && member.allDayPasses == 0) {
             return badRequest("Member doesn't have enough all day passes");
         }
 
         Visit visit = Visit.addVisit(member, getLocalUser(session()), Visit.VisitType.ALL_DAY);
-        member.allDayPasses = (member.allDayPasses - 1);
+        if (!soldOnSpot) {
+            member.allDayPasses = (member.allDayPasses - 1);
+        }
         member.lastVisit = visit;
         member.save();
 
-        audit("Checked in " + member.name + " with an all day pass", member, visit);
+        audit("Checked in " + member.name + " with a" + (soldOnSpot?"n":" saved") + " all day pass", member, visit);
 
         return redirect(routes.Admin.viewMemberPage(memberId));
     }
