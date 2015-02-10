@@ -827,7 +827,14 @@ public class Admin extends Controller {
     }
 
     public static Result unheardSaleIndex() {
-        List<UnheardSale> sales = UnheardSale.find.orderBy("created").where().eq("invoiced", false).findList();
+        boolean showAll = Boolean.parseBoolean(request().getQueryString("showAll"));
+
+        List<UnheardSale> sales;
+        if (showAll) {
+            sales = UnheardSale.find.orderBy("created").where().findList();
+        } else {
+            sales = UnheardSale.find.orderBy("created").where().eq("invoiced", false).findList();
+        }
         return ok(unheardSaleIndex.render(sales, getLocalUser(session())));
     }
 
@@ -860,7 +867,7 @@ public class Admin extends Controller {
             return redirect(routes.Admin.unheardSaleIndex()); // not found
         }
         sale.invoiced = true;
-        sale.delete();
+        sale.save();
 
         audit("Invoiced unheard sale (id: " + sale.id + ")", null, null);
 
