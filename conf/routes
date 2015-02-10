@@ -93,6 +93,11 @@ POST    /admin/issues/new                       controllers.Admin.addIssue()
 GET     /admin/issues/:id/resolve               controllers.Admin.resolveIssue(id: Long)
 GET     /admin/issues/:id/take                  controllers.Admin.takeIssue(id: Long)
 
+GET     /admin/unheardSale                      controllers.Admin.unheardSaleIndex()
+POST    /admin/unheardSale/new                  controllers.Admin.addUnheardSale()
+GET     /admin/unheardSale/:id/delete           controllers.Admin.deleteUnheardSale(id: Long)
+GET     /admin/unheardSale/:id/invoice          controllers.Admin.invoiceUnheardSale(id: Long)
+
 GET     /admin/autocomplete/member/:search      controllers.Autocomplete.searchMembersByName(search)
 
 

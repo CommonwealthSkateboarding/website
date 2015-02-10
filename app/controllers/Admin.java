@@ -26,6 +26,7 @@ import views.html.admin.membership.*;
 import views.html.admin.news.addNews;
 import views.html.admin.news.editNews;
 import views.html.admin.news.newsIndex;
+import views.html.admin.unheard.unheardSaleIndex;
 import views.html.admin.userIndex;
 
 import java.text.ParseException;
@@ -823,5 +824,46 @@ public class Admin extends Controller {
         audit("Took ownership of issue " + issue.title, null, issue);
 
         return redirect(routes.Admin.issueIndex());
+    }
+
+    public static Result unheardSaleIndex() {
+        List<UnheardSale> sales = UnheardSale.find.orderBy("created").where().eq("invoiced", false).findList();
+        return ok(unheardSaleIndex.render(sales, getLocalUser(session())));
+    }
+
+    public static Result addUnheardSale() {
+        UnheardSale sale = Form.form(UnheardSale.class).bindFromRequest().get();
+        sale.created = new Date();
+        sale.soldBy = getLocalUser(session());
+        sale.save();
+
+        audit("Added new unheard sale: " + sale.brand + " " + sale.description, null, sale);
+
+        return redirect(routes.Admin.unheardSaleIndex());
+    }
+
+    public static Result deleteUnheardSale(Long id) {
+        UnheardSale sale = UnheardSale.find.byId(id);
+        if (null == sale) {
+            return redirect(routes.Admin.unheardSaleIndex()); // not found
+        }
+        sale.delete();
+
+        audit("Deleted unheard sale (id: " + sale.id + ")", null, null);
+
+        return redirect(routes.Admin.unheardSaleIndex());
+    }
+
+    public static Result invoiceUnheardSale(Long id) {
+        UnheardSale sale = UnheardSale.find.byId(id);
+        if (null == sale) {
+            return redirect(routes.Admin.unheardSaleIndex()); // not found
+        }
+        sale.invoiced = true;
+        sale.delete();
+
+        audit("Invoiced unheard sale (id: " + sale.id + ")", null, null);
+
+        return redirect(routes.Admin.unheardSaleIndex());
     }
 }
