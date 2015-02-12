@@ -18,7 +18,7 @@ public class UnheardSale extends Model {
     public Long id;
     public String brand;
     public String description;
-    public String retailPrice;
+    public Double retailPrice;
     public boolean teamRiderSale;
     public boolean invoiced;
     @ManyToOne

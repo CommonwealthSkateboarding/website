@@ -11,6 +11,7 @@
             <form action="@routes.Admin.addUnheardSale()" method="post" class="form-horizontal style-form">
                 <label>Brand:</label><br/>
                 <select name="brand" class="form-control">
+                    <option value="">--- Select One ---</option>
                     <option value="Unheard">Unheard</option>
                     <option value="Lifeblood">Lifeblood</option>
                     <option value="Dieta">Dieta</option>
@@ -22,8 +23,8 @@
                     <option value="Eleven 11">Eleven 11</option>
                     <option value="Other">Other</option>
                 </select>
-                <label>Description:</label><br/><input type="text" name="description" class="form-control" /><br/>
-                <label>Retail Price:</label><br/><input type="text" name="retailPrice" class="form-control" /><br/>
+                <label>Description:</label><br/><input type="text" name="description" class="form-control" placeholder="Item Description"/><br/>
+                <label>Retail Price:</label><br/><input type="text" name="retailPrice" class="form-control" placeholder="0.00"/><br/>
                 <label>Team Rider Sale:</label><br/><input type="checkbox" name="teamRiderSale" class="form-control" /><br/>
                 <input type="submit" id="submit" value="Add Unheard Sale" class="btn btn-theme btn-block"/>
             </form>
@@ -51,7 +52,7 @@
                         <tr>
                             <td>@sale.brand</td>
                             <td>@sale.description</td>
-                            <td>@sale.retailPrice</td>
+                            <td>@utils.Formatter.prettyDollars(sale.retailPrice)</td>
                             <td>@if(sale.teamRiderSale) { Yes } else { No }</td>
                             <td>@sale.soldBy.name</td>
                             <td>@sale.created.format("MM/dd/yyyy h:mm a")</td>
