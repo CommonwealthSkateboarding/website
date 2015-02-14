@@ -1,5 +1,6 @@
 @(members: List[models.skatepark.Membership], page: Long, hasNextPage: Boolean, localUser: models.security.User = null)
 @import admin.wrapper
+@import models.skatepark.Visit._
 @wrapper(localUser, "member", "existingMembers") {
 
 <h3><i class="fa fa-angle-right"></i> Membership Database</h3>
@@ -58,8 +59,15 @@
                                 <td>
                                     @if(member.isCheckedInToday()) {
                                         <span class="label label-success">Checked In Today</span>
-                                        @if(!member.lastVisit.isValidNow()) {
-                                            <span class="label label-danger pull-right">Session pass expired
+
+                                        @if(member.lastVisit.isValidNow()) {
+                                            @if(member.lastVisit.visitType == VisitType.SESSION) {
+                                                <span class="label label-success pull-right">Pass expires <span class="timeago" title="@member.lastVisit.expires.format("yyyy-MM-dd'T'HH:mmZ")"></span></span>
+                                            } else {
+                                                <span class="label label-success pull-right">Pass good all day</span>
+                                            }
+                                        } else {
+                                            <span class="label label-danger pull-right">Pass expired
                                                 <span class="timeago" title="@member.lastVisit.expires.format("yyyy-MM-dd'T'HH:mmZ")"></span>
                                             </span>
                                         }
