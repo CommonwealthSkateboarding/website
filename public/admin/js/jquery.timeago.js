@@ -14,6 +14,10 @@
  * Copyright (c) 2008-2013, Ryan McGeary (ryan -[at]- mcgeary [*dot*] org)
  */
 
+/**
+ * Altered by CD 2015 to stay accurate to the minute up to 2 hours
+ */
+ 
 (function (factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
@@ -98,8 +102,8 @@
 
       var words = seconds < 45 && substitute($l.seconds, Math.round(seconds)) ||
         seconds < 90 && substitute($l.minute, 1) ||
-        minutes < 45 && substitute($l.minutes, Math.round(minutes)) ||
-        minutes < 90 && substitute($l.hour, 1) ||
+        minutes < 120 && substitute($l.minutes, Math.round(minutes)) ||
+        //minutes < 90 && substitute($l.hour, 1) ||
         hours < 24 && substitute($l.hours, Math.round(hours)) ||
         hours < 42 && substitute($l.day, 1) ||
         days < 30 && substitute($l.days, Math.round(days)) ||
