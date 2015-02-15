@@ -4,35 +4,34 @@
 
 $base-font-size: 15px;
 
-p { 
-	@include rem(font-size, 15px);
-	line-height: 1.2;
-	//@include rem(margin, 1rem 0);
+h1, .h1,
+h2, .h2,
+h3, .h3,
+h4, .h4,
+h5, .h5,
+h6, .h6 {
+	font-weight: 300;
+	margin: 15px 0 1px;
 }
+
+p { 
+	margin: 15px 0 1px; }
 
 h1, .h1 { 
-	//font-size: 4.2rem; 
-	//line-height: 4.4rem; 
+	color: $white;
+	@include rem(font-size, 12px); 
+	font-weight: 900;
+	line-height: 1;
+	text-transform: uppercase;
 }
 
-h2, .h2 { 
-	//font-size: 3.2rem; 
-	//line-height: 3.6rem; 
-}
+h2, .h2 { @include rem(font-size, 36px); }
+h3, .h3 { @include rem(font-size, 30px); }
+h4, .h4 { @include rem(font-size, 24px); }
+h5, .h5 { @include rem(font-size, 21px); }
+h6, .h6, p { @include rem(font-size, 15px); }
 
-h3, .h3 { 
-	//font-size: 2.4rem; 
-	//line-height: 2.8rem; 
-}
-
-h4, .h4 { }
-h5, .h5 { }
-
-h6, .h6 { 
-	//font-size: 1rem; 
-}
-
-
+h5, .h5, h6, .h6 { color: $white; font-weight: 500; }
 
 //
 //** BANNER TYPOGRAPHY
@@ -60,17 +59,33 @@ h6, .h6 {
 //** Usage: Underneath "Outlined" / As short descriptor
 //** Mixin: The $font-size function passes the text size, which is then divided by 1.75,
 //**        allowing the line to center nicely for most sizes of type.
-@mixin linethrough($font-size: 2.2rem/2.5) {
+@mixin linethrough() {
 	display: table;
+	overflow: hidden;
 	white-space: nowrap;
 	&:before, &:after {
 		border-top: 1px solid fade_out($gold, .5);
 		content: '';
 		display: table-cell;
 		position: relative;
-		top: $font-size;
+		top: 1rem;
 		width: 45%;
 	}
-	&:before { right: 1.5%; }
-	&:after { left: 1.5%; }
+	&:before { @include rem(right, 9px) }
+	&:after { @include rem(left, 9px) }
 }
+// @mixin linethrough($font-size: 2.2rem/2.5) {
+// 	display: table;
+// 	overflow: hidden;
+// 	white-space: nowrap;
+// 	&:before, &:after {
+// 		border-top: 1px solid fade_out($gold, .5);
+// 		content: '';
+// 		display: table-cell;
+// 		position: relative;
+// 		top: $font-size;
+// 		width: 45%;
+// 	}
+// 	&:before { @include rem(right, 9px) }
+// 	&:after { @include rem(left, 9px) }
+// }

@@ -9,7 +9,7 @@
             <h1>Blog Title</h1>
             <div class="meta">
                 <div class="date">
-                    <time>Time, Day, Year</time>
+                    <time>February 24, 2015</time>
                 </div>
                 <div class="tags">
                         <a href="#">News</a> / <a href="#">Site</a>
@@ -17,7 +17,9 @@
                 </div>
             </header>
             <main>
-                Article content goes here.
+                <article>
+                    <p>Article content goes here.</p>
+                </article>
             </main>
             <footer>
                 <a href="#" class="more">Read More</a>
@@ -59,5 +61,75 @@
         <a href="@routes.Application.index(page+1)">Next Page</a>
     }
 </section> <!-- /#blog -->
+
+<aside id="info">
+    <div class="hours" itemscope itemtype="http://schema.org/LocalBusiness">
+
+            <ul class="general">
+                    <li>
+                            <strong>Weekdays</strong>
+                            <p><time itemprop="openingHours" datetime="Mo-Fr 14:00+8:00 20:00+8:00">2pm-8pm</time></p>
+                    </li>
+                    <li>
+                            <strong>Weekends</strong>
+                            <p><time itemprop="openingHours" datetime="Sa-Su 12:00+8:00 20:00+8:00">12pm-8pm</time></p>
+                    </li>
+            </ul>
+
+            <ul class="sessions">
+                    <li class="heading">
+                            <strong>Special Sessions</strong>
+                    </li>
+                    <li>
+                            <span class="name">Old Man Night (25+)</span>
+                            <p class="day">Mondays &amp; Wednesdays</p>
+                            <p class="time"><time itemprop="openingHours" datetime="Mo, We 20:00+8:00 22:00+8:00">8pm-10pm</time></p>
+                    </li>
+                    <li>
+                            <span class="name">Friday Night Riot (All Ages)</span>
+                            <p class="day">Fridays</p>
+                            <p class="time"><time itemprop="openingHours" datetime="Fr 20:00+8:00 22:00+8:00">8pm-10pm</time></p>
+                    </li>
+                    <li>
+                            <span class="name">Kids Only (14 &amp; Under)</span>
+                            <p class="day">Saturdays</p>
+                            <p class="time"><time itemprop="openingHours" datetime="Sa 10:00+8:00 12:00+8:00">10am-12pm</time></p>
+                    </li>
+                    <li>
+                            <span class="name">Skate Like a Girl (All Ages)</span>
+                            <p class="day">Sundays</p>
+                            <p class="time"><time itemprop="openingHours" datetime="Su 10:00+8:00 12:00+8:00">10am-12pm*</time></p>
+                            <p class="note">*Details @@ <a href="http://www.skatelikeagirl.com">skatelikeagirl.com</a></p>
+                    </li>
+            </ul>
+
+    </div> <!-- /hours -->
+
+    <div class="pricing">
+            <ul>
+                    <li>
+                            <strong>2-Hours</strong>
+                            <p><sup>$</sup>7</p>
+                    </li>
+                    <li>
+                            <strong>All-Day</strong>
+                            <p><sup>$</sup>10</p>
+                    </li>
+                    <li>
+                            <strong>Unlimited</strong>
+                            <p><sup>$</sup>48/mo</p>
+                    </li>
+            </ul>
+    </div> <!-- /pricing -->
+
+    <div class="contact">
+            <strong>Get in Touch</strong>
+            <ul>
+                    <li class="phone"><i class="fa fa-phone-square"></i> (503) 208-2080</li>
+                    <li class="email"><i class="fa fa-envelope-square"></i> <a href="mailto:info&#64;commonwealthskateboarding.com">Email Us</a></li>
+            </ul>
+    </div> <!-- /contact -->
+
+</aside>
 
 }

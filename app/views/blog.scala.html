@@ -1,8 +1,10 @@
 @(blogs: List[models.site.NewsItem], page: Long, hasNextPage: Boolean)
 
-@main() {
+@main("blog") {
 
 <section id="blog">
+    <h1>News &amp; Things</h1>
+    <h2>Blog</h2>
     @for(blog <- blogs) {
         <article>
             <header>

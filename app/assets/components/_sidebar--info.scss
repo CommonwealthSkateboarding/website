@@ -1,7 +1,10 @@
 aside[id="info"] {
-	order: 2;
+	color: $white;
 	@include rem(font-size, 15px);
+	order: 2;
 	width: 30%;
+
+	p { margin: 0; }
 
 	strong { 
 		color: $gold; 
@@ -20,7 +23,7 @@ aside[id="info"] {
 	}
 
 	> *:not(:first-of-type) { 
-		margin-top: $margin/2*2;
+		margin-top: $margin;
 	}
 
 	.hours {
@@ -35,7 +38,7 @@ aside[id="info"] {
 
 				&.heading { 
 					margin-top: 0;
-					margin-bottom: 0;
+					margin-bottom: 3px;
 					width: 100%; 
 				}
 
@@ -51,30 +54,38 @@ aside[id="info"] {
 		p { 
 			font-weight: 300; 
 
+			&.day { 
+				color: lighten($gray, 27%); 
+				@include rem(font-size, 18px);
+			}
+			&.time { 
+				color: $white; 
+				@include rem(font-size, 21px);
+			}
+
 			&.note {
 				color: $gray;
 				@include rem(font-size, .8rem);
 				font-weight: 400;
-				//line-height: 1.3rem;
-				margin-top: $margin/2/3;
+				margin-top: 9px;
 			}
 		}
 
 		.name { 
 			color: $gray; 
-			//font-size: 1.1rem;
+			@include rem(font-size, 9px);
 			font-weight: 700;
 			text-transform: uppercase;
 			
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
-			margin: 4px 0 0px;
+			margin: 3px 0;
 		}
 
 		.general { 
 			strong { margin: 0; }
-			p { @include rem(font-size, 39px); }
+			p { @include rem(font-size, 24px); }
 		}
 
 		.sessions {
@@ -82,7 +93,7 @@ aside[id="info"] {
 
 			ul {
 				li {
-					
+
 				}
 			}
 		}
@@ -122,14 +133,14 @@ aside[id="info"] {
 				//&:last-child { padding-right: 10px; }
 
 				p { 
-					@include rem(font-size, 2.8rem);
+					@include rem(font-size, 27px);
 					font-weight: 300;
-					letter-spacing: -.2rem;
+					letter-spacing: -.1rem;
 
 					sup {
-						@include rem(font-size, 1.8rem);
-						margin-right: 1px;
-						vertical-align: .6rem;
+						@include rem(font-size, 18px);
+						//margin-right: 1px;
+						@include rem(vertical-align, -4px);
 					}
 				}
 			}
@@ -138,12 +149,21 @@ aside[id="info"] {
 
 	.contact {
 		ul {
-			margin-top: $margin/2/3;
-			li { 
-				
-				a {
-					@include rem(font-size, 1.2rem);
-				} 
+			display: flex;
+			flex-wrap: wrap;
+			margin-top: 6px; 
+			li {
+				//color: $gray; 
+				@include rem(font-size, 27px);
+				font-weight: 300;
+				margin-bottom: 6px;
+				width: 100%;
+				i.fa { 
+					color: fade_out($gray, .81); 
+					@include rem(font-size, 24px);
+					margin-right: 3px; 
+				}
+				a { border-bottom: 0; font-weight: 300; }
 			}
 		}
 	}
@@ -161,11 +181,11 @@ aside[id="info"] {
 				text-align: center;
 				width: 50%;
 				&.tier-1 {
-					@include rem(font-size, 3rem);
+					@include rem(font-size, 1rem);
 				}
 				&.tier-2 {
 					color: $gray;
-					@include rem(font-size, 1.5rem);
+					@include rem(font-size, .25rem);
 				}
 			}
 		}

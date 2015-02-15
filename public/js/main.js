@@ -1,8 +1,23 @@
 $(document).ready(function(){
-
+		
 	var caro = $("#carousel");
 	var header = $("header#main");
-	
+
+	// Apply .active to clicked nav item
+	$('header#main nav a[href$="/' + location.pathname.split("/")[1] + '"]').addClass('active');
+
+	// Smooth scroll + center to anchors
+	$('a[href^="#"]').on('click', function(event) {
+    var target = $(this.href);
+    if( target.length ) {
+        event.preventDefault();
+        $('html, body').animate({
+            scrollTop: target.offset().top
+        }, 1000);
+    }
+	});
+
+	// Slick.js Slider Settings
 	caro.slick({
 		autoplay: true,
 		autoplaySpeed: 3000,
@@ -46,7 +61,7 @@ $(document).ready(function(){
 	});
 
 	// Remove Carousel Altogether on Mobile
-	var mqm = matchMedia("screen and (max-device-width: 420px)"),
+	var mqm = matchMedia("screen and (max-device-width: 420px) and (max-width: 600px)"),
 		handleMQL = function(mqm) {
 		if (mqm.matches) {
 			caro.detach();

@@ -1,0 +1,41 @@
+body { background: $black; }
+p a { 
+	color: $gold; 
+	font-weight: 900;
+	transition: border .3s, color .3s;
+	&:hover { 
+		color: scale-color($gold, $lightness: 45%); 
+	}
+}
+
+[id="content"] {
+	background: linear-gradient(top, transparent, fade_out($black, .5));
+	color: $gray;
+	width: 100%;
+
+	position: relative;
+	z-index: 800;
+
+	main[data-purpose="flex-container"] {
+		clear: both;
+		display: flex;
+		flex: 1;
+		flex-flow: row wrap;
+
+		section:not(#blog):not(#shop) {
+			clear: both;
+			margin: 0 $margin*2;
+			width: 100%;
+		}
+	}
+}
+
+.quad {
+	display: flex;
+	flex-wrap: wrap;
+	> div {
+		margin: $margin/2 0;
+		width: calc(50% - #{$margin/2}); 
+		&:nth-of-type(odd) { margin-right: $margin; }
+	}
+}

@@ -3,112 +3,18 @@ body.home {
 	color: $white;
 	max-width: 1600px;
 
-	[id="carousel"] ~ [id="content"] { 
+	[id="carousel"] + [id="content"] { 
 		// Negative margin is half the size of the banner + $margin for padding.
 		margin: calc(#{-$banner-height/2} + #{$margin}) auto 0;
 	}
 
 	[id="content"] {
 		background: linear-gradient(top, transparent, fade_out($black, .5));
-		//margin: $header-size + $margin;
-		width: 100%;
 
-		position: relative;
-		z-index: 1000;
-
-		main[data-purpose="flex-container"] {
-			clear: both;
-			display: flex;
-			flex: 1;
-			flex-flow: row wrap;
-
-			[id="blog"] {
-				order: 1;
-				clear: both;
-				margin: 0 $margin 0 9px;
-				width: calc(70% - #{$margin + 9px});
-
-				article { 
-
-					// &+& == all but the first
-					& + & { margin-top: $margin/2*2; }
-
-					header {
-						padding: $margin/2;
-
-						h1 { 
-							color: $white;
-							//font-size: 1.8rem;
-							//line-height: 2rem;
-						}
-
-						.meta {
-							display: flex;
-							align-content: center;
-							//font-size: 1.1rem;
-							margin: 6px 0 0;
-							text-transform: uppercase;
-
-							.date { 
-								color: $gold;
-								font-weight: 700; 
-								margin-right: $margin/2;
-							}
-
-							.tags {
-								a { 
-									border-width: 2px;
-									font-weight: 700; 
-								}
-								color: $gray;
-							}
-						}
-					}
-
-					p {
-						color: $gray;
-
-						&::selection {
-							color: $white;
-						}
-					}
-
-					a { 
-						color: fade_out($white, .15);
-						border-bottom: 1px solid fade_out($gold, .5);
-
-						&:hover { 
-							color: $white; 
-							border-color: $gold;
-						}
-					}
-
-					main {
-						margin: 6px 0;
-						padding: 0 $margin/2;
-
-						p { line-height: 2.2rem; }
-					}
-
-					footer {
-						border: 1px solid fade_out($gray, .75);
-						border-top: none;
-
-						overflow: hidden;
-						margin: $margin/2 0 $margin/2*2 0;
-						padding: $margin/2;
-
-						a {
-							border-width: 2px;
-							font-size: 1rem;
-							font-weight: 700;
-							text-transform: uppercase;
-							&.more { float: left; }
-							&.comments { float: right; }
-						}
-					}
-				}
-			}
+		section {
+			order: 1;
+			min-width: 240px;
+			width: calc(70% - 39px);
 		}
 	} // /#content
 }

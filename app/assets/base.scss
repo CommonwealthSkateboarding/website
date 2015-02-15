@@ -6,8 +6,7 @@
 @import "defaults/variables", "defaults/defaults", "defaults/unitize", "defaults/typography";
 
 // COMPONENTS
-@import "components/header", "components/footer", "components/carousels", "components/sidebar--info";
+@import "components/header", "components/body", "components/footer", "components/carousels", "components/sidebar--info", "components/tables";
 
 // PAGES
-@import "sections/home";
-
+@import "sections/home", "sections/blog", "sections/shop", "sections/contact";

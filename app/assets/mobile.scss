@@ -1,47 +1,72 @@
-@media screen and (max-width: 960px) {	
-	html { font-size: 90% !important; }
+@media screen and (max-width: 1024px) {	
+	html { font-size: 95% !important; }
 }
 
-@media screen and (max-width: 700px) {
-	html { font-size: 80% !important; }
+@media screen and (max-width: 960px) {
+	html { font-size: 75% !important; }
+	[id="carousel"] { font-size: 50% !important; }
 }
 
-@media screen and (max-width: 600px) {
-	html { font-size: 70% !important; }
+@media screen and (max-width: 800px) {
+	html { font-size: 100% !important; }
 
 	header[id="main"] {
+		position: static !important;
 		nav {
+			font-size: 80% !important;
 			> ul { 
-				//display: block !important; 
+				flex-wrap: wrap !important;
+				justify-content: flex-end !important;
+				margin: 0 !important; 
 
 				li { 
-					a { 
-						margin: 0 !important; 
-						width: 50% !important;
-					}
+					margin: 6px 0 !important;
+					a { width: 100% !important; }
+					> ul { display: none !important; }
 				}
 			}
 		}
 	}
 
 	[id="carousel"] { display: none !important; }
+	[id="content"] { margin: 0 !important; padding: 30px !important; }
+	section:not(#blog):not(#shop) { margin: 0 !important; }
+	[id="info"], [id="blog"] { width: 100% !important; }
+	[id="info"] { order: 1 !important; }
+	[id="blog"] { display: none !important; order: 2 !important; margin: 30px 0 0 0 !important; }
 
-	[id="info"], [id="blog"] {
-		width: 100% !important;
+	footer {
+		margin-top: 15px !important;
+		.sponsors ul { width: 100% !important; }
+		.info { flex-wrap: wrap !important; height: auto !important; }
+		.contact, nav { height: 240px !important; width: 100% !important; }
+		.physical { order: 1 !important; align-self: center !important; padding: 24px 60px !important; }
+		.social {
+			align-self: flex-end !important;
+			border-top: 2px solid #131313 !important;
+			a { order: 2 !important; padding: 24px !important; }
+		}
+		nav { 
+			padding: 36px 15px !important; 
+			&:before { left: 69% !important; }
+			> ul {
+				> li:not(:first-of-type) { margin-left: 12px !important; }
+			}
+		}
 	}
 
-	[id="info"] {
-		order: 1 !important;
-	}
-
-	[id="blog"] {
-		order: 2 !important;
+	.quad {
+		> div { width: 100% !important; }
 	}
 }
 
+// Mobile Phones
+
 @media screen and (max-device-width: 420px) {
+	html { font-size: 90% !important; }
+
 	body.home {
-		background: red !important;
+		//background: red !important;
 	}
 
 	[id="carousel"] { 

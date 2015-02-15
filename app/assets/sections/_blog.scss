@@ -1,0 +1,89 @@
+body.home [id="blog"] { margin: 0 $margin 0 9px; }
+body:not(.home) [id="blog"] { margin: 0 $margin*2; }
+
+[id="blog"], [id="blog-entry"] {
+	width: 100%;
+
+	article { 
+
+		// &+& == all but the first
+		& + & { margin-top: $margin/2*2; }
+
+		header {
+			padding: $margin/2;
+
+			h1 { 
+				color: $white;
+				@include rem(font-size, 18px);
+				@include rem(line-height, 2rem);
+			}
+
+			.meta {
+				display: flex;
+				align-content: center;
+				@include rem(font-size, 9px);
+				@include rem(letter-spacing, .5px);
+				//margin: 6px 0 0;
+				text-transform: uppercase;
+
+				.date { 
+					color: $gold;
+					font-weight: 700; 
+					margin-right: $margin/2;
+				}
+
+				.tags {
+					a { 
+						border-width: 2px;
+						font-weight: 700; 
+					}
+					color: $gray;
+				}
+			}
+		}
+
+		p {
+			color: $gray;
+
+			&::selection {
+				color: $white;
+			}
+		}
+
+		a { 
+			color: fade_out($white, .15);
+			border-bottom: 1px solid fade_out($gold, .5);
+
+			&:hover { 
+				color: $white; 
+				border-color: $gold;
+			}
+		}
+
+		main {
+			margin: 6px 0;
+			padding: 0 $margin/2;
+
+			p { line-height: 2.2rem; }
+		}
+
+		footer {
+			border: 1px solid fade_out($gray, .75);
+			border-top: none;
+
+			overflow: hidden;
+			margin: $margin/2 0 $margin/2*2 0;
+			padding: $margin/2;
+
+			a {
+				border-width: 2px;
+				@include rem(font-size, 10px);
+				@include rem(letter-spacing, .5px);
+				font-weight: 700;
+				text-transform: uppercase;
+				&.more { float: left; }
+				&.comments { float: right; }
+			}
+		}
+	}
+}

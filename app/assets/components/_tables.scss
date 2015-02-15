@@ -1,0 +1,10 @@
+table.table {
+	margin: $margin/2 0 $margin;
+	text-align: left;
+	width: 100%;
+	th { 
+		color: $gold;
+		@include rem(font-size, 12px);
+		text-transform: uppercase; 
+	}
+}

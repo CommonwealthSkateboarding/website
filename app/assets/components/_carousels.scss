@@ -2,6 +2,8 @@ body {
 
 	&.home {
 
+		header[id="main"] { position: absolute; }
+		
 		[id="carousel"] {
 			height: $banner-height;
 			font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -30,7 +32,7 @@ body {
 				z-index: 300;
 
 				color: fade_out($gold, .85);
-				font-size: 7.2rem;
+				@include rem(font-size, 69px);
 				font-weight: 100;
 				cursor: pointer;
 				@extend .fade;
@@ -61,8 +63,8 @@ body {
 					align-items: center;
 					justify-content: flex-start;
 
-					margin: $header-size;
-					padding: calc(#{$margin/2*2});
+					margin: #{$header-size + 9px};
+					//padding: $margin/2;
 					height: $banner-content-height;
 					width: 100%;
 
@@ -86,6 +88,8 @@ body {
 
 					.h1 {  
 						@include rem(font-size, 60px);
+						@include rem(line-height, 1);
+						@include rem(letter-spacing, .8px);
 					}
 					.h2 { 
 						@include rem(font-size, 45px);
@@ -101,35 +105,82 @@ body {
 						@include rem(font-size, 15px);
 					}
 
-					button {
-						appearance: none;
+					a { color: $gold; }
+
+					a.button {
 						background: $gold;
-						border: none;
+						border: 3px solid transparent;
 						border-radius: 3px;
 						color: $white;
+						display: block;
 						font-weight: 500;
-						margin-top: $margin;
+						margin-top: $margin/2;
+						padding: 12px;
+						transition: background .3s, border .3s, color .3s, opacity .3s;
 
 						&:hover {
 							background: $white;
 							color: $gold;
 						}
-						
-						&:focus { outline: none; }
 
-						&.camp.registration {
-							height: $margin*2;
-							padding: 9px;
-							transition: width .5s, background .3s;
-							width: 30%;
+						&:not(.outline) {
+							&.white {
+								background: $white;
+								color: $gray;
+								&:hover { 
+									background: $gray;
+									color: $white;
+								}
+							}
 
-							&:hover {
-								width: 60%;
+							&.gold {
+								background: fade_out($gold, .3);
+								color: $black;
+								&:hover {
+									background: $white;
+								}
 							}
 						}
+
+						&.outline { 
+							background: none; 
+							border-color: $gold; 
+							color: $gold;
+							&:hover {
+								border-color: scale-color($gold, $lightness: 40%);
+								color: scale-color($gold, $lightness: 40%);
+							}
+
+							&.gold {
+								border-color: fade_out($gold, .3);
+								color: fade_out($gold, .3);
+								&:hover {
+									border-color: $white;
+									color: $white;
+								}
+							}
+
+							&.white {
+								border-color: $white;
+								color: $white;
+								&:hover { 
+									border-color: fade_out($white, .6);
+									color: fade_out($white, .6);
+								}
+							}
+
+							&.gray {
+								border-color: $gray;
+								color: $gray;
+								&:hover { border-color: $white; color: $white; }
+							}
+						}
+						
+						&:focus { outline: none; }
 					}
 				}
 
+				// INTRO SLIDE
 				&.intro {
 					background-image: image-url("index/banner/bg__001--park-with-logo.png");
 
@@ -140,10 +191,46 @@ body {
 					}
 				}
 			
-				&.default  {
+				// DEFAULT SLIDE (Shop BG)
+				&.default, &.store  {
 					background-image: image-url("index/banner/bg__001--default.png");
 				}
 
+				// STORE SLIDE
+				&.store {
+					.wrapper {  }
+					.h1 { margin-top: 0; }
+					.h5 { color: $gray; }
+					.shop {
+						display: flex;
+						align-items: center;
+						background: none;
+						border: 3px solid $gold;
+						border-radius: 3px;
+						color: $gold;
+						@include rem(font-size, 18px);
+						font-weight: 700;
+						justify-content: center;
+						@include rem(margin, 6px auto 0);
+						@include rem(padding, 12px $margin);
+						transition: width 1s;
+						width: 100%;
+
+						&:before, &:after {
+							font-family: "FontAwesome";
+							font-weight: 100;
+							margin: 0 12px;
+						}
+						&:before { content: "\f07a"; }
+
+						&:hover {
+							border-color: $white;
+							color: scale-color($gold, $lightness: 40%);
+						}
+					}
+				}
+
+				// SUMMER CAMP SLIDE
 				&.camp {	
 					background-image: 
 						radial-gradient(circle at top, fade_out($gold, .85) 0%, $black 50%),
@@ -151,17 +238,36 @@ body {
 					text-align: center;
 
 					.title { 
-						color: $white;
-						font-size: 2vw; 
-						font-weight: 300;
-						letter-spacing: .5rem;
-						margin-top: $margin/2;
-						text-transform: uppercase;
-						@include linethrough(2vw/1.75);
+						font-size: 5.4vw; 
+						white-space: nowrap;
 					}
 
-					.details {
-						.dates { font-weight: 700; }
+					.subtitle { 
+						color: $gold;
+						@include rem(font-size, 24px);
+						@include linethrough();
+						margin-top: 3px;
+					}
+
+					.cta { 
+						display: flex; 
+						width: 100%;
+
+						li { width: 100%; }
+						a.button { 
+							@include rem(font-size, 18px);
+							font-weight: 500;
+							margin: $margin/2 auto;
+							width: 90%; 
+							&.sign-up { font-weight: 900; }
+							&.info:before, &.sign-up:before { 
+								font-family: "FontAwesome";
+								font-weight: 100;
+								margin-right: 12px; 
+							}
+							&.info:before { content: "\f129"; }
+							&.sign-up:before { content: "\f040"; margin-left: -9px; }
+						}
 					}
 				}
 

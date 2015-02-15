@@ -1,0 +1,8 @@
+[id="contact"] {
+	table {
+		width: 100%;
+		td { vertical-align: top; }
+		p { margin: 0; }
+		.h6:not(:first-of-type) { margin-top: $margin/2; }
+	}
+}

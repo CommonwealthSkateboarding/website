@@ -107,8 +107,13 @@ public class Application extends Controller {
         }
         return ok(eventDetail.render(event));
     }
+    
     public static Result about(){
         return ok(about.render());
+    }
+
+    public static Result contact(){
+        return ok(contact.render());
     }
 
     public static Result registerForCampWithStripe(Long id) {

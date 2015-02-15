@@ -1,56 +1,217 @@
 body {
 	> footer {
-		display: flex;
-
-		background: linear-gradient(top, $black, lighten($black, 2));
-		background-size: 500%;
+		align-content: flex-end;
 		color: $gray;
-		font-size: 1.1rem;
+		@include rem(font-size, 9px);
 		font-weight: 700;
+		margin-top: 90px;
 		text-transform: uppercase;
-		transition: background-size .3s;
+		overflow: hidden;
 
-		margin-top: 100px;
-		padding: $margin/2*4;
+		.sponsors {
+			margin: 18px $margin;
+			.h6 { 
+				border-top: 3px solid fade_out($gold, .6);
+				display: inline-block;
+				padding-top: 9px; 
+			}
+			.logos { 
+				justify-content: center;
+				ul {
+					display: flex;
+					justify-content: center;
+					width: 60%;
+					li { opacity: .3; transition: opacity .3s; }
+					li:hover { opacity: 1; }
+					&.gold { 
+						li { 
+							align-self: center;
+							width: 50%;
+							img { max-width: 100%; }
+						 }
+					}
+					&.silver { margin-bottom: 3%; }
+					li:not(:last-of-type) { margin-right: 9%; } 
+				}
+			}
+			//ul { display: flex; }
+		}
 
-		&:hover {
-			background-size: 100%;
-			.info, nav {
-				opacity: 1;
+		.info { 
+			background: fade_out($gray, .96);
+			color: $white;
+			display: flex;
+			height: 270px;
+
+			> *:not(.social) { 
+				height: 100%; 
+				//padding: 0 48px;
 			}
 		}
 
-		.info, nav { 
-			opacity: .5;
-			transition: opacity 1s;
-			width: 50%; 
+		.contact, > nav {
+			//align-content: center;
+			//align-items: baseline;
+			display: flex;
 		}
 
-		.info {
+		.contact {
+			color: fade_out($gray, .3); 
+			flex-wrap: wrap;
+			font-weight: 300;
+			justify-content: center;
+			text-align: right;
+			text-transform: none;
+			width: 30%;
 
+			> * { width: 100%; }
+
+			a { 
+				color: fade_out($gold, .3); 
+				//text-decoration: underline;
+				&:hover { color: $gold; }
+			}
+
+			hr { 
+				border: none; 
+				border-bottom: 1px solid fade_out($gray, .93);
+				display: block;
+				height: 1px;
+				margin: 12px 0;
+				padding: 0;
+			}
+
+			.physical {
+				order: 2;
+				align-self: flex-start;
+				background: fade_out($black, .96);
+				padding: $margin 12%;
+
+				span { 
+					@include rem(font-size, 24px);
+					&.address { 
+						sup { 
+							@include rem(font-size, 15px);
+							vertical-align: -2px;
+						}
+						i.fa { 
+							margin-right: 3px;
+							vertical-align: 0px;
+						}
+					}
+
+					&.phone { 
+						display: block; 
+						font-weight: 300;
+						margin-top: -1px; 
+						i.fa { color: fade_out($gray, .81); }
+					}
+
+					i.fa { 
+						@include rem(font-size, 21px);
+						margin-right: 9px;
+						vertical-align: -3px;
+					}	
+				}
+			}
+		}
+
+		.social {
+			order: 1;
+			display: flex;
+			align-content: center;
+			align-self: flex-start;
+			justify-content: flex-end;
+			border-bottom: 2px solid $black;
+			width: 100%;
+			li { 
+				text-align: center; 
+				width: calc(100%/3); 
+				&:not(:first-of-type) a { box-shadow: inset 2px 0 0 0 $black; }
+			}
+			a { 
+				//background: fade_out($gray, .96);
+				color: fade_out($gray, .6);
+				display: block;
+				@include rem(font-size, 18px);
+				padding: $margin/2 0; 
+				transition: color .3s;
+				width: 100%;
+				&:hover { 
+					background: fade_out($gold, .6);
+					color: $white; 
+				}
+			}
 		}
 
 		nav {
-			display: flex;
-			ul {
-				margin-right: 10px;
-				width: calc(100%/3 - 10px);
+			background-color: fade_out($gold, .6);
+			//display: flex;
+			justify-content: space-between;
+			padding: 36px 42px;
+			position: relative; // for ::before
+			overflow: hidden;
+			width: 70%;
 
-				li {
-					.h5 { padding: $margin/2/2; }
+			&:before {
+				content: "";
+				position: absolute;
+				background: image-url("cw--logo--lettermark-white.svg");
+				background-position: center center;
+				background-size: 100%;
+				background-repeat: no-repeat;
+				width: 150px;
+				height: 150px;
+				// top: -36%;
+				// left: 42%;
+
+				top: -36px;
+				left: 81%;
+				z-index: -1;
+
+				opacity: .09;
+				transform: rotate(15deg);
+			}
+
+			> ul {
+				display: flex;
+				margin-bottom: $margin/2;
+				width: 100%;
+
+				> li {
+					&:not(:first-of-type) { @include rem(margin-left, 45px); }
+
+					.h5 { 
+						color: $black; 
+						display: inline-block;
+						@include rem(font-size, 10px);
+						font-weight: 900;
+						margin-bottom: 6px; 
+						padding: 0 6px; 
+					}
+
 					a {
-						border-bottom: 1px solid fade_out($gold, .85);
-						color: $white;
+						color: $black;
 						display: block;
-						padding: $margin/2/2;
+						opacity: .6;
+						padding: 6px;
+						transition: color .3s, opacity .5s;
 
 						&:hover {
-							border-width: 3px;
 							color: $white;
-							//padding: $margin/2 $margin/2/2;
+							opacity: 1;
 						}
 					}
 				}
+			}
+
+			.copyright { 
+				color: $black;
+				@include rem(font-size, 9px); 
+				//padding: 18px;
+				text-align: right;
+				align-self: flex-end;
+				width: 100%;
 			}
 		}
 	}

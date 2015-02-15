@@ -1,4 +1,3 @@
-
 //		"img Folder Reference"
 // 		Explanation: 
 //			Provides a lazy shortcut so you just have to type in the filename you are trying to access.
@@ -36,13 +35,13 @@ $http_images_path: "img/";
 //				ex. .white { fill: $white; }
 //		Usage: <object ... class="white svg">
 
-// object.svg {
+// obj.svg {
 // 	$colors: ($white $black $gray $gold);
 // 	$classes: (white black gray gold);
 // 	@each $class in $classes {
 // 		$i: index($classes, $class);
 // 		&.#{$class} {
-// 			svg path {
+// 			path {
 // 				fill: nth($colors, $i);
 // 			}
 // 		}
