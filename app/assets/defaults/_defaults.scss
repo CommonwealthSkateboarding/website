@@ -1,7 +1,6 @@
 html { 
 	box-sizing: border-box;
 	font-size: 100%; 
-	overflow-x: hidden;
 }
 
 *, *:after, *:before { 
@@ -10,6 +9,7 @@ html {
 
 html, body {
 	height: 100%;
+	overflow-x: hidden;
 }
 
 body {
