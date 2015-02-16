@@ -24,7 +24,7 @@
                         <tr>
                             <td>@issue.title</td>
                             <td>@if(null != issue.created) { @issue.created.format("EEEE, MM/dd/yyyy h:mm a") }</td>
-                            <td>@issue.description</td>
+                            <td>@Html(issue.description)</td>
                             <td>@if(null != issue.owner) { @issue.owner.name }</td>
                             <td><a href="@routes.Admin.takeIssue(issue.id)" class="btn btn-theme btn-block">Take Issue</a></td>
                             <td><a href="@routes.Admin.resolveIssue(issue.id)" class="btn btn-theme btn-block">Mark Resolved</a></td>
