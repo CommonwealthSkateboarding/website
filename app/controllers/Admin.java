@@ -304,6 +304,10 @@ public class Admin extends Controller {
         member.email = newMember.email;
         member.emergencyContactName = newMember.emergencyContactName;
         member.emergencyContactNumber = newMember.emergencyContactNumber;
+        member.emergencyContactNameB = newMember.emergencyContactNameB;
+        member.emergencyContactNumberB = newMember.emergencyContactNumberB;
+        member.emergencyContactNameC = newMember.emergencyContactNameC;
+        member.emergencyContactNumberC = newMember.emergencyContactNumberC;
         member.name = newMember.name;
         member.notes = newMember.notes;
         member.parentName = newMember.parentName;
