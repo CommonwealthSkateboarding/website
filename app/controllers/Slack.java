@@ -17,6 +17,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static controllers.Admin.getLocalUser;
+import static play.mvc.Http.Context.Implicit.session;
 import static utils.Formatter.prettyDollars;
 
 /**
@@ -125,7 +127,7 @@ public class Slack {
     }
 
     public static void notifyOfClosedIssue(Issue issue) {
-        dispatch(new SlackMessage(SLACKBOT_GENERAL_CHANNEL, issue.createdBy.name, ("Issue closed: " + issue.title +
+        dispatch(new SlackMessage(SLACKBOT_GENERAL_CHANNEL, getLocalUser(session()).name, ("Issue closed: " + issue.title +
                 " [<" + BASE_URL + routes.Admin.issueIndex()) + "|View Issues>]"));
     }
 }
