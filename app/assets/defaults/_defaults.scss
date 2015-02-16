@@ -1,6 +1,8 @@
 html { 
 	box-sizing: border-box;
 	font-size: 100%; 
+
+	overflow-x: hidden;
 }
 
 *, *:after, *:before { 
@@ -9,7 +11,6 @@ html {
 
 html, body {
 	height: 100%;
-	overflow-x: hidden;
 }
 
 body {
@@ -32,6 +33,11 @@ ul {
 	-webkit-margin-before: 0;
 	-webkit-margin-after: 0;
 	-webkit-padding-start: 0;
+	-moz-margin-start: 0;
+	-moz-margin-before: 0;
+	-moz-margin-after: 0;
+	-moz-padding-start: 0;
+	margin: 0;
 }
 
 .fade { transition: all .1s ease-in; }

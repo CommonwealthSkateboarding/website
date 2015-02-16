@@ -136,6 +136,7 @@ header {
 						> ul {
 							background: fade_out(#2B2821, .15); // Dark Gold
 							border-radius: 2px;
+							margin-top: -1px;
 							opacity: 0;
 							position: absolute;
 							transition: opacity .3s;
