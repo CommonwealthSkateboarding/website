@@ -52,6 +52,8 @@ public class Registration extends Model {
 
     public String participantName;
 
+    public String registrantEmail;
+
     @Column(columnDefinition = "text")
     public String notes;
 

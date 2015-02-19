@@ -125,8 +125,7 @@ public class Application extends Controller {
         }
 
         String name = Form.form().bindFromRequest().data().get("name");
-        String billingName = Form.form().bindFromRequest().data().get("billingName");
-        String email = Form.form().bindFromRequest().data().get("email");
+        String email = Form.form().bindFromRequest().data().get("stripeEmail");
         String stripeToken = Form.form().bindFromRequest().data().get("stripeToken");
 
         Charge charge = Stripe.chargeStripe(camp.cost, stripeToken, "Registration for " + camp.title);
@@ -136,11 +135,11 @@ public class Application extends Controller {
         reg.registrationType = Registration.RegistrationType.CAMP;
         reg.camp = camp;
         reg.paid = true;
+        reg.registrantEmail = email;
         reg.participantName = name;
         reg.paymentType = Registration.PaymentType.STRIPE;
         reg.timestamp = new Date();
-        reg.notes = "Paid on the web by " + billingName + " (" + email + ")"
-                + " and generated a stripe TEST chargeId of: " + charge.getId();
+        reg.notes = "Paid on the web by " + email + " and generated a stripe TEST chargeId of: " + charge.getId();
         reg.confirmationId = org.apache.commons.lang3.RandomStringUtils.random(6, "ABCDEFGHJKMNPQRSTUVWXYZ23456789");
         reg.save();
 
@@ -160,8 +159,7 @@ public class Application extends Controller {
         }
 
         String name = Form.form().bindFromRequest().data().get("name");
-        String billingName = Form.form().bindFromRequest().data().get("billingName");
-        String email = Form.form().bindFromRequest().data().get("email");
+        String email = Form.form().bindFromRequest().data().get("stripeEmail");
         String stripeToken = Form.form().bindFromRequest().data().get("stripeToken");
 
         Charge charge = Stripe.chargeStripe(event.cost, stripeToken, "Registration for " + event.name);
@@ -171,11 +169,11 @@ public class Application extends Controller {
         reg.registrationType = Registration.RegistrationType.EVENT;
         reg.event = event;
         reg.paid = true;
+        reg.registrantEmail = email;
         reg.participantName = name;
         reg.paymentType = Registration.PaymentType.STRIPE;
         reg.timestamp = new Date();
-        reg.notes = "Paid on the web by " + billingName + " (" + email + ")"
-                + " and generated a stripe chargeId of: " + charge.getId();
+        reg.notes = "Paid on the web by " + email + " and generated a stripe TEST chargeId of: " + charge.getId();
         reg.confirmationId = org.apache.commons.lang3.RandomStringUtils.random(6, "ABCDEFGHJKMNPQRSTUVWXYZ23456789");
         reg.save();
 

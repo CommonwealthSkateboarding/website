@@ -13,9 +13,11 @@ create table unheard_sale (
 ;
 
 alter table membership add emergency_contact_name_b varchar(255);
-alter table membership add emergency_contact_number_b  varchar(255);
+alter table membership add emergency_contact_number_b varchar(255);
 alter table membership add emergency_contact_name_c varchar(255);
-alter table membership add emergency_contact_number_c  varchar(255);
+alter table membership add emergency_contact_number_c varchar(255);
+
+alter table registration add registrant_email varchar(255);
 
 # --- !Downs
 
@@ -27,5 +29,7 @@ alter table membership drop column emergency_contact_name_b;
 alter table membership drop column emergency_contact_number_b;
 alter table membership drop column emergency_contact_name_c;
 alter table membership drop column emergency_contact_number_c;
+
+alter table registration drop column registrant_email;
 
 SET FOREIGN_KEY_CHECKS=1;
