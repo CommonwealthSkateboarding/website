@@ -74,7 +74,7 @@
 <script src="http://cdn.oesmith.co.uk/morris-0.4.3.min.js"></script>
 <script>
 $(document).ready(function(){
-    Morris.Bar({
+    Morris.Area({
         element: 'hero-area',
         data: [
             @defining(utils.ChartUtil.breakDownVisitsToDays(visits)) { map =>
@@ -96,8 +96,7 @@ $(document).ready(function(){
           pointSize: 5,
           lineColors: ['#4a8bc2', '#ff6c60', '#a9d86e'],
           fillOpacity: 0.5,
-          smooth: true,
-          stacked: true
+          smooth: true
     });
 });
 </script>
