@@ -34,16 +34,10 @@
                 </ul>
             </li>
             <li class="sub-menu">
-                <a @if(activeSection=="issues") { class="active" } href="javascript:;" >
+                <a @if(activeSection=="issues") { class="active" } href="@routes.Admin.issueIndex()" >
                     <i class="fa fa-bug"></i>
                     <span>Issues</span>
                 </a>
-                <ul class="sub">
-                    <li @if(activePage=="viewIssue") { class="active" }><a href="@routes.Admin.issueIndex()">View Issues</a></li>
-                </ul>
-                <ul class="sub">
-                    <li @if(activePage=="addIssue") { class="active" }><a href="@routes.Admin.addIssuePage()">Add Issue</a></li>
-                </ul>
             </li>
             <li class="sub-menu">
                 <a @if(activeSection=="unheard") { class="active" } href="@routes.Admin.unheardSaleIndex()" >

@@ -89,7 +89,6 @@ POST    /admin/events/registration/:id/edit     controllers.Admin.editEventRegis
 POST    /square/incoming                        controllers.Square.receiveWebhook()
 
 GET     /admin/issues                           controllers.Admin.issueIndex()
-GET     /admin/issues/new                       controllers.Admin.addIssuePage()
 POST    /admin/issues/new                       controllers.Admin.addIssue()
 GET     /admin/issues/:id/resolve               controllers.Admin.resolveIssue(id: Long)
 GET     /admin/issues/:id/take                  controllers.Admin.takeIssue(id: Long)

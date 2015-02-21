@@ -19,7 +19,6 @@ import play.mvc.Security;
 import views.html.admin.camp.*;
 import views.html.admin.event.*;
 import views.html.admin.index;
-import views.html.admin.issues.addIssue;
 import views.html.admin.issues.issueIndex;
 import views.html.admin.logIndex;
 import views.html.admin.membership.*;
@@ -783,10 +782,6 @@ public class Admin extends Controller {
         Date now = new Date();
         List<Issue> issues = Issue.find.orderBy("created").where().isNull("resolved").findList();
         return ok(issueIndex.render(issues, getLocalUser(session())));
-    }
-
-    public static Result addIssuePage() {
-        return ok(addIssue.render(getLocalUser(session())));
     }
 
     public static Result addIssue() {
