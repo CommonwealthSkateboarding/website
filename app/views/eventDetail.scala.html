@@ -56,7 +56,7 @@
 
             <script>
               var handler = StripeCheckout.configure({
-                key: 'pk_live_HeHaeBdBwJAPokgnXk7QAKJP',
+                key: '@controllers.Stripe.STRIPE_PUBLIC_KEY',
                 image: '@routes.Assets.at("img/cw--logo--lettermark-black.png")',
                 token: function(token) {
                     var $form = $('#payment-form');
