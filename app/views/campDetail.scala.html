@@ -1,4 +1,8 @@
-<a href="@routes.Application.camp()"><p class="h1">&lt; Back to all camps</p></a>
+@(camp: models.skatepark.Camp)
+
+@main("camp-detail") {
+<section id="camp-detail">
+	<a href="@routes.Application.camp()"><p class="h1">&lt; Back to all camps</p></a>
 	<p class="h2">@camp.title</p>
 
 	<div class="grid no-margin">
@@ -153,6 +157,4 @@
 
 	
 </section>
-
-</form>
 }
