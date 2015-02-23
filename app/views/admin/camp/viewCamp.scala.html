@@ -55,6 +55,7 @@
             } else {
                 <table class="table table-bordered">
                     <tr>
+                        <td>Registrant Email</td>
                         <td>Participant Name</td>
                         <td>Registration Date</td>
                         <td>Paid?</td>
@@ -64,6 +65,7 @@
                     </tr>
                     @for(reg <- camp.registrations) {
                         <tr>
+                            <td>@reg.registrantEmail</td>
                             <td>@reg.participantName</td>
                             <td>@reg.timestamp.format("MM/dd/yyyy")</td>
                             <td>@if(reg.paid) { <span class="label label-success">PAID</span> } else { <span class="label label-danger">UNPAID</span> }</td>
