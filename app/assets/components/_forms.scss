@@ -1,0 +1,67 @@
+form {
+	input[type="text"], input[type="email"], input[type="tel"], textarea { 
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		appearance: none;
+		background: transparent;
+		@include bottomBorder();
+		color: $white;
+		@include rem(font-size, 21px);
+		font-weight: 900;
+		margin: 0;
+		padding: 6px 9px 9px; 
+		position: relative;
+		transition: border .3s, color .3s;
+		&::-webkit-input-placeholder { color: fade_out($gray, .6); font-weight: 100; }
+		&::-moz-placeholder { color: fade_out($gray, .6); font-weight: 100; } /* firefox 19+ */
+		&:-ms-input-placeholder { color: fade_out($gray, .6); font-weight: 100; } /* ie */
+		&:-moz-placeholder { color: fade_out($gray, .6); font-weight: 100; }
+		&:hover, &:active { 
+			border-color: $gold; 
+			&::-webkit-input-placeholder { color: $gray; }
+			&::-moz-placeholder { color: $gray; } /* firefox 19+ */
+			&:-ms-input-placeholder { color: $gray; } /* ie */
+			&:-moz-placeholder { color: $gray; }
+		}
+		&:focus { border-color: $gold; color: $white; outline: 0; }
+		&:in-range { border-color: green; }
+		&:required::after { 
+			color: $white;
+			content: "*"; 
+			position: absolute; 
+			right: 0;
+		}
+		//&:invalid { border-color: $error; }
+	}
+
+	[type="submit"] {
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		appearance: none;
+		background: transparent;
+		border: 3px solid $gold;
+		border-radius: 3px;
+		color: $gold;
+		@include rem(font-size, 21px);
+		font-weight: 900;
+		margin: $margin 0;
+		padding: 12px $margin;
+		transition: background .3s, border .3s;
+		width: 50%;
+
+		&:hover { 
+			//background: $white;
+			border-color: $white; 
+		}
+	}
+
+	.payment-errors {
+		background: $error;
+		border-radius: 3px;
+		color: $white;
+		display: none;
+		margin: 6px 0;
+		padding: 12px;
+		width: 100%;
+	}
+}

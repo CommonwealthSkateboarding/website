@@ -26,7 +26,7 @@ body {
 	text-rendering: optimizeLegibility;
 }
 
-p { margin: 0; }
+p, figure { margin: 0; }
 
 ul { 
 	list-style: none; 
@@ -43,8 +43,9 @@ ul {
 .fade { transition: all .1s ease-in; }
 a { text-decoration: none; @extend .fade; }
 
-.left { float: left; }
-.right { float: right; }
+.flex { display: flex; }
+// .left { float: left; }
+// .right { float: right; }
 .clear { clear: both; }
 
 .hide { display: none; }

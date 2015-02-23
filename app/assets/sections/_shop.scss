@@ -1,8 +1,19 @@
 body.shop {
+	background-image: image-url("index/banner/bg__001--default.png");
 	[id="shop"] { 
-		background: $white; 
-		margin: 0;
-		padding: 0 $margin*4;
-		width: 100%;
+		// background: $white; 
+		// margin: 0;
+		// padding: 0 $margin*4;
+		// width: 100%;
+
+		.items {
+			display: flex;
+			flex-wrap: wrap;
+
+			.item {
+				padding: $margin;
+				width: calc(50% - #{$margin*2});
+			}
+		}
 	}
 }

@@ -2,9 +2,34 @@ table.table {
 	margin: $margin/2 0 $margin;
 	text-align: left;
 	width: 100%;
+
+	a { 
+		color: scale-color($gold, $lightness: 42%); 
+		font-weight: 500;
+		&:hover { color: $white; }
+	}
+
 	th { 
 		color: $gold;
 		@include rem(font-size, 12px);
 		text-transform: uppercase; 
+	}
+
+	tr { 
+		a { color: scale-color($gold, $lightness: 42%); }
+		&.strikeout td:before {
+			content: "";
+			position: absolute;
+			top: 50%;
+			left: 0;
+			border-bottom: 1px solid #111;
+			width: 100%;
+		}
+	}
+
+	td { position: relative; }
+
+	th, td {
+		&.left { text-align: left; }
 	}
 }

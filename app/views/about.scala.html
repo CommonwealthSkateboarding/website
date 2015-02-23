@@ -2,33 +2,101 @@
 
 @main("about") {
 <section id="about">
-	<h1>The Park &amp; the People</h1>
+	<p class="h1">The Park &amp; the People</p>
 	<h2>About</h2>
-	<article>
-		<p class="h6">The History</p>
-		<p>CW history. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean gravida quam ac nunc efficitur pulvinar. Pellentesque tristique at risus sed consectetur. Aliquam id magna ut tortor laoreet rhoncus. Morbi molestie varius quam, eu feugiat sapien sodales placerat. Proin eget eros rhoncus, pellentesque neque at, laoreet ipsum. Morbi in arcu justo. Morbi et viverra tortor, et faucibus felis. Maecenas sed ex augue. Nullam tortor ante, interdum sed aliquam a, vulputate a quam. Curabitur dapibus ullamcorper nibh quis finibus. Morbi et erat risus. Nullam interdum finibus tincidunt. Vivamus et cursus urna. In viverra nisi diam, faucibus mattis eros pellentesque non. Maecenas lacus tellus, iaculis eu iaculis quis, ornare ut sem.</p>
 
-		<p>Vivamus vulputate a leo mattis volutpat. Donec sodales nunc ante, sed consectetur ex aliquet in. <a href="#">Cras et nunc justo.</a> Nullam mattis eu leo quis molestie. Morbi aliquam maximus lacus, et auctor velit lacinia luctus. Etiam non nisi eget ligula tincidunt imperdiet. Quisque aliquam ipsum nunc, sed rutrum nisi iaculis dictum. Cras id placerat odio. Donec elementum lorem at tristique tristique.</p>
+	<figure>
+		<img src="@routes.Assets.at("img/about/2012__interior-panorama--001@2x.jpg")" alt="A panoramic shot of Commonwealth's skatepark." class="full-width">
+		<figcaption>2011</figcaption>
+	</figure>
 
-		<p class="h6">The Future</p>
-		<p>Current &amp; future projections, references to Last Place? Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean gravida quam ac nunc efficitur pulvinar. Pellentesque tristique at risus sed consectetur. Aliquam id magna ut tortor laoreet rhoncus. Morbi molestie varius quam, eu feugiat sapien sodales placerat. Proin eget eros rhoncus, pellentesque neque at, laoreet ipsum. Morbi in arcu justo. Morbi et viverra tortor, et faucibus felis. <a href="#">Maecenas sed</a> ex augue. Nullam tortor ante, interdum sed aliquam a, vulputate a quam. Curabitur dapibus ullamcorper nibh quis finibus. Morbi et erat risus. Nullam interdum finibus tincidunt. Vivamus et cursus urna. In viverra nisi diam, faucibus mattis eros pellentesque non. Maecenas lacus tellus, iaculis eu iaculis quis, ornare ut sem.</p>
+	<div class="grid">
 
-		<p>Vivamus vulputate a leo mattis volutpat. Donec sodales nunc ante, sed consectetur ex aliquet in. Cras et nunc justo. Nullam mattis eu leo quis molestie. Morbi aliquam maximus lacus, et auctor velit lacinia luctus. Etiam non nisi eget ligula tincidunt imperdiet. Quisque aliquam ipsum nunc, sed rutrum nisi iaculis dictum. Cras id placerat odio. Donec elementum lorem at tristique tristique.</p>
-	</article>
+		<div class="story">
+			<p class="h6">Story</p>
+			<p>Commonwealth Skateboarding is a gritty 4,500 square foot indoor concrete skatepark hand-built in 2011 by Jennifer Sherowski, Lance Normine and <a href="http://evergreenskateparks.com/commonwealth-skatepark-portland-or" target="_blank">Evergreen Skateparks</a> in an old stone-cutting warehouse just off of Hawthorne Boulevard, in the heart of Southeast Portland.</p>
 
-	<article>
-		<p class="h6">Staff</p>
-		<p>Name | Role</p>
-		<p>Name | Role</p>
-		<p>Name | Role</p>
-		<p class="h6">Investors/Behind-the-Scenes</p>
-		<p>Name | Role</p>
-		<p>Name | Role</p>
-		<p>Name | Role</p>
-		<p>Name | Role</p>
-		<p>Name | Role</p>
-		<p>Name | Role</p>
-	</article>
+			<p>In 2013, inspired by a desire to open up a sneaker-centric skate shop in Portland, footwear designer Matt Collins and some friends had the opportunity to acquire Commonwealth. Despite a shoestring budget, we’ve remodeled the storefront and gallery space into a full-service retail skate &amp; sneaker shop &mdash; and thanks to the generosity of our patrons and community, we’ve been able to keep making improvements to our facility and add new gear every day.</p>
 
+			<p class="highlight"><span>Commonwealth is a labor of love that is maintained and supported by the skaters and locals who call it home.</span></p>
+		</div>
+
+		<div class="features">
+			<p class="h6">Park Features</p>
+			<figure>
+				<img src="@routes.Assets.at("img/about/2013__interior--001@2x.jpg")" alt="Refreshing the paint on the concrete.">
+				<figcaption>2013</figcaption>
+			</figure>
+			<p>The skatepark features a double pocket bowl, one with pool coping, one with steel coping. We have a mini ramp, bank and small street section with a mix of rails, boxes and pole jams.</p>
+		</div>
+
+		<div class="hood">
+			<p class="h6">The Neighborhood</p>
+			<p>We’re hidden along 20th Ave., next to Blackbird Pizza (formerly Vincente’s) and within blocks of many other great locally-owned restaurants &amp; businesses.</p>
+			<div id="map"></div>
+		</div>
+
+		<div class="team">
+			<p class="h6">Team</p>
+			<ul id="team">
+				<li>
+					<div class="photo">
+						<img src="">
+					</div>
+					<div class="info">
+						<span class="name">Matt Collins</span> <br/>
+						<em>Owner / Designer / Buyer</em>
+					</div>
+				</li>
+				<li>
+					<div class="photo">
+						<img src="">
+					</div>
+					<div class="info">
+						<span class="name">Garric Ray</span> <br/>
+						<em>Instructor / Sales</em>
+					</div>
+				</li>
+				<li>
+					<div class="photo">
+						<img src="">
+					</div>
+					<div class="info">
+						<span class="name">Terek </span> <br/>
+						<em>Instructor / Sales</em>
+					</div>
+				</li>
+				<li>
+					<div class="photo">
+						<img src="">
+					</div>
+					<div class="info">
+						<span class="name">Brandy </span> <br/>
+						<em>Instructor / Sales</em>
+					</div>
+				</li>
+				<li>
+					<div class="photo">
+						<img src="">
+					</div>
+					<div class="info">
+						<span class="name">Mandy McClausky </span> <br/>
+						<em>Owner / Designer / Front-End Developer</em>
+					</div>
+				</li>
+				<li>
+					<div class="photo">
+						<img src="">
+					</div>
+					<div class="info">
+						<span class="name">Colin Delargy </span> <br/>
+						<em>Owner / CTO / Head of Engineering</em>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
 </section>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAdzEGBNfSFsKWKYhs0Sn0I5Z08Z93yf58"></script>
 }

@@ -1,0 +1,30 @@
+body.events {
+	background-image: image-url("about/2012__park-interior-header--001.jpg");
+	background-position: center center;
+
+	table[id="events"] {
+		@include dataTable();
+		td.no-events {
+			text-align: center;
+			color: $white;
+			cursor: default;
+			&:hover {
+				background: none;
+			}
+		}
+	}
+
+	.park-rental {
+		ul {
+			display: flex;
+			flex-wrap: wrap;
+			list-style: disc;
+			margin-top: $margin/2;
+			margin-left: 18px;
+			li {
+				padding: 3px 0;
+				width: 50%;
+			}
+		}
+	}
+}

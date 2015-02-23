@@ -5,10 +5,17 @@
 @media screen and (max-width: 960px) {
 	html { font-size: 75% !important; }
 	[id="carousel"] { font-size: 50% !important; }
+	[id="content"] {
+		//main[data-purpose="flex-container"] section:not(#blog):not(#shop) { margin: 0 30px !important; }
+	}	
 }
 
 @media screen and (max-width: 800px) {
 	html { font-size: 100% !important; }
+
+	.grid { 
+		> * { margin: 0 !important; width: 100% !important; }
+	}
 
 	header[id="main"] {
 		position: static !important;
@@ -29,10 +36,24 @@
 	}
 
 	[id="carousel"] { display: none !important; }
-	[id="content"] { margin: 0 !important; padding: 30px !important; }
-	section:not(#blog):not(#shop) { margin: 0 !important; }
+	.home [id="content"] { 
+		padding: 30px !important;
+		margin: 0 !important ; 
+	}
 	[id="info"], [id="blog"] { width: 100% !important; }
 	[id="info"] { order: 1 !important; }
+
+	.camp table[id="camps"] {
+		tr, a { font-size: 13px !important; font-weight: 900 !important; }
+		th, td { padding: 15px 6px !important; }
+	}
+	.camp-detail {
+		.sign-up { order: 2 !important; width: 100% !important; margin-top: 30px !important; 
+			radiogroup input[type="radio"] + label { font-size: 15px !important; }
+			.flex { flex-wrap: wrap !important; }
+		}
+		.details { order: 1 !important; width: 100% !important; padding: 0 !important; }
+	}
 	[id="blog"] { display: none !important; order: 2 !important; margin: 30px 0 0 0 !important; }
 
 	footer {
@@ -44,7 +65,7 @@
 		.social {
 			align-self: flex-end !important;
 			border-top: 2px solid #131313 !important;
-			a { order: 2 !important; padding: 24px !important; }
+			a { order: 2 !important; }
 		}
 		nav { 
 			padding: 36px 15px !important; 
@@ -75,6 +96,10 @@
 	}
 
 	header[id="main"] nav { display: none !important; }
-
+	.camp-detail {
+		.sign-up {
+			[id="cvc"] { margin-left: 0 !important; }
+		}
+	}
 
 }

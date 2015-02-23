@@ -14,8 +14,7 @@ h6, .h6 {
 	margin: 15px 0 1px;
 }
 
-p { 
-	margin: 15px 0 1px; }
+p { margin: 15px 0 1px; }
 
 h1, .h1 { 
 	color: $white;
@@ -23,15 +22,41 @@ h1, .h1 {
 	font-weight: 900;
 	line-height: 1;
 	text-transform: uppercase;
+
+	~ h2, .h2 {
+		margin-top: 0;
+		margin-bottom: $margin/2;
+	}
 }
 
-h2, .h2 { @include rem(font-size, 36px); }
+h2, .h2 { @include rem(font-size, 36px); text-transform: lowercase; }
 h3, .h3 { @include rem(font-size, 30px); }
 h4, .h4 { @include rem(font-size, 24px); }
 h5, .h5 { @include rem(font-size, 21px); }
 h6, .h6, p { @include rem(font-size, 15px); }
 
 h5, .h5, h6, .h6 { color: $white; font-weight: 500; }
+
+.notice { color: $gold; }
+.highlight { 
+	margin: 18px 0 18px 15px;
+	text-indent: -9px;
+	transform: rotate(-.6deg);
+	-webkit-backface-visibility: hidden;
+	span {
+		background: fade_out($gold, .3);
+		box-shadow:	 9px 0 0 fade_out($gold, .3), 
+								-9px 0 0 fade_out($gold, .3);
+		box-decoration-break: clone;
+		color: $white; 
+		display: inline;
+		@include rem(font-size, $margin);
+		line-height: 1.15;
+		padding: 3px 0;
+	}
+}
+.handwriting { font-family: "Special Elite"; }
+.monospace { }
 
 //
 //** BANNER TYPOGRAPHY

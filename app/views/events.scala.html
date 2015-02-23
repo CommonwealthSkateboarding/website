@@ -5,15 +5,15 @@
 <section id="events">
     <h1>Events &amp; Services</h1>
     <h2>Upcoming Events</h2>
-    <table class="table table-bordered table-striped table-condensed">
+    <table id="events" class="table table-bordered table-striped table-condensed">
         <thead>
             <tr>
                 <th>Event</th>
                 <th>Date</th>
-                <th>Start Time</th>
-                <th>End Time</th>
-                <th>Registration End Date</th>
-                <th>Registrations</th>
+                <th>Starts</th>
+                <th>Ends</th>
+                <!-- <th>Register by</th> -->
+                <th>Capacity</th>
                 <th>Cost</th>
             </tr>
         </thead>
@@ -21,11 +21,11 @@
         @for(event <- events) {
         <tr>
             <td><a href="@routes.Application.eventDetail(event.id)">@event.name</a></td>
-            <td>@event.startTime.format("MM/dd/yyyy")</td>
-            <td>@event.startTime.format("hh:mm a")</td>
-            <td>@event.endTime.format("hh:mm a")</td>
+            <td>@event.startTime.format("M/d")</td>
+            <td>@event.startTime.format("h:mma")</td>
+            <td>@event.endTime.format("h:mma")</td>
             @if(event.registrable) {
-                <td>@if(null != event.registrationEndDate) { @event.registrationEndDate.format("MM/dd/yyyy") }</td>
+                <!-- <td>@if(null != event.registrationEndDate) { @event.registrationEndDate.format("M/dd") }</td> -->
                 <td>@event.registrations.size()/@event.maxRegistrations</td>
                 <td>@utils.Formatter.prettyDollars(event.cost)</td>
             } else {
@@ -33,36 +33,60 @@
             }
         </tr>
         }
+        <!-- If no events -->
+        <tr>
+            <td class="no-events" colspan="7">No events are scheduled at this time. Please check back later.</td>
+        </tr>
         </tbody>
     </table>
 
-    <div class="quad">
+    <div class="grid">
         <div class="lessons">
             <p id="lessons" class="h6">Skate Lessons</p>
-            <p>Details about private lessons. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean gravida quam ac nunc efficitur pulvinar. Pellentesque tristique at risus sed consectetur. Aliquam id magna ut tortor laoreet rhoncus. Morbi molestie varius quam, eu feugiat sapien sodales placerat. Proin eget eros rhoncus, pellentesque neque at, laoreet ipsum. Morbi in arcu justo. Morbi et viverra tortor, et faucibus felis. Maecenas sed ex augue. Nullam tortor ante, interdum sed aliquam a, vulputate a quam. Curabitur dapibus ullamcorper nibh quis finibus. Morbi et erat risus. Nullam interdum finibus tincidunt. Vivamus et cursus urna. In viverra nisi diam, faucibus mattis eros pellentesque non. Maecenas lacus tellus, iaculis eu iaculis quis, ornare ut sem.</p>
+            <p>Skateboarding is fun, but learning at an outdoor park can be intimidating. Our instructors can get you or your child past the basics and more comfortable earning your bruises at any skatepark!</p>
 
-            <p>Vivamus vulputate a leo mattis volutpat. Donec sodales nunc ante, sed consectetur ex aliquet in. Cras et nunc justo. Nullam mattis eu leo quis molestie. Morbi aliquam maximus lacus, et auctor velit lacinia luctus. Etiam non nisi eget ligula tincidunt imperdiet. Quisque aliquam ipsum nunc, sed rutrum nisi iaculis dictum. Cras id placerat odio. Donec elementum lorem at tristique tristique.</p>
+            <p>Lessons are $35 for an hour of one-on-one instruction. Each lesson comes with a free Session Pass to Commonwealth that can be used at any time. Learn better in pairs? Bring a friend for an additional $35.</p>
+
+            <p>We can typically schedule a lesson for just about any time frame with a bit of notice. To request a lesson, please email us at <a href="mailto:info&#64;commonwealthskateboarding.com">info&#64;commonwealthskateboarding.com</a> with your desired dates/time along with some basic age &amp; skill level information for the person(s) taking the lesson. One of our instructors will contact you directly to confirm or reschedule depending on their availability.</p>
         </div>
 
         <div class="birthdays">
             <p id="birthdays" class="h6">Birthdays</p>
-            <p>Details about birthdays. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean gravida quam ac nunc efficitur pulvinar. Pellentesque tristique at risus sed consectetur. Aliquam id magna ut tortor laoreet rhoncus. Morbi molestie varius quam, eu feugiat sapien sodales placerat. Proin eget eros rhoncus, pellentesque neque at, laoreet ipsum. Morbi in arcu justo. Morbi et viverra tortor, et faucibus felis. Maecenas sed ex augue. Nullam tortor ante, interdum sed aliquam a, vulputate a quam. Curabitur dapibus ullamcorper nibh quis finibus. Morbi et erat risus. Nullam interdum finibus tincidunt. Vivamus et cursus urna. In viverra nisi diam, faucibus mattis eros pellentesque non. Maecenas lacus tellus, iaculis eu iaculis quis, ornare ut sem.</p>
+            <p>Commonwealth is an awesome place for a birthday party! Whether it’s for your child and some of their best friends or a group of old rippers celebrating another year, we can set you up for a great party.</p> 
 
-            <p>Vivamus vulputate a leo mattis volutpat. Donec sodales nunc ante, sed consectetur ex aliquet in. Cras et nunc justo. Nullam mattis eu leo quis molestie. Morbi aliquam maximus lacus, et auctor velit lacinia luctus. Etiam non nisi eget ligula tincidunt imperdiet. Quisque aliquam ipsum nunc, sed rutrum nisi iaculis dictum. Cras id placerat odio. Donec elementum lorem at tristique tristique.</p>
+            <p>Our private birthday party rentals are $150 for two hours slots during non-operational hours (i.e. when we're closed to the public), and $75 for each additional hour after that. For parties scheduled during business hours, we charge $200 for the first two hours and $100 each hour afterwards. We can provide folding tables for food/gifts, and the park is equipped with a stereo and auxiliary cable to connect any digital music device to.</p> 
+
+            <p>During private birthday parties, we allow the use of scooters, rollerblades and roller skates that we typically do not allow during public hours. Sorry, BMX bikes are not allowed at any time.</p>
+
+            <p>Email us at <a href="mailto:info&#64;commonwealthskateboarding.com">info&#64;commonwealthskateboarding.com</a> to request a specific rental time or have us answer any questions.</p>
         </div>
 
-        <div class="private-events">
-            <p id="private-events" class="h6">Private Events</p>
-            <p>Details about private events. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean gravida quam ac nunc efficitur pulvinar. Pellentesque tristique at risus sed consectetur. Aliquam id magna ut tortor laoreet rhoncus. Morbi molestie varius quam, eu feugiat sapien sodales placerat. Proin eget eros rhoncus, pellentesque neque at, laoreet ipsum. Morbi in arcu justo. Morbi et viverra tortor, et faucibus felis. Maecenas sed ex augue. Nullam tortor ante, interdum sed aliquam a, vulputate a quam. Curabitur dapibus ullamcorper nibh quis finibus. Morbi et erat risus. Nullam interdum finibus tincidunt. Vivamus et cursus urna. In viverra nisi diam, faucibus mattis eros pellentesque non. Maecenas lacus tellus, iaculis eu iaculis quis, ornare ut sem.</p>
+        <div class="park-rental">
+            <p id="park-rental" class="h6">Rent the Park</p>
+            <p>Commonwealth is a 4,500 sq ft indoor skatepark available for a variety of creative uses that don’t jeopardize our liability insurance. We’ve hosted both small and large-scale: 
+                <ul>
+                    <li>photoshoots</li>
+                    <li>skate videos &amp; competitions</li>
+                    <li>product demos</li>
+                    <li>team off-sites</li>
+                    <li>live music &amp; music videos</li>
+                    <li>holiday parties</li>
+                    <li>lots of other shenanigans</li>
+                </ul>
+            </p>
 
-            <p>Vivamus vulputate a leo mattis volutpat. Donec sodales nunc ante, sed consectetur ex aliquet in. Cras et nunc justo. Nullam mattis eu leo quis molestie. Morbi aliquam maximus lacus, et auctor velit lacinia luctus. Etiam non nisi eget ligula tincidunt imperdiet. Quisque aliquam ipsum nunc, sed rutrum nisi iaculis dictum. Cras id placerat odio. Donec elementum lorem at tristique tristique.</p>
+            <p>We can usually accommodate most rental requests, but renters are responsible for any required sound, capacity, insurance, and permitting that may be necessary for your event. As we don't want to exceed our capacity or upset our neighbors, Commonwealth may ask for detailed event brief.</p>
+
+            <p>Private event rentals are $150 for 2-hours during hours when we are closed to the general public and hour members, and $75 for each additional hour. For rentals scheduled during our normal public hours of operation we charge $200 for 2-hours and $100 for each additional hour.</p>
+
+            <p>Email us at <a href="mailto:info&#64;commonwealthskateboarding.com">info&#64;commonwealthskateboarding.com</a> to request a specific rental time or have us answer any questions.</p>
         </div>
 
-        <div class="lock-ins">
-            <p id="lock-ins" class="h6">Lock-Ins</p>
-            <p>Details about lock-ins. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean gravida quam ac nunc efficitur pulvinar. Pellentesque tristique at risus sed consectetur. Aliquam id magna ut tortor laoreet rhoncus. Morbi molestie varius quam, eu feugiat sapien sodales placerat. Proin eget eros rhoncus, pellentesque neque at, laoreet ipsum. Morbi in arcu justo. Morbi et viverra tortor, et faucibus felis. Maecenas sed ex augue. Nullam tortor ante, interdum sed aliquam a, vulputate a quam. Curabitur dapibus ullamcorper nibh quis finibus. Morbi et erat risus. Nullam interdum finibus tincidunt. Vivamus et cursus urna. In viverra nisi diam, faucibus mattis eros pellentesque non. Maecenas lacus tellus, iaculis eu iaculis quis, ornare ut sem.</p>
-
-            <p>Vivamus vulputate a leo mattis volutpat. Donec sodales nunc ante, sed consectetur ex aliquet in. Cras et nunc justo. Nullam mattis eu leo quis molestie. Morbi aliquam maximus lacus, et auctor velit lacinia luctus. Etiam non nisi eget ligula tincidunt imperdiet. Quisque aliquam ipsum nunc, sed rutrum nisi iaculis dictum. Cras id placerat odio. Donec elementum lorem at tristique tristique.</p>
+        <div class="park-rental-img">
+            <figure>
+                <img src="">
+                <figcaption>caption</figcaption>
+            </figure>
         </div>
     </div>
 

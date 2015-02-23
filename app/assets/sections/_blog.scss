@@ -1,21 +1,29 @@
-body.home [id="blog"] { margin: 0 $margin 0 9px; }
+// Blog on Homepage
+body.home [id="blog"] { margin: 0 18px; }
+
+// Blog Standalone
 body:not(.home) [id="blog"] { margin: 0 $margin*2; }
 
 [id="blog"], [id="blog-entry"] {
+	// display: flex;
+	// flex-wrap: wrap;
 	width: 100%;
 
 	article { 
+		&.post-preview { width: 100%; }
+		width: 100%;
 
 		// &+& == all but the first
-		& + & { margin-top: $margin/2*2; }
+		& + & { margin-top: $margin; }
 
 		header {
-			padding: $margin/2;
+			padding: 0 $margin/2;
 
 			h1 { 
 				color: $white;
 				@include rem(font-size, 18px);
 				@include rem(line-height, 2rem);
+				margin: 0;
 			}
 
 			.meta {
@@ -63,17 +71,10 @@ body:not(.home) [id="blog"] { margin: 0 $margin*2; }
 		main {
 			margin: 6px 0;
 			padding: 0 $margin/2;
-
-			p { line-height: 2.2rem; }
 		}
 
 		footer {
-			border: 1px solid fade_out($gray, .75);
-			border-top: none;
-
-			overflow: hidden;
-			margin: $margin/2 0 $margin/2*2 0;
-			padding: $margin/2;
+			@include bottomBorder();
 
 			a {
 				border-width: 2px;

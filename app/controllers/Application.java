@@ -93,6 +93,11 @@ public class Application extends Controller {
         }
         return ok(campDetail.render(camp));
     }
+
+    public static Result sessions(){
+        return ok(sessions.render());
+    }
+
     public static Result events() {
         Date now = new Date();
         List<Event> publicEvents = Event.find.orderBy("startTime").where().gt("endTime", now)

@@ -1,0 +1,41 @@
+body.about {
+	background-image: image-url("about/2012__park-interior-header--001.jpg");
+
+	.story {
+		.highlight span {
+			@extend .handwriting;
+			@include rem(font-size, 21px);
+			line-height: 1.32;
+			padding: 9px 0 3px; 
+		}
+	}
+
+	.features {
+		img {
+			margin-top: $margin/2;
+			//max-width: 648px;
+			width: 100%;
+		}
+	}
+
+	.team {
+		li {
+			display: flex;
+			margin: $margin/2;
+
+			.name { 
+				color: $gold;
+				font-weight: 500;
+			}
+
+			em { 
+				font-style: normal;
+			}
+		}
+	}
+
+	[id="map"] {
+		height: 300px;
+		margin-top: $margin/2;
+	}
+}

@@ -1,0 +1,56 @@
+// Creates a topless box.
+// Usage: Apply to blog footer, inputs
+// @include bottomborder();
+@mixin bottomBorder() {
+	border: 3px solid fade_out($gray, .75);
+	border-top: none;
+	border-radius: 3px;
+
+	overflow: hidden;
+	margin: $margin/2 0 $margin/2*2 0;
+	padding: $margin/2;
+}
+
+// Generates styles for data tables, such as camps and events.
+// Usage: Apply to a table
+// @include dataTable();
+@mixin dataTable() {
+	text-align: center;
+
+	th, td { 
+		@include rem(padding, 6px 12px 9px); 
+		&:first-of-type { text-align: left; }
+	}
+
+	tbody {
+		tr {
+			@include rem(font-size, 21px);
+			font-weight: 500;
+			transition: color .3s;
+			a { display: block; font-weight: 500; }
+			&:hover{
+				color: $white;
+				a { color: $white; }
+				td { background: fade_out($gold, .6); }
+			}
+			&:nth-of-type(even) { background: fade_out(desaturate($gold, 12%), .9); }
+
+			td {
+				cursor: pointer;
+				transition: background .3s;
+				&:first-of-type { border-radius: 1px 0 0 1px; }
+				&:last-of-type { border-radius: 0 1px 1px 0; }
+			}
+		}
+	}
+
+	tfoot tr td {
+		color: $gray;
+		p { 
+			@include rem(font-size, 9px);
+			font-weight: 900;
+			text-align: center; 
+			text-transform: uppercase;
+		}
+	}
+}

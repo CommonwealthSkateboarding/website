@@ -1,15 +1,23 @@
 body {
 	> footer {
-		align-content: flex-end;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: flex-end;
+
+		background-image: -webkit-linear-gradient(top, $black 3%, transparent 97%),
+											image-url("footer/2012__park-interior--001.jpg");
+		background-position: 60% top;
+		background-repeat: no-repeat;
+		background-size: cover;
 		color: $gray;
 		@include rem(font-size, 9px);
 		font-weight: 700;
-		margin-top: 90px;
+		padding-top: $margin;
 		text-transform: uppercase;
-		overflow: hidden;
-
+		
 		.sponsors {
 			margin: 18px $margin;
+			width: 100%;
 			.h6 { 
 				border-top: 3px solid fade_out($gold, .6);
 				display: inline-block;
@@ -38,10 +46,12 @@ body {
 		}
 
 		.info { 
-			background: fade_out($gray, .96);
+			//background: fade_out($gray, .96);
+			border-top: 2px solid $black;
 			color: $white;
 			display: flex;
 			height: 270px;
+			width: 100%;
 
 			> *:not(.social) { 
 				height: 100%; 
@@ -74,7 +84,7 @@ body {
 
 			hr { 
 				border: none; 
-				border-bottom: 1px solid fade_out($gray, .93);
+				border-bottom: 1px solid fade_out($gold, .9);
 				display: block;
 				height: 1px;
 				margin: 12px 0;

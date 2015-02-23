@@ -3,57 +3,71 @@
 @main("camp") {
 
 <section id="camp">
-    <h1>Skate Camps</h1>
-    <h2>Upcoming Camps</h2>
-    <table class="table table-bordered table-striped table-condensed">
-        <thead>
-        <tr>
-            <th>Camp</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th>Registration End Date</th>
-            <th>Registrations</th>
-            <th>Cost</th>
-            <th>Schedule</th>
-        </tr>
-        </thead>
-        <tbody>
-        @for(camp <- camps) {
-        <tr>
-            <td><a href="@routes.Application.campDetail(camp.id)">@camp.title</a></td>
-            <td>@camp.startDate.format("MM/dd/yyyy")</td>
-            <td>@camp.endDate.format("MM/dd/yyyy")</td>
-            <td>@camp.registrationEndDate.format("MM/dd/yyyy")</td>
-            <td>@camp.registrations.size()/@camp.maxRegistrations</td>
-            <td>@utils.Formatter.prettyDollars(camp.cost)</td>
-            <td>@camp.scheduleDescription</td>
-        </tr>
-        }
-        </tbody>
-    </table>
+	<p class="h1">Skate Camps</p>
+	<h2>Upcoming Camps</h2>
+	
+	<table id="camps" class="clickable table table-bordered table-striped table-condensed">
+		<thead>
+		<tr>
+			<th>Session</th>
+			<!-- <th>Begins</th>
+			<th>Ends</th> -->
+			<!-- <th>Registration Ends</th> -->
+			<th>Capacity</th>
+			<th>Cost</th>
+			<!-- <th>Schedule</th> -->
+			<th class="">Instructors</th>
+		</tr>
+		</thead>
+		<tfoot>
+			<tr>
+				<td colspan="5">
+					<p>Click on a session to see camp details &amp; sign up</p>
+				</td>
+			</tr>
+		</tfoot>
+		<tbody>
+		@for(camp <- camps) {
+		<tr>
+			<td><a href="@routes.Application.campDetail(camp.id)">@camp.title</a></td>
+			<!-- <td>@camp.startDate.format("M/dd")</td>
+			<td>@camp.endDate.format("M/dd")</td> -->
+			<!-- <td>@camp.registrationEndDate.format("MM/dd/yyyy")</td> -->
+			<td>@camp.registrations.size()/@camp.maxRegistrations</td>
+			<td>@utils.Formatter.prettyDollars(camp.cost)</td>
+		   <!--  <td>@camp.scheduleDescription</td> -->
+		   <td class="instructors">Frank Shaw, Garric Ray</td>
+		</tr>
+		}
+		</tbody>
+	</table>
 
-    <div class="quad">
+	<div class="grid">
 
-        <div class="summer">
-            <p class="h6">Summer Camps</p>
-            <p>Details about summer camp locations, activities. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean gravida quam ac nunc efficitur pulvinar. Pellentesque tristique at risus sed consectetur. Aliquam id magna ut tortor laoreet rhoncus. Morbi molestie varius quam, eu feugiat sapien sodales placerat. Proin eget eros rhoncus, pellentesque neque at, laoreet ipsum. Morbi in arcu justo. Morbi et viverra tortor, et faucibus felis. Maecenas sed ex augue. Nullam tortor ante, interdum sed aliquam a, vulputate a quam. Curabitur dapibus ullamcorper nibh quis finibus. Morbi et erat risus. Nullam interdum finibus tincidunt. Vivamus et cursus urna. In viverra nisi diam, faucibus mattis eros pellentesque non. Maecenas lacus tellus, iaculis eu iaculis quis, ornare ut sem.</p>
+		<div class="summer">
+			<p class="h6">Summer Camps</p>
+			<p>Our summer skateboard camps are the one of the funnest and fastest ways to get better at skateboarding and experience all of the best outdoor skate parks in the greater Portland area. Each day we warm up at Commonwealth for an hour before loading up in our camp van and heading out to 2 or 3 different skateparks each day.</p>
 
-            <p>Vivamus vulputate a leo mattis volutpat. Donec sodales nunc ante, sed consectetur ex aliquet in. Cras et nunc justo. Nullam mattis eu leo quis molestie. Morbi aliquam maximus lacus, et auctor velit lacinia luctus. Etiam non nisi eget ligula tincidunt imperdiet. Quisque aliquam ipsum nunc, sed rutrum nisi iaculis dictum. Cras id placerat odio. Donec elementum lorem at tristique tristique.</p>
-        </div>
+			<p>Camps run Monday through Thursday from 9:00AM to 4:00PM. <br/>
+				Ages 6-14.</p>
+			<p class="notice"><strong>A $100 non-refundable deposit is required to register each skater for a summer camp session.</strong></p>
+		</div>
 
-        <div class="winter">
-            <p class="h6">Winter Camps</p>
-            <p>Details about winter camp locations, activities. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean gravida quam ac nunc efficitur pulvinar. Pellentesque tristique at risus sed consectetur. Aliquam id magna ut tortor laoreet rhoncus. Morbi molestie varius quam, eu feugiat sapien sodales placerat. Proin eget eros rhoncus, pellentesque neque at, laoreet ipsum. Morbi in arcu justo. Morbi et viverra tortor, et faucibus felis. Maecenas sed ex augue. Nullam tortor ante, interdum sed aliquam a, vulputate a quam. Curabitur dapibus ullamcorper nibh quis finibus. Morbi et erat risus. Nullam interdum finibus tincidunt. Vivamus et cursus urna. In viverra nisi diam, faucibus mattis eros pellentesque non. Maecenas lacus tellus, iaculis eu iaculis quis, ornare ut sem.</p>
+		<div class="winter">
+			<p class="h6">Winter Camps</p>
+			<p>School’s out! Our winter camps are week long camps during winter breaks in the school calendar designed to kill the boredom of hiding from the rain. Come skate Commonwealth, play video games, and visit some of the areas skate parks when there’s a break in the rain.</p>
 
-            <p>Vivamus vulputate a leo mattis volutpat. Donec sodales nunc ante, sed consectetur ex aliquet in. Cras et nunc justo. Nullam mattis eu leo quis molestie. Morbi aliquam maximus lacus, et auctor velit lacinia luctus. Etiam non nisi eget ligula tincidunt imperdiet. Quisque aliquam ipsum nunc, sed rutrum nisi iaculis dictum. Cras id placerat odio. Donec elementum lorem at tristique tristique.</p>
-        </div>
+			<p>Camps schedules will vary session to session. <br/>
+				Ages 6-14.</p>
+			<p class="notice"><strong>A $100 non-refundable deposit is required to register each skater for a winter camp session.</strong></p>
+		</div>
 
-        <div class="day">
-            <p class="h6">Day Camps</p>
-            <p>Details about day camp locations, activities. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean gravida quam ac nunc efficitur pulvinar. Pellentesque tristique at risus sed consectetur. Aliquam id magna ut tortor laoreet rhoncus. Morbi molestie varius quam, eu feugiat sapien sodales placerat. Proin eget eros rhoncus, pellentesque neque at, laoreet ipsum. Morbi in arcu justo. Morbi et viverra tortor, et faucibus felis. Maecenas sed ex augue. Nullam tortor ante, interdum sed aliquam a, vulputate a quam. Curabitur dapibus ullamcorper nibh quis finibus. Morbi et erat risus. Nullam interdum finibus tincidunt. Vivamus et cursus urna. In viverra nisi diam, faucibus mattis eros pellentesque non. Maecenas lacus tellus, iaculis eu iaculis quis, ornare ut sem.</p>
+		<div class="day">
+			<p class="h6">Day Trips &amp; Lock-Ins</p>
+			<p>We’re always scheduling van trips, lock-ins, and mini-camps throughout the year. Whether it’s a trip to Eugene on a rainy day, or an overnight lock-in of skateboarding, pizza, and candy &mdash; join us for some epic fun and endless skateboarding.</p>
 
-            <p>Vivamus vulputate a leo mattis volutpat. Donec sodales nunc ante, sed consectetur ex aliquet in. Cras et nunc justo. Nullam mattis eu leo quis molestie. Morbi aliquam maximus lacus, et auctor velit lacinia luctus. Etiam non nisi eget ligula tincidunt imperdiet. Quisque aliquam ipsum nunc, sed rutrum nisi iaculis dictum. Cras id placerat odio. Donec elementum lorem at tristique tristique.</p>
-        </div>
-    </div>
+			<p>Day trip and lock-in schedules will vary from event to event, as will their respective non-refundable deposit amounts.</p>
+		</div>
+	</div>
 </section>
 }

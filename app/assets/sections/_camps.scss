@@ -1,0 +1,132 @@
+body.camp {
+	background-image: image-url("camps/2014__enzo--001.jpg");
+	background-position: 78% center;
+
+	table[id="camps"] {
+		@include dataTable();
+		td.instructors { @include rem(font-size, 15px); }
+	}
+}
+
+body.camp-detail {
+	background-image: image-url("camps/2014__sampson--001b.jpg");
+	background-position: 75% bottom;
+	a .h1 {  display: inline-block; }
+	.h4 { color: $gold; }
+	.h6 { 
+		display: block; 
+		@include rem(font-size, 12px);
+		font-weight: 900;
+		margin: 18px 0 6px 12px;
+		text-transform: uppercase;
+	}
+
+	.details {
+		order: 2;
+		margin-left: $margin;
+		width: calc(34% - #{$margin/2});
+		ul {
+			//margin-top: $margin;
+			li {
+				//background: fade_out($gray, .96);
+				background: fade_out($black, .45);
+				border-bottom: 3px solid $black;
+				display: flex;
+				flex-direction: column;
+				flex-wrap: wrap;
+				margin: 0;
+				padding: 18px 24px 9px 24px;
+				width: 100%;
+				&:not(:first-of-type) {
+					margin-top: 3px;
+				}
+				&:not(.description) {
+					p:not(.h6) {
+						@include rem(font-size, 27px); 
+						font-weight: 300;
+						margin: 0;
+					}
+				}
+				&:last-of-type { padding-bottom: 18px; }
+				.h6 { margin: 0; }
+			}
+		}
+	}
+
+	.sign-up {
+		order: 1;
+		width: calc(66% - #{$margin/2}) ;
+	}
+
+	form {
+		label {
+			&.cvc, &.card { margin-right: 1%; }
+		}
+		input[type] { 
+			&[id="name"], &[id="email"] { width: 100%; }
+			&[data-stripe="exp-month"] { width: 63px; }
+		}
+		radiogroup {
+			display: flex;
+			align-content: center;
+			align-items: center;
+			@include rem(font-size, 18px);
+			margin-top: 9px;
+			width: 100%;
+			input[type="radio"] { 
+				display: none; 
+				+ label {
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					border: 1px solid $gold;
+					color: fade_out($gold, .3);
+					cursor: pointer;
+					height: 45px;
+					//padding: 12px $margin*2;
+					position: relative;
+					transition: background .3s, color .3s;
+					width: 50%;
+					i.fa { 
+						margin-left: -6px;
+						margin-right: 6px;
+						margin-top: -1px;
+						visibility: hidden;
+					}
+					&:not(:first-of-type) { margin: 0 -2px; }
+				}
+				&:first-of-type + label { border-radius: 3px 0 0 3px; }
+				&:last-of-type + label { border-radius: 0 3px 3px 0; }
+				&:checked + label {
+					background: $gold;
+					color: $white;
+					i.fa { visibility: visible; }
+				}
+			}
+		}
+
+		footer { 
+			display: flex;
+			justify-content: flex-end;
+			[type="submit"] { 
+				background: $gold;
+				border: 0;
+				color: $black;
+				margin-top: $margin*2;
+				position: relative;
+				width: 30%;
+
+				&:hover { background: $white; }
+
+				i.fa { 
+					position: absolute;
+					margin-top: 3px;
+					right: 6%; 
+				}
+			}
+		}
+
+		
+	}
+
+}

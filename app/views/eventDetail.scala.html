@@ -3,17 +3,18 @@
 @main("event-detail") {
 
 <section id="event-detail">
-    <h2>Event Detail Page</h2>
+   <a href="@routes.Application.events()"><p class="h1">&lt; Back to all events</p></a>
+    <p class="h2">@event.name</p>
     <table class="table table-bordered table-striped table-condensed">
         <thead>
         <tr>
             <th>Event</th>
             <th>Date</th>
-            <th>Start Time</th>
-            <th>End Time</th>
+            <th>Starts</th>
+            <th>Ends</th>
             @if(event.registrable) {
-                <th>Registration End Date</th>
-                <th>Registrations</th>
+                <th>Registration Ends</th>
+                <th>Capacity</th>
                 <th>Cost</th>
             }
         </tr>

@@ -13,12 +13,13 @@
 			<meta name="viewport" content="width=device-width, initial-scale=1">
 
 			<!-- Typefaces -->
-			<link href='http://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700' rel='stylesheet' type='text/css'>
-			<link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400,700,300' rel='stylesheet' type='text/css'>
-			<link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,300,700' rel='stylesheet' type='text/css'>
+			<link href='http://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700' rel='stylesheet'>
+			<link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400,700,300' rel='stylesheet'>
+			<link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,300,700' rel='stylesheet'>
+			<link href='http://fonts.googleapis.com/css?family=Special+Elite' rel='stylesheet'>
 
 			<!-- Carousel -->
-			<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/jquery.slick/1.3.15/slick.css"/>
+			<link rel="stylesheet" href="//cdn.jsdelivr.net/jquery.slick/1.3.15/slick.css"/>
 
 			<!-- Base CSS [add back .min] -->
 			<link rel="stylesheet" href="@routes.Assets.at("normalize.css")">
@@ -37,6 +38,7 @@
 			<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
 			<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 			<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-instagram/0.3.1/instagram.min.js"></script>
 		</head>
 
 		<body class="@bodyClass">
@@ -67,15 +69,21 @@
 								<li> <a href="/camp#overview">Overview</a> </li>
 								<li> <a href="/camp#summer">Summer Camps</a> </li>
 								<li> <a href="/camp#winter">Winter Camps</a> </li>
-								<li> <a href="/camp#day">Day Camps</a> </li>
+								<li> <a href="/camp#day">Day Trips &amp; Lock-Ins</a> </li>
 							</ul>
 						</li>
 						<li> <a href="/events">Events</a> 
 							<ul class="subnav">
 								<li><a href="/events#lessons">Lessons</a></li>
 								<li><a href="/events#birthdays">Birthdays</a></li>
-								<li><a href="/events#private-events">Private Events</a></li>
-								<li><a href="/events#lock-ins">Lock-Ins</a></li>
+								<li><a href="/events#park-rental">Park Rental</a></li>
+							</ul>
+						</li>
+						<li> <a href="/sessions">Sessions</a>
+							<ul class="subnav">
+								<li><a href="/sessions#slag">Skate Like a Girl</a></li>
+								<li><a href="/sessions#kids">Kids Only</a></li>
+								<li><a href="/sessions#oldman">Old Man Nights</a></li>
 							</ul>
 						</li>
 						<li> <a href="/blog">Blog</a> </li>
@@ -92,14 +100,19 @@
 		} else {
 		}
 
-		<section id="content">
+		<!-- <section id="social">
+			<div id="instagram"></div>
+		</section>
+ -->
+
+		<div id="content">
 
 				<main data-purpose="flex-container">
 
 						@content
 
 				</main>
-		</section> <!-- /#content -->
+		</div> <!-- /#content -->
 
 		<footer>
 			<div class="sponsors">
@@ -136,17 +149,17 @@
 
 					<ul class="social">
 						<li data-name="Instagram">
-							<a href="http://instagram.com/commonwealthskate">
+							<a href="http://instagram.com/commonwealthskate" title="Instagram">
 								<i class="fa fa-instagram"></i>
 							</a>
 						</li>
 						<li data-name="Facebook">
-							<a href="https://www.facebook.com/pages/Commonwealth-Skateboarding/193644940661093">
+							<a href="https://www.facebook.com/pages/Commonwealth-Skateboarding/193644940661093" title="Facebook">
 								<i class="fa fa-facebook-official"></i>
 							</a>
 						</li>
 						<li data-name="Reddit">
-							<a href="https://www.reddit.com/r/commonwealthpdx">
+							<a href="https://www.reddit.com/r/commonwealthpdx" title="Subreddit">
 								<i class="fa fa-reddit"></i>
 							</a>
 						</li>
@@ -189,15 +202,21 @@
 								<li> <a href="/camp#overview">Overview</a> </li>
 								<li> <a href="/camp#summer">Summer Camps</a> </li>
 								<li> <a href="/camp#winter">Winter Camps</a> </li>
-								<li> <a href="/camp#day">Day Camps</a> </li>
+								<li> <a href="/camp#day">Day Trips &amp; Lock-Ins</a> </li>
 							</ul>
 						</li>
 						<li><span class="h5">Events</span>
 							<ul>
 								<li><a href="/events#lessons">Lessons</a></li>
 								<li><a href="/events#birthdays">Birthdays</a></li>
-								<li><a href="/events#private-events">Private Events</a></li>
-								<li><a href="/events#lock-ins">Lock-Ins</a></li>
+								<li><a href="/events#park-rental">Park Rental</a></li>
+							</ul>
+						</li>
+						<li><span class="h5">Sessions</span>
+							<ul>
+								<li><a href="/sessions#slag">Skate Like a Girl</a></li>
+								<li><a href="/sessions#kids">Kids Only</a></li>
+								<li><a href="/sessions#oldman">Old Man Nights</a></li>
 							</ul>
 						</li>
 						<li><span class="h5">The Park</span>

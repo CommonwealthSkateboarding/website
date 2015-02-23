@@ -1,4 +1,9 @@
-body { background: $black; }
+body { 
+	background: $black; 
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
 p a { 
 	color: $gold; 
 	font-weight: 900;
@@ -9,7 +14,7 @@ p a {
 }
 
 [id="content"] {
-	background: linear-gradient(top, transparent, fade_out($black, .5));
+	background-image: -webkit-linear-gradient(top, transparent, $black 600px);
 	color: $gray;
 	width: 100%;
 
@@ -22,7 +27,9 @@ p a {
 		flex: 1;
 		flex-flow: row wrap;
 
-		section:not(#blog):not(#shop) {
+		padding-bottom: 60px;
+
+		section:not([id="blog"]) {
 			clear: both;
 			margin: 0 $margin*2;
 			width: 100%;
@@ -30,7 +37,7 @@ p a {
 	}
 }
 
-.quad {
+.grid {
 	display: flex;
 	flex-wrap: wrap;
 	> div {
@@ -38,4 +45,31 @@ p a {
 		width: calc(50% - #{$margin/2}); 
 		&:nth-of-type(odd) { margin-right: $margin; }
 	}
+	&.no-margin { 
+		> div {
+			margin: 0;
+		}
+	}
+}
+
+
+img.full-width {
+	margin: 30px 0;
+	width: 100%;
+}
+
+figure {
+	img.full-width {
+		margin: 0;
+	}
+	figcaption {
+		background: fade_out($gray, .9);
+		border-radius: 0 0 3px 3px;
+		@include rem(font-size, 12px);
+		//font-style: italic;
+		margin-top: -5px;
+		padding: 6px 9px;
+		text-align: right;
+	}
+
 }

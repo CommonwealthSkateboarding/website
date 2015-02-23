@@ -1,24 +1,29 @@
 @()
 
 @main("contact") {
+
 <section id="contact">
-	<h1>Get in Touch</h1>
+	<p class="h1">Say Hello</p>
 	<h2>Contact</h2>
-	<table class="table table-bordered table-striped table-condensed">
-		<tr>
-			<td>
-				<p class="h6">Map</p>
-				<p>[Google Map]</p>
-			</td>
-			<td>
-				<p class="h6">Address</p>
-				<p>1425 SE 20th Ave., Portland, OR</p>
-				<p class="h6">Phone</p>
-				<p>(503) 208-2080</p>
-				<p class="h6">Email</p>
-				<p><a href="mailto:info&#64;commonwealthskateboarding.com">info&#64;commonwealthskateboarding.com</a></p>
-			</td>
-		</tr>
-	</table>
+	<div class="grid no-margin">
+		<div class="map">
+			<p class="h6">Map</p>
+			<div id="map"></div>
+		</div>
+		<div class="contact">
+			<p class="h6">Address</p>
+			<p>1425 SE 20th Ave., Portland, OR</p>
+			<p class="h6">Phone</p>
+			<p>(503) 208-2080</p>
+			<p class="h6">Email</p>
+			<p>
+				<a href="mailto:info&#64;commonwealthskateboarding.com">General Inquiries</a> <br/>
+				<a href="mailto:info&#64;commonwealthskateboarding.com">Schedule a Lesson</a> <br/>
+				<a href="mailto:info&#64;commonwealthskateboarding.com">Rental Inquiries</a>
+			</p>
+		</div>
+	</div>
 </section>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAdzEGBNfSFsKWKYhs0Sn0I5Z08Z93yf58"></script>
 }

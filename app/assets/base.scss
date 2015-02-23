@@ -1,12 +1,29 @@
 
-// FUNCTIONS & MIXINS
+// SITEWIDE FUNCTIONS
 @import "site.scss";
 
 // DEFAULTS
-@import "defaults/variables", "defaults/defaults", "defaults/unitize", "defaults/typography";
+@import "defaults/variables", 
+				"defaults/defaults", 
+				"defaults/rem", 
+				"defaults/typography";
 
 // COMPONENTS
-@import "components/header", "components/body", "components/footer", "components/carousels", "components/sidebar--info", "components/tables";
+@import "components/aesthetics", 
+				"components/header", 
+				"components/body", 
+				"components/footer", 
+				"components/carousels", 
+				"components/sidebar", 
+				"components/tables", 
+				"components/forms";
 
 // PAGES
-@import "sections/home", "sections/blog", "sections/shop", "sections/contact";
+@import "sections/home", 
+				"sections/blog", 
+				"sections/shop", 
+				"sections/camps", 
+				"sections/sessions", 
+				"sections/events", 
+				"sections/about", 
+				"sections/contact";

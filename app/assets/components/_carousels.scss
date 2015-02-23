@@ -1,7 +1,6 @@
 body {
 
 	&.home {
-
 		header[id="main"] { position: absolute; }
 		
 		[id="carousel"] {
@@ -63,8 +62,7 @@ body {
 					align-items: center;
 					justify-content: flex-start;
 
-					margin: #{$header-size + 9px};
-					//padding: $margin/2;
+					margin: 120px;
 					height: $banner-content-height;
 					width: 100%;
 

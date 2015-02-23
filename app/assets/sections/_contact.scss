@@ -1,8 +1,19 @@
 [id="contact"] {
-	table {
-		width: 100%;
-		td { vertical-align: top; }
-		p { margin: 0; }
-		.h6:not(:first-of-type) { margin-top: $margin/2; }
+	.h6 { margin-bottom: 6px; }
+	.grid {
+		p:not(.h6) { 
+			@include rem(font-size, 30px);
+			font-weight: 300;
+			margin: 0 0 $margin; 
+		}
+		.map { 
+			width: 60%; 
+			[id="map"] { height: 400px; }
+		}
+		.contact { 
+			padding-left: $margin; 
+			width: 40%; 
+			a { @include rem(font-size, 15px); }
+		}
 	}
 }
