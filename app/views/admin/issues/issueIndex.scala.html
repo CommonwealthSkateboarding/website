@@ -2,10 +2,36 @@
 @import admin.wrapper
 @wrapper(localUser, "issues", "viewIssue") {
 <h3><i class="fa fa-angle-right"></i> Issue Database</h3>
+<div class="row mt">
+    <div class="col-lg-8">
+        <div class="showback">
+            <h4 class="mb"><i class="fa fa-angle-right"></i> Add New Issue</h4>
+            <form action="@routes.Admin.addIssue()" method="post" class="form-horizontal style-form">
+                <label>Issue Title:</label><br/><input type="text" name="title" class="form-control" /><br/>
+                <label>Description of issue:</label><br/><textarea name="description" id="description"></textarea><br/>
+                <input type="submit" id="submit" value="Add Issue" class="btn btn-theme btn-block"/>
+            </form>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="showback">
+            <h4><i class="fa fa-angle-right"></i> Creating Issues:</h4>
+            <p class="alert alert-info">
+                Create an issue whenever something isn't working in the site or the data needs to be corrected
+            </p>
+            <p class="alert alert-warning">
+                Enter as much detail as possible!
+            </p>
+            <p class="alert alert-info">
+                When an issue is entered, we'll automatically send off an alert to investigate the issue.
+                Expect a quick response.
+            </p>
+        </div>
+    </div>
+</div>
 <div class="row mb">
     <div class="col-lg-12">
         <div class="showback">
-            <a href="@routes.Admin.addIssuePage()" class="btn btn-theme pull-right">Add New Issue</a>
             <h4><i class="fa fa-angle-right"></i> Unresolved Issues</h4>
             <section id="unseen">
                 <table class="table table-bordered table-striped table-condensed">
@@ -24,7 +50,7 @@
                         <tr>
                             <td>@issue.title</td>
                             <td>@if(null != issue.created) { @issue.created.format("EEEE, MM/dd/yyyy h:mm a") }</td>
-                            <td>@issue.description</td>
+                            <td>@Html(issue.description)</td>
                             <td>@if(null != issue.owner) { @issue.owner.name }</td>
                             <td><a href="@routes.Admin.takeIssue(issue.id)" class="btn btn-theme btn-block">Take Issue</a></td>
                             <td><a href="@routes.Admin.resolveIssue(issue.id)" class="btn btn-theme btn-block">Mark Resolved</a></td>
@@ -39,7 +65,7 @@
 
 <script>
     $(document).ready(function(){
-
+        $("#description").cleditor({});
     });
 </script>
 }

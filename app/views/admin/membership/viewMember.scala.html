@@ -75,6 +75,26 @@
                 <td>Emergency Contact Number</td>
                 <td>@member.emergencyContactNumber</td>
             </tr>
+            @if(member.emergencyContactNameB || member.emergencyContactNumberB) {
+                <tr>
+                    <td>Emergency Contact Name #2</td>
+                    <td>@member.emergencyContactNameB</td>
+                </tr>
+                <tr>
+                    <td>Emergency Contact Number #2</td>
+                    <td>@member.emergencyContactNumberB</td>
+                </tr>
+            }
+            @if(member.emergencyContactNameC || member.emergencyContactNumberC) {
+                <tr>
+                    <td>Emergency Contact Name #3</td>
+                    <td>@member.emergencyContactNameC</td>
+                </tr>
+                <tr>
+                    <td>Emergency Contact Number #3</td>
+                    <td>@member.emergencyContactNumberC</td>
+                </tr>
+            }
             <tr>
                 <td>Notes</td>
                 <td>@Html(member.notes)</td>

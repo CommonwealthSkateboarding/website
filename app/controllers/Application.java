@@ -2,10 +2,9 @@ package controllers;
 
 import com.avaje.ebean.Expr;
 import com.stripe.model.Charge;
+import models.security.AuditRecord;
 import models.site.NewsItem;
-import models.skatepark.Camp;
-import models.skatepark.Event;
-import models.skatepark.Registration;
+import models.skatepark.*;
 import org.apache.commons.lang3.time.DateUtils;
 import play.Logger;
 import play.cache.Cache;
@@ -130,8 +129,7 @@ public class Application extends Controller {
         }
 
         String name = Form.form().bindFromRequest().data().get("name");
-        String billingName = Form.form().bindFromRequest().data().get("billingName");
-        String email = Form.form().bindFromRequest().data().get("email");
+        String email = Form.form().bindFromRequest().data().get("stripeEmail");
         String stripeToken = Form.form().bindFromRequest().data().get("stripeToken");
 
         Charge charge = Stripe.chargeStripe(camp.cost, stripeToken, "Registration for " + camp.title);
@@ -141,15 +139,15 @@ public class Application extends Controller {
         reg.registrationType = Registration.RegistrationType.CAMP;
         reg.camp = camp;
         reg.paid = true;
+        reg.registrantEmail = email;
         reg.participantName = name;
         reg.paymentType = Registration.PaymentType.STRIPE;
         reg.timestamp = new Date();
-        reg.notes = "Paid on the web by " + billingName + " (" + email + ")"
-                + " and generated a stripe TEST chargeId of: " + charge.getId();
+        reg.notes = "Paid on the web by " + email + " and generated a stripe chargeId of: " + charge.getId();
         reg.confirmationId = org.apache.commons.lang3.RandomStringUtils.random(6, "ABCDEFGHJKMNPQRSTUVWXYZ23456789");
         reg.save();
 
-        Admin.audit("Added registration for camp " + camp.title + " from web for " + name, null, camp);
+        audit("Added registration for camp " + camp.title + " from web for " + name, camp);
 
         Email.sendCampRegistrationConfirmation(email, reg);
 
@@ -165,8 +163,7 @@ public class Application extends Controller {
         }
 
         String name = Form.form().bindFromRequest().data().get("name");
-        String billingName = Form.form().bindFromRequest().data().get("billingName");
-        String email = Form.form().bindFromRequest().data().get("email");
+        String email = Form.form().bindFromRequest().data().get("stripeEmail");
         String stripeToken = Form.form().bindFromRequest().data().get("stripeToken");
 
         Charge charge = Stripe.chargeStripe(event.cost, stripeToken, "Registration for " + event.name);
@@ -176,19 +173,34 @@ public class Application extends Controller {
         reg.registrationType = Registration.RegistrationType.EVENT;
         reg.event = event;
         reg.paid = true;
+        reg.registrantEmail = email;
         reg.participantName = name;
         reg.paymentType = Registration.PaymentType.STRIPE;
         reg.timestamp = new Date();
-        reg.notes = "Paid on the web by " + billingName + " (" + email + ")"
-                + " and generated a stripe chargeId of: " + charge.getId();
+        reg.notes = "Paid on the web by " + email + " and generated a stripe chargeId of: " + charge.getId();
         reg.confirmationId = org.apache.commons.lang3.RandomStringUtils.random(6, "ABCDEFGHJKMNPQRSTUVWXYZ23456789");
         reg.save();
 
-        Admin.audit("Added registration for event " + event.name + " from web for " + name, null, event);
+        audit("Added registration for event " + event.name + " from web for " + name, event);
 
         Email.sendEventRegistrationConfirmation(email, reg);
 
         return redirect(routes.Application.registrationPage());
+    }
+
+    public static void audit(String description, Object payload) {
+        AuditRecord log = new AuditRecord();
+        log.delta = description;
+        log.timestamp = new Date();
+        if (null == payload) {
+            // chill
+        } else if (payload.getClass().equals(Camp.class)) {
+            log.camp = (Camp) payload;
+        } else if (payload.getClass().equals(Event.class)) {
+            log.event = (Event) payload;
+        }
+        log.save();
+        Slack.emitAuditLog(log);
     }
 
     public static Result registrationPage() {

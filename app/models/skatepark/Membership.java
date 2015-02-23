@@ -45,6 +45,14 @@ public class Membership extends Model {
 
     public String emergencyContactNumber;
 
+    public String emergencyContactNameB;
+
+    public String emergencyContactNumberB;
+
+    public String emergencyContactNameC;
+
+    public String emergencyContactNumberC;
+
     @Column(columnDefinition = "text")
     public String notes;
 

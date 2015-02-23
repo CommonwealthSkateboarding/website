@@ -1,9 +1,4 @@
-@(camp: models.skatepark.Camp)
-
-@main("camp-detail") {
-
-<section id="camp-detail">
-	<a href="@routes.Application.camp()"><p class="h1">&lt; Back to all camps</p></a>
+<a href="@routes.Application.camp()"><p class="h1">&lt; Back to all camps</p></a>
 	<p class="h2">@camp.title</p>
 
 	<div class="grid no-margin">
@@ -53,6 +48,8 @@
 				******************************************@
 
 				<form action="@routes.Application.registerForCampWithStripe(camp.id)" method="POST" id="payment-form">
+
+        	<script src="https://checkout.stripe.com/checkout.js"></script>
 
 					<div class="form-row">
 						<label>
@@ -118,6 +115,37 @@
 						<button type="submit">Register <i class="fa fa-arrow-right"></i></button>
 					</footer>
 
+					<script>
+            var handler = StripeCheckout.configure({
+              key: '@controllers.Stripe.STRIPE_PUBLIC_KEY',
+              image: '@routes.Assets.at("img/cw--logo--lettermark-black.png")',
+              token: function(token) {
+                  var $form = $('#payment-form');
+                  // Insert the token into the form so it gets submitted to the server
+                  $form.append($('<input type="hidden" name="stripeToken" />').val(token.id));
+                  $form.append($('<input type="hidden" name="stripeEmail" />').val(token.email));
+                  // and submit
+                  $form.get(0).submit();
+              }
+            });
+
+            $('#pay').on('click', function(e) {
+              handler.open({
+                name: 'Commonwealth Skate',
+                description: '@camp.title Registration (@utils.Formatter.prettyDollars(camp.cost))',
+                amount: @((camp.cost*100).intValue),
+                currency: 'usd',
+                bitcoin: true
+              });
+              e.preventDefault();
+            });
+
+            // Close Checkout on page navigation
+            $(window).on('popstate', function() {
+              handler.close();
+            });
+          </script>
+
 				</form>
 			}
 		</div>
@@ -126,46 +154,5 @@
 	
 </section>
 
-<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
-<script>
-
-	$(document).ready(function() {
-		Stripe.setPublishableKey('pk_test_oVTabrtQ9C1eKjFwt94n4xdt');
-
-		$('#payment-form').submit(function(event) {
-			var $form = $(this);
-
-			// Disable the submit button to prevent repeated clicks
-			$form.find('button').prop('disabled', true);
-
-			Stripe.card.createToken($form, stripeResponseHandler);
-
-			// Prevent the form from submitting with the default action
-			return false;
-		});
-		function stripeResponseHandler(status, response) {
-		  var $form = $('#payment-form');
-
-		  if (response.error) {
-			// Show the errors on the form
-			$form.find('.payment-errors').text(response.error.message);
-			$form.find('button').prop('disabled', false);
-		  } else {
-			// response contains id and card, which contains additional card details
-			var token = response.id;
-			// Insert the token into the form so it gets submitted to the server
-			$form.append($('<input type="hidden" name="stripeToken" />').val(token));
-			// and submit
-			$form.get(0).submit();
-		  }
-		};
-		$("#dialog").dialog({
-			autoOpen: false
-		});
-		$("#button").on("click", function() {
-			$("#dialog").dialog("open");
-		});
-
-	});
-</script>
+</form>
 }

@@ -31,6 +31,7 @@
         <div class="showback">
             <h4><i class="fa fa-angle-right"></i> New Registrant Information</h4>
             <form action="@routes.Admin.addEventRegistration(event.id)" method="post" class="form-horizontal style-form">
+                <label>Registrant Email Address:</label><br/><input type="text" name="registrantEmail" class="form-control" /><br/>
                 <label>Participant Name:</label><br/><input type="text" name="participantName" class="form-control" /><br/>
                 <label>Paid:</label><br/><input type="checkbox" name="paid" class="form-control" /><br/>
                 <label>Payment Type</label><br/>

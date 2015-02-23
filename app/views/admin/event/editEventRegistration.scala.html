@@ -31,6 +31,7 @@
         <div class="showback">
             <h4><i class="fa fa-angle-right"></i> Edit Registrant Information</h4>
             <form action="@routes.Admin.editEventRegistration(reg.id)" method="post" class="form-horizontal style-form">
+                <label>Registrant Email Address:</label><br/><input type="text" name="registrantEmail" value="@reg.registrantEmail" class="form-control" /><br/>
                 <label>Participant Name:</label><br/><input type="text" name="participantName" value="@reg.participantName" class="form-control" /><br/>
                 <label>Paid:</label><br/><input type="checkbox" name="paid" @if(reg.paid){checked} class="form-control" /><br/>
                 <label>Payment Type</label><br/>

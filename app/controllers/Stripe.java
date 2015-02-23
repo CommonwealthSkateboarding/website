@@ -14,6 +14,7 @@ import java.util.Map;
 public class Stripe extends Controller {
 
     private static String STRIPE_API_KEY = Play.application().configuration().getString("stripe.apikey");
+    public static String STRIPE_PUBLIC_KEY = Play.application().configuration().getString("stripe.publickey");
 
     public static Charge chargeStripe(Double amount, String stripeToken, String description) {
 
