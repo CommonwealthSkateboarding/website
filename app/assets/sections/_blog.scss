@@ -68,6 +68,8 @@ body:not(.home) [id="blog"] { margin: 0 $margin*2; }
 			}
 		}
 
+		h1 a { border-color: fade_out($gray, .81); }
+
 		main {
 			margin: 6px 0;
 			padding: 0 $margin/2;

@@ -43,6 +43,8 @@
 	[id="info"], [id="blog"] { width: 100% !important; }
 	[id="info"] { order: 1 !important; }
 
+	[id="shop"] .items .item { margin: 15px 0 !important; padding: 0 !important; width: 100% !important; }
+
 	.camp table[id="camps"] {
 		tr, a { font-size: 13px !important; font-weight: 900 !important; }
 		th, td { padding: 15px 6px !important; }

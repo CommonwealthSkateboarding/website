@@ -16,7 +16,4 @@ dist
 .sass-cache
 
 *.codekit
-
-public/img/camps/2014__sampson--001c.jpg
-
-public/img/index/banner/bg__001--park-with-logo-transparent.png
+gulpfile.js

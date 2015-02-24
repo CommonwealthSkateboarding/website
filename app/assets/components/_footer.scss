@@ -4,7 +4,8 @@ body {
 		flex-wrap: wrap;
 		align-items: flex-end;
 
-		background-image: -webkit-linear-gradient(top, $black 3%, transparent 97%),
+		background-image: linear-gradient($black 3%, transparent 97%),
+											linear-gradient(to right, transparent 80%, $black 100%),
 											image-url("footer/2012__park-interior--001.jpg");
 		background-position: 60% top;
 		background-repeat: no-repeat;
@@ -84,7 +85,7 @@ body {
 
 			hr { 
 				border: none; 
-				border-bottom: 1px solid fade_out($gold, .9);
+				border-bottom: 1px solid $black;
 				display: block;
 				height: 1px;
 				margin: 12px 0;
@@ -177,7 +178,7 @@ body {
 
 				top: -36px;
 				left: 81%;
-				z-index: -1;
+				z-index: 1;
 
 				opacity: .09;
 				transform: rotate(15deg);
