@@ -28,8 +28,7 @@
 				<li class="instructors">
 					<p class="h6">Instructors</p>
 					<p>
-						<a href="#">Frank Shaw</a> <br/>
-						<a href="#">Garric Ray</a>
+						<a href="#">@camp.instructors</a>
 					</p>
 				</li>
 				<li class="description">
@@ -53,26 +52,26 @@
 
 				<form action="@routes.Application.registerForCampWithStripe(camp.id)" method="POST" id="payment-form">
 
-        	<script src="https://checkout.stripe.com/checkout.js"></script>
+        			<script src="https://checkout.stripe.com/checkout.js"></script>
 
 					<div class="form-row">
 						<label>
 							<span class="h6">Participant Name</span>
-							<input id="name" name="name" type="text" placeholder="Jane Doe" required autofocus>
+							<input id="p_name" name="name" type="text" placeholder="" required autofocus>
 						</label>
 					</div>
 					
 					<div class="form-row">
 						<label>
 							<span class="h6">Billing Name</span>
-							<input id="name" name="billingName" type="text" placeholder="John Doe Sr." required>
+							<input id="b_name" name="billingName" type="text" placeholder="" required>
 						</label>
 					</div>
 
 					<div class="form-row">
 						<label>
 							<span class="h6">Billing Email</span>
-							<input id="email" name="email" type="email" placeholder="johndoesr&#064;anonymous.com">
+							<input id="email" name="email" type="email" placeholder="name&#064;domain.com" required>
 						</label>
 					</div>
 
@@ -82,6 +81,8 @@
 							<input id="tel" name="telephone" type="tel" placeholder="(555) 555-5555">
 						</label>
 					</div>
+
+					<!--
 
 					<div class="form-row flex">
 						<label class="card">
@@ -104,22 +105,22 @@
 						</label>
 					</div>
 
+					-->
+
 					<div class="form-row">
 						<p class="h6">Choose Payment Amount</p>
 						<radiogroup>
-							<input type="radio" name="payment" id="full-price" checked="checked" required><label for="full-price"> <i class="fa fa-check"></i> <strong>Full</strong>&nbsp;(@utils.Formatter.prettyDollars(camp.cost))</label>
-
-							 <input type="radio" name="payment" id="deposit"><label for="deposit"> <i class="fa fa-check"></i> <strong>Deposit</strong>&nbsp;($100)</label>
+							<input type="radio" name="fully-paid" id="full-price" value="true" checked required><label for="full-price"> <i class="fa fa-check"></i> <strong>Full</strong>&nbsp;(@utils.Formatter.prettyDollars(camp.cost))</label>
+							@if(camp.cost>controllers.Application.CAMP_DEPOSIT) {
+								<input type="radio" name="fully-paid" id="deposit" value="false"><label for="deposit"> <i class="fa fa-check"></i> <strong>Deposit</strong>&nbsp;(@utils.Formatter.prettyDollars(controllers.Application.CAMP_DEPOSIT))</label>
+							}
 						</radiogroup>
 					</div>
 
-					<span class="payment-errors"></span>
-
 					<footer>
-						<button type="submit">Register <i class="fa fa-arrow-right"></i></button>
+						<button type="submit" id="pay">Register<i class="fa fa-arrow-right"></i></button>
 					</footer>
-
-					<script>
+		<script>
             var handler = StripeCheckout.configure({
               key: '@controllers.Stripe.STRIPE_PUBLIC_KEY',
               image: '@routes.Assets.at("img/cw--logo--lettermark-black.png")',
@@ -127,28 +128,42 @@
                   var $form = $('#payment-form');
                   // Insert the token into the form so it gets submitted to the server
                   $form.append($('<input type="hidden" name="stripeToken" />').val(token.id));
-                  $form.append($('<input type="hidden" name="stripeEmail" />').val(token.email));
                   // and submit
                   $form.get(0).submit();
               }
             });
 
             $('#pay').on('click', function(e) {
-              handler.open({
-                name: 'Commonwealth Skate',
-                description: '@camp.title Registration (@utils.Formatter.prettyDollars(camp.cost))',
-                amount: @((camp.cost*100).intValue),
-                currency: 'usd',
-                bitcoin: true
-              });
+              $('#payment-form').validate();
+              if($('#payment-form').valid()) {
+				  if($('#full-price').is(':checked')) {
+					  handler.open({
+						name: 'Commonwealth Skate',
+						description: '@camp.title Registration (@utils.Formatter.prettyDollars(camp.cost))',
+						amount: @((camp.cost*100).intValue),
+						email: $('#email').val(),
+						currency: 'usd',
+						bitcoin: true
+					  });
+				  } else {
+					handler.open({
+					  name: 'Commonwealth Skate',
+					  description: '@camp.title Deposit (@utils.Formatter.prettyDollars(controllers.Application.CAMP_DEPOSIT))',
+					  amount: @(controllers.Application.CAMP_DEPOSIT * 100),
+					  email: $('#email').val(),
+					  currency: 'usd',
+					  bitcoin: true
+					});
+				  }
+			  }
               e.preventDefault();
-            });
+			});
 
             // Close Checkout on page navigation
             $(window).on('popstate', function() {
               handler.close();
             });
-          </script>
+		</script>
 
 				</form>
 			}

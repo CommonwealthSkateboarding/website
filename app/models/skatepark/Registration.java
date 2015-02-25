@@ -15,13 +15,12 @@ import java.util.Date;
 @Entity
 public class Registration extends Model {
 
+
     public enum PaymentType {
         @EnumValue("CASH")
         CASH,
         @EnumValue("SQUARE")
         SQUARE,
-        @EnumValue("ONLINE")
-        ONLINE,
         @EnumValue("STRIPE")
         STRIPE,
         @EnumValue("OTHER")
@@ -45,6 +44,8 @@ public class Registration extends Model {
     public Event event;
 
     public boolean paid;
+
+    public Double totalPaid;
 
     public PaymentType paymentType;
 

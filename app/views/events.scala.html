@@ -33,10 +33,11 @@
             }
         </tr>
         }
-        <!-- If no events -->
-        <tr>
-            <td class="no-events" colspan="7">No events are scheduled at this time. Please check back later.</td>
-        </tr>
+        @if(events.size == 0) {
+            <tr>
+                <td class="no-events" colspan="7">No events are scheduled at this time. Please check back later.</td>
+            </tr>
+        }
         </tbody>
     </table>
 

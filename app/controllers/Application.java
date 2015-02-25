@@ -21,6 +21,8 @@ public class Application extends Controller {
     public static final int PER_PAGE = 5;
     public static final String STICKY_REVERSE_DATE_ORDER = "sticky DESC, createDate DESC";
     public static final String USER_ROLE = "USER";
+    public static final Double CAMP_DEPOSIT = 100.0; //Dollars
+    public static final Double EVENT_DEPOSIT = 50.0; //Dollars
 
     public static Result oAuthDenied(final String providerKey) {
         com.feth.play.module.pa.controllers.Authenticate.noCache(response());
@@ -129,21 +131,25 @@ public class Application extends Controller {
         }
 
         String name = Form.form().bindFromRequest().data().get("name");
-        String email = Form.form().bindFromRequest().data().get("stripeEmail");
+        String email = Form.form().bindFromRequest().data().get("email");
+        String billingName = Form.form().bindFromRequest().data().get("billingName");
+        String telephone = Form.form().bindFromRequest().data().get("telephone");
         String stripeToken = Form.form().bindFromRequest().data().get("stripeToken");
+        Boolean fullyPaid = Boolean.parseBoolean(Form.form().bindFromRequest().data().get("fully-paid"));
 
-        Charge charge = Stripe.chargeStripe(camp.cost, stripeToken, "Registration for " + camp.title);
+        Charge charge = Stripe.chargeStripe(fullyPaid?camp.cost:CAMP_DEPOSIT, stripeToken, "Registration for " + camp.title);
 
         Registration reg = new Registration();
 
         reg.registrationType = Registration.RegistrationType.CAMP;
         reg.camp = camp;
-        reg.paid = true;
+        reg.paid = fullyPaid.booleanValue();
+        reg.totalPaid = (fullyPaid?camp.cost:CAMP_DEPOSIT);
         reg.registrantEmail = email;
         reg.participantName = name;
         reg.paymentType = Registration.PaymentType.STRIPE;
         reg.timestamp = new Date();
-        reg.notes = "Paid on the web by " + email + " and generated a stripe chargeId of: " + charge.getId();
+        reg.notes = "Paid (" + utils.Formatter.prettyDollars(reg.totalPaid) + ") on the web by " + billingName + "(" + (telephone.isEmpty()?"":"tel: "+telephone+", ") + "email: " + email + ") and generated a stripe chargeId of: " + charge.getId();
         reg.confirmationId = org.apache.commons.lang3.RandomStringUtils.random(6, "ABCDEFGHJKMNPQRSTUVWXYZ23456789");
         reg.save();
 
@@ -163,21 +169,25 @@ public class Application extends Controller {
         }
 
         String name = Form.form().bindFromRequest().data().get("name");
-        String email = Form.form().bindFromRequest().data().get("stripeEmail");
+        String billingName = Form.form().bindFromRequest().data().get("billingName");
+        String telephone = Form.form().bindFromRequest().data().get("telephone");
+        String email = Form.form().bindFromRequest().data().get("email");
         String stripeToken = Form.form().bindFromRequest().data().get("stripeToken");
+        Boolean fullyPaid = Boolean.parseBoolean(Form.form().bindFromRequest().data().get("fully-paid"));
 
-        Charge charge = Stripe.chargeStripe(event.cost, stripeToken, "Registration for " + event.name);
+        Charge charge = Stripe.chargeStripe(fullyPaid?event.cost:EVENT_DEPOSIT, stripeToken, "Registration for " + event.name);
 
         Registration reg = new Registration();
 
         reg.registrationType = Registration.RegistrationType.EVENT;
         reg.event = event;
-        reg.paid = true;
+        reg.paid = fullyPaid.booleanValue();
+        reg.totalPaid = (fullyPaid?event.cost:EVENT_DEPOSIT);
         reg.registrantEmail = email;
         reg.participantName = name;
         reg.paymentType = Registration.PaymentType.STRIPE;
         reg.timestamp = new Date();
-        reg.notes = "Paid on the web by " + email + " and generated a stripe chargeId of: " + charge.getId();
+        reg.notes = "Paid (" + utils.Formatter.prettyDollars(reg.totalPaid) + ") on the web by " + billingName + "(" + (telephone.isEmpty()?"":"tel: "+telephone+", ") + "email: " + email + ") and generated a stripe chargeId of: " + charge.getId();
         reg.confirmationId = org.apache.commons.lang3.RandomStringUtils.random(6, "ABCDEFGHJKMNPQRSTUVWXYZ23456789");
         reg.save();
 

@@ -43,6 +43,10 @@
                     <td>Schedule</td>
                     <td>@camp.scheduleDescription</td>
                 </tr>
+                <tr>
+                    <td>Instructors</td>
+                    <td>@camp.instructors</td>
+                </tr>
             </table>
         </div>
     </div>
@@ -58,8 +62,9 @@
                         <td>Registrant Email</td>
                         <td>Participant Name</td>
                         <td>Registration Date</td>
-                        <td>Paid?</td>
+                        <td>Fully Paid?</td>
                         <td>Payment Type</td>
+                        <td>Total Paid</td>
                         <td>Notes</td>
                         <td>Edit</td>
                     </tr>
@@ -70,6 +75,7 @@
                             <td>@reg.timestamp.format("MM/dd/yyyy")</td>
                             <td>@if(reg.paid) { <span class="label label-success">PAID</span> } else { <span class="label label-danger">UNPAID</span> }</td>
                             <td><span class="label label-primary">@reg.paymentType</span></td>
+                            <td>@utils.Formatter.prettyDollars(reg.totalPaid)</td>
                             <td>@Html(reg.notes)</td>
                             <td><a href="@routes.Admin.editCampRegistrationPage(reg.id)" class="btn btn-primary btn-xs">Edit</a></td>
                         </tr>

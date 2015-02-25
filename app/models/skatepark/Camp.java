@@ -46,6 +46,8 @@ public class Camp extends Model {
 
     public String scheduleDescription;
 
+    public String instructors;
+
     public static final Finder<Long, Camp> find = new Finder<Long, Camp>(Long.class, Camp.class);
 
 }

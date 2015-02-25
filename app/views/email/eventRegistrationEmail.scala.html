@@ -4,6 +4,8 @@
 
 <p>This registration's confirmation ID is @registration.confirmationId and is valid for @registration.participantName.</p>
 
+@if(!registration.paid) {<p>Your payment of @utils.Formatter.prettyDollars(registration.totalPaid) has been received, and the remaining @utils.Formatter.prettyDollars(registration.event.cost - registration.totalPaid) is due by @registration.event.startTime.format("MM/dd/yyyy").</p>}
+
 <p>This event is scheduled on @registration.event.startTime.format("MM/dd/yyyy") between @registration.event.startTime.format("hh:mm a")
     @registration.event.endTime.format("hh:mm a").</p>
 

@@ -569,6 +569,7 @@ public class Admin extends Controller {
         camp.scheduleDescription = newCamp.scheduleDescription;
         camp.startDate = newCamp.startDate;
         camp.title = newCamp.title;
+        camp.instructors = newCamp.instructors;
 
         camp.save();
 
@@ -582,7 +583,8 @@ public class Admin extends Controller {
         Camp camp = (Camp) new Model.Finder(Long.class, Camp.class).byId(id);
         if (null == camp) {
             return notFound("Bad camp id");
-        };
+        }
+        ;
         return ok(campRegistration.render(camp, getLocalUser(session())));
     }
 
@@ -630,6 +632,8 @@ public class Admin extends Controller {
         reg.paid = newReg.paid;
         reg.participantName = newReg.participantName;
         reg.paymentType = newReg.paymentType;
+        reg.registrantEmail = newReg.registrantEmail;
+        reg.totalPaid = newReg.totalPaid;
         reg.save();
 
         audit("Edited registration for " + reg.participantName + " to " + reg.camp.title, null, reg.camp);
@@ -723,7 +727,8 @@ public class Admin extends Controller {
         Event event = (Event) new Model.Finder(Long.class, Event.class).byId(id);
         if (null == event) {
             return notFound("Bad event id");
-        };
+        }
+        ;
         return ok(eventRegistration.render(event, getLocalUser(session())));
     }
 
@@ -771,6 +776,8 @@ public class Admin extends Controller {
         reg.paid = newReg.paid;
         reg.participantName = newReg.participantName;
         reg.paymentType = newReg.paymentType;
+        reg.registrantEmail = newReg.registrantEmail;
+        reg.totalPaid = newReg.totalPaid;
         reg.save();
 
         audit("Edited registration for " + reg.participantName + " to " + reg.event.name, null, reg.event);
