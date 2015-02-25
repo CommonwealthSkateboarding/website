@@ -50,6 +50,7 @@ GET     /admin/members/:id/subtractAllDayPass   controllers.Admin.subtractAllDay
 POST    /admin/members/:id/unlimitedPass/new    controllers.Admin.addUnlimitedPass(id: Long)
 POST    /admin/members/unlimitedPass/:id/edit   controllers.Admin.editUnlimitedPass(id: Long)
 GET     /admin/members/unlimitedPass/:id/remove controllers.Admin.removeUnlimitedPass(id: Long)
+POST    /admin/members/:id/subscriptionPass/new controllers.Admin.addSubscriptionPass(id: Long)
 GET     /admin/members/:id/edit                 controllers.Admin.editMemberPage(id: Long)
 POST    /admin/members/:id/edit                 controllers.Admin.updateMembership(id: Long)
 GET     /admin/members/new                      controllers.Admin.addMemberPage(name ?= null)
