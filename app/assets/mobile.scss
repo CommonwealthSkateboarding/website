@@ -52,6 +52,7 @@
 	.camp-detail {
 		.sign-up { order: 2 !important; width: 100% !important; margin-top: 30px !important; 
 			radiogroup input[type="radio"] + label { font-size: 15px !important; }
+			button[type="submit"] { width: 90% !important; }
 			.flex { flex-wrap: wrap !important; }
 		}
 		.details { order: 1 !important; width: 100% !important; padding: 0 !important; }

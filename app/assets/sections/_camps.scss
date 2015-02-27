@@ -108,6 +108,7 @@ body.camp-detail {
 		footer { 
 			display: flex;
 			justify-content: flex-end;
+
 			[type="submit"] { 
 				background: $gold;
 				border: 0;
@@ -115,13 +116,12 @@ body.camp-detail {
 				margin-top: $margin*2;
 				position: relative;
 				width: 30%;
-
 				&:hover { background: $white; }
 
 				i.fa { 
 					position: absolute;
 					margin-top: 3px;
-					right: 6%; 
+					right: 9%; 
 				}
 			}
 		}
