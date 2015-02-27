@@ -93,9 +93,19 @@ public class Admin extends Controller {
         NewsItem newsItem = Form.form(NewsItem.class).bindFromRequest().get();
 
         String titleDigest = newsItem.title.toLowerCase().replaceAll("[^A-Za-z0-9 ]", "").replaceAll(" ","_");
+
+        String proposedId = titleDigest.substring(0,(titleDigest.length()>32)?32:titleDigest.length());
+
+        NewsItem news = (NewsItem) new Model.Finder(String.class, NewsItem.class).byId(proposedId);
+
+        //If one already exists, append a 4 digit number
+        if (null != news) {
+            proposedId = titleDigest.substring(0,(titleDigest.length()>26)?26:titleDigest.length()) +
+                    "_" + org.apache.commons.lang3.RandomStringUtils.randomNumeric(4);
+        }
+
         newsItem.createDate = new Date();
-        newsItem.id = titleDigest.substring(0,(titleDigest.length()>26)?26:titleDigest.length()) +
-                "_" + org.apache.commons.lang3.RandomStringUtils.randomNumeric(4);
+        newsItem.id = proposedId;
         newsItem.save();
 
         audit("Added a news item '" + newsItem.title + "'", null, newsItem);
