@@ -1,2 +1,2 @@
-https://github.com/stephanmelzer/heroku-buildpack-nodejs-grunt-compass
-https://github.com/heroku/heroku-buildpack-scala
+https://github.com/heroku/heroku-buildpack-nodejs
+https://github.com/cdelargy/heroku-buildpack-scala
