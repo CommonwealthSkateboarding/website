@@ -95,14 +95,14 @@ body {
 			.physical {
 				order: 2;
 				align-self: flex-start;
-				background: fade_out($black, .96);
-				padding: $margin 12%;
+				padding: $margin/2 45px $margin/2 0;
 
-				span { 
-					@include rem(font-size, 24px);
+				div { 
+					@include rem(font-size, 39px);
 					&.address { 
+						font-weight: 100;
 						sup { 
-							@include rem(font-size, 15px);
+							@include rem(font-size, 24px);
 							vertical-align: -2px;
 						}
 						i.fa { 
@@ -141,7 +141,7 @@ body {
 				&:not(:first-of-type) a { box-shadow: inset 2px 0 0 0 $black; }
 			}
 			a { 
-				//background: fade_out($gray, .96);
+				background: darken(fade_out($gold, .6), 10);
 				color: fade_out($gray, .6);
 				display: block;
 				@include rem(font-size, 18px);
@@ -157,7 +157,7 @@ body {
 
 		nav {
 			background-color: fade_out($gold, .6);
-			//display: flex;
+			border-left: 2px solid $black;
 			justify-content: space-between;
 			padding: 36px 42px;
 			position: relative; // for ::before
