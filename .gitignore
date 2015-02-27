@@ -14,6 +14,7 @@ dist
 /RUNNING_PID
 /.settings
 .sass-cache
+/node_modules
 
 *.codekit
 gulpfile.js

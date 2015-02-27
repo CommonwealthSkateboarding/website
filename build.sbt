@@ -6,6 +6,8 @@ organization := "com.commonwealthskateboarding"
 
 version := "1.0-SNAPSHOT"
 
+herokuAppName in Compile := "lastplace"
+
 lazy val root = (project in file(".")).enablePlugins(PlayJava)
 
 scalaVersion := "2.11.4"
@@ -22,6 +24,8 @@ libraryDependencies += "com.newrelic.agent.java" % "newrelic-agent" % "3.12.1"
 
 libraryDependencies += "com.stripe" % "stripe-java" % "1.24.1"
 
+JsEngineKeys.engineType := JsEngineKeys.EngineType.Node
+
 libraryDependencies ++= Seq(
   javaCore,
   javaJdbc,
@@ -29,3 +33,5 @@ libraryDependencies ++= Seq(
   cache,
   javaWs
 )
+
+pipelineStages in Assets := Seq(autoprefixer)
