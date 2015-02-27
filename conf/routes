@@ -5,7 +5,7 @@
 # Main Site
 GET     /                           controllers.Application.index(page: Long ?=0)
 GET     /blog                       controllers.Application.blog(page: Long ?=0)
-GET     /news/:id                   controllers.Application.showNews(id: Long)
+GET     /blog/:id                   controllers.Application.showNews(id: Long)
 GET     /shop                       controllers.Application.shop()
 GET     /camp                       controllers.Application.camp()
 GET     /camp/:id                   controllers.Application.campDetail(id: Long)
