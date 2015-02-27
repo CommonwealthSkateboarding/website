@@ -7,9 +7,6 @@
 @media screen and (max-width: 960px) {
 	html { font-size: 75% !important; }
 	[id="carousel"] { font-size: 50% !important; }
-	[id="content"] {
-		//main[data-purpose="flex-container"] section:not(#blog):not(#shop) { margin: 0 30px !important; }
-	}	
 }
 
 @media screen and (max-width: 800px) {
@@ -86,19 +83,13 @@
 	}
 }
 
+
 // Only Mobile
 
 @media screen and (max-device-width: 420px) {
 	html { font-size: 90% !important; }
 
-	body.home {
-		//background: red !important;
-	}
-
-	[id="carousel"] { 
-		//display: none !important;
-		//.arrow.prev, .arrow.next { display: none !important; }
-	}
+	body { background-image: none !important; }
 
 	header[id="main"] nav { display: none !important; }
 	.camp-detail {
@@ -108,6 +99,7 @@
 	}
 
 }
+
 
 // iPad Portrait
 
