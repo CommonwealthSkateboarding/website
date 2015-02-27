@@ -55,8 +55,8 @@ public class Application extends Controller {
                 .setMaxRows(PER_PAGE+1).setFirstRow(page.intValue()*PER_PAGE).orderBy(STICKY_REVERSE_DATE_ORDER).findList();
     }
 
-    public static Result showNews(Long id) {
-        NewsItem news = (NewsItem) new Model.Finder(Long.class, NewsItem.class).byId(id);
+    public static Result showNews(String id) {
+        NewsItem news = (NewsItem) new Model.Finder(String.class, NewsItem.class).byId(id);
         Date now = new Date();
         if (null == news || (news.expires && news.expireDate.before(now))) {
             return redirect(routes.Application.index(0)); // not found, deleted, expired

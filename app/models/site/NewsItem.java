@@ -14,7 +14,7 @@ import java.util.Date;
 public class NewsItem extends Model {
 
     @Id
-    public Long id;
+    public String id;
 
     public boolean expires;
 

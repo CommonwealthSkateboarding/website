@@ -63,8 +63,7 @@ public class Admin extends Controller {
     @Restrict({@Group("BLOG")})
     public static Result newsIndex(Long page) {
         boolean hasNextPage = false;
-        Date now = new Date();
-        List<NewsItem> news = new Model.Finder(Long.class, NewsItem.class)
+        List<NewsItem> news = new Model.Finder(String.class, NewsItem.class)
                 .setMaxRows(PER_PAGE + 1).setFirstRow(page.intValue() * PER_PAGE).
                         orderBy(Application.STICKY_REVERSE_DATE_ORDER).findList();
 
@@ -81,8 +80,8 @@ public class Admin extends Controller {
     }
 
     @Restrict({@Group("BLOG")})
-    public static Result editNewsPage(Long id) {
-        NewsItem news = (NewsItem) new Model.Finder(Long.class, NewsItem.class).byId(id);
+    public static Result editNewsPage(String id) {
+        NewsItem news = (NewsItem) new Model.Finder(String.class, NewsItem.class).byId(id);
         if (null == news) {
             return redirect(routes.Admin.newsIndex(0)); // not found
         }
@@ -92,7 +91,11 @@ public class Admin extends Controller {
     @Restrict({@Group("BLOG")})
     public static Result addNewsItem() {
         NewsItem newsItem = Form.form(NewsItem.class).bindFromRequest().get();
+
+        String titleDigest = newsItem.title.toLowerCase().replaceAll("[^A-Za-z0-9 ]", "").replaceAll(" ","_");
         newsItem.createDate = new Date();
+        newsItem.id = titleDigest.substring(0,(titleDigest.length()>26)?26:titleDigest.length()) +
+                "_" + org.apache.commons.lang3.RandomStringUtils.randomNumeric(4);
         newsItem.save();
 
         audit("Added a news item '" + newsItem.title + "'", null, newsItem);
@@ -100,8 +103,8 @@ public class Admin extends Controller {
     }
 
     @Restrict({@Group("BLOG")})
-    public static Result updateNewsItem(Long id) {
-        NewsItem news = (NewsItem) new Model.Finder(Long.class, NewsItem.class).byId(id);
+    public static Result updateNewsItem(String id) {
+        NewsItem news = (NewsItem) new Model.Finder(String.class, NewsItem.class).byId(id);
         if (null == news) {
             return notFound("Bad post id");
         };
