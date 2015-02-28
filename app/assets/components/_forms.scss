@@ -38,20 +38,26 @@ form {
 		-webkit-appearance: none;
 		-moz-appearance: none;
 		appearance: none;
-		background: transparent;
-		border: 3px solid $gold;
+		background: $success;
+		border: none;
 		border-radius: 3px;
-		color: $gold;
+		color: $white;
 		@include rem(font-size, 21px);
 		font-weight: 900;
-		margin: $margin 0;
-		padding: 12px $margin;
-		transition: background .3s, border .3s;
+		height: 51px;
+		margin: $margin/2 0;
+		transition: background .3s, border .3s, color .3s;
 		width: 50%;
 
 		&:hover { 
-			//background: $white;
-			border-color: $white; 
+			background: darken($success, 9);
+			//color: $white;
+		}
+
+		&:focus { 
+			opacity: .3;
+			outline: 0; 
+			&:hover { opacity: 1; }
 		}
 	}
 
@@ -63,5 +69,19 @@ form {
 		margin: 6px 0;
 		padding: 12px;
 		width: 100%;
+	}
+
+	label.error { 
+		background: $gold;
+		border-radius: 0 0 3px 3px;
+		color: $white;
+		display: inline-block;
+		font-weight: 900;
+		margin: -3px 0 6px;
+		padding: 6px 12px;
+		position: relative;
+		text-align: right;
+		width: 100%;
+		z-index: 500;
 	}
 }

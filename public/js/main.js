@@ -23,14 +23,14 @@ $(document).ready(function(){
 	// Slick.js Slider Settings
 	caro.slick({
 		autoplay: true,
-		autoplaySpeed: 3000,
+		autoplaySpeed: 3900,
 		arrows: false,
 		slidesToScroll: 1,
 		dots: true,
 		infinite: true,
-		speed: 1500,
+		speed: 600,
 		slide: '.slide',
-		cssEase: 'ease-out',
+		//cssEase: 'ease-out',
 		pauseOnHover: true,
 		fade: true,
 

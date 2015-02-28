@@ -1,9 +1,10 @@
+$social-height: 51px;
+
 body {
 	> footer {
 		display: flex;
 		flex-wrap: wrap;
 		align-items: flex-end;
-
 		background-image: linear-gradient($black 3%, transparent 97%),
 											linear-gradient(to right, transparent 80%, $black 100%),
 											image-url("footer/2012__park-interior--001.jpg");
@@ -67,7 +68,9 @@ body {
 		}
 
 		.contact {
+			background: fade_out($black, .81);
 			color: fade_out($gray, .3); 
+			display: flex;
 			flex-wrap: wrap;
 			font-weight: 300;
 			justify-content: center;
@@ -92,24 +95,28 @@ body {
 				padding: 0;
 			}
 
-			.physical {
+			.address {
 				order: 2;
-				align-self: flex-start;
+				display: flex;
+				justify-content: flex-end;
+				height: calc(100% - #{$social-height});
+				padding-right: 9%;
 
-				.address { 
-					@include rem(font-size, 39px);
+				p {
+					align-self: center;
+					@include rem(font-size, 36px);
 					font-weight: 100;
-					padding: $margin/2 45px $margin/2 0;
+					margin: 0;
+				}
 
-					sup { 
-						@include rem(font-size, 24px);
-						vertical-align: -2px;
-					}
+				sup { 
+					@include rem(font-size, 24px);
+					vertical-align: -2px;
+				}
 
-					i.fa { 
-						margin-right: 3px;
-						vertical-align: 0px;
-					}
+				i.fa { 
+					margin-right: 3px;
+					vertical-align: 0px;
 				}
 			}
 		
@@ -121,24 +128,30 @@ body {
 				align-self: flex-start;
 				justify-content: flex-end;
 				border-bottom: 2px solid $black;
+				height: $social-height;
 				width: 100%;
+
 				li { 
-					text-align: center; 
+					display: flex;
+					height: 100%;
 					width: calc(100%/3); 
 					&:not(:first-of-type) a { box-shadow: inset 2px 0 0 0 $black; }
 				}
+
 				a { 
-					background: darken(fade_out($gold, .6), 10);
-					color: fade_out($gray, .6);
-					display: block;
+					align-items: center;
+					color: fade_out($gray, .3);
+					display: flex;
 					@include rem(font-size, 18px);
-					padding: $margin/2 0; 
+					height: 100%;
+					justify-content: center;
 					transition: color .3s;
 					width: 100%;
 					&:hover { 
 						background: fade_out($gold, .6);
 						color: $white; 
 					}
+					//i.fa { display: flex; }
 				}
 			}
 		}
@@ -174,7 +187,9 @@ body {
 
 			> ul {
 				display: flex;
+				flex-wrap: wrap;
 				margin-bottom: $margin/2;
+				overflow: hidden;
 				width: 100%;
 
 				> li {

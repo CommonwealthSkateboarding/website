@@ -7,7 +7,7 @@
 
 	<div class="grid no-margin">
 		<div class="details">
-			<p class="h4">Details</p>
+			<p class="h4">Camp Details</p>
 			<ul>
 				<li class="registration-end">
 					<p class="h6">Registration Ends</p>
@@ -44,7 +44,7 @@
 
 		<div class="sign-up">
 			@if(camp.registrations.size() < camp.maxRegistrations) {
-				<p class="h4">Sign Up</p>
+				<p class="h4">Camp Registration</p>
 
 				@******************************************
 				* https://stripe.com/docs/tutorials/forms *
@@ -107,7 +107,7 @@
 
 					-->
 
-					<div class="form-row">
+					<div class="form-row payment">
 						<p class="h6">Choose Payment Amount</p>
 						<radiogroup>
 							<input type="radio" name="fully-paid" id="full-price" value="true" checked required><label for="full-price"> <i class="fa fa-check"></i> <strong>Full</strong>&nbsp;(@utils.Formatter.prettyDollars(camp.cost))</label>
@@ -118,7 +118,7 @@
 					</div>
 
 					<footer>
-						<button type="submit" id="pay">Register<i class="fa fa-arrow-right"></i></button>
+						<button type="submit" id="pay">Sign Up</button>
 					</footer>
 		<script>
             var handler = StripeCheckout.configure({
