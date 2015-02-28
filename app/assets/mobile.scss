@@ -51,11 +51,11 @@
 
 	[id="shop"] .items .item { margin: 15px 0 !important; padding: 0 !important; width: 100% !important; }
 
-	.camp table[id="camps"] {
+	.camp table[id="camps"], .events table[id="events"] {
 		tr, a { font-size: 13px !important; font-weight: 900 !important; }
 		th, td { padding: 15px 6px !important; }
 	}
-	.camp-detail {
+	.camp-detail, .event-detail {
 		.sign-up { order: 2 !important; width: 100% !important; margin-top: 30px !important; 
 			radiogroup input[type="radio"] + label { font-size: 15px !important; }
 			button[type="submit"] { width: 100% !important; }
@@ -68,7 +68,7 @@
 		margin-top: 15px !important;
 		.sponsors ul { width: 100% !important; }
 		.info { flex-wrap: wrap !important; height: auto !important; }
-		.contact, nav { height: 240px !important; width: 100% !important; }
+		.contact, nav { width: 100% !important; }
 		.physical { order: 1 !important; align-self: center !important; padding: 24px 60px !important; }
 		.social {
 			align-self: flex-end !important;
@@ -79,7 +79,7 @@
 			padding: 36px 15px !important; 
 			&:before { left: 69% !important; }
 			> ul {
-				> li:not(:first-of-type) { margin-left: 12px !important; }
+				> li:not(:first-of-type) { margin-right: 12px !important; }
 			}
 		}
 	}

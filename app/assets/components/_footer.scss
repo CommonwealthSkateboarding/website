@@ -52,13 +52,7 @@ body {
 			border-top: 2px solid $black;
 			color: $white;
 			display: flex;
-			height: 270px;
 			width: 100%;
-
-			> *:not(.social) { 
-				height: 100%; 
-				//padding: 0 48px;
-			}
 		}
 
 		.contact, > nav {
@@ -100,6 +94,7 @@ body {
 				display: flex;
 				justify-content: flex-end;
 				height: calc(100% - #{$social-height});
+				padding: $margin 0;
 				padding-right: 9%;
 
 				p {
@@ -193,7 +188,7 @@ body {
 				width: 100%;
 
 				> li {
-					&:not(:first-of-type) { @include rem(margin-left, 45px); }
+					&:not(:last-of-type) { @include rem(margin-right, 45px); }
 
 					.h5 { 
 						color: $black; 

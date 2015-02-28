@@ -1,5 +1,6 @@
 @(registration: models.skatepark.Registration)
 
+@main("event email") {
 <p>Thanks for registering for Commonwealth Skatepark's event, @registration.event.name.</p>
 
 <p>This registration's confirmation ID is @registration.confirmationId and is valid for @registration.participantName.</p>
@@ -15,3 +16,4 @@
 <p>Thank you,<br/>Commonwealth Skatepark<br/>
     <a href="@play.Play.application().configuration().getString("application.baseUrl")">@play.Play.application().configuration().getString("application.baseUrl")</a></p>
 
+}
