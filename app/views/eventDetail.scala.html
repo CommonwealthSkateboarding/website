@@ -70,7 +70,7 @@
 
 
 	<div class="sign-up">
-	@if(event.registrable && (event.registrations.size() < event.maxRegistrations)) {
+	@if(event.registrable && (null != event.cost) && (event.registrations.size() < event.maxRegistrations)) {
 		<p class="h4">Register</p>
 
 		@******************************************
