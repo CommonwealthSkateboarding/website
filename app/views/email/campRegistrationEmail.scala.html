@@ -1,17 +1,19 @@
 @(registration: models.skatepark.Registration)
 
-<p>Thanks for registering for Commonwealth Skatepark's camp, @registration.camp.title.</p>
+@main("email") {
+	<p>Thanks for registering for Commonwealth Skatepark's camp, @registration.camp.title.</p>
 
-<p>This registration's confirmation ID is @registration.confirmationId and is valid for @registration.participantName.</p>
+	<p>This registration's confirmation ID is @registration.confirmationId and is valid for @registration.participantName.</p>
 
-@if(!registration.paid) {<p>Your payment of @utils.Formatter.prettyDollars(registration.totalPaid) has been received, and the remaining @utils.Formatter.prettyDollars(registration.camp.cost - registration.totalPaid) is due by @registration.camp.startDate.format("MM/dd/yyyy").</p>}
+	@if(!registration.paid) {<p>Your payment of @utils.Formatter.prettyDollars(registration.totalPaid) has been received, and the remaining @utils.Formatter.prettyDollars(registration.camp.cost - registration.totalPaid) is due by @registration.camp.startDate.format("MM/dd/yyyy").</p>}
 
-<p>This camp is scheduled to run between @registration.camp.startDate.format("MM/dd/yyyy") and
+	<p>This camp is scheduled to run between @registration.camp.startDate.format("MM/dd/yyyy") and
     @registration.camp.endDate.format("MM/dd/yyyy"). Schedule: @registration.camp.scheduleDescription</p>
 
-<p>For more information on this camp, please see the camp on
-    <a href="@play.Play.application().configuration().getString("application.baseUrl")@routes.Application.campDetail(registration.camp.id)">our website</a>.</p>
+	<p>For more information on this camp, please see the camp on <a href="@play.Play.application().configuration().getString("application.baseUrl")@routes.Application.campDetail(registration.camp.id)">our website</a>.</p>
 
-<p>Thank you,<br/>Commonwealth Skatepark<br/>
+	<p>Thank you,<br/>Commonwealth Skatepark
+	<br/>
     <a href="@play.Play.application().configuration().getString("application.baseUrl")">@play.Play.application().configuration().getString("application.baseUrl")</a></p>
 
+}

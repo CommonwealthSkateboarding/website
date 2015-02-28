@@ -59,12 +59,8 @@ body.camp-detail {
 	}
 
 	form {
-		label {
-			&.cvc, &.card { margin-right: 1%; }
-		}
 		input[type] { 
 			&[id="p_name"], &[id="b_name"], &[id="email"] { width: 100%; }
-			//&[data-stripe="exp-month"] { width: 63px; }
 		}
 
 		.form-row { margin-bottom: $margin; }

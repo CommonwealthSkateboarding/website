@@ -1,133 +1,167 @@
 @(event: models.skatepark.Event)
 
 @main("event-detail") {
-
 <section id="event-detail">
    <a href="@routes.Application.events()"><p class="h1">&lt; Back to all events</p></a>
-    <p class="h2">@event.name</p>
-    <table class="table table-bordered table-striped table-condensed">
-        <thead>
-        <tr>
-            <th>Event</th>
-            <th>Date</th>
-            <th>Starts</th>
-            <th>Ends</th>
-            @if(event.registrable) {
-                <th>Registration Ends</th>
-                <th>Capacity</th>
-                <th>Cost</th>
-            }
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>@event.name</td>
-            <td>@event.startTime.format("MM/dd/yyyy")</td>
-            <td>@event.startTime.format("hh:mm a")</td>
-            <td>@event.endTime.format("hh:mm a")</td>
-            @if(event.registrable) {
-                <td>@if(null != event.registrationEndDate) { @event.registrationEndDate.format("MM/dd/yyyy") }</td>
-                <td>@event.registrations.size()/@event.maxRegistrations</td>
-                <td>@utils.Formatter.prettyDollars(event.cost)</td>
-            }
-        </tr>
-        </tbody>
-    </table>
+	<p class="h2">@event.name</p>
 
-    @if(event.registrable && (event.registrations.size() < event.maxRegistrations)) {
-        <br><br>
-        <h2>Register for this event now</h2>
+	<div class="grid no-margin">
+		<div class="details">
+			<p class="h4">Event Details</p>
+			<ul>
+			@if(event.registrable) {
+				@if(null != event.registrationEndDate) {
+				<li class="registration-end">
+					<p class="h6">Registration Ends</p>
+					<p> @event.registrationEndDate.format("M/d") </p>
+				</li>
+				}
+				<li class="registrants">
+					<p class="h6">Capacity</p>
+					<p>@event.registrations.size()/@event.maxRegistrations</p>
+				</li>
+				<li class="cost">
+					<p class="h6">Cost</p>
+					<p>@utils.Formatter.prettyDollars(event.cost)</p>
+				</li>
+				}
+				<li class="schedule">
+					<p class="h6">Date</p>
+					<p>@event.startTime.format("M/d")</p>
+					<p>@event.startTime.format("h:mma") - @event.endTime.format("h:mma")</p>
+				</li>
+				<li class="description">
+					<p class="h6">@event.name</p>
+					<p>Description about event.</p>
+					<p class="notice"><strong>A $100 non-refundable deposit is required for each participant.</strong></p>
+				</li>
+			</ul>
+		</div>
 
-        @******************************************
-        * https://stripe.com/docs/tutorials/forms *
-        ******************************************@
+<!-- 
+	<table class="table table-bordered table-striped table-condensed">
+		<thead>
+		<tr>
+			<th>Event</th>
+			<th>Date</th>
+			<th>Starts</th>
+			<th>Ends</th>
+			@if(event.registrable) {
+				<th>Registration Ends</th>
+				<th>Capacity</th>
+				<th>Cost</th>
+			}
+		</tr>
+		</thead>
+		<tbody>
+		<tr>
+			<td>@event.name</td>
+			<td>@event.startTime.format("MM/dd/yyyy")</td>
+			<td>@event.startTime.format("hh:mm a")</td>
+			<td>@event.endTime.format("hh:mm a")</td>
+			@if(event.registrable) {
+				<td>@if(null != event.registrationEndDate) { @event.registrationEndDate.format("MM/dd/yyyy") }</td>
+				<td>@event.registrations.size()/@event.maxRegistrations</td>
+				<td>@utils.Formatter.prettyDollars(event.cost)</td>
+			}
+		</tr>
+		</tbody>
+	</table> -->
 
-        <form action="@routes.Application.registerForEventWithStripe(event.id)" method="POST" id="payment-form">
 
-            <script src="https://checkout.stripe.com/checkout.js"></script>
+	<div class="sign-up">
+	@if(event.registrable && (event.registrations.size() < event.maxRegistrations)) {
+		<p class="h4">Register</p>
 
-            <div class="form-row">
-                <label>
-                    <span class="h6">Participant Name</span>
-                    <input id="p_name" name="name" type="text" placeholder="" required autofocus>
-                </label>
-            </div>
+		@******************************************
+		* https://stripe.com/docs/tutorials/forms *
+		******************************************@
 
-            <div class="form-row">
-                <label>
-                    <span class="h6">Billing Name</span>
-                    <input id="b_name" name="billingName" type="text" placeholder="" required>
-                </label>
-            </div>
+		<form action="@routes.Application.registerForEventWithStripe(event.id)" method="POST" id="payment-form">
 
-            <div class="form-row">
-                <label>
-                    <span class="h6">Billing Email</span>
-                    <input id="email" name="email" type="email" placeholder="name&#064;domain.com" required>
-                </label>
-            </div>
+			<script src="https://checkout.stripe.com/checkout.js"></script>
 
-            <div class="form-row">
-                <label>
-                    <span class="h6">Phone Number</span>
-                    <input id="tel" name="telephone" type="tel" placeholder="(555) 555-5555">
-                </label>
-            </div>
+			<div class="form-row">
+				<label>
+					<span class="h6">Participant Name</span>
+					<input id="p_name" name="name" type="text" placeholder="" required autofocus>
+				</label>
+			</div>
 
-            <!--
+			<div class="form-row">
+				<label>
+					<span class="h6">Billing Name</span>
+					<input id="b_name" name="billingName" type="text" placeholder="" required>
+				</label>
+			</div>
 
-            <div class="form-row flex">
-                <label class="card">
-                    <span class="h6">Card Number</span>
-                    <input id="card" type="text" pattern="[0-9]{13,16}" size="20" data-stripe="number" placeholder="#" required>
-                </label>
+			<div class="form-row">
+				<label>
+					<span class="h6">Billing Email</span>
+					<input id="email" name="email" type="email" placeholder="name&#064;domain.com" required>
+				</label>
+			</div>
 
-                <label class="cvc">
-                    <span class="h6">CVC</span>
-                    <input id="cvc" type="text" size="4" data-stripe="cvc" placeholder="#" required>
-                </label>
+			<div class="form-row">
+				<label>
+					<span class="h6">Phone Number</span>
+					<input id="tel" name="telephone" type="tel" placeholder="(555) 555-5555">
+				</label>
+			</div>
 
-                <label class="expiration">
-                    <span class="h6">Expiration (MM/YYYY)</span>
-                    <input id="exp-month" type="text" size="2" data-stripe="exp-month" placeholder="MM" required>
+			<!--
 
-                    <span> / </span>
+			<div class="form-row flex">
+				<label class="card">
+					<span class="h6">Card Number</span>
+					<input id="card" type="text" pattern="[0-9]{13,16}" size="20" data-stripe="number" placeholder="#" required>
+				</label>
 
-                    <input id="exp-year" type="text" pattern="[0-9]{4}" size="4" data-stripe="exp-year" placeholder="YYYY" required>
-                </label>
-            </div>
+				<label class="cvc">
+					<span class="h6">CVC</span>
+					<input id="cvc" type="text" size="4" data-stripe="cvc" placeholder="#" required>
+				</label>
 
-            -->
+				<label class="expiration">
+					<span class="h6">Expiration (MM/YYYY)</span>
+					<input id="exp-month" type="text" size="2" data-stripe="exp-month" placeholder="MM" required>
 
-            <div class="form-row">
-                <p class="h6">Choose Payment Amount</p>
-                <radiogroup>
-                    <input type="radio" name="fully-paid" id="full-price" value="true" checked required><label for="full-price"> <i class="fa fa-check"></i> <strong>Full</strong>&nbsp;(@utils.Formatter.prettyDollars(event.cost))</label>
-                    @if(event.cost>controllers.Application.EVENT_DEPOSIT) {
-                        <input type="radio" name="fully-paid" id="deposit" value="false"><label for="deposit"> <i class="fa fa-check"></i> <strong>Deposit</strong>&nbsp;(@utils.Formatter.prettyDollars(controllers.Application.EVENT_DEPOSIT))</label>
-                    }
-                </radiogroup>
-            </div>
+					<span> / </span>
 
-            <footer>
-                <button type="submit" id="pay">Register<i class="fa fa-arrow-right"></i></button>
-            </footer>
-            <script>
-            var handler = StripeCheckout.configure({
-              key: '@controllers.Stripe.STRIPE_PUBLIC_KEY',
-              image: 'https://s3.amazonaws.com/stripe-uploads/acct_154QX0FIzru1QGQUmerchant-icon-1421729277975-cw--logo--lettermark-black.png',
-              token: function(token) {
-                  var $form = $('#payment-form');
-                  // Insert the token into the form so it gets submitted to the server
-                  $form.append($('<input type="hidden" name="stripeToken" />').val(token.id));
-                  // and submit
-                  $form.get(0).submit();
-              }
-            });
+					<input id="exp-year" type="text" pattern="[0-9]{4}" size="4" data-stripe="exp-year" placeholder="YYYY" required>
+				</label>
+			</div>
 
-            $('#pay').on('click', function(e) {
-              $('#payment-form').validate();
-              if($('#payment-form').valid()) {
+			-->
+			@if(event.cost>controllers.Application.EVENT_DEPOSIT) {
+			<div class="form-row">
+				<p class="h6">Choose Payment Amount</p>
+				<radiogroup>
+					<input type="radio" name="fully-paid" id="full-price" value="true" checked required><label for="full-price"> <i class="fa fa-check"></i> <strong>Full</strong>&nbsp;(@utils.Formatter.prettyDollars(event.cost))</label>
+						<input type="radio" name="fully-paid" id="deposit" value="false"><label for="deposit"> <i class="fa fa-check"></i> <strong>Deposit</strong>&nbsp;(@utils.Formatter.prettyDollars(controllers.Application.EVENT_DEPOSIT))</label>
+				</radiogroup>
+			</div>
+			}
+			<footer>
+				<button type="submit" id="pay">Sign Up</button>
+			</footer>
+		</div>
+			<script>
+			var handler = StripeCheckout.configure({
+			  key: '@controllers.Stripe.STRIPE_PUBLIC_KEY',
+			  image: 'https://s3.amazonaws.com/stripe-uploads/acct_154QX0FIzru1QGQUmerchant-icon-1421729277975-cw--logo--lettermark-black.png',
+			  token: function(token) {
+				  var $form = $('#payment-form');
+				  // Insert the token into the form so it gets submitted to the server
+				  $form.append($('<input type="hidden" name="stripeToken" />').val(token.id));
+				  // and submit
+				  $form.get(0).submit();
+			  }
+			});
+
+			$('#pay').on('click', function(e) {
+			  $('#payment-form').validate();
+			  if($('#payment-form').valid()) {
 				  if($('#full-price').is(':checked')) {
 					  handler.open({
 						name: 'Commonwealth Skate',
@@ -148,23 +182,20 @@
 					});
 				  }
 			  }
-              e.preventDefault();
+			  e.preventDefault();
 			});
 
-            // Close Checkout on page navigation
-            $(window).on('popstate', function() {
-              handler.close();
-            });
+			// Close Checkout on page navigation
+			$(window).on('popstate', function() {
+			  handler.close();
+			});
 		</script>
 
-        </form>
-    }
+		</form>
+	}
 
-    @if(event.registrable && (event.registrations.size() >= event.maxRegistrations)) {
-        <p>This event is currently sold out.</p>
-    }
-
-    <br><br>
-    <a href="@routes.Application.events()">All Events</a>
+	@if(event.registrable && (event.registrations.size() >= event.maxRegistrations)) {
+		<p>Sorry! This event is currently sold out.</p>
+	}
 </section>
 }
