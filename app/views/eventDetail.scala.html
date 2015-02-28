@@ -194,7 +194,7 @@
 		</form>
 	}
 
-	@if(event.registrable && (event.registrations.size() >= event.maxRegistrations)) {
+	@if(event.registrable && (null != event.cost) && (event.registrations.size() >= event.maxRegistrations)) {
 		<p>Sorry! This event is currently sold out.</p>
 	}
 </section>
