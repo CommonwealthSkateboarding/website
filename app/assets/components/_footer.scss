@@ -95,62 +95,50 @@ body {
 			.physical {
 				order: 2;
 				align-self: flex-start;
-				padding: $margin/2 45px $margin/2 0;
 
-				div { 
+				.address { 
 					@include rem(font-size, 39px);
-					&.address { 
-						font-weight: 100;
-						sup { 
-							@include rem(font-size, 24px);
-							vertical-align: -2px;
-						}
-						i.fa { 
-							margin-right: 3px;
-							vertical-align: 0px;
-						}
-					}
+					font-weight: 100;
+					padding: $margin/2 45px $margin/2 0;
 
-					&.phone { 
-						display: block; 
-						font-weight: 300;
-						margin-top: -1px; 
-						i.fa { color: fade_out($gray, .81); }
+					sup { 
+						@include rem(font-size, 24px);
+						vertical-align: -2px;
 					}
 
 					i.fa { 
-						@include rem(font-size, 21px);
-						margin-right: 9px;
-						vertical-align: -3px;
-					}	
+						margin-right: 3px;
+						vertical-align: 0px;
+					}
 				}
 			}
-		}
+		
 
-		.social {
-			order: 1;
-			display: flex;
-			align-content: center;
-			align-self: flex-start;
-			justify-content: flex-end;
-			border-bottom: 2px solid $black;
-			width: 100%;
-			li { 
-				text-align: center; 
-				width: calc(100%/3); 
-				&:not(:first-of-type) a { box-shadow: inset 2px 0 0 0 $black; }
-			}
-			a { 
-				background: darken(fade_out($gold, .6), 10);
-				color: fade_out($gray, .6);
-				display: block;
-				@include rem(font-size, 18px);
-				padding: $margin/2 0; 
-				transition: color .3s;
+			.social {
+				order: 1;
+				display: flex;
+				align-content: center;
+				align-self: flex-start;
+				justify-content: flex-end;
+				border-bottom: 2px solid $black;
 				width: 100%;
-				&:hover { 
-					background: fade_out($gold, .6);
-					color: $white; 
+				li { 
+					text-align: center; 
+					width: calc(100%/3); 
+					&:not(:first-of-type) a { box-shadow: inset 2px 0 0 0 $black; }
+				}
+				a { 
+					background: darken(fade_out($gold, .6), 10);
+					color: fade_out($gray, .6);
+					display: block;
+					@include rem(font-size, 18px);
+					padding: $margin/2 0; 
+					transition: color .3s;
+					width: 100%;
+					&:hover { 
+						background: fade_out($gold, .6);
+						color: $white; 
+					}
 				}
 			}
 		}
