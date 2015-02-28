@@ -133,15 +133,15 @@
 			</div>
 
 			-->
-			@if(event.cost>controllers.Application.EVENT_DEPOSIT) {
 			<div class="form-row">
 				<p class="h6">Choose Payment Amount</p>
 				<radiogroup>
 					<input type="radio" name="fully-paid" id="full-price" value="true" checked required><label for="full-price"> <i class="fa fa-check"></i> <strong>Full</strong>&nbsp;(@utils.Formatter.prettyDollars(event.cost))</label>
+					@if(event.cost>controllers.Application.EVENT_DEPOSIT) {
 						<input type="radio" name="fully-paid" id="deposit" value="false"><label for="deposit"> <i class="fa fa-check"></i> <strong>Deposit</strong>&nbsp;(@utils.Formatter.prettyDollars(controllers.Application.EVENT_DEPOSIT))</label>
+					}
 				</radiogroup>
 			</div>
-			}
 			<footer>
 				<button type="submit" id="pay">Sign Up</button>
 			</footer>
