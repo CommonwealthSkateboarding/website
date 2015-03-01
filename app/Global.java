@@ -101,11 +101,7 @@ public class Global extends GlobalSettings {
                     Date lastQueriedSquare = (Date) Cache.get(LAST_QUERIED_SQUARE);
                     Cache.set(LAST_QUERIED_SQUARE, new Date());
                     if (null != lastQueriedSquare) {
-                        List<Payment> payments = Square.getPayments(lastQueriedSquare);
-                        if (!payments.isEmpty()) {
-                            Logger.info("Received " + payments.size() + " square payments, emitting to slack");
-                        }
-                        payments.forEach(Slack::emitPaymentDetails);
+                        Square.runSlackPaymentsReport(lastQueriedSquare);
                     }
                 }, Akka.system().dispatcher()
         );
