@@ -10,10 +10,9 @@
             <tr>
                 <th>Event</th>
                 <th>Date</th>
-                <th>Starts</th>
-                <th>Ends</th>
+                <th class="left">Time</th>
                 <!-- <th>Register by</th> -->
-                <th>Capacity</th>
+                <!-- <th>Capacity</th> -->
                 <th>Cost</th>
             </tr>
         </thead>
@@ -22,11 +21,10 @@
         <tr>
             <td><a href="@routes.Application.eventDetail(event.id)">@event.name</a></td>
             <td>@event.startTime.format("M/d")</td>
-            <td>@event.startTime.format("h:mma")</td>
-            <td>@event.endTime.format("h:mma")</td>
+            <td>@event.startTime.format("h:mma") - @event.endTime.format("h:mma")</td>
             @if(event.registrable) {
                 <!-- <td>@if(null != event.registrationEndDate) { @event.registrationEndDate.format("M/dd") }</td> -->
-                <td>@event.registrations.size()/@event.maxRegistrations</td>
+                <!-- <td>@event.registrations.size()/@event.maxRegistrations</td> -->
                 <td>@utils.Formatter.prettyDollars(event.cost)</td>
             } else {
                 <td colspan="3">Pre-registration is not available.</td>

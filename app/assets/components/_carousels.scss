@@ -134,9 +134,13 @@ body {
 							&.gold {
 								background: fade_out($gold, .3);
 								color: $black;
-								&:hover {
-									background: $white;
-								}
+								&:hover { background: $white; }
+							}
+
+							&.green { 
+								background: $success;
+								color: $black;
+								&:hover { background: $white; }
 							}
 						}
 
@@ -145,17 +149,13 @@ body {
 							border-color: $gold; 
 							color: $gold;
 							&:hover {
-								border-color: scale-color($gold, $lightness: 40%);
-								color: scale-color($gold, $lightness: 40%);
+								border-color: $white; color: $white; 
 							}
 
 							&.gold {
 								border-color: fade_out($gold, .3);
 								color: fade_out($gold, .3);
-								&:hover {
-									border-color: $white;
-									color: $white;
-								}
+								&:hover { border-color: $white; color: $white; }
 							}
 
 							&.white {
@@ -170,6 +170,12 @@ body {
 							&.gray {
 								border-color: $gray;
 								color: $gray;
+								&:hover { border-color: $white; color: $white; }
+							}
+
+							&.green {
+								border-color: $success;
+								color: $success;
 								&:hover { border-color: $white; color: $white; }
 							}
 						}

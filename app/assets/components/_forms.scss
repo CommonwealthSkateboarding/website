@@ -24,7 +24,7 @@ form {
 			&:-moz-placeholder { color: $gray; }
 		}
 		&:focus { border-color: $gold; color: $white; outline: 0; }
-		&:in-range { border-color: green; }
+		&:in-range { border-color: $success; }
 		&:required::after { 
 			color: $white;
 			content: "*"; 
