@@ -91,7 +91,7 @@ public class Square extends Controller {
                 }
             }
         }
-        if (null != payments) {
+        if (null != payments && payments.length > 0) {
             List<Payment> p = Arrays.asList(payments);
             Logger.info("Received " + p.size() + " square payments, emitting to slack");
             p.forEach(Slack::emitPaymentDetails);
