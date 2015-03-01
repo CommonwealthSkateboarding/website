@@ -1,9 +1,12 @@
 import controllers.Slack;
+import controllers.Square;
+import models.square.Payment;
 import org.joda.time.DateTime;
 import org.joda.time.Seconds;
 import play.Application;
 import play.GlobalSettings;
 import play.Logger;
+import play.cache.Cache;
 import play.libs.Akka;
 import play.mvc.Call;
 
@@ -15,10 +18,15 @@ import com.feth.play.module.pa.exceptions.AuthException;
 import controllers.routes;
 import scala.concurrent.duration.Duration;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 
 public class Global extends GlobalSettings {
+
+    public static final String LAST_QUERIED_SQUARE = "lastQueriedSquare";
 
     public void onStart(final Application app) {
         /**
@@ -86,8 +94,23 @@ public class Global extends GlobalSettings {
                 }, Akka.system().dispatcher()
         );
          **/
-    }
 
+        Akka.system().scheduler().schedule(Duration.create(10, TimeUnit.SECONDS),
+                Duration.create(5, TimeUnit.MINUTES),
+                () -> {
+                    Date lastQueriedSquare = (Date) Cache.get(LAST_QUERIED_SQUARE);
+                    Cache.set(LAST_QUERIED_SQUARE, new Date());
+                    if (null != lastQueriedSquare) {
+                        List<Payment> payments = Square.getPayments(lastQueriedSquare);
+                        if (!payments.isEmpty()) {
+                            Logger.info("Received " + payments.size() + " square payments, emitting to slack");
+                        }
+                        payments.forEach(Slack::emitPaymentDetails);
+                    }
+                }, Akka.system().dispatcher()
+        );
+    }
+/**
     private static int nextExecutionInSeconds(int hour, int minute){
         return Seconds.secondsBetween(
                 new DateTime(),
@@ -106,5 +129,5 @@ public class Global extends GlobalSettings {
                 ? next.plusHours(24)
                 : next;
     }
-
+**/
 }

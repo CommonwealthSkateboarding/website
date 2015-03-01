@@ -6,15 +6,15 @@ import models.square.Order;
 import models.square.Payment;
 import models.square.SquareWebhook;
 import play.Logger;
+import play.libs.Json;
 import play.libs.ws.*;
 import play.libs.F.Promise;
 import play.mvc.Controller;
 import play.mvc.Result;
+import utils.TimeUtil;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by cdelargy on 12/18/14.
@@ -25,7 +25,7 @@ public class Square extends Controller {
 
     private static String BASE_URL = "https://connect.squareup.com/v1/me/";
     private static String INVENTORY_URL = BASE_URL + "inventory";
-    private static String PAYMENT_URL = BASE_URL + "payments/";
+    private static String PAYMENT_URL = BASE_URL + "payments";
 
 
     private static String ORDERS_URL = BASE_URL + "orders?order=DESC";
@@ -62,7 +62,7 @@ public class Square extends Controller {
     }
 
     private static Payment getPayment(String paymentId) {
-        WSRequestHolder holder = WS.url(PAYMENT_URL + paymentId).setHeader(AUTHORIZATION_HEADER, BEARER_TOKEN);
+        WSRequestHolder holder = WS.url(PAYMENT_URL + "/" + paymentId).setHeader(AUTHORIZATION_HEADER, BEARER_TOKEN);
         WSResponse response = holder.get().get(10000);
         Payment payment = null;
         if (response.getStatus() != OK) {
@@ -76,6 +76,24 @@ public class Square extends Controller {
             }
         }
         return payment;
+    }
+
+    public static List<Payment> getPayments(Date since) {
+        WSRequestHolder holder = WS.url(PAYMENT_URL).setHeader(AUTHORIZATION_HEADER, BEARER_TOKEN)
+                .setQueryParameter("begin_time", TimeUtil.getISO8601Date(since));
+        WSResponse response = holder.get().get(20000);
+        Payment[] payments = null;
+        if (response.getStatus() != OK) {
+            Logger.error("Got bad response from square when getting payments: " + response.getBody().toString());
+        } else {
+            ObjectMapper mapper = new ObjectMapper();
+            try {
+                payments = mapper.readValue(response.getBody(), Payment[].class);
+            } catch (IOException e) {
+                Logger.error("Unable to iterate through square payments", e);
+            }
+        }
+        return Arrays.asList(payments);
     }
 
     public static Result receiveWebhook() {

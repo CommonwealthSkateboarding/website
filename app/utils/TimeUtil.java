@@ -1,5 +1,11 @@
 package utils;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
+
 public class TimeUtil {
 
     public final static long ONE_SECOND = 1000;
@@ -69,6 +75,11 @@ public class TimeUtil {
             case 3:  return "rd";
             default: return "th";
         }
+    }
+    public static String getISO8601Date(Date date) {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
+        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+        return dateFormat.format(date);
     }
 
 }
