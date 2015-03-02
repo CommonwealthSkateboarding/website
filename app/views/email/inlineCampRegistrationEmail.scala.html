@@ -1,0 +1,197 @@
+@(registration: models.skatepark.Registration)
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" style="background: #131313;color: #FFFFFF;">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Commonwealth Skatepark Camp Registration Confirmation</title>
+	<style type="text/css">
+		/* Based on The MailChimp Reset INLINE: Yes. */
+		/* Client-specific Styles */
+		#outlook a {padding:0;} /* Force Outlook to provide a "view in browser" menu link. */
+		body{width:100% !important; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; margin:0; padding:0;}
+		/* Prevent Webkit and Windows Mobile platforms from changing default font sizes.*/
+		.ExternalClass {width:100%;} /* Force Hotmail to display emails at full width */
+		.ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {line-height: 100%;}
+		/* Forces Hotmail to display normal line spacing.  More on that: http://www.emailonacid.com/forum/viewthread/43/ */
+		#backgroundTable {margin:0; padding:0; width:100% !important; line-height: 100% !important;}
+		/* End reset */
+
+		/* Some sensible defaults for images
+		Bring inline: Yes. */
+		img {outline:none; text-decoration:none; -ms-interpolation-mode: bicubic;}
+		a img {border:none;}
+		.image_fix {display:block;}
+
+		/* Yahoo paragraph fix
+		Bring inline: Yes. */
+		p {margin: 1em 0;}
+
+		/* Hotmail header color reset
+		Bring inline: Yes. */
+		h1, h2, h3, h4, h5, h6 {color: #FFFFFF !important;}
+
+		h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {color: #FFFFFF !important;}
+
+		h1 a:active, h2 a:active,  h3 a:active, h4 a:active, h5 a:active, h6 a:active {
+		color: #FFFFFF !important; /* Preferably not the same color as the normal header link color.  There is limited support for psuedo classes in email clients, this was added just for good measure. */
+		}
+
+		h1 a:visited, h2 a:visited,  h3 a:visited, h4 a:visited, h5 a:visited, h6 a:visited {
+		color: #858585 !important; /* Preferably not the same color as the normal header link color. There is limited support for psuedo classes in email clients, this was added just for good measure. */
+		}
+
+		/* Outlook 07, 10 Padding issue fix
+		Bring inline: No.*/
+		table td {border-collapse: collapse;}
+
+		/* Remove spacing around Outlook 07, 10 tables
+		Bring inline: Yes */
+		table { border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt; }
+
+		/* Styling your links has become much simpler with the new Yahoo.  In fact, it falls in line with the main credo of styling in email and make sure to bring your styles inline.  Your link colors will be uniform across clients when brought inline.
+		Bring inline: Yes. */
+		a { color: #9a8b60; font-weight: bold; text-decoration: none; }
+
+
+		/***************************************************
+		****************************************************
+		MOBILE TARGETING
+		****************************************************
+		***************************************************/
+		@@media only screen and (max-device-width: 480px) {
+		/* Part one of controlling phone number linking for mobile. */
+		a[href^="tel"], a[href^="sms"] {
+		text-decoration: none;
+		color: #FFFFFF; /* or whatever your want */
+		pointer-events: none;
+		cursor: default;
+		}
+
+		.mobile_link a[href^="tel"], .mobile_link a[href^="sms"] {
+		text-decoration: default;
+		color: #FFFFFF !important;
+		pointer-events: auto;
+		cursor: default;
+		}
+
+		}
+
+		/* More Specific Targeting */
+
+		@@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+		/* You guessed it, ipad (tablets, smaller screens, etc) */
+		/* repeating for the ipad */
+		a[href^="tel"], a[href^="sms"] {
+		text-decoration: none;
+		color: #FFFFFF; /* or whatever your want */
+		pointer-events: none;
+		cursor: default;
+		}
+
+		.mobile_link a[href^="tel"], .mobile_link a[href^="sms"] {
+		text-decoration: default;
+		color: #FFFFFF !important;
+		pointer-events: auto;
+		cursor: default;
+		}
+		}
+
+		@@media only screen and (-webkit-min-device-pixel-ratio: 2) {
+		/* Put your iPhone 4g styles in here */
+		}
+
+		/* Android targeting */
+		@@media only screen and (-webkit-device-pixel-ratio:.75){
+		/* Put CSS for low density (ldpi) Android layouts in here */
+		}
+		@@media only screen and (-webkit-device-pixel-ratio:1){
+		/* Put CSS for medium density (mdpi) Android layouts in here */
+		}
+		@@media only screen and (-webkit-device-pixel-ratio:1.5){
+		/* Put CSS for high density (hdpi) Android layouts in here */
+		}
+		/* end Android targeting */
+
+
+		/* CUSTOM STYLING */
+
+		html, body { background: #131313; color: #FFFFFF; }
+		table.container { padding: 30px; }
+		table.content { margin-bottom: 60px; }
+		table.content td { padding-top: 30px; }
+		table.content .logo { padding-top: 15px; }
+		table.content p {
+		color: #858585;
+		font-family: "Courier New";
+		font-size: 18px;
+		line-height: 1.2;
+		}
+		table.content p.h2 { font-size: 24px; margin-top: 0; }
+
+	</style>
+
+	<!-- Targeting Windows Mobile -->
+	<!--[if IEMobile 7]>
+	<style type="text/css">
+
+	</style>
+	<![endif]-->
+
+	<!-- ***********************************************
+	****************************************************
+	END MOBILE TARGETING
+	****************************************************
+	************************************************ -->
+
+	<!--[if gte mso 9]>
+	<style>
+		/* Target Outlook 2007 and 2010 */
+	</style>
+	<![endif]-->
+</head>
+<body style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;margin: 0;padding: 0;background: #131313;color: #FFFFFF;width: 100% !important;">
+<table class="container" cellpadding="0" cellspacing="0" border="0" id="backgroundTable" width="600" style="border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;padding: 0;margin: 0;width: 100% !important;line-height: 100% !important;">
+	<tr>
+		<td valign="top" style="border-collapse: collapse;">
+			<table class="content" cellpadding="0" cellspacing="0" border="0" align="center" width="540" style="border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;margin-bottom: 60px;">
+				<tr>
+					<td width="600" valign="top" style="border-collapse: collapse;padding-top: 30px;">
+						<img class="image_fix logo" src="@play.Play.application().configuration().getString("application.baseUrl")assets/img/email/cw_logo--white@@2x.png" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;display: block;padding-top: 15px;" alt="Commonwealth Skateboarding" title="Commonwealth Skateboarding" width="60" height="60" />
+					</td>
+				</tr>
+				<tr>
+					<td width="600" style="border-collapse: collapse;padding-top: 30px;">
+						<img class="image_fix" src="@play.Play.application().configuration().getString("application.baseUrl")assets/img/email/header--camp-confirmed@@2x.png" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;display: block;" alt="Skate Camp Confirmed" title="Skate Camp Confirmed" width="344" height="144" />
+					</td>
+				</tr>
+				<tr>
+					<td width="600" style="border-collapse: collapse;padding-top: 30px;">
+						<p class="h2" style="margin: 1em 0;color: #858585;font-family: &quot;Courier New&quot;;font-size: 24px;line-height: 1.2;margin-top: 0;">Thanks for registering for Commonwealth Skatepark's camp, @registration.camp.title.</p>
+
+						<p style="margin: 1em 0;color: #858585;font-family: &quot;Courier New&quot;;font-size: 18px;line-height: 1.2;">This registration's confirmation ID is @registration.confirmationId and is valid for @registration.participantName.</p>
+						@if(!registration.paid) {
+							<p style="margin: 1em 0;color: #858585;font-family: &quot;Courier New&quot;;font-size: 18px;line-height: 1.2;">Your payment of @utils.Formatter.prettyDollars(registration.totalPaid) has been received, and the remaining @utils.Formatter.prettyDollars(registration.camp.cost - registration.totalPaid) is due by @registration.camp.startDate.format("MM/dd/yyyy").</p>
+						}
+
+						<p style="margin: 1em 0;color: #858585;font-family: &quot;Courier New&quot;;font-size: 18px;line-height: 1.2;">This camp is scheduled to run between @registration.camp.startDate.format("MM/dd/yyyy") and
+							@registration.camp.endDate.format("MM/dd/yyyy"). Schedule: @registration.camp.scheduleDescription</p>
+
+						<p style="margin: 1em 0;color: #858585;font-family: &quot;Courier New&quot;;font-size: 18px;line-height: 1.2;">For more information on this camp, please see the website's <a href="@play.Play.application().configuration().getString("application.baseUrl")@routes.Application.campDetail(registration.camp.id)" style="color: #9a8b60;font-weight: bold;text-decoration: none;">camp page</a>.</p>
+
+						<p style="margin: 1em 0;color: #858585;font-family: &quot;Courier New&quot;;font-size: 18px;line-height: 1.2;">If you have any questions or concerns, feel free to email us at <a href="mailto:camps@@commonwealthskateboarding.com" style="color: #9a8b60;font-weight: bold;text-decoration: none;">camps@@commonwealthskateboarding.com</a></p>
+
+						<p style="margin: 1em 0;color: #858585;font-family: &quot;Courier New&quot;;font-size: 18px;line-height: 1.2;">Thank you,
+							<br>
+							<a href="@play.Play.application().configuration().getString("application.baseUrl")" target="_blank" title="Commonwealth Skateboarding Website" style="color: #9a8b60;font-weight: bold;text-decoration: none;">Commonwealth Skatepark</a>
+							<br>
+							<a href="@play.Play.application().configuration().getString("application.baseUrl")" target="_blank" title="Commonwealth Skateboarding Website" style="color: #9a8b60;font-weight: bold;text-decoration: none;">@play.Play.application().configuration().getString("application.baseUrl")</a>
+						</p>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+</body>
+</html>

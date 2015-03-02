@@ -5,8 +5,8 @@ import com.typesafe.plugin.MailerPlugin;
 import models.skatepark.Registration;
 import play.Play;
 import play.mvc.Controller;
-import views.html.email.campRegistrationEmail;
-import views.html.email.eventRegistrationEmail;
+import views.html.email.inlineCampRegistrationEmail;
+import views.html.email.inlineEventRegistrationEmail;
 
 /**
  * Created by cdelargy on 1/9/15.
@@ -20,7 +20,7 @@ public class Email extends Controller {
         mail.setSubject("Commonwealth Skatepark Camp Registration Confirmation");
         mail.setRecipient(recipientAddress);
         mail.setFrom(COMMONWEALTH_RETURN_EMAIL);
-        String body = campRegistrationEmail.render(registration).body();
+        String body = inlineCampRegistrationEmail.render(registration).body();
         mail.sendHtml(body);
 
     }public static void sendEventRegistrationConfirmation(String recipientAddress, Registration registration) {
@@ -28,7 +28,7 @@ public class Email extends Controller {
         mail.setSubject("Commonwealth Skatepark Event Registration Confirmation");
         mail.setRecipient(recipientAddress);
         mail.setFrom(COMMONWEALTH_RETURN_EMAIL);
-        String body = eventRegistrationEmail.render(registration).body();
+        String body = inlineEventRegistrationEmail.render(registration).body();
         mail.sendHtml(body);
     }
 }
