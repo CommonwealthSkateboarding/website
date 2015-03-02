@@ -83,7 +83,7 @@ public class Application extends Controller {
     public static Result camp(){
         Date tomorrow = new Date();
         tomorrow = DateUtils.ceiling(tomorrow, Calendar.DATE);
-        List<Camp> camps = Camp.find.where().gt("registrationEndDate", tomorrow).findList();
+        List<Camp> camps = Camp.find.where().gt("registrationEndDate", tomorrow).orderBy("startDate").findList();
         return ok(camp.render(camps));
     }
 

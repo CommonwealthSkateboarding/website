@@ -11,7 +11,8 @@
 			<ul>
 				<li class="registration-end">
 					<p class="h6">Date</p>
-					<p>@event.startTime.format("M/d")</p>
+					<p>@event.startTime.format("MMMMM d")@utils.TimeUtil.getDayOfMonthSuffix(event.startTime.format("d")),
+						@event.startTime.format("yyyy")</p>
 				</li>
 				<li class="registration-end">
 					<p class="h6">Time</p>

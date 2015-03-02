@@ -8,24 +8,22 @@
     @for(blog <- blogs) {
         <article>
             <header>
-                @if(blog.extendedContent) {
                 <h1><a href="@routes.Application.showNews(blog.id)" class="more">@blog.title</a></h1>
-                } else {
-                    <h1>@blog.title</h1>
-                }
                 <div class="meta">
                     <div class="date">
                         <time>@blog.createDate.format("MMMM dd, yyyy")</time>
                     </div>
                     <div class="tags">
-                        <a href="#">News</a> / <a href="#">Site</a>
+                        <a href="#">News</a>
                     </div>
                 </div>
             </header>
             <main>
                 @Html(blog.content)
-
-                @Html(blog.extendedContent)
+                @if(blog.extendedContent) {
+                    <br/><br/>
+                    @Html(blog.extendedContent)
+                }
             </main>
             <footer>
                 <a href="https://twitter.com/share" class="twitter-share-button" data-url="@play.Play.application().configuration().getString("application.baseUrl")@routes.Application.showNews(blog.id)" data-text="@blog.title" data-via="CommonwealthSk8">Tweet</a>
