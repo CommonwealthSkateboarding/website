@@ -2,7 +2,8 @@ aside[id="info"] {
 	color: $white;
 	@include rem(font-size, 15px);
 	order: 2;
-	width: 30%;
+	padding: 0 2% 0 3%;
+	width: 40%;
 
 	p { margin: 0; }
 

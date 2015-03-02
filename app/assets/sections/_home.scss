@@ -1,7 +1,7 @@
 body.home {
 	background: $black;
 	color: $white;
-	max-width: 1600px;
+	//max-width: 1600px;
 
 	[id="carousel"] + [id="content"] { 
 		// Negative margin is half the size of the banner + $margin for padding.
@@ -14,7 +14,7 @@ body.home {
 		section {
 			order: 1;
 			min-width: 240px;
-			width: calc(70% - 39px);
+			width: calc(60% - 39px);
 		}
 	} // /#content
 }

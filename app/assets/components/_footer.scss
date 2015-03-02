@@ -6,7 +6,7 @@ body {
 		flex-wrap: wrap;
 		align-items: flex-end;
 		background-image: linear-gradient($black 3%, transparent 97%),
-											linear-gradient(to right, transparent 80%, $black 100%),
+											//linear-gradient(to right, transparent 80%, $black 100%),
 											image-url("footer/2012__park-interior--001.jpg");
 		background-position: 60% top;
 		background-repeat: no-repeat;
@@ -31,7 +31,7 @@ body {
 					display: flex;
 					justify-content: center;
 					width: 60%;
-					li { opacity: .3; transition: opacity .3s; }
+					li { opacity: .45; transition: opacity .3s; }
 					li:hover { opacity: 1; }
 					&.gold { 
 						li { 
@@ -91,6 +91,8 @@ body {
 
 			.address {
 				order: 2;
+				align-content: flex-start;
+				color: $gray;
 				display: flex;
 				justify-content: flex-end;
 				height: calc(100% - #{$social-height});
@@ -98,9 +100,9 @@ body {
 				padding-right: 9%;
 
 				p {
-					align-self: center;
+					//align-self: center;
 					@include rem(font-size, 36px);
-					font-weight: 100;
+					font-weight: 300;
 					margin: 0;
 				}
 
@@ -111,7 +113,7 @@ body {
 
 				i.fa { 
 					margin-right: 3px;
-					vertical-align: 0px;
+					vertical-align: -2px;
 				}
 			}
 		
@@ -135,9 +137,9 @@ body {
 
 				a { 
 					align-items: center;
-					color: fade_out($gray, .3);
+					color: fade_out($gold, .3);
 					display: flex;
-					@include rem(font-size, 18px);
+					@include rem(font-size, 24px);
 					height: 100%;
 					justify-content: center;
 					transition: color .3s;
@@ -183,7 +185,6 @@ body {
 			> ul {
 				display: flex;
 				flex-wrap: wrap;
-				margin-bottom: $margin/2;
 				overflow: hidden;
 				width: 100%;
 
@@ -191,7 +192,7 @@ body {
 					&:not(:last-of-type) { @include rem(margin-right, 45px); }
 
 					.h5 { 
-						color: $black; 
+						color: $white; 
 						display: inline-block;
 						@include rem(font-size, 10px);
 						font-weight: 900;
@@ -200,16 +201,20 @@ body {
 					}
 
 					a {
-						color: $black;
+						color: $white;
 						display: block;
 						opacity: .6;
 						padding: 6px;
 						transition: color .3s, opacity .5s;
 
 						&:hover {
-							color: $white;
+							color: scale-color($gold, $lightness: 12%);
 							opacity: 1;
 						}
+					}
+
+					> ul {
+						margin-bottom: $margin/2;
 					}
 				}
 			}

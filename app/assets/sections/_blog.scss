@@ -22,8 +22,9 @@ body:not(.home) [id="blog"] { margin: 0 $margin*2; }
 			h1 { 
 				color: $white;
 				@include rem(font-size, 18px);
-				@include rem(line-height, 2rem);
-				margin: 0;
+				line-height: 1.2;
+				margin: 0 0 6px 0;
+				text-transform: none;
 			}
 
 			.meta {
@@ -50,8 +51,10 @@ body:not(.home) [id="blog"] { margin: 0 $margin*2; }
 			}
 		}
 
-		p {
+		p, main {
 			color: $gray;
+			@include rem(font-size, 18px);
+			line-height: 1.45;
 
 			&::selection {
 				color: $white;
@@ -71,7 +74,7 @@ body:not(.home) [id="blog"] { margin: 0 $margin*2; }
 		h1 a { border-color: fade_out($gray, .81); }
 
 		main {
-			margin: 6px 0;
+			margin: 18px 0 6px;
 			padding: 0 $margin/2;
 		}
 

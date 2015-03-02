@@ -289,18 +289,18 @@ body {
 				z-index: 800;
 
 				li {
-					height: $margin/2;
-					width: $margin/2;
+					height: $margin;
 					margin: 0 $margin/2;
 
 					button {
 						background: transparent;
 						border-radius: 50%;
-						border: 2px solid $gold;
+						border: 3px solid $gold;
+						margin: 3px;
 						transition: opacity .3s, border .3s, background .1s;
 
-						height: $margin/2;
-						width: $margin/2; 
+						//height: $margin/2;
+						//width: $margin/2; 
 
 						&:hover {
 							background: $gold;
