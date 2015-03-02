@@ -1,4 +1,4 @@
-@(bodyClass: String = "home", includeCarousel: Boolean = false)(content: Html)
+@(bodyClass: String = "home", includeCarousel: Boolean = false, title: String = "Commonwealth Skateboarding | Portland, Oregon")(content: Html)
 
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
@@ -8,7 +8,7 @@
 	<head>
 			<meta charset="utf-8">
 			<meta http-equiv="X-UA-Compatible" content="IE=edge">
-			<title>Commonwealth Skateboarding | Portland, Oregon</title>
+			<title>@title</title>
 			<meta name="description" content="">
 			<meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -97,7 +97,6 @@
 
 		@if(includeCarousel) {
 				@carousel()
-
 		} else {
 		}
 

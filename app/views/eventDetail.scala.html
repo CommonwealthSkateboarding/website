@@ -1,6 +1,6 @@
 @(event: models.skatepark.Event)
 
-@main("event-detail") {
+@main("event-detail", false, event.name + " | Commonwealth Skateboarding | Portland, Oregon") {
 <section id="event-detail">
    <a href="@routes.Application.events()"><p class="h1">&lt; Back to all events</p></a>
 	<p class="h2">@event.name</p>
