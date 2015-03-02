@@ -9,32 +9,44 @@
 		<div class="details">
 			<p class="h4">Event Details</p>
 			<ul>
-			@if(event.registrable) {
-				@if(null != event.registrationEndDate) {
 				<li class="registration-end">
-					<p class="h6">Registration Ends</p>
-					<p> @event.registrationEndDate.format("M/d") </p>
-				</li>
-				}
-				<li class="registrants">
-					<p class="h6">Capacity</p>
-					<p>@event.registrations.size()/@event.maxRegistrations</p>
-				</li>
-				<li class="cost">
-					<p class="h6">Cost</p>
-					<p>@utils.Formatter.prettyDollars(event.cost)</p>
-				</li>
-				}
-				<li class="schedule">
-					<p class="h6">Date &amp; Time</p>
+					<p class="h6">Date</p>
 					<p>@event.startTime.format("M/d")</p>
-					<p>@event.startTime.format("h:mma") - @event.endTime.format("h:mma")</p>
 				</li>
-				<li class="description">
-					<p class="h6">@event.name</p>
-					<p>Description about event.</p>
-					<p class="notice"><strong>A $100 non-refundable deposit is required for each participant.</strong></p>
+				<li class="registration-end">
+					<p class="h6">Time</p>
+					<p>@event.startTime.format("h:mma")-@event.endTime.format("h:mma")</p>
 				</li>
+				@if(event.registrable) {
+					@if(null != event.registrationEndDate) {
+					<li class="registration-end">
+						<p class="h6">Registration Ends</p>
+						<p>@event.registrationEndDate.format("M/d")</p>
+					</li>
+					}
+					<li class="registrants">
+						<p class="h6">Capacity</p>
+						<p>@event.registrations.size()/@event.maxRegistrations</p>
+					</li>
+				}
+				@if(null != event.cost) {
+					<li class="cost">
+						<p class="h6">Cost</p>
+						<p>@utils.Formatter.prettyDollars(event.cost)</p>
+					</li>
+					@if(controllers.Application.EVENT_DEPOSIT < event.cost){
+						<li class="cost">
+							<p class="notice"><strong>
+								A @utils.Formatter.prettyDollars(controllers.Application.EVENT_DEPOSIT)
+								non-refundable deposit is required for each participant.</strong></p>
+						</li>
+					}
+				} else {
+					<li class="cost">
+						<p class="h6">Cost</p>
+						<p>Free</p>
+					</li>
+				}
 			</ul>
 		</div>
 
@@ -70,6 +82,8 @@
 
 
 	<div class="sign-up">
+		<p class="h4">Description</p>
+		<p>@Html(event.notes)</p>
 	@if(event.registrable && (null != event.cost) && (event.registrations.size() < event.maxRegistrations)) {
 		<p class="h4">Register</p>
 

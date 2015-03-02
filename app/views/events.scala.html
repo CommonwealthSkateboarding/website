@@ -22,12 +22,10 @@
             <td><a href="@routes.Application.eventDetail(event.id)">@event.name</a></td>
             <td>@event.startTime.format("M/d")</td>
             <td>@event.startTime.format("h:mma") - @event.endTime.format("h:mma")</td>
-            @if(event.registrable) {
-                <!-- <td>@if(null != event.registrationEndDate) { @event.registrationEndDate.format("M/dd") }</td> -->
-                <!-- <td>@event.registrations.size()/@event.maxRegistrations</td> -->
+            @if(null != event.cost) {
                 <td>@utils.Formatter.prettyDollars(event.cost)</td>
             } else {
-                <td colspan="3">Pre-registration is not available.</td>
+                <td colspan="3">Free</td>
             }
         </tr>
         }

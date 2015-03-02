@@ -16,6 +16,7 @@ import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Security;
+import utils.TimeUtil;
 import views.html.admin.camp.*;
 import views.html.admin.event.*;
 import views.html.admin.index;
@@ -93,11 +94,8 @@ public class Admin extends Controller {
         NewsItem newsItem = Form.form(NewsItem.class).bindFromRequest().get();
 
         String titleDigest = newsItem.title.toLowerCase().replaceAll("[^A-Za-z0-9 ]", "").replaceAll(" ","_");
-
         String proposedId = titleDigest.substring(0,(titleDigest.length()>32)?32:titleDigest.length());
-
         NewsItem news = (NewsItem) new Model.Finder(String.class, NewsItem.class).byId(proposedId);
-
         //If one already exists, append a 4 digit number
         if (null != news) {
             proposedId = titleDigest.substring(0,(titleDigest.length()>26)?26:titleDigest.length()) +
@@ -532,8 +530,8 @@ public class Admin extends Controller {
     }
 
     @Restrict({@Group("CAMP")})
-    public static Result viewCampPage(Long id) {
-        Camp camp = (Camp) new Model.Finder(Long.class, Camp.class).byId(id);
+    public static Result viewCampPage(String id) {
+        Camp camp = (Camp) new Model.Finder(String.class, Camp.class).byId(id);
         if (null == camp) {
             return redirect(routes.Admin.campIndex()); // not found
         }
@@ -548,6 +546,16 @@ public class Admin extends Controller {
     @Restrict({@Group("CAMP")})
     public static Result addCamp() {
         Camp camp = Form.form(Camp.class).bindFromRequest().get();
+        String titleDigest = camp.title.toLowerCase().replaceAll("[^A-Za-z0-9 ]", "").replaceAll(" ", "_");
+        String proposedId = titleDigest.substring(0,(titleDigest.length()>56)?56:titleDigest.length()) +
+                "_" + TimeUtil.getMonthYearString(camp.startDate);
+        Camp camp2 = (Camp) new Model.Finder(String.class, Camp.class).byId(proposedId);
+        //If one already exists, append a 4 digit number
+        if (null != camp2) {
+            proposedId = titleDigest.substring(0,(titleDigest.length()>52)?52:titleDigest.length()) + "_" +
+                TimeUtil.getMonthYearString(camp.startDate) + org.apache.commons.lang3.RandomStringUtils.randomNumeric(4);
+        }
+        camp.id = proposedId;
         camp.createDate = new Date();
         camp.save();
 
@@ -557,8 +565,8 @@ public class Admin extends Controller {
     }
 
     @Restrict({@Group("CAMP")})
-    public static Result editCampPage(Long id) {
-        Camp camp = (Camp) new Model.Finder(Long.class, Camp.class).byId(id);
+    public static Result editCampPage(String id) {
+        Camp camp = (Camp) new Model.Finder(String.class, Camp.class).byId(id);
         if (null == camp) {
             return redirect(routes.Admin.campIndex()); // not found
         }
@@ -566,8 +574,8 @@ public class Admin extends Controller {
     }
 
     @Restrict({@Group("CAMP")})
-    public static Result updateCamp(Long id) {
-        Camp camp = (Camp) new Model.Finder(Long.class, Camp.class).byId(id);
+    public static Result updateCamp(String id) {
+        Camp camp = (Camp) new Model.Finder(String.class, Camp.class).byId(id);
         if (null == camp) {
             return notFound("Bad camp id");
         };
@@ -592,8 +600,8 @@ public class Admin extends Controller {
     }
 
     @Restrict({@Group("CAMP")})
-    public static Result campRegistrationPage(Long id) {
-        Camp camp = (Camp) new Model.Finder(Long.class, Camp.class).byId(id);
+    public static Result campRegistrationPage(String id) {
+        Camp camp = (Camp) new Model.Finder(String.class, Camp.class).byId(id);
         if (null == camp) {
             return notFound("Bad camp id");
         }
@@ -602,8 +610,8 @@ public class Admin extends Controller {
     }
 
     @Restrict({@Group("CAMP")})
-    public static Result addCampRegistration(Long id) {
-        Camp camp = (Camp) new Model.Finder(Long.class, Camp.class).byId(id);
+    public static Result addCampRegistration(String id) {
+        Camp camp = (Camp) new Model.Finder(String.class, Camp.class).byId(id);
         if (null == camp) {
             return notFound("Bad camp id");
         };
@@ -670,6 +678,17 @@ public class Admin extends Controller {
     @Restrict({@Group("EVENTS")})
     public static Result addEvent() {
         Event event = Form.form(Event.class).bindFromRequest().get();
+
+        String titleDigest = event.name.toLowerCase().replaceAll("[^A-Za-z0-9 ]", "").replaceAll(" ","_");
+        String proposedId = titleDigest.substring(0,(titleDigest.length()>56)?56:titleDigest.length()) +
+                "_" + TimeUtil.getMonthYearString(event.startTime);
+        Event event2 = (Event) new Model.Finder(String.class, Event.class).byId(proposedId);
+        //If one already exists, append a 4 digit number
+        if (null != event2) {
+            proposedId = titleDigest.substring(0,(titleDigest.length()>51)?51:titleDigest.length()) + "_" +
+                TimeUtil.getMonthYearString(event.startTime) + org.apache.commons.lang3.RandomStringUtils.randomNumeric(4);
+        }
+        event.id = proposedId;
         event.save();
 
         audit("Added " + event.name + " to the event database", null, event);
@@ -677,8 +696,8 @@ public class Admin extends Controller {
     }
 
     @Restrict({@Group("EVENTS")})
-    public static Result viewEventPage(Long id) {
-        Event event = Event.find.byId(id);
+    public static Result viewEventPage(String id) {
+        Event event = (Event) new Model.Finder(String.class, Event.class).byId(id);
         if (null == event) {
             return redirect(routes.Admin.eventIndex()); // not found
         }
@@ -686,8 +705,8 @@ public class Admin extends Controller {
     }
 
     @Restrict({@Group("EVENTS")})
-    public static Result editEventPage(Long id) {
-        Event event = Event.find.byId(id);
+    public static Result editEventPage(String id) {
+        Event event = (Event) new Model.Finder(String.class, Event.class).byId(id);
         if (null == event) {
             return redirect(routes.Admin.eventIndex()); // not found
         }
@@ -695,8 +714,8 @@ public class Admin extends Controller {
     }
 
     @Restrict({@Group("EVENTS")})
-    public static Result editEvent(Long id) {
-        Event event = Event.find.byId(id);
+    public static Result editEvent(String id) {
+        Event event = (Event) new Model.Finder(String.class, Event.class).byId(id);
         if (null == event) {
             return notFound("Bad event id");
         }
@@ -722,8 +741,8 @@ public class Admin extends Controller {
     }
 
     @Restrict({@Group("EVENTS")})
-    public static Result archiveEvent(Long id) {
-        Event event = Event.find.byId(id);
+    public static Result archiveEvent(String id) {
+        Event event = (Event) new Model.Finder(String.class, Event.class).byId(id);
         if (null == event) {
             return redirect(routes.Admin.eventIndex()); // not found
         }
@@ -736,8 +755,8 @@ public class Admin extends Controller {
     }
 
     @Restrict({@Group("EVENTS")})
-    public static Result eventRegistrationPage(Long id) {
-        Event event = (Event) new Model.Finder(Long.class, Event.class).byId(id);
+    public static Result eventRegistrationPage(String id) {
+        Event event = (Event) new Model.Finder(String.class, Event.class).byId(id);
         if (null == event) {
             return notFound("Bad event id");
         }
@@ -746,8 +765,8 @@ public class Admin extends Controller {
     }
 
     @Restrict({@Group("EVENTS")})
-    public static Result addEventRegistration(Long id) {
-        Event event = (Event) new Model.Finder(Long.class, Event.class).byId(id);
+    public static Result addEventRegistration(String id) {
+        Event event = (Event) new Model.Finder(String.class, Event.class).byId(id);
         if (null == event) {
             return notFound("Bad event id");
         };

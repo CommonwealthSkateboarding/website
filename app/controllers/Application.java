@@ -87,8 +87,8 @@ public class Application extends Controller {
         return ok(camp.render(camps));
     }
 
-    public static Result campDetail(Long id) {
-        Camp camp = (Camp) new Model.Finder(Long.class, Camp.class).byId(id);
+    public static Result campDetail(String id) {
+        Camp camp = (Camp) new Model.Finder(String.class, Camp.class).byId(id);
         if (null == camp) {
             return redirect(routes.Application.camp()); // not found
         }
@@ -106,8 +106,8 @@ public class Application extends Controller {
         return ok(events.render(publicEvents));
     }
 
-    public static Result eventDetail(Long id) {
-        Event event = (Event) new Model.Finder(Long.class, Event.class).byId(id);
+    public static Result eventDetail(String id) {
+        Event event = (Event) new Model.Finder(String.class, Event.class).byId(id);
         if (null == event) {
             return redirect(routes.Application.events()); // not found
         }
@@ -122,9 +122,9 @@ public class Application extends Controller {
         return ok(contact.render());
     }
 
-    public static Result registerForCampWithStripe(Long id) {
+    public static Result registerForCampWithStripe(String id) {
 
-        Camp camp = (Camp) new Model.Finder(Long.class, Camp.class).byId(id);
+        Camp camp = (Camp) new Model.Finder(String.class, Camp.class).byId(id);
         if (null == camp) {
             //TODO: Log this extremely hard to produce error condition
             return redirect(routes.Application.camp()); // not found
@@ -160,9 +160,9 @@ public class Application extends Controller {
         return redirect(routes.Application.registrationPage());
     }
 
-    public static Result registerForEventWithStripe(Long id) {
+    public static Result registerForEventWithStripe(String id) {
 
-        Event event = (Event) new Model.Finder(Long.class, Event.class).byId(id);
+        Event event = (Event) new Model.Finder(String.class, Event.class).byId(id);
         if (null == event) {
             //TODO: Log this extremely hard to produce error condition
             return redirect(routes.Application.events()); // not found

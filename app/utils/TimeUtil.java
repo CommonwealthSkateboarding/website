@@ -76,9 +76,15 @@ public class TimeUtil {
             default: return "th";
         }
     }
+
     public static String getISO8601Date(Date date) {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
         dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+        return dateFormat.format(date);
+    }
+
+    public static String getMonthYearString(Date date) {
+        DateFormat dateFormat = new SimpleDateFormat("MM_yyyy");
         return dateFormat.format(date);
     }
 

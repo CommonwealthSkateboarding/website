@@ -14,7 +14,7 @@ import java.util.List;
 public class Camp extends Model {
 
     @Id
-    public Long id;
+    public String id;
 
     public String title;
 

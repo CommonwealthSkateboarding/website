@@ -18,7 +18,7 @@ import java.util.List;
 public class Event extends Model {
 
     @Id
-    public Long id;
+    public String id;
 
     public String name;
 
