@@ -1,7 +1,11 @@
-CW.com Website
+Commonwealth Skateboarding Website
 =============
 
-A work in progress.
+http://commonwealthskateboarding.com
+
+Built for tracking member information, camps, events and publishing a blog. Integrations with Slack, Square, Stripe, Google, and other tools. It's becoming very purpose specific, but it may be of use for other businesses that have membership models (gyms, clubs, hacker spaces, etc).
+
+Happily accepting bug reports.
 
 Dependencies
 -------
@@ -9,6 +13,7 @@ Dependencies
 * mysql
 * typesafe-activator
 * sass
+* nodejs
 
 Preparation
 -------
