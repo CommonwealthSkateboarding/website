@@ -1,7 +1,7 @@
 # --- !Ups
 
-alter table news_item modify id varchar(32);
-alter table audit_record modify news_item_id varchar(32);
+alter table news_item modify id varchar(64);
+alter table audit_record modify news_item_id varchar(64);
 alter table event modify id varchar(64);
 alter table audit_record modify event_id varchar(64);
 alter table camp modify id varchar(64);
