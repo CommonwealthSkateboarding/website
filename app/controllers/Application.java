@@ -24,6 +24,10 @@ public class Application extends Controller {
     public static final Double CAMP_DEPOSIT = 100.0; //Dollars
     public static final Double EVENT_DEPOSIT = 50.0; //Dollars
 
+    public static Result removeTrailingSlash(String path) {
+        return movedPermanently("/" + path);
+    }
+
     public static Result oAuthDenied(final String providerKey) {
         com.feth.play.module.pa.controllers.Authenticate.noCache(response());
         return redirect(routes.Application.login());

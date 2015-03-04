@@ -2,6 +2,8 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
+GET     /*path/                     controllers.Application.removeTrailingSlash(path: String)
+
 # Main Site
 GET     /                           controllers.Application.index(page: Long ?=0)
 GET     /blog                       controllers.Application.blog(page: Long ?=0)
