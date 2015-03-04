@@ -13,14 +13,7 @@ aside[id="info"] {
 	}
 
 	a {
-		border-bottom: 2px solid fade_out($gold, .75);
-		color: $gold;
-		font-weight: 700;
-
-		&:hover {
-			color: $white;
-			border-color: $gold;
-		}
+		@extend .link;
 	}
 
 	> *:not(:first-of-type) { 
@@ -62,13 +55,14 @@ aside[id="info"] {
 			&.time { 
 				color: $white; 
 				@include rem(font-size, 21px);
+				margin-top: -3px;
 			}
 
 			&.note {
 				color: $gray;
 				@include rem(font-size, .8rem);
 				font-weight: 400;
-				margin-top: 9px;
+				margin-top: 6px;
 			}
 		}
 
@@ -76,12 +70,12 @@ aside[id="info"] {
 			color: $gray; 
 			@include rem(font-size, 9px);
 			font-weight: 700;
+			margin-top: 3px;
 			text-transform: uppercase;
 			
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
-			margin: 3px 0;
 		}
 
 		.general { 

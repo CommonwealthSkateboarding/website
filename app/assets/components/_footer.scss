@@ -3,8 +3,8 @@ $social-height: 51px;
 body {
 	> footer {
 		display: flex;
+		align-items: flex-start;
 		flex-wrap: wrap;
-		align-items: flex-end;
 		background-image: linear-gradient($black 3%, transparent 97%),
 											//linear-gradient(to right, transparent 80%, $black 100%),
 											image-url("footer/2012__park-interior--001.jpg");
@@ -12,10 +12,8 @@ body {
 		background-repeat: no-repeat;
 		background-size: cover;
 		color: $gray;
-		@include rem(font-size, 9px);
-		font-weight: 700;
+		@include rem(font-size, 15px);
 		padding-top: $margin;
-		text-transform: uppercase;
 		
 		.sponsors {
 			margin: 18px $margin;
@@ -49,34 +47,29 @@ body {
 
 		.info { 
 			//background: fade_out($gray, .96);
-			border-top: 2px solid $black;
+			border-top: 3px solid $black;
 			color: $white;
 			display: flex;
 			width: 100%;
-		}
-
-		.contact, > nav {
-			//align-content: center;
-			//align-items: baseline;
-			display: flex;
 		}
 
 		.contact {
 			background: fade_out($black, .81);
 			color: fade_out($gray, .3); 
 			display: flex;
+			align-content: flex-start;
+			align-items: flex-start;
 			flex-wrap: wrap;
 			font-weight: 300;
-			justify-content: center;
+			//justify-content: center;
 			text-align: right;
 			text-transform: none;
-			width: 30%;
+			width: 27%;
 
 			> * { width: 100%; }
 
 			a { 
-				color: fade_out($gold, .3); 
-				//text-decoration: underline;
+				color: fade_out($gold, .3);
 				&:hover { color: $gold; }
 			}
 
@@ -91,29 +84,33 @@ body {
 
 			.address {
 				order: 2;
-				align-content: flex-start;
 				color: $gray;
-				display: flex;
-				justify-content: flex-end;
-				height: calc(100% - #{$social-height});
-				padding: $margin 0;
-				padding-right: 9%;
+				//display: flex;
+				// align-content: flex-start;
+				// align-items: flex-start;
+				// justify-content: flex-start;
+				//height: calc(100% - #{$social-height});
+				@include rem(font-size, 36px);
+				font-weight: 300;
+				padding: 9% 9% $margin 0;
 
-				p {
-					//align-self: center;
+				span {
+					//align-self: flex-start;
 					@include rem(font-size, 36px);
 					font-weight: 300;
+					line-height: 1;
 					margin: 0;
 				}
 
 				sup { 
-					@include rem(font-size, 24px);
+					@include rem(font-size, 21px);
+					font-weight: 400;
 					vertical-align: -2px;
 				}
 
 				i.fa { 
 					margin-right: 3px;
-					vertical-align: -2px;
+					vertical-align: -3px;
 				}
 			}
 		
@@ -121,10 +118,8 @@ body {
 			.social {
 				order: 1;
 				display: flex;
-				align-content: center;
 				align-self: flex-start;
-				justify-content: flex-end;
-				border-bottom: 2px solid $black;
+				border-bottom: 3px solid $black;
 				height: $social-height;
 				width: 100%;
 
@@ -132,7 +127,7 @@ body {
 					display: flex;
 					height: 100%;
 					width: calc(100%/3); 
-					&:not(:first-of-type) a { box-shadow: inset 2px 0 0 0 $black; }
+					&:not(:first-of-type) a { box-shadow: inset 3px 0 0 0 $black; }
 				}
 
 				a { 
@@ -155,12 +150,11 @@ body {
 
 		nav {
 			background-color: fade_out($gold, .6);
-			border-left: 2px solid $black;
-			justify-content: space-between;
+			border-left: 3px solid $black;
 			padding: 36px 42px;
 			position: relative; // for ::before
 			overflow: hidden;
-			width: 70%;
+			width: 73%;
 
 			&:before {
 				content: "";
@@ -186,30 +180,33 @@ body {
 				display: flex;
 				flex-wrap: wrap;
 				overflow: hidden;
+				position: relative;
 				width: 100%;
+				z-index: 5;
 
 				> li {
-					&:not(:last-of-type) { @include rem(margin-right, 45px); }
+					&:not(:last-of-type) { margin-right: 6%; }
 
 					.h5 { 
-						color: $white; 
+						color: scale-color($gold, $lightness: 15%);
 						display: inline-block;
-						@include rem(font-size, 10px);
+						@include rem(font-size, 12px);
 						font-weight: 900;
 						margin-bottom: 6px; 
-						padding: 0 6px; 
+						padding: 0 3px; 
+						text-transform: uppercase;
 					}
 
 					a {
-						color: $white;
+						color: scale-color($gold, $lightness: 81%);
 						display: block;
-						opacity: .6;
-						padding: 6px;
-						transition: color .3s, opacity .5s;
+						font-weight: 400;
+						padding: 6px 3px;
+						transition: color .3s,;
 
 						&:hover {
-							color: scale-color($gold, $lightness: 12%);
-							opacity: 1;
+							color: $gold;
+							//opacity: 1;
 						}
 					}
 
@@ -220,9 +217,9 @@ body {
 			}
 
 			.copyright { 
-				color: $black;
+				color: fade_out($white, .3);
 				@include rem(font-size, 9px); 
-				//padding: 18px;
+				font-weight: 900;
 				text-align: right;
 				align-self: flex-end;
 				width: 100%;

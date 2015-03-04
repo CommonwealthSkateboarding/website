@@ -1,17 +1,38 @@
 body { 
 	background: $black; 
+	background-attachment: fixed;
 	background-repeat: no-repeat;
 	background-size: cover;
-}
 
-p a { 
-	color: $gold; 
-	font-weight: 900;
-	transition: border .3s, color .3s;
-	&:hover { 
-		color: scale-color($gold, $lightness: 45%); 
+	h1 a, .h1 a,
+	h2 a, .h2 a,
+	h3 a, .h3 a,
+	h4 a, .h4 a,
+	h5 a, .h5 a,
+	h6 a, .h6 a,
+	.link,
+	p a { 
+		color: fade_out($white, .15);
+		box-shadow: inset 0 -3px 0 0 fade_out($gray, .3);
+		font-weight: 900;
+		transition: box-shadow .3s, color .3s;
+		&:hover { 
+			color: $white; 
+			box-shadow: inset 0 -3px 0 0 $gold;
+			transition: box-shadow .3s;
+		}
+
+		&.gold {
+			color: $gold; 
+			transition: border .3s, color .3s;
+			&:hover { 
+				color: scale-color($gold, $lightness: 45%); 
+			}
+		}
 	}
 }
+
+
 
 [id="content"] {
 	background-image: -webkit-linear-gradient(top, transparent, $black 600px);
@@ -41,9 +62,9 @@ p a {
 	display: flex;
 	flex-wrap: wrap;
 	> div {
-		margin: $margin/2 0;
-		width: calc(50% - #{$margin/2}); 
-		&:nth-of-type(odd) { margin-right: $margin; }
+		margin: $margin 0;
+		width: calc(50% - #{$margin}); 
+		&:nth-of-type(odd) { margin-right: $margin*2; }
 	}
 	&.no-margin { 
 		> div {
@@ -52,6 +73,7 @@ p a {
 	}
 }
 
+img { max-width: 100%; }
 
 img.full-width {
 	margin: 30px 0;

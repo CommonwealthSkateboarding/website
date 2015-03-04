@@ -77,7 +77,7 @@
 		.sponsors ul { width: 100% !important; }
 		.info { flex-wrap: wrap !important; height: auto !important; }
 		.contact, nav { width: 100% !important; }
-		.physical { order: 1 !important; align-self: center !important; padding: 24px 60px !important; }
+		.address { padding: 30px !important; }
 		.social {
 			align-self: flex-end !important;
 			border-top: 2px solid #131313 !important;
@@ -87,7 +87,7 @@
 			padding: 36px 15px !important; 
 			&:before { left: 69% !important; }
 			> ul {
-				> li:not(:first-of-type) { margin-right: 12px !important; }
+				//> li:not(:first-of-type) { margin-right: 12px !important; }
 			}
 		}
 	}
@@ -115,12 +115,11 @@
 }
 
 
-// iPad Portrait
+// iOS
 
 @media only screen 
-and (min-device-width : 768px) 
-and (max-device-width : 1024px) 
-and (orientation : portrait) { 
+and (min-device-width : 320px) 
+and (max-device-width : 1024px) { 
 	 [id="carousel"] { display: block !important; }
 	 [id="blog"] { display: block !important; }
 }

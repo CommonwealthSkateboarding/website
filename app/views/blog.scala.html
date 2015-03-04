@@ -8,14 +8,14 @@
     @for(blog <- blogs) {
         <article>
             <header>
-                <h1><a href="@routes.Application.showNews(blog.id)" class="more">@blog.title</a></h1>
+                <p class="h5"><a href="@routes.Application.showNews(blog.id)" class="more">@blog.title</a></p>
                 <div class="meta">
                     <div class="date">
                         <time>@blog.createDate.format("MMMM dd, yyyy")</time>
                     </div>
-                    <div class="tags">
+                    <!-- <div class="tags">
                         <a href="#">News</a>
-                    </div>
+                    </div> -->
                 </div>
             </header>
             <main>

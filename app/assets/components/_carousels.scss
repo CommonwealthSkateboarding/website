@@ -186,7 +186,8 @@ body {
 
 				// INTRO SLIDE
 				&.intro {
-					background-image: image-url("index/banner/bg__001--park-with-logo.png");
+					background-image: linear-gradient(transparent 80%, $black 100%),
+														image-url("index/banner/bg__001--park-with-logo.png");
 
 					.logo-oval { 
 						min-width: 200px;

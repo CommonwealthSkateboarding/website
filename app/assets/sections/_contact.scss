@@ -1,19 +1,25 @@
-[id="contact"] {
-	.h6 { margin-bottom: 6px; }
-	.grid {
-		p:not(.h6) { 
-			@include rem(font-size, 30px);
-			font-weight: 300;
-			margin: 0 0 $margin; 
-		}
-		.map { 
-			width: 60%; 
-			[id="map"] { height: 400px; }
-		}
-		.contact { 
-			padding-left: $margin; 
-			width: 40%; 
-			a { @include rem(font-size, 15px); }
+body.contact {
+	background-image: image-url("about/2014__park-exterior-header--001.jpg");
+	[id="contact"] {
+		.h5 { margin-bottom: 6px; }
+		.grid {
+			p:not(.h5) { 
+				@include rem(font-size, 30px);
+				font-weight: 300;
+				margin: 0 0 $margin; 
+			}
+			.map { 
+				width: 60%; 
+				[id="map"] { 
+					height: 400px;
+					margin-top: $margin; 
+				}
+			}
+			.contact { 
+				padding-left: $margin; 
+				width: 40%; 
+				a { @include rem(font-size, 15px); }
+			}
 		}
 	}
 }
