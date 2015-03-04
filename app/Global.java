@@ -8,6 +8,7 @@ import play.GlobalSettings;
 import play.Logger;
 import play.cache.Cache;
 import play.libs.Akka;
+import play.libs.F;
 import play.mvc.Call;
 
 import com.feth.play.module.pa.PlayAuthenticate;
@@ -16,6 +17,8 @@ import com.feth.play.module.pa.exceptions.AccessDeniedException;
 import com.feth.play.module.pa.exceptions.AuthException;
 
 import controllers.routes;
+import play.mvc.Http;
+import play.mvc.Result;
 import scala.concurrent.duration.Duration;
 
 import java.util.Calendar;
@@ -23,10 +26,26 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import static play.mvc.Results.internalServerError;
+import static play.mvc.Results.notFound;
+
 
 public class Global extends GlobalSettings {
 
     public static final String LAST_QUERIED_SQUARE = "lastQueriedSquare";
+
+    public F.Promise<Result> onError(Http.RequestHeader request, Throwable t) {
+        Logger.info("Request failed", t);
+        return F.Promise.<Result>pure(internalServerError(
+                views.html.errorPage.render("Sorry, but your request could not be completed")
+        ));
+    }
+
+    public F.Promise<Result> onHandlerNotFound(Http.RequestHeader request) {
+        return F.Promise.<Result>pure(notFound(
+                views.html.errorPage.render("The page you requested cannot be found")
+        ));
+    }
 
     public void onStart(final Application app) {
         /**
