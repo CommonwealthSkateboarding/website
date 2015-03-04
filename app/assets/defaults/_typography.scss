@@ -16,6 +16,32 @@ h6, .h6 {
 
 p { margin: 15px 0 1px; }
 
+a { 
+	color: fade_out($white, .15);
+	font-weight: 900;
+	transition: color .3s;
+	&:hover { 
+		color: $white; 
+	}
+}
+
+p a, .link {
+	box-shadow: inset 0 -3px 0 0 fade_out($gray, .3);
+	transition: box-shadow .3s, color .3s;
+	&:hover { 
+		box-shadow: inset 0 -3px 0 0 $gold; 
+		transition: box-shadow .3s;
+	}
+}
+
+// h1 a, .h1 a,
+// h2 a, .h2 a,
+// h3 a, .h3 a,
+// h4 a, .h4 a,
+// h5 a, .h5 a,
+// h6 a, .h6 a
+// 	{ @extend .link; }
+
 h1, .h1 { 
 	color: $white;
 	@include rem(font-size, 12px); 
