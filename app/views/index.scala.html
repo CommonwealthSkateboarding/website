@@ -7,11 +7,7 @@
     @for(item <- news) {
         <article class="post-preview">
             <header>
-                @if(item.extendedContent) {
                 <h1><a href="@routes.Application.showNews(item.id)" class="more">@item.title</a></h1>
-                } else {
-                    <h1>@item.title</h1>
-                }
                 <div class="meta">
                     <div class="date">
                         <time>@item.createDate.format("MMMM dd, yyyy")</time>
