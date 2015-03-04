@@ -2,104 +2,101 @@
 body.home [id="blog"] { margin: 0 18px; }
 
 // Blog Standalone
-body.blog {
-	background-image: image-url("about/2014__park-exterior-header--001.jpg");
-	[id="blog"] { 
-		margin: 0 $margin*2; 
-	}
+body.blog { background-image: image-url("about/2014__park-exterior-header--001.jpg"); }
 
-	[id="blog"], [id="blog-entry"] {
-		// display: flex;
-		// flex-wrap: wrap;
+[id="blog"] { margin: 0 $margin*2; }
+
+[id="blog"], [id="blog-entry"] {
+	// display: flex;
+	// flex-wrap: wrap;
+	width: 100%;
+
+	article { 
+		&.post-preview { width: 100%; }
 		width: 100%;
 
-		article { 
-			&.post-preview { width: 100%; }
-			width: 100%;
+		// &+& == all but the first
+		& + & { margin-top: $margin; }
 
-			// &+& == all but the first
-			& + & { margin-top: $margin; }
+		header {
+			padding: 0 $margin/2;
 
-			header {
-				padding: 0 $margin/2;
-
-				.h5 { 
-					color: $white;
-					@include rem(font-size, 18px);
-					line-height: 1.2;
-					margin: 0 0 6px 0;
-					text-transform: none;
-				}
-
-				.meta {
-					display: flex;
-					align-content: center;
-					@include rem(font-size, 9px);
-					@include rem(letter-spacing, .5px);
-					//margin: 6px 0 0;
-					text-transform: uppercase;
-
-					.date { 
-						color: $gold;
-						font-weight: 700; 
-						margin-right: $margin/2;
-					}
-
-					.tags {
-						a { 
-							border-width: 2px;
-							font-weight: 700; 
-						}
-						color: $gray;
-					}
-				}
-			}
-
-			p, main {
-				color: $gray;
+			.h5 { 
+				color: $white;
 				@include rem(font-size, 18px);
-				line-height: 1.5;
-
-				&::selection {
-					color: $white;
-				}
+				line-height: 1.2;
+				margin: 0 0 6px 0;
+				text-transform: none;
 			}
 
-			.tags a { 
-				color: fade_out($white, .15);
-				box-shadow: inset 0 -1px 0 0 fade_out($gold, .6);
-				transition: box-shadow .3s, color .3s;
-
-				&:hover { 
-					color: $white; 
-					box-shadow: inset 0 -1px 0 0 $gold;
-					transition: box-shadow .3s;
-				}
-			}
-
-			img { max-width: 100%; }
-
-			main {
-				margin: 18px 0 6px;
-				padding: 0 $margin/2;
-			}
-
-			footer {
-				@include bottomBorder();
+			.meta {
 				display: flex;
+				align-content: center;
+				@include rem(font-size, 9px);
+				@include rem(letter-spacing, .5px);
+				//margin: 6px 0 0;
+				text-transform: uppercase;
 
-				a {
-					border-width: 2px;
-					@include rem(font-size, 10px);
-					@include rem(letter-spacing, .5px);
-					font-weight: 700;
-					text-transform: uppercase;
-					&.more { @extend .link; float: left; margin-right: $margin; }
-					&.comments { float: right; }
+				.date { 
+					color: $gold;
+					font-weight: 700; 
+					margin-right: $margin/2;
 				}
 
-				.twitter-share-button { align-self: flex-end; }
+				.tags {
+					a { 
+						border-width: 2px;
+						font-weight: 700; 
+					}
+					color: $gray;
+				}
 			}
+		}
+
+		p, main {
+			color: $gray;
+			@include rem(font-size, 18px);
+			line-height: 1.5;
+
+			&::selection {
+				color: $white;
+			}
+		}
+
+		.tags a { 
+			color: fade_out($white, .15);
+			box-shadow: inset 0 -1px 0 0 fade_out($gold, .6);
+			transition: box-shadow .3s, color .3s;
+
+			&:hover { 
+				color: $white; 
+				box-shadow: inset 0 -1px 0 0 $gold;
+				transition: box-shadow .3s;
+			}
+		}
+
+		img { max-width: 100%; }
+
+		main {
+			margin: 18px 0 6px;
+			padding: 0 $margin/2;
+		}
+
+		footer {
+			@include bottomBorder();
+			display: flex;
+
+			a {
+				border-width: 2px;
+				@include rem(font-size, 10px);
+				@include rem(letter-spacing, .5px);
+				font-weight: 700;
+				text-transform: uppercase;
+				&.more { @extend .link; float: left; margin-right: $margin; }
+				&.comments { float: right; }
+			}
+
+			.twitter-share-button { align-self: flex-end; }
 		}
 	}
 }
