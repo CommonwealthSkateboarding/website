@@ -94,8 +94,8 @@ body.blog {
 					@include rem(letter-spacing, .5px);
 					font-weight: 700;
 					text-transform: uppercase;
-					// &.more { float: left; }
-					// &.comments { float: right; }
+					&.more { @extend .link; float: left; margin-right: $margin; }
+					&.comments { float: right; }
 				}
 
 				.twitter-share-button { align-self: flex-end; }
