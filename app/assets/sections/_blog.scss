@@ -94,6 +94,8 @@ body.blog { background-image: image-url("about/2014__park-exterior-header--001.j
 			@include bottomBorder();
 			display: flex;
 
+			> * { width: calc(100%/2); }
+
 			a {
 				&.more { @extend .link; float: left; margin-right: $margin; }
 				&.comments { float: right; }
@@ -101,7 +103,7 @@ body.blog { background-image: image-url("about/2014__park-exterior-header--001.j
 
 			.share { 
 				display: flex;
-				justify-content: flex-end; 
+				justify-content: flex-end;
 			}
 		}
 	}
@@ -120,7 +122,6 @@ body.blog { background-image: image-url("about/2014__park-exterior-header--001.j
 		}
 
 		footer {
-			> * { width: calc(100%/2); }
 			.backtrack p { 
 				@include rem(font-size, 10.5px);
 				@include rem(letter-spacing, .5px);
