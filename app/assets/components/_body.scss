@@ -32,16 +32,17 @@ body {
 .grid {
 	display: flex;
 	flex-wrap: wrap;
-	> div {
-		margin: $margin 0;
+	> * {
+		margin-bottom: 30px;
 		width: calc(50% - #{$margin}); 
 		&:nth-of-type(odd) { margin-right: $margin*2; }
 	}
 	&.no-margin { 
-		> div {
+		> * {
 			margin: 0;
 		}
 	}
+	img { margin-top: $margin/2; }
 }
 
 img { max-width: 100%; }

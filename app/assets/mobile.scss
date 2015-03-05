@@ -1,11 +1,11 @@
 // Browsers & Mobile
 
-@media screen and (max-width: 1024px) {	
-	html { font-size: 95% !important; }
-}
+// @media screen and (max-width: 1024px) {	
+// 	html { font-size: 95% !important; }
+// }
 
 @media screen and (max-width: 960px) {
-	html { font-size: 75% !important; }
+	//html { font-size: 85% !important; }
 	[id="carousel"] { font-size: 50% !important; }
 }
 
@@ -13,7 +13,12 @@
 	html { font-size: 100% !important; }
 
 	.grid { 
-		> * { margin: 0 !important; width: 100% !important; }
+		> * { 
+			width: 100% !important;
+			&:nth-of-type(odd) { 
+				margin-right: 0 !important;
+			}
+		}
 	}
 
 	header[id="main"] {
@@ -44,8 +49,13 @@
 		[id="blog"] { display: none !important; order: 2 !important; margin: 30px 0 0 0 !important; }
 	}
 
-	body:not(.home) [id="content"] main[data-purpose="flex-container"] section { margin: 0 3% !important; }
-
+	body:not(.home) {
+		[id="content"] main[data-purpose="flex-container"] section { margin: 0 3% !important; }
+		[id="blog"], [id="blog-entry"] {
+			article { margin-left: 0 !important; width: 100% !important; }
+		}
+	}
+	aside[id="info"] .contact ul { flex-wrap: wrap !important; }
 	[id="content"] main[data-purpose="flex-container"] { padding-bottom: 0 !important; }
 	[id="info"], [id="blog"] { width: 100% !important; }
 	[id="info"] { order: 1 !important; }
@@ -84,7 +94,8 @@
 			a { order: 2 !important; }
 		}
 		nav { 
-			padding: 36px 15px !important; 
+			border-color: transparent !important;
+			padding: 36px !important; 
 			&:before { left: 69% !important; }
 			> ul {
 				//> li:not(:first-of-type) { margin-right: 12px !important; }

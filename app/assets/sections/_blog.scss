@@ -1,7 +1,17 @@
 // Blog on Homepage
-body.home [id="blog"] { margin: 0 18px; }
+body.home [id="blog"] { margin: 0 0 0 36px; }
 
-// Blog Standalone
+// Blog Not Homepage
+body:not(.home) {
+	[id="blog"], [id="blog-entry"] {
+		article { 
+			margin-left: -12px; 
+			width: 81%;
+		}
+	}
+}
+
+// Shared Blog Styles
 body.blog { background-image: image-url("about/2014__park-exterior-header--001.jpg"); }
 
 [id="blog"] { margin: 0 $margin*2; }
@@ -13,7 +23,6 @@ body.blog { background-image: image-url("about/2014__park-exterior-header--001.j
 
 	article { 
 		&.post-preview { width: 100%; }
-		width: 100%;
 
 		// &+& == all but the first
 		& + & { margin-top: $margin; }
@@ -21,20 +30,20 @@ body.blog { background-image: image-url("about/2014__park-exterior-header--001.j
 		header {
 			padding: 0 $margin/2;
 
-			.h5 { 
-				color: $white;
-				@include rem(font-size, 18px);
-				line-height: 1.2;
-				margin: 0 0 6px 0;
-				text-transform: none;
-			}
+			// .h5 { 
+			// 	color: $white;
+			// 	@include rem(font-size, 18px);
+			// 	line-height: 1.2;
+			// 	margin: 0 0 6px 0;
+			// 	text-transform: none;
+			// }
 
 			.meta {
 				display: flex;
 				align-content: center;
 				@include rem(font-size, 9px);
 				@include rem(letter-spacing, .5px);
-				//margin: 6px 0 0;
+				margin: 6px 0 0;
 				text-transform: uppercase;
 
 				.date { 
@@ -53,8 +62,7 @@ body.blog { background-image: image-url("about/2014__park-exterior-header--001.j
 			}
 		}
 
-		p, main {
-			color: $gray;
+		main, main p {
 			@include rem(font-size, 18px);
 			line-height: 1.5;
 
@@ -78,7 +86,7 @@ body.blog { background-image: image-url("about/2014__park-exterior-header--001.j
 		img { max-width: 100%; }
 
 		main {
-			margin: 18px 0 6px;
+			margin: 18px 0;
 			padding: 0 $margin/2;
 		}
 
@@ -87,16 +95,38 @@ body.blog { background-image: image-url("about/2014__park-exterior-header--001.j
 			display: flex;
 
 			a {
-				border-width: 2px;
-				@include rem(font-size, 10px);
-				@include rem(letter-spacing, .5px);
-				font-weight: 700;
-				text-transform: uppercase;
 				&.more { @extend .link; float: left; margin-right: $margin; }
 				&.comments { float: right; }
 			}
 
-			.twitter-share-button { align-self: flex-end; }
+			.share { 
+				display: flex;
+				justify-content: flex-end; 
+			}
+		}
+	}
+}
+
+[id="blog-entry"] {
+	article {
+		header { 
+			h2 { margin-bottom: 0; }
+			.meta { margin-top: 0px; }
+		}
+
+		main {
+			@include rem(font-size, 18px);;
+			padding-bottom: 0;
+		}
+
+		footer {
+			> * { width: calc(100%/2); }
+			.backtrack p { 
+				@include rem(font-size, 10.5px);
+				@include rem(letter-spacing, .5px);
+				margin: 0 0 0 $margin/1.5;
+				text-transform: uppercase;
+			}
 		}
 	}
 }

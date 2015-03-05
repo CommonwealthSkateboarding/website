@@ -64,7 +64,7 @@ body {
 			//justify-content: center;
 			text-align: right;
 			text-transform: none;
-			width: 27%;
+			width: 35%;
 
 			> * { width: 100%; }
 
@@ -154,7 +154,7 @@ body {
 			padding: 36px 42px;
 			position: relative; // for ::before
 			overflow: hidden;
-			width: 73%;
+			width: 65%;
 
 			&:before {
 				content: "";
@@ -185,6 +185,7 @@ body {
 				z-index: 5;
 
 				> li {
+					min-width: 120px;
 					&:not(:last-of-type) { margin-right: 6%; }
 
 					.h5 { 

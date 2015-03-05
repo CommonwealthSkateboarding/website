@@ -7,7 +7,7 @@
     @for(item <- news) {
         <article class="post-preview">
             <header>
-                <h1><a href="@routes.Application.showNews(item.id)" class="more">@item.title</a></h1>
+                <p class="h5"><a href="@routes.Application.showNews(item.id)" class="more">@item.title</a></p>
                 <div class="meta">
                     <div class="date">
                         <time>@item.createDate.format("MMMM dd, yyyy")</time>
@@ -98,10 +98,10 @@
 
     <div class="contact">
             <strong>Get in Touch</strong>
-            <ul>
-                    <li class="phone"><!-- <i class="fa fa-phone-square"></i> --> (503) 208-2080</li>
-                    <li class="email"><!-- <i class="fa fa-envelope-square"></i> --> <a href="mailto:info&#64;commonwealthskateboarding.com">Email Us</a></li>
-            </ul>
+            <p>
+                <i class="fa fa-phone"></i>(503) 208-2080 <br/>
+                <i class="fa fa-envelope"></i><a href="mailto:info&#64;commonwealthskateboarding.com">Email</a>
+            </p>
     </div> <!-- /contact -->
 
 </aside>
