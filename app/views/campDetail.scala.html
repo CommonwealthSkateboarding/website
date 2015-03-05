@@ -15,8 +15,8 @@
 						@camp.registrationEndDate.format("yyyy")</p>
 				</li>
 				<li class="registrants">
-					<p class="h6">Capacity</p>
-					<p>@camp.registrations.size()/@camp.maxRegistrations</p>
+					<p class="h6">Spots Available</p>
+					<p>@(camp.maxRegistrations - camp.registrations.size()) left</p>
 				</li>
 				<li class="cost">
 					<p class="h6">Cost</p>

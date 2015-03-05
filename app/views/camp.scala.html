@@ -13,7 +13,7 @@
 			<!-- <th>Begins</th>
 			<th>Ends</th> -->
 			<!-- <th>Registration Ends</th> -->
-			<th>Capacity</th>
+			<th>Spots Available</th>
 			<th>Cost</th>
 			<!-- <th>Schedule</th> -->
 			<th class="">Instructors</th>
@@ -33,7 +33,7 @@
 			<!-- <td>@camp.startDate.format("M/dd")</td>
 			<td>@camp.endDate.format("M/dd")</td> -->
 			<!-- <td>@camp.registrationEndDate.format("MM/dd/yyyy")</td> -->
-			<td>@camp.registrations.size()/@camp.maxRegistrations</td>
+			<td>@(camp.maxRegistrations - camp.registrations.size()) left</td>
 			<td>@utils.Formatter.prettyDollars(camp.cost)</td>
 		   <!--  <td>@camp.scheduleDescription</td> -->
 		   <td class="instructors">@camp.instructors</td>
