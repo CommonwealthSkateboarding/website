@@ -11,7 +11,8 @@ h4, .h4,
 h5, .h5,
 h6, .h6 {
 	font-weight: 300;
-	margin: 15px 0 1px;
+	line-height: 1;
+	margin: 15px 0 6px;
 }
 
 p { margin: 15px 0 1px; }
@@ -52,11 +53,11 @@ h1, .h1 {
 
 	~ h2, .h2 {
 		margin-top: 0;
-		margin-bottom: $margin/2;
+		margin-bottom: $margin/1.5;
 	}
 }
 
-h2, .h2 { @include rem(font-size, 36px); text-transform: lowercase; }
+h2, .h2 { @include rem(font-size, 36px); line-height: 1; text-transform: lowercase; }
 h3, .h3 { @include rem(font-size, 30px); }
 h4, .h4 { @include rem(font-size, 24px); }
 h5, .h5 { @include rem(font-size, 21px); }

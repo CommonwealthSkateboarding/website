@@ -72,7 +72,12 @@
 			button[type="submit"] { width: 100% !important; }
 			.flex { flex-wrap: wrap !important; }
 		}
-		.details { order: 1 !important; width: 100% !important; padding: 0 !important; }
+		.details { 
+			order: 1 !important; 
+			margin-left: 0 !important;
+			padding: 0 !important; 
+			width: 100% !important; 
+		}
 	}
 
 	[id="contact"] {
@@ -83,7 +88,6 @@
 	}
 
 	footer {
-		margin-top: 15px !important;
 		.sponsors ul { width: 100% !important; }
 		.info { flex-wrap: wrap !important; height: auto !important; }
 		.contact, nav { width: 100% !important; }

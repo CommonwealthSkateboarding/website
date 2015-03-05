@@ -21,7 +21,7 @@ body.about {
 	.team {
 		li {
 			display: flex;
-			margin: $margin/2;
+			margin: $margin/2 0;
 
 			.name { 
 				color: $gold;

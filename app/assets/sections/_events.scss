@@ -2,130 +2,135 @@ body.events {
 	background-image: image-url("events/2014__lock-in-header--001.jpg");
 	background-position: center center;
 
-	table[id="events"] {
-		@include dataTable();
-		td.no-events {
-			text-align: center;
-			color: $white;
-			cursor: default;
-			&:hover {
-				background: none;
+	[id="events"] {
+
+		table[id="events"] {
+			@include dataTable();
+			td.no-events {
+				text-align: center;
+				color: $white;
+				cursor: default;
+				&:hover {
+					background: none;
+				}
 			}
 		}
-	}
 
-	.park-rental {
-		ul {
-			display: flex;
-			flex-wrap: wrap;
-			list-style: disc;
-			margin-top: $margin/2;
-			margin-left: 18px;
-			li {
-				padding: 3px 0;
-				width: 50%;
+		.park-rental {
+			ul {
+				display: flex;
+				flex-wrap: wrap;
+				list-style: disc;
+				margin-top: $margin/2;
+				margin-left: 18px;
+				li {
+					padding: 3px 0;
+					width: 50%;
+				}
 			}
 		}
 	}
 }
 
 body.event-detail {
-	a .h1 {  display: inline-block; }
-	.h4 { color: $gold; }
-	.h6 { 
-		display: block; 
-		@include rem(font-size, 12px);
-		font-weight: 900;
-		margin: 18px 0 6px 12px;
-		text-transform: uppercase;
-	}
-
-	.details {
-		order: 2;
-		margin-left: $margin;
-		width: calc(34% - #{$margin/2});
-		ul {
-			//margin-top: $margin;
-			li {
-				//background: fade_out($gray, .96);
-				background: fade_out($black, .45);
-				border-bottom: 3px solid $black;
-				display: flex;
-				flex-direction: column;
-				flex-wrap: wrap;
-				margin: 0;
-				padding: 18px 24px 9px 24px;
-				width: 100%;
-				&:not(:first-of-type) {
-					margin-top: 3px;
-				}
-				&:not(.description) {
-					p:not(.h6) {
-						@include rem(font-size, 27px); 
-						font-weight: 300;
-						margin: 0;
-					}
-				}
-				&:last-of-type { padding-bottom: 18px; }
-				.h6 { margin: 0; }
-			}
+	[id="event-detail"] {
+		a .h1 {  display: inline-block; }
+		.h4 { color: $gold; }
+		.h6 { 
+			display: block; 
+			@include rem(font-size, 12px);
+			font-weight: 900;
+			margin: 18px 0 6px 12px;
+			text-transform: uppercase;
 		}
-	}
 
-	.sign-up {
-		order: 1;
-		width: calc(66% - #{$margin/2}) ;
-	}
-	
-	form {
-		input[type] {
-			&[id="p_name"], &[id="b_name"], &[id="email"] { width: 100%; }
-		}
-		.form-row { margin-bottom: $margin; }
-		radiogroup {
-			display: flex;
-			align-content: center;
-			align-items: center;
-			@include rem(font-size, 18px);
-			margin-top: 9px;
-			width: 100%;
-			input[type="radio"] {
-				display: none;
-				+ label {
+		.details {
+			order: 2;
+			margin-left: $margin;
+			width: calc(34% - #{$margin/2});
+			ul {
+				//margin-top: $margin;
+				li {
+					//background: fade_out($gray, .96);
+					background: fade_out($black, .45);
+					border-bottom: 3px solid $black;
 					display: flex;
-					justify-content: center;
-					align-items: center;
-					border: 1px solid $gold;
-					color: fade_out($gold, .3);
-					cursor: pointer;
-					height: 45px;
-					//padding: 12px $margin*2;
-					position: relative;
-					transition: background .3s, color .3s;
-					width: 50%;
-					i.fa {
-						margin-left: -6px;
-						margin-right: 6px;
-						margin-top: -1px;
-						visibility: hidden;
+					flex-direction: column;
+					flex-wrap: wrap;
+					margin: 0;
+					padding: 18px 24px 9px 24px;
+					width: 100%;
+					&:not(:first-of-type) {
+						margin-top: 3px;
 					}
-					&:not(:first-of-type) { margin: 0 -2px; }
+					&:not(.description) {
+						p:not(.h6) {
+							@include rem(font-size, 27px); 
+							font-weight: 300;
+							margin: 0;
+						}
+					}
+					&:last-of-type { padding-bottom: 18px; }
+					.h6 { margin: 0; }
 				}
-				&:first-of-type + label { border-radius: 3px 0 0 3px; }
-				&:last-of-type + label { border-radius: 0 3px 3px 0; }
-				&:checked + label {
-					background: $gold;
-					color: $white;
-					i.fa { visibility: visible; }
-				}
-				// If there is only one amount
-				//&:only-of-type + label { border-radius: 3px; cursor: default; opacity: .15; }
 			}
 		}
 
-		footer {
-			display: flex;
-			justify-content: flex-end;
+		.sign-up {
+			order: 1;
+			width: calc(66% - #{$margin/2}) ;
+		}
+		
+		form {
+			input[type] {
+				&[id="p_name"], &[id="b_name"], &[id="email"] { width: 100%; }
+			}
+			.form-row { margin-bottom: $margin; }
+			radiogroup {
+				display: flex;
+				align-content: center;
+				align-items: center;
+				@include rem(font-size, 18px);
+				margin-top: 9px;
+				width: 100%;
+				input[type="radio"] {
+					display: none;
+					+ label {
+						display: flex;
+						justify-content: center;
+						align-items: center;
+						border: 1px solid $gold;
+						color: fade_out($gold, .3);
+						cursor: pointer;
+						height: 45px;
+						//padding: 12px $margin*2;
+						position: relative;
+						transition: background .3s, color .3s;
+						width: 50%;
+						i.fa {
+							margin-left: -6px;
+							margin-right: 6px;
+							margin-top: -1px;
+							visibility: hidden;
+						}
+						&:not(:first-of-type) { margin: 0 -2px; }
+					}
+					&:first-of-type + label { border-radius: 3px 0 0 3px; }
+					&:last-of-type + label { border-radius: 0 3px 3px 0; }
+					&:checked + label {
+						background: $gold;
+						color: $white;
+						i.fa { visibility: visible; }
+					}
+					// If there is only one amount
+					//&:only-of-type + label { border-radius: 3px; cursor: default; opacity: .15; }
+				}
+			}
+
+			footer {
+				display: flex;
+				justify-content: flex-end;
+			}
 		}
 	}
 }
