@@ -1,6 +1,7 @@
 package controllers;
 
 import com.avaje.ebean.Expr;
+import com.stripe.exception.CardException;
 import com.stripe.model.Charge;
 import models.security.AuditRecord;
 import models.site.NewsItem;
@@ -96,7 +97,7 @@ public class Application extends Controller {
         if (null == camp) {
             return redirect(routes.Application.camp()); // not found
         }
-        return ok(campDetail.render(camp));
+        return ok(campDetail.render(camp, null));
     }
 
     public static Result sessions(){
@@ -115,7 +116,7 @@ public class Application extends Controller {
         if (null == event) {
             return redirect(routes.Application.events()); // not found
         }
-        return ok(eventDetail.render(event));
+        return ok(eventDetail.render(event, null));
     }
     
     public static Result about(){
@@ -134,34 +135,36 @@ public class Application extends Controller {
             return redirect(routes.Application.camp()); // not found
         }
 
-        String name = Form.form().bindFromRequest().data().get("name");
-        String email = Form.form().bindFromRequest().data().get("email");
-        String billingName = Form.form().bindFromRequest().data().get("billingName");
-        String telephone = Form.form().bindFromRequest().data().get("telephone");
-        String stripeToken = Form.form().bindFromRequest().data().get("stripeToken");
-        Boolean fullyPaid = Boolean.parseBoolean(Form.form().bindFromRequest().data().get("fully-paid"));
+        RegistrationInfo info = Form.form(RegistrationInfo.class).bindFromRequest().get();
 
-        Charge charge = Stripe.chargeStripe(fullyPaid?camp.cost:CAMP_DEPOSIT, stripeToken, "Registration for " + camp.title);
+        try {
+            Charge charge = Stripe.chargeStripe(info.fullyPaid?camp.cost:CAMP_DEPOSIT, info.stripeToken, "Registration for " + camp.title);
 
-        Registration reg = new Registration();
+            Registration reg = new Registration();
 
-        reg.registrationType = Registration.RegistrationType.CAMP;
-        reg.camp = camp;
-        reg.paid = fullyPaid.booleanValue();
-        reg.totalPaid = (fullyPaid?camp.cost:CAMP_DEPOSIT);
-        reg.registrantEmail = email;
-        reg.participantName = name;
-        reg.paymentType = Registration.PaymentType.STRIPE;
-        reg.timestamp = new Date();
-        reg.notes = "Paid (" + utils.Formatter.prettyDollars(reg.totalPaid) + ") on the web by " + billingName + "(" + (telephone.isEmpty()?"":"tel: "+telephone+", ") + "email: " + email + ") and generated a stripe chargeId of: " + charge.getId();
-        reg.confirmationId = org.apache.commons.lang3.RandomStringUtils.random(6, "ABCDEFGHJKMNPQRSTUVWXYZ23456789");
-        reg.save();
+            reg.registrationType = Registration.RegistrationType.CAMP;
+            reg.camp = camp;
+            reg.paid = info.fullyPaid.booleanValue();
+            reg.totalPaid = (info.fullyPaid ? camp.cost : CAMP_DEPOSIT);
+            reg.registrantEmail = info.email;
+            reg.participantName = info.name;
+            reg.paymentType = Registration.PaymentType.STRIPE;
+            reg.timestamp = new Date();
+            reg.notes = "Paid (" + utils.Formatter.prettyDollars(reg.totalPaid) + ") on the web by " + info.billingName + "(" + (info.telephone.isEmpty() ? "" : "tel: " + info.telephone + ", ") + "email: " + info.email + ") and generated a stripe chargeId of: " + charge.getId();
+            reg.confirmationId = org.apache.commons.lang3.RandomStringUtils.random(6, "ABCDEFGHJKMNPQRSTUVWXYZ23456789");
+            reg.save();
 
-        audit("Added registration for camp " + camp.title + " from web for " + name, camp);
+            audit("Added registration for camp " + camp.title + " from web for " + info.name, camp);
 
-        Email.sendCampRegistrationConfirmation(email, reg);
+            Email.sendCampRegistrationConfirmation(info.email, reg);
 
-        return redirect(routes.Application.registrationPage());
+            return redirect(routes.Application.registrationPage());
+        } catch (CardException e) {
+            return ok(campDetail.render(camp, info));
+        } catch (Exception e) {
+            Logger.error("Stripe error", e);
+            return internalServerError();
+        }
     }
 
     public static Result registerForEventWithStripe(String id) {
@@ -172,34 +175,36 @@ public class Application extends Controller {
             return redirect(routes.Application.events()); // not found
         }
 
-        String name = Form.form().bindFromRequest().data().get("name");
-        String billingName = Form.form().bindFromRequest().data().get("billingName");
-        String telephone = Form.form().bindFromRequest().data().get("telephone");
-        String email = Form.form().bindFromRequest().data().get("email");
-        String stripeToken = Form.form().bindFromRequest().data().get("stripeToken");
-        Boolean fullyPaid = Boolean.parseBoolean(Form.form().bindFromRequest().data().get("fully-paid"));
+        RegistrationInfo info = Form.form(RegistrationInfo.class).bindFromRequest().get();
 
-        Charge charge = Stripe.chargeStripe(fullyPaid?event.cost:EVENT_DEPOSIT, stripeToken, "Registration for " + event.name);
+        try {
+            Charge charge = Stripe.chargeStripe(info.fullyPaid ? event.cost : EVENT_DEPOSIT, info.stripeToken, "Registration for " + event.name);
 
-        Registration reg = new Registration();
+            Registration reg = new Registration();
 
-        reg.registrationType = Registration.RegistrationType.EVENT;
-        reg.event = event;
-        reg.paid = fullyPaid.booleanValue();
-        reg.totalPaid = (fullyPaid?event.cost:EVENT_DEPOSIT);
-        reg.registrantEmail = email;
-        reg.participantName = name;
-        reg.paymentType = Registration.PaymentType.STRIPE;
-        reg.timestamp = new Date();
-        reg.notes = "Paid (" + utils.Formatter.prettyDollars(reg.totalPaid) + ") on the web by " + billingName + "(" + (telephone.isEmpty()?"":"tel: "+telephone+", ") + "email: " + email + ") and generated a stripe chargeId of: " + charge.getId();
-        reg.confirmationId = org.apache.commons.lang3.RandomStringUtils.random(6, "ABCDEFGHJKMNPQRSTUVWXYZ23456789");
-        reg.save();
+            reg.registrationType = Registration.RegistrationType.EVENT;
+            reg.event = event;
+            reg.paid = info.fullyPaid.booleanValue();
+            reg.totalPaid = (info.fullyPaid ? event.cost : EVENT_DEPOSIT);
+            reg.registrantEmail = info.email;
+            reg.participantName = info.name;
+            reg.paymentType = Registration.PaymentType.STRIPE;
+            reg.timestamp = new Date();
+            reg.notes = "Paid (" + utils.Formatter.prettyDollars(reg.totalPaid) + ") on the web by " + info.billingName + "(" + (info.telephone.isEmpty() ? "" : "tel: " + info.telephone + ", ") + "email: " + info.email + ") and generated a stripe chargeId of: " + charge.getId();
+            reg.confirmationId = org.apache.commons.lang3.RandomStringUtils.random(6, "ABCDEFGHJKMNPQRSTUVWXYZ23456789");
+            reg.save();
 
-        audit("Added registration for event " + event.name + " from web for " + name, event);
+            audit("Added registration for event " + event.name + " from web for " + info.name, event);
 
-        Email.sendEventRegistrationConfirmation(email, reg);
+            Email.sendEventRegistrationConfirmation(info.email, reg);
 
-        return redirect(routes.Application.registrationPage());
+            return redirect(routes.Application.registrationPage());
+        } catch (CardException e) {
+            return ok(eventDetail.render(event, info));
+        } catch (Exception e) {
+            Logger.error("Stripe error", e);
+            return internalServerError();
+        }
     }
 
     public static void audit(String description, Object payload) {

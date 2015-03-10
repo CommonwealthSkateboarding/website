@@ -1,4 +1,4 @@
-@(event: models.skatepark.Event)
+@(event: models.skatepark.Event, info: models.skatepark.RegistrationInfo)
 
 @main("event-detail", false, event.name + " | Commonwealth Skateboarding | Portland, Oregon") {
 <section id="event-detail">
@@ -83,6 +83,10 @@
 
 
 	<div class="sign-up">
+        @if(null!=info) {
+            <p class="h4">Sorry, but there was a problem with your card</p>
+            <p>Your payment could not be processed. Try again or use another card, and if this problem persists, please <a href="/contact">contact us</a>.</p>
+        }
 		<p class="h4">Description</p>
 		<p>@Html(event.notes)</p>
 	@if(event.registrable && (null != event.cost) && (event.registrations.size() < event.maxRegistrations)) {
@@ -99,28 +103,28 @@
 			<div class="form-row">
 				<label>
 					<span class="h6">Participant Name</span>
-					<input id="p_name" name="name" type="text" placeholder="" required autofocus>
+					<input id="p_name" name="name" type="text" placeholder="" @if(null!=info){value="@info.name"} required autofocus>
 				</label>
 			</div>
 
 			<div class="form-row">
 				<label>
 					<span class="h6">Billing Name</span>
-					<input id="b_name" name="billingName" type="text" placeholder="" required>
+					<input id="b_name" name="billingName" type="text" placeholder="" @if(null!=info){value="@info.billingName"} required>
 				</label>
 			</div>
 
 			<div class="form-row">
 				<label>
 					<span class="h6">Billing Email</span>
-					<input id="email" name="email" type="email" placeholder="name&#064;domain.com" required>
+					<input id="email" name="email" type="email" placeholder="name&#064;domain.com" @if(null!=info){value="@info.email"} required>
 				</label>
 			</div>
 
 			<div class="form-row">
 				<label>
 					<span class="h6">Phone Number</span>
-					<input id="tel" name="telephone" type="tel" placeholder="(555) 555-5555">
+					<input id="tel" name="telephone" type="tel" placeholder="(555) 555-5555" @if(null!=info){value="@info.telephone"}>
 				</label>
 			</div>
 
@@ -151,9 +155,9 @@
 			<div class="form-row">
 				<p class="h6">Choose Payment Amount</p>
 				<radiogroup>
-					<input type="radio" name="fully-paid" id="full-price" value="true" checked required><label for="full-price"> <i class="fa fa-check"></i> <strong>Full</strong>&nbsp;(@utils.Formatter.prettyDollars(event.cost))</label>
+					<input type="radio" name="fully-paid" id="full-price" @if(null!=info){value="@info.fullyPaid"}else{value="true"} checked required><label for="full-price"> <i class="fa fa-check"></i> <strong>Full</strong>&nbsp;(@utils.Formatter.prettyDollars(event.cost))</label>
 					@if(event.cost>controllers.Application.EVENT_DEPOSIT) {
-						<input type="radio" name="fully-paid" id="deposit" value="false"><label for="deposit"> <i class="fa fa-check"></i> <strong>Deposit</strong>&nbsp;(@utils.Formatter.prettyDollars(controllers.Application.EVENT_DEPOSIT))</label>
+						<input type="radio" name="fully-paid" id="deposit" @if(null!=info){value="@@info.fullyPaid"}else{value="false"}><label for="deposit"> <i class="fa fa-check"></i> <strong>Deposit</strong>&nbsp;(@utils.Formatter.prettyDollars(controllers.Application.EVENT_DEPOSIT))</label>
 					}
 				</radiogroup>
 			</div>
