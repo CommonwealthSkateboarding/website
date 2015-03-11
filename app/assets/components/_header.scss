@@ -6,6 +6,8 @@ header[id="main"] {
 	display: flex;
 	align-items: center;
 
+	.logo--extended { display: none; }
+
 	.logo {
 		height: $header-size;
 		width: $header-size;
@@ -98,70 +100,215 @@ header[id="main"] {
 		width: calc(100% - 100px);
 		z-index: 900;
 
-		ul li { list-style: none; }
+		ul {
 
-		> ul {
-			display: flex;
-			justify-content: flex-end;
-			margin-right: $margin;
-			width: 100%;
+			li { list-style: none; }
 
-			> li {
-				a { 
-					@include rem(font-size, .9rem);
-					border-bottom: 3px solid transparent;
-					color: $gold;
-					display: inline;
-					font-family: "Roboto Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif;
-					font-weight: 700;
-					margin: 0 10px;
-					//padding: 0 0 1px 0;
-					text-transform: uppercase;
+			&.links {
+				display: flex;
+				justify-content: flex-end;
+				margin-right: $margin;
+				width: 100%;
 
-					&.active {
-						color: $white;
-						border-color: $gold;
-					}
-				}
+				> li {
+					a { 
+						@include rem(font-size, .9rem);
+						border-bottom: 3px solid transparent;
+						color: $gold;
+						display: inline;
+						font-family: "Roboto Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif;
+						font-weight: 700;
+						margin: 0 10px;
+						//padding: 0 0 1px 0;
+						text-transform: uppercase;
 
-				// &:first-of-type a { margin-left: 0; }
-				// &:last-of-type a { margin-right: 0; }
-
-				> ul {
-					background: fade_out($black, .15); // Dark Gold
-					border-radius: 2px;
-					margin-top: -2px;
-					opacity: 0;
-					position: absolute;
-					transition: opacity .3s;
-					visibility: hidden;
-
-					li {
-						margin: 9px 0;
-						&:first-of-type { padding-top: 6px; }
-						&:last-of-type { padding-bottom: 3px; }
-						a { 
-							color: $gold;
-							//text-shadow: 0 0 9px scale-color($gold, $lightness: -78%);
-							&:hover { color: $white; }
+						&.active {
+							color: $white;
+							border-color: $gold;
 						}
 					}
-				}
 
-				&:hover {
-					> a { 
-						color: $white; 
-
-						// keeps parent li a "active" on ul li ul li:hover
-						&:not(.subnav) {
-							border-bottom: 3px solid $gold;
-						}
-					}
+					// &:first-of-type a { margin-left: 0; }
+					// &:last-of-type a { margin-right: 0; }
 
 					> ul {
-						visibility: visible;
+						background: fade_out($black, .15); // Dark Gold
+						border-radius: 2px;
+						margin-top: -2px;
+						opacity: 0;
+						position: absolute;
+						transition: opacity .3s;
+						visibility: hidden;
+
+						li {
+							margin: 9px 0;
+							&:first-of-type { padding-top: 6px; }
+							&:last-of-type { padding-bottom: 3px; }
+							a { 
+								color: $gold;
+								//text-shadow: 0 0 9px scale-color($gold, $lightness: -78%);
+								&:hover { color: $white; }
+							}
+						}
+					}
+
+					&:hover {
+						> a { 
+							color: $white; 
+
+							// keeps parent li a "active" on ul li ul li:hover
+							&:not(.subnav) {
+								border-bottom: 3px solid $gold;
+							}
+						}
+
+						> ul {
+							visibility: visible;
+							opacity: 1;
+							transition: opacity 1s;
+						}
+					}
+				}
+			}
+		}
+
+		&.mobile { 
+			color: $white;
+			//display: flex;
+			display: none;
+			flex-wrap: wrap;
+			padding-bottom: 60px;
+			position: fixed;
+			text-align: center;
+			user-select: none; // Ehh..
+			height: 42px;
+			width: 100%;
+			z-index: 9999;
+
+			box-shadow: inset 0 0 0 9px rgba(255,255,255,0);
+			//transition: background .1s, box-shadow .1s, height .1s;
+			transition: all .3s;
+
+			.h6 { 
+				@include rem(font-size, 11px);
+				font-weight: 900;
+				letter-spacing: 2px;
+				margin: 0;
+				text-transform: uppercase;
+				white-space: nowrap;
+			}
+
+			.menu {
+				display: flex;
+				justify-content: center;
+				height: 2vh;
+				transition: background .3s, color .3s;
+				width: 100%;
+
+				.circle {
+					color: mix($gray, $white);
+					cursor: pointer;
+					display: flex;
+					align-content: center;
+					justify-content: center;
+					background: mix($gray, $black);
+					border-radius: 50%;
+					height: 150px;
+					width: 150px;
+					position: relative;
+					top: -114px;
+
+					.wrapper {
+						display: flex;
+						align-content: center;
+						align-items: center;
+						margin-left: 2px;
+						margin-top: 110px;
+					}
+				}
+
+				.fa { margin-right: 2px; }
+				.fa-list { margin-top: 0px; }
+				.fa-times { margin-top: -1px; margin-left: 2px; }
+			}
+
+			&.expanded {
+				background: fade_out($black, .01);
+				height: 100vh;
+
+				box-shadow: inset 0 0 0 9px mix($gray, $black);
+				//transition: background .1s, box-shadow 1s, height .1s;
+				transition: all .3s;
+				
+				.menu { 
+					transition: background .3s, color .3s;
+					.circle { background: mix($gray, $black); color: $white; }
+					.h6 { display: none; }
+					.wrapper { margin-top: 111px; }
+				}
+
+				.nav { 
+					//height: 100%;
+					opacity: 1;
+					visibility: visible; 
+
+					li { 
+						transition: opacity .3s .3s;
 						opacity: 1;
-						transition: opacity 1s;
+					}
+				}
+			}
+
+			.nav {
+				opacity: 0;
+				visibility: hidden;
+				transition: height .1s, opacity .3s, visibility .3s;
+
+				display: flex;
+				align-content: center;
+				flex-wrap: wrap;
+				justify-content: center;
+
+				height: 90%;
+				width: 100%;
+
+				li { 
+					display: flex;
+					opacity: 0;
+					height: calc(100%/8);
+					align-items: center;
+					position: relative;
+					width: 90%;
+
+					
+
+					&:first-of-type a { 
+						justify-content: flex-end;
+						margin-top: -6%;
+						position: absolute;
+						padding-right: 9%;
+						transform: rotate(12deg);
+
+						img { 
+							eight: 51px; 
+							width: 51px;
+						} 
+					}
+					&:not(:first-of-type):not(:last-of-type) a { border-bottom: 3px solid fade_out(mix($black, $gray), .81); }
+
+					a {
+						color: $white;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						@include rem(font-size, 12px);
+						font-weight: 700;
+						letter-spacing: 2px;
+						text-align: center;
+						text-transform: uppercase;
+						
+						height: 100%;
+						width: 100%;
 					}
 				}
 			}

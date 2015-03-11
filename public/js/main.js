@@ -2,22 +2,28 @@ $(document).ready(function(){
 		
 	var caro = $("#carousel");
 	var header = $("header#main");
+	var mobileNav = $("header#main nav.mobile");
 
+	// Toggle Mobile Nav
+	mobileNav.click(function() {
+		$(this).find("i").toggleClass("fa-list fa-times");
+		$(this).toggleClass("expanded");
+	});
 
 	// Apply .active to clicked nav item
 	$('header#main nav a[href$="/' + location.pathname.split("/")[1] + '"]').addClass('active');
 
 
 	// Smooth scroll + center to anchors
-	// $('a[href^="#"]').on('click', function(event) {
-	// 	var target = $(this.href);
-	// 	if( target.length ) {
-	// 			event.preventDefault();
-	// 			$('html, body').animate({
-	// 					scrollTop: target.offset().top
-	// 			}, 1000);
-	// 	}
-	// });
+	$('a[href^="#"]').on('click', function(event) {
+		var target = $(this.href);
+		if( target.length ) {
+			event.preventDefault();
+			$('html, body').animate({
+					scrollTop: target.offset().top
+			}, 1000);
+		}
+	});
 
 
 	// Slick.js Slider Settings

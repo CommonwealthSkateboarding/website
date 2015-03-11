@@ -37,15 +37,17 @@
 					<p>Our summer skateboard camps are the one of the funnest and fastest ways to get better at skateboarding and experience all of the best outdoor skate parks in the greater Portland area. Each day we warm up at Commonwealth for an hour before loading up in our camp van and heading out to 2 or 3 different skateparks each day.</p>
 
 					<p>Camps run Monday through Thursday from 9:00AM to 4:00PM.</p>
-					<p>Ages 6-14.</p>
+					<p>Children between ages 6-14.</p>
+					<p>All abilities welcome!</p>
 					<p class="notice"><strong>A $100 non-refundable deposit is required for each participant.</strong></p>
 				</li>
 			</ul>
 		</div>
 
 		<div class="sign-up">
-			<p class="h4">Description</p>
-			<p>@Html(camp.description)</p>
+			<!-- <p class="h4">Description</p> -->
+			@Html(camp.description)
+
 			@if(camp.registrations.size() < camp.maxRegistrations) {
 				<p class="h4">Camp Registration</p>
 

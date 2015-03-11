@@ -66,11 +66,13 @@ h6, .h6, p { @include rem(font-size, 15px); }
 h5, .h5, h6, .h6 { color: $white; font-weight: 500; }
 
 .notice { color: $gold; }
+
 .highlight { 
 	margin: 18px 0 18px 15px;
 	text-indent: -9px;
 	transform: rotate(-.6deg);
 	-webkit-backface-visibility: hidden;
+
 	span {
 		background: fade_out($gold, .3);
 		box-shadow:	 9px 0 0 fade_out($gold, .3), 
@@ -83,6 +85,7 @@ h5, .h5, h6, .h6 { color: $white; font-weight: 500; }
 		padding: 3px 0;
 	}
 }
+
 .handwriting { font-family: "Special Elite"; }
 .monospace { }
 

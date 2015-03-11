@@ -25,7 +25,7 @@
 		position: static !important;
 		nav {
 			font-size: 80% !important;
-			> ul { 
+			ul.links { 
 				flex-wrap: wrap !important;
 				justify-content: flex-end !important;
 				margin: 0 !important; 
@@ -107,34 +107,90 @@
 		}
 	}
 
-	.quad {
+	.grid {
 		> div { width: 100% !important; }
 	}
 }
 
 
+// Potentially Ignore
+
+// @media screen and (max-device-width: 420px) {
+// 	html { font-size: 90% !important; }
+
+// 	body, body > footer { background-image: none !important; }
+
+// 	header[id="main"] nav .links { display: none !important; }
+// 	.camp-detail {
+// 		.sign-up {
+// 			[id="cvc"] { margin-left: 0 !important; }
+// 		}
+// 	}
+
+// }
+
+
 // Only Mobile
-
-@media screen and (max-device-width: 420px) {
-	html { font-size: 90% !important; }
-
-	body, body > footer { background-image: none !important; }
-
-	header[id="main"] nav { display: none !important; }
-	.camp-detail {
-		.sign-up {
-			[id="cvc"] { margin-left: 0 !important; }
-		}
-	}
-
-}
-
-
-// iOS
 
 @media only screen 
 and (min-device-width : 320px) 
-and (max-device-width : 1024px) { 
-	 [id="carousel"] { display: block !important; }
-	 [id="blog"] { display: block !important; }
+and (max-device-width : 1024px) {
+
+	body, footer { background-image: none !important; } 
+
+	header[id="main"] {
+		flex-wrap: wrap !important;
+		padding: 0 !important;
+
+		.logo,
+		ul.links { display: none !important; }
+
+		.logo--extended,
+		nav.mobile { display: flex !important; }
+
+		.logo--extended { padding: 42px 30px 0px 30px !important; }
+
+		nav { width: 100% !important; }
+
+	}
+
+	[id="carousel"] { display: block !important; }
+
+	body.home {
+		header[id="main"] .logo--extended { padding: 42px 15px 0px 15px !important; }
+		aside[id="info"] { padding: 0 !important; }
+		footer .sponsors { margin: 0 0 18px 0 !important; }
+
+		[id="content"], footer .sponsors { padding: 0 15px !important; }
+	}
+
+	[id="content"] { 
+		section {
+			.h1 { display: none !important; }
+			h2 { 
+				color: #FFFFFF !important;
+				font-size: 24px !important; 
+				font-weight: 500 !important; 
+				text-transform: none !important;
+			}
+		}
+	}
+	[id="blog"] { display: block !important; }
+	footer {
+		nav { 
+			padding: 12px !important;
+			&:before { left: 63% !important; }
+			ul:first-of-type li:first-of-type { 
+				margin-top: 0 !important;
+			}
+			li { 
+				font-size: 24px !important;
+				line-height: 1 !important;
+				margin: 9px 0 !important;
+				width: 87% !important;
+
+				a { font-weight: 300 !important; }
+			}
+		}
+	}
 }
