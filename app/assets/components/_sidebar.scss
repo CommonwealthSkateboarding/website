@@ -2,7 +2,7 @@ aside[id="info"] {
 	color: $white;
 	@include rem(font-size, 15px);
 	order: 2;
-	padding: 0 2% 0 3%;
+	padding: 0 2% 0 6%;
 	width: 40%;
 
 	p { margin: 0; }
@@ -12,9 +12,9 @@ aside[id="info"] {
 		font-weight: 400; 
 	}
 
-	a {
-		@extend .link;
-	}
+	a { @extend .link; }
+
+	> *:not(.pricing) { padding: 0 6%; }
 
 	> *:not(:first-of-type) { 
 		margin-top: $margin;
