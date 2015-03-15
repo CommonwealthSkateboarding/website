@@ -10,6 +10,7 @@ body:not(.home) {
 		article { 
 			margin-left: -12px; 
 			width: 81%;
+			main, main p { line-height: 1.8; }
 			footer { @include bottomBorder(); }
 		}
 	}
@@ -68,7 +69,7 @@ body.blog { background-image: image-url("about/2014__park-exterior-header--001.j
 
 		main, main p {
 			@include rem(font-size, 18px);
-			line-height: 1.8;
+			line-height: 1.5;
 
 			&::selection {
 				color: $white;
