@@ -143,7 +143,8 @@ aside[id="info"] {
 	}
 
 	.contact {
-		p { @include rem(font-size, 24px);
+		p { 
+			@include rem(font-size, 24px);
 			font-weight: 300;
 			line-height: 1.5;
 			margin-bottom: 6px;
@@ -165,15 +166,24 @@ aside[id="info"] {
 	}
 
 	.instafeed {
-		p { @include rem(font-size, 24px);
+		border-top: 2px solid fade_out($gold, .75);
+		padding-top: $margin/2;
+		p { 
+			@include rem(font-size, 24px);
 			font-weight: 300;
 			line-height: 1.5;
-			margin-bottom: 6px;
+			margin-bottom: $margin/2;
+			margin-top: $margin/2;
 			width: 100%;
-			i.fa {
+			i.fa { 
 				color: fade_out($gray, .6);
+				margin-right: 9px;
 			}
-			a { font-weight: 400; }
+			a { 
+				@include rem(font-size, 18px);
+				font-weight: 500;
+				vertical-align: 4px;
+			}
 		}
 	}
 

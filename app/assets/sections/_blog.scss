@@ -1,5 +1,8 @@
 // Blog on Homepage
-body.home [id="blog"] { margin: 0 0 0 36px; }
+body.home [id="blog"] { 
+	margin: 0 0 0 36px; 
+	article { margin-bottom: $margin*2; }
+}
 
 // Blog Not Homepage
 body:not(.home) {
@@ -7,6 +10,7 @@ body:not(.home) {
 		article { 
 			margin-left: -12px; 
 			width: 81%;
+			footer { @include bottomBorder(); }
 		}
 	}
 }
@@ -64,7 +68,7 @@ body.blog { background-image: image-url("about/2014__park-exterior-header--001.j
 
 		main, main p {
 			@include rem(font-size, 18px);
-			line-height: 1.5;
+			line-height: 1.8;
 
 			&::selection {
 				color: $white;
@@ -91,7 +95,7 @@ body.blog { background-image: image-url("about/2014__park-exterior-header--001.j
 		}
 
 		footer {
-			@include bottomBorder();
+			//@include bottomBorder();
 			display: flex;
 
 			> * { width: calc(100%/2); }
