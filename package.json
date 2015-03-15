@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "autoprefixer": "5.1.0"
+    "autoprefixer": "5.1.0",
+    "sass": "0.5.0"
   }
 }
