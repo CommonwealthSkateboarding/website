@@ -164,6 +164,19 @@ aside[id="info"] {
 		}
 	}
 
+	.instafeed {
+		p { @include rem(font-size, 24px);
+			font-weight: 300;
+			line-height: 1.5;
+			margin-bottom: 6px;
+			width: 100%;
+			i.fa {
+				color: fade_out($gray, .6);
+			}
+			a { font-weight: 400; }
+		}
+	}
+
 	.location {
 
 	}
