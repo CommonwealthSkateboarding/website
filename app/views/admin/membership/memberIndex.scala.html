@@ -72,8 +72,8 @@
                                             </span>
                                         }
                                     }
-                                    <span class="timeago" title="@if(null != member.lastVisit && null != member.lastVisit.time) { @member.lastVisit.time.format("yyyy-MM-dd'T'HH:mmZ") }">
-                                        @if(null == member.lastVisit || null == member.lastVisit.time) { Never }
+                                    <span class="timeago" title="@if((null != member.lastVisit) && (null != member.lastVisit.time)) { @member.lastVisit.time.format("yyyy-MM-dd'T'HH:mmZ") }">
+                                        @if(null == member.lastVisit) || (null == member.lastVisit.time)) { Never }
                                     </span>
                                 </td>
                                 <td><a href="@routes.Admin.viewMemberPage(member.id)" class="btn btn-theme btn-block">View</a></td>
