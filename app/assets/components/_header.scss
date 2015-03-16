@@ -6,7 +6,11 @@ header[id="main"] {
 	display: flex;
 	align-items: center;
 
-	.logo--extended { display: none; }
+	.logo--extended { 
+		display: none; 
+		align-content: center; 
+		justify-content: center; 
+	}
 
 	.logo {
 		height: $header-size;
