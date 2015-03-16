@@ -3,10 +3,8 @@ body.home {
 	color: $white;
 	//max-width: 1600px;
 
-	[id="carousel"] + [id="content"] { 
-		// Negative margin is half the size of the banner + $margin for padding.
-		margin: calc(#{-$banner-height/2} + #{$margin}) auto 0;
-	}
+	// Negative margin is half the size of the banner + $margin for padding.
+	[id="carousel"] + [id="content"] { margin: calc(#{-$banner-height/2} + #{$margin}) auto 0; }
 
 	[id="content"] {
 		background: linear-gradient(top, transparent, fade_out($black, .5));
