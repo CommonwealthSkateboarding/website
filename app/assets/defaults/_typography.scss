@@ -124,7 +124,7 @@ h5, .h5, h6, .h6 { color: $white; font-weight: 500; }
 		content: '';
 		display: table-cell;
 		position: relative;
-		top: 1rem;
+		top: .5em;
 		width: 45%;
 	}
 	&:before { @include rem(right, 9px) }
