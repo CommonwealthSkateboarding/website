@@ -1,0 +1,25 @@
+// Menu Animations
+
+@keyframes menuIn {
+	1% { opacity: 0; visibility: hidden; }
+	2% { opacity: 0; visibility: visible; }
+	100% { opacity: 1; visibility: visible; }
+}
+
+@keyframes menuOut {
+	1% { opacity: 1; visibility: visible; }
+	99% { opacity: 0; visibility: visible; }
+  100% { opacity: 0; visibility: hidden; }
+}
+
+// White Inset Box-Shadows
+
+@keyframes boxIn {
+	0% { box-shadow: inset 0 0 0 9px transparent; }
+	100% { box-shadow: inset 0 0 0 9px $white; }
+}
+
+@keyframes boxOut {
+	0% { box-shadow: inset 0 0 0 9px $white; }
+	100% { box-shadow: inset 0 0 0 9px transparent; }
+}

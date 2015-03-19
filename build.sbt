@@ -10,7 +10,7 @@ herokuAppName in Compile := "lastplace"
 
 lazy val root = (project in file(".")).enablePlugins(PlayJava)
 
-scalaVersion := "2.11.4"
+scalaVersion := "2.11.6"
 
 libraryDependencies += "mysql" % "mysql-connector-java" % "5.1.34"
 
@@ -20,7 +20,7 @@ libraryDependencies += "com.feth" %% "play-authenticate" % "0.6.8"
 
 libraryDependencies += "be.objectify" %% "deadbolt-java" % "2.3.1"
 
-libraryDependencies += "com.newrelic.agent.java" % "newrelic-agent" % "3.12.1"
+libraryDependencies += "com.newrelic.agent.java" % "newrelic-agent" % "3.14.0"
 
 libraryDependencies += "com.stripe" % "stripe-java" % "1.24.1"
 

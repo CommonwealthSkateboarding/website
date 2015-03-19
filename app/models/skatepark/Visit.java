@@ -42,6 +42,7 @@ public class Visit extends Model {
     @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
     public Date expires;
 
+    @OneToOne
     public Visit previousVisit;
 
     public VisitType visitType;

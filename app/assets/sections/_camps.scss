@@ -24,6 +24,11 @@ body.camp-detail {
 			margin: 18px 0 6px 12px;
 			text-transform: uppercase;
 		}
+		
+		.highlight span { 
+			@include rem(font-size, 24px); 
+			line-height: 1.2;
+		}
 
 		.details {
 			order: 2;

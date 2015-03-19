@@ -18,7 +18,7 @@
 	text-align: center;
 
 	th, td { 
-		@include rem(padding, 6px 12px 9px); 
+		@include rem(padding, 9px 12px); 
 		&:first-of-type { text-align: left; }
 	}
 

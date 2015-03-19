@@ -84,7 +84,7 @@ public class Membership extends Model {
         today.set(Calendar.HOUR_OF_DAY, 0);
         today.set(Calendar.MINUTE, 0);
         today.set(Calendar.SECOND, 0);
-        if (null != this.lastVisit) {
+        if ((null != this.lastVisit) && (null != this.lastVisit.time)) {
             return (this.lastVisit.time.after(today.getTime()));
         } else {
             return false;

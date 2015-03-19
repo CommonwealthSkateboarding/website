@@ -1,13 +1,25 @@
 // Browsers & Mobile
 
-// @media screen and (max-width: 1024px) {	
-// 	html { font-size: 95% !important; }
-// }
+@media screen and (max-width: 1024px) {	
+	body:not(.home) { 
+		background-position: 0 0 !important;
+		background-size: contain !important;
+	}
+}
+
+
+
+// 960
 
 @media screen and (max-width: 960px) {
 	//html { font-size: 85% !important; }
 	[id="carousel"] { font-size: 50% !important; }
+	aside[id="info"] > *:not(.pricing) { padding: 0 !important; }
 }
+
+
+
+// 800
 
 @media screen and (max-width: 800px) {
 	html { font-size: 100% !important; }
@@ -22,13 +34,13 @@
 	}
 
 	header[id="main"] {
-		position: static !important;
+		//position: static !important;
 		nav {
-			font-size: 80% !important;
-			> ul { 
+			//font-size: 80% !important;
+			ul.links { 
 				flex-wrap: wrap !important;
 				justify-content: flex-end !important;
-				margin: 0 !important; 
+				margin: 0 30px 0 0 !important; 
 
 				li { 
 					margin: 6px 0 !important;
@@ -39,13 +51,27 @@
 		}
 	}
 
-	[id="carousel"] { display: none !important; }
+	//[id="carousel"] { display: none !important; }
+	[id="carousel"] { 
+		font-size: 40% !important; 
+		height: 450px !important;
+		&.slick-slider { margin-bottom: 0 !important; }
+		.arrow { display: none !important; }
+		.slick-dots { bottom: 0 !important; top: 375px !important; }
+		.slide .content { margin: 90px 30px !important; }
+		.camp.slide .content .h4 { font-size: 18px !important; }
+	}
 
 	.home {
+		//header[id="main"] + [id="content"] { padding: 174px 15px 0 15px !important; }
 		[id="content"] { 
 			padding: 30px !important;
 			margin: 0 !important; 
 		}
+
+		// When the carousel is removed, add extra padding to #content
+		// header[id="main"] + [id="content"] { padding: 150px 30px 0 30px; }
+
 		[id="blog"] { display: none !important; order: 2 !important; margin: 30px 0 0 0 !important; }
 	}
 
@@ -55,23 +81,30 @@
 			article { margin-left: 0 !important; width: 100% !important; }
 		}
 	}
-	aside[id="info"] .contact ul { flex-wrap: wrap !important; }
+
 	[id="content"] main[data-purpose="flex-container"] { padding-bottom: 0 !important; }
 	[id="info"], [id="blog"] { width: 100% !important; }
-	[id="info"] { order: 1 !important; }
+	[id="info"] { 
+		order: 1 !important; 
+		padding: 0 2% !important;
+		.contact ul { flex-wrap: wrap !important; }
+	}
 
 	[id="shop"] .items .item { margin: 15px 0 !important; padding: 0 !important; width: 100% !important; }
 
 	.camp table[id="camps"], .events table[id="events"] {
-		tr, a { font-size: 13px !important; font-weight: 900 !important; }
-		th, td { padding: 15px 6px !important; }
+		tr, a { font-size: 18px !important; font-weight: 900 !important; }
+		th, td { padding: 15px 12px !important; }
 	}
+
 	.camp-detail, .event-detail {
+
 		.sign-up { order: 2 !important; width: 100% !important; margin-top: 30px !important; 
 			radiogroup input[type="radio"] + label { font-size: 15px !important; }
 			button[type="submit"] { width: 100% !important; }
 			.flex { flex-wrap: wrap !important; }
 		}
+
 		.details { 
 			order: 1 !important; 
 			margin-left: 0 !important;
@@ -107,34 +140,103 @@
 		}
 	}
 
-	.quad {
+	.grid {
 		> div { width: 100% !important; }
 	}
 }
 
 
-// Only Mobile
-
-@media screen and (max-device-width: 420px) {
-	html { font-size: 90% !important; }
-
-	body, body > footer { background-image: none !important; }
-
-	header[id="main"] nav { display: none !important; }
-	.camp-detail {
-		.sign-up {
-			[id="cvc"] { margin-left: 0 !important; }
-		}
-	}
-
+// 600
+@media screen and (max-width: 600px) {
+	header[id="main"] { position: static !important; }
+	[id="carousel"] { display: none !important; }
 }
 
 
-// iOS
+// Potentially Ignore
+
+// @media screen and (max-device-width: 420px) {
+// 	html { font-size: 90% !important; }
+
+// 	body, body > footer { background-image: none !important; }
+
+// 	header[id="main"] nav .links { display: none !important; }
+// 	.camp-detail {
+// 		.sign-up {
+// 			[id="cvc"] { margin-left: 0 !important; }
+// 		}
+// 	}
+
+// }
+
+
+// Only Mobile
 
 @media only screen 
 and (min-device-width : 320px) 
-and (max-device-width : 1024px) { 
-	 [id="carousel"] { display: block !important; }
-	 [id="blog"] { display: block !important; }
+and (max-device-width : 480px) {
+
+	body, footer { background-image: none !important; } 
+
+	header[id="main"] {
+		flex-wrap: wrap !important;
+		padding: 0 !important;
+		//position: static !important;
+
+		.logo,
+		ul.links { display: none !important; }
+
+		.logo--extended,
+		nav.mobile { display: flex !important; }
+
+		.logo--extended { padding: 42px 30px 0px 30px !important; }
+
+		nav { width: 100% !important; }
+
+	}
+
+	body.home {
+		header[id="main"] .logo--extended { 
+			margin: 60px 0 30px 0 !important;
+			padding: 0 15px !important; 
+		}
+		[id="content"] { padding: 0 12px !important; }
+		footer .sponsors { margin: 0 0 18px 0 !important; }
+
+		[id="content"], footer .sponsors { padding: 0 15px !important; }
+	}
+
+	[id="content"] { 
+		section {
+			.h1 { display: none !important; }
+			h2 { 
+				color: #FFFFFF !important;
+				font-size: 24px !important; 
+				font-weight: 500 !important; 
+				text-transform: none !important;
+			}
+		}
+	}
+
+	.camp table[id="camps"] .instructors { display: none !important; }
+
+	[id="blog"] { display: block !important; }
+
+	footer {
+		nav { 
+			padding: 12px !important;
+			&:before { left: 63% !important; }
+			ul:first-of-type li:first-of-type { 
+				margin-top: 0 !important;
+			}
+			li { 
+				font-size: 24px !important;
+				line-height: 1 !important;
+				margin: 9px 0 !important;
+				width: 87% !important;
+
+				a { font-weight: 300 !important; }
+			}
+		}
+	}
 }
