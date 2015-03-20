@@ -34,14 +34,12 @@
 					<li class="cost">
 						<p class="h6">Cost</p>
 						<p>@utils.Formatter.prettyDollars(event.cost)</p>
-					</li>
-					@if(controllers.Application.EVENT_DEPOSIT < event.cost){
-						<li class="cost">
-							<p class="notice"><strong>
-								A @utils.Formatter.prettyDollars(controllers.Application.EVENT_DEPOSIT)
-								non-refundable deposit is required for each participant.</strong></p>
-						</li>
-					}
+                        <p><img src="@routes.Assets.at("img/credit-cards.png")" alt="Payment Methods"></p>
+                        @if(controllers.Application.EVENT_DEPOSIT < event.cost){
+                            <p class="notice"><strong>A @utils.Formatter.prettyDollars(controllers.Application.EVENT_DEPOSIT)
+                            non-refundable deposit is required for each participant.</strong></p>
+                        }
+                    </li>
 				} else {
 					<li class="cost">
 						<p class="h6">Cost</p>
