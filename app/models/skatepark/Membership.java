@@ -2,6 +2,7 @@ package models.skatepark;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import models.security.User;
 import play.data.format.Formats;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
@@ -75,6 +76,15 @@ public class Membership extends Model {
     @JsonIgnore
     @OneToOne
     public Visit lastVisit;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "membership")
+    public User owner;
+
+    @JsonIgnore
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name="guardian")
+    public List<User> guardian;
 
     public static final Finder<Long, Membership> find = new Finder<Long, Membership>(
             Long.class, Membership.class);

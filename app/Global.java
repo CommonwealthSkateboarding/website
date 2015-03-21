@@ -1,5 +1,7 @@
+import controllers.Admin;
 import controllers.Slack;
 import controllers.Square;
+import models.security.User;
 import models.square.Payment;
 import org.joda.time.DateTime;
 import org.joda.time.Seconds;
@@ -64,7 +66,7 @@ public class Global extends GlobalSettings {
             public Call afterAuth() {
                 // The user will be redirected to this page after authentication
                 // if no original URL was saved
-                return routes.Admin.dashboard();
+                return routes.Application.profile();
             }
 
             @Override

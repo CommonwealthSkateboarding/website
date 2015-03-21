@@ -5,9 +5,10 @@ import java.util.*;
 import javax.persistence.*;
 
 import be.objectify.deadbolt.core.models.Permission;
-import be.objectify.deadbolt.core.models.Role;
 import be.objectify.deadbolt.core.models.Subject;
 import com.feth.play.module.pa.user.*;
+import models.skatepark.Membership;
+import org.apache.commons.lang.RandomStringUtils;
 import play.data.format.Formats;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
@@ -30,6 +31,8 @@ public class User extends Model implements Subject {
     @Id
     public Long id;
 
+    public String publicId;
+
     @Constraints.Email
     // if you make this unique, keep in mind that users *must* merge/link their
     // accounts then on signup with additional providers
@@ -47,6 +50,18 @@ public class User extends Model implements Subject {
 
     public boolean emailValidated;
 
+    public Double giftCardBalance;
+
+    public Double promotionalCredit;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "membership_id")
+    public Membership membership;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name="guardian")
+    public List<Membership> guardianOf;
+
     @ManyToMany(cascade = CascadeType.ALL)
     public List<SecurityRole> roles;
 
@@ -60,6 +75,10 @@ public class User extends Model implements Subject {
 
     public static final Finder<Long, User> find = new Finder<Long, User>(
             Long.class, User.class);
+
+    public Double getSpendableBalance() {
+        return ((null==this.giftCardBalance?0.00:this.giftCardBalance)+(null==this.promotionalCredit?0.00:this.promotionalCredit));
+    }
 
     public static boolean existsByAuthUserIdentity(
             final AuthUserIdentity identity) {
@@ -94,10 +113,9 @@ public class User extends Model implements Subject {
 
     public static User create(final AuthUser authUser) {
         final User user = new User();
-        user.roles = Collections.singletonList(SecurityRole
-                .findByRoleName(controllers.Application.USER_ROLE));
         user.active = true;
         user.lastLogin = new Date();
+        user.publicId = RandomStringUtils.randomAlphabetic(5).toUpperCase();
         user.linkedAccounts = Collections.singletonList(LinkedAccount
                 .create(authUser));
 
@@ -112,7 +130,6 @@ public class User extends Model implements Subject {
             user.photoUrl = identity.getPicture();
             user.emailValidated = false;
         }
-
 
         if (authUser instanceof NameIdentity) {
             final NameIdentity identity = (NameIdentity) authUser;

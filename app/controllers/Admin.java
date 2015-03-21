@@ -10,6 +10,7 @@ import models.site.Issue;
 import models.site.NewsItem;
 import models.skatepark.*;
 import org.apache.commons.lang3.time.DateUtils;
+import play.Logger;
 import play.data.Form;
 import play.db.ebean.Model;
 import play.mvc.Controller;
@@ -27,7 +28,8 @@ import views.html.admin.news.addNews;
 import views.html.admin.news.editNews;
 import views.html.admin.news.newsIndex;
 import views.html.admin.unheard.unheardSaleIndex;
-import views.html.admin.userIndex;
+import views.html.admin.users.userIndex;
+import views.html.admin.users.userDetail;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -501,10 +503,22 @@ public class Admin extends Controller {
     }
 
     @Restrict({@Group("USER_ADMIN")})
-    public static Result userIndex() {
-        List<User> users = User.find.orderBy(USER_LAST_LOGIN_ORDER).findList();
+    public static Result userIndex(Long page) {
+        boolean hasNextPage = false;
+        List<User> users = User.find.orderBy(USER_LAST_LOGIN_ORDER).setMaxRows(PER_PAGE+1)
+                .setFirstRow(page.intValue() * PER_PAGE).findList();
+        if (users.size() == (PER_PAGE + 1)) { // if there is another page after
+            users.remove(PER_PAGE);
+            hasNextPage = true;
+        }
         List<SecurityRole> roles = SecurityRole.find.findList();
-        return ok(userIndex.render(users, roles, getLocalUser(session())));
+        return ok(userIndex.render(users, roles, page, hasNextPage, getLocalUser(session())));
+    }
+
+    @Restrict({@Group("USER_ADMIN")})
+    public static Result viewUserPage(Long id) {
+        User user = User.find.byId(id);
+        return ok(userDetail.render(user, getLocalUser(session())));
     }
 
     @Restrict({@Group("USER_ADMIN")})
@@ -520,7 +534,7 @@ public class Admin extends Controller {
         }
         user.save();
 
-        return redirect(routes.Admin.userIndex());
+        return redirect(routes.Admin.userIndex(0));
     }
 
     @Restrict({@Group("CAMP")})
@@ -818,7 +832,6 @@ public class Admin extends Controller {
     }
 
     public static Result issueIndex() {
-        Date now = new Date();
         List<Issue> issues = Issue.find.orderBy("created").where().isNull("resolved").findList();
         return ok(issueIndex.render(issues, getLocalUser(session())));
     }
@@ -910,5 +923,50 @@ public class Admin extends Controller {
         audit("Invoiced unheard sale (id: " + sale.id + ")", null, null);
 
         return redirect(routes.Admin.unheardSaleIndex());
+    }
+
+    public static Result setOwner(Long id) {
+        String publicId = Form.form().bindFromRequest().data().get("publicId");
+        User user = User.find.where().eq("publicId", publicId).findUnique();
+        Membership membership = Membership.find.byId(id);
+        if (null == user || null == membership) {
+            return error("Could not find a user to set as owner. Maybe the code was entered wrong?");
+        } else if (user.membership == null) {
+            audit("Setting " + user.email + " as owner of membership, adding bonus session pass with id " + publicId, membership, null);
+            user.membership = membership;
+            user.update();
+            membership.sessionPasses = membership.sessionPasses + 1; //add promotional pass for signing up!
+            membership.update();
+        } else {
+            audit("Removing " + user.email + " from " + user.membership.name + " and setting as owner of membership with id " +
+                            publicId, membership, null);
+            user.membership = membership;
+            user.update();
+        }
+        return redirect(routes.Admin.viewMemberPage(id));
+    }
+
+    public static Result addGuardian(Long id) {
+        String publicId = Form.form().bindFromRequest().data().get("publicId");
+        User user = User.find.where().eq("publicId", publicId).findUnique();
+        Membership membership = Membership.find.byId(id);
+        if (null == user || null == membership) {
+            return error("Could not find a user to add as guardian. Maybe the code was entered wrong?");
+        } else if (membership.guardian.contains(user)) {
+            return error(membership.name + " already has " + user.name + " assigned as a guardian.");
+        } else {
+            audit("Adding " + user.email + " as guardian of membership", membership, user);
+            List<User> guardians;
+            if (null == membership.guardian) {
+                membership.guardian = new ArrayList<>();
+            }
+            membership.guardian.add(user);
+        }
+        membership.update();
+        return redirect(routes.Admin.viewMemberPage(id));
+    }
+
+    public static Result error(String error) {
+        return ok(error);
     }
 }

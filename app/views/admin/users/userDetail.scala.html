@@ -1,0 +1,61 @@
+@(user: models.security.User, localUser: models.security.User = null)
+@import admin.wrapper
+@wrapper(localUser, "user", "viewUsers") {
+
+<h3><i class="fa fa-angle-right"></i> User Database</h3>
+<div class="row mb">
+
+    <div class="col-lg-8 col-md-8 col-sm-8">
+        <div class="showback">
+            <h4><i class="fa fa-angle-right"></i> Details for @user.name</h4>
+            <section id="unseen">
+                <table class="table table-bordered table-striped table-condensed">
+                    <tbody>
+                        <tr>
+                            <td>ID</td>
+                            <td>@user.publicId</td>
+                        </tr>
+                        <tr>
+                            <td>Last Login:</td>
+                            <td><span class="timeago" title="@user.lastLogin.format("yyyy-MM-dd'T'HH:mmZ")"></span></td>
+                        </tr>
+                        <tr>
+                            <td>Membership:</td>
+                            <td>@if(null != user.membership) {
+                                    <a href="@routes.Admin.viewMemberPage(user.membership.id)">@user.membership.name</a>
+                                } else {
+                                    <i>None</i>
+                                }
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Guardian Of:</td>
+                            <td>
+                                @for(kid<-user.guardianOf) {
+                                    <li><a href="@routes.Admin.viewMemberPage(kid.id)">@kid.name</a></li>
+                                }
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </div>
+    </div>
+
+    <div class="col-lg-4 col-md-4 col-sm-4">
+        <div class="showback">
+            <p class="text-center">
+                <img src="@user.photoUrl" class="img-responsive center-block"><br/>
+                <img src="http://www.barcodes4.me/barcode/c39/@(user.publicId).png" class="img-responsive center-block"><br/>
+                @user.publicId
+            </p>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function(){
+        $("span.timeago").timeago();
+    });
+</script>
+}

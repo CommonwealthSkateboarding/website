@@ -34,10 +34,10 @@
                     <nav>
                         <ul class="pager">
                             @if(page >= 1) {
-                            <li class="previous"><a href="/admin/members/@(page-1)"><span aria-hidden="true">&larr;</span> Previous Page</a></li>
+                            <li class="previous"><a href="@routes.Admin.memberIndex(page-1)"><span aria-hidden="true">&larr;</span> Previous Page</a></li>
                             }
                             @if(hasNextPage) {
-                            <li class="next"><a href="/admin/members/@(page+1)">Next Page<span aria-hidden="true">&rarr;</span></a></li>
+                            <li class="next"><a href="@routes.Admin.memberIndex(page+1)">Next Page<span aria-hidden="true">&rarr;</span></a></li>
                             }
                         </ul>
                     </nav>
@@ -46,40 +46,47 @@
                     <thead>
                     <tr>
                         <th>Name</th>
+                        <th>Users</th>
                         <th>Last Visited</th>
                         <th>View</th>
                         <th>Edit</th>
                     </tr>
                     </thead>
                     <tbody>
-                    @for(index <- 0 until members.size) {
-                        @defining(members(index)) { member =>
-                            <tr>
-                                <td>@member.name</td>
-                                <td>
-                                    @if(member.isCheckedInToday()) {
-                                        <span class="label label-success">Checked In Today</span>
+                    @for(member<-members) {
+                        <tr>
+                            <td>@member.name</td>
+                            <td>
+                                @if(null != member.owner) {
+                                    <a href="@routes.Admin.viewUserPage(member.owner.id)"><span class="label label-primary"><i class="fa fa-user"></i></span></a>
+                                }
+                                @for(guardian<-member.guardian) {
+                                    <a href="@routes.Admin.viewUserPage(guardian.id)"><span class="label label-warning"><i class="fa fa-user"></i></span></a>
+                                }
+                            </td>
+                            <td>
+                                @if(member.isCheckedInToday()) {
+                                    <span class="label label-success">Checked In Today</span>
 
-                                        @if(member.lastVisit.isValidNow()) {
-                                            @if(member.lastVisit.visitType == VisitType.SESSION) {
-                                                <span class="label label-success pull-right">Pass expires <span class="timeago" title="@member.lastVisit.expires.format("yyyy-MM-dd'T'HH:mmZ")"></span></span>
-                                            } else {
-                                                <span class="label label-success pull-right">Pass good all day</span>
-                                            }
+                                    @if(member.lastVisit.isValidNow()) {
+                                        @if(member.lastVisit.visitType == VisitType.SESSION) {
+                                            <span class="label label-success pull-right">Pass expires <span class="timeago" title="@member.lastVisit.expires.format("yyyy-MM-dd'T'HH:mmZ")"></span></span>
                                         } else {
-                                            <span class="label label-danger pull-right">Pass expired
-                                                <span class="timeago" title="@member.lastVisit.expires.format("yyyy-MM-dd'T'HH:mmZ")"></span>
-                                            </span>
+                                            <span class="label label-success pull-right">Pass good all day</span>
                                         }
+                                    } else {
+                                        <span class="label label-danger pull-right">Pass expired
+                                            <span class="timeago" title="@member.lastVisit.expires.format("yyyy-MM-dd'T'HH:mmZ")"></span>
+                                        </span>
                                     }
-                                    <span class="timeago" title="@if((null != member.lastVisit) && (null != member.lastVisit.time)) { @member.lastVisit.time.format("yyyy-MM-dd'T'HH:mmZ") }">
-                                        @if((null == member.lastVisit) || (null == member.lastVisit.time)) { Never }
-                                    </span>
-                                </td>
-                                <td><a href="@routes.Admin.viewMemberPage(member.id)" class="btn btn-theme btn-block">View</a></td>
-                                <td><a href="@routes.Admin.editMemberPage(member.id)" class="btn btn-theme btn-block">Edit</a></td>
-                            </tr>
-                        }
+                                }
+                                <span class="timeago" title="@if((null != member.lastVisit) && (null != member.lastVisit.time)) { @member.lastVisit.time.format("yyyy-MM-dd'T'HH:mmZ") }">
+                                    @if((null == member.lastVisit) || (null == member.lastVisit.time)) { Never }
+                                </span>
+                            </td>
+                            <td><a href="@routes.Admin.viewMemberPage(member.id)" class="btn btn-theme btn-block">View</a></td>
+                            <td><a href="@routes.Admin.editMemberPage(member.id)" class="btn btn-theme btn-block">Edit</a></td>
+                        </tr>
                     }
                     </tbody>
                 </table>
@@ -87,10 +94,10 @@
                     <nav>
                         <ul class="pager">
                             @if(page >= 1) {
-                            <li class="previous"><a href="/admin/members/@(page-1)"><span aria-hidden="true">&larr;</span> Previous Page</a></li>
+                            <li class="previous"><a href="@routes.Admin.memberIndex(page-1)"><span aria-hidden="true">&larr;</span> Previous Page</a></li>
                             }
                             @if(hasNextPage) {
-                            <li class="next"><a href="/admin/members/@(page+1)">Next Page<span aria-hidden="true">&rarr;</span></a></li>
+                            <li class="next"><a href="@routes.Admin.memberIndex(page+1)">Next Page<span aria-hidden="true">&rarr;</span></a></li>
                             }
                         </ul>
                     </nav>

@@ -1,9 +1,12 @@
 package controllers;
 
 import com.avaje.ebean.Expr;
+import com.feth.play.module.pa.PlayAuthenticate;
+import com.feth.play.module.pa.user.AuthUser;
 import com.stripe.exception.CardException;
 import com.stripe.model.Charge;
 import models.security.AuditRecord;
+import models.security.User;
 import models.site.NewsItem;
 import models.skatepark.*;
 import org.apache.commons.lang3.time.DateUtils;
@@ -224,5 +227,10 @@ public class Application extends Controller {
 
     public static Result registrationPage() {
         return ok(registrationPage.render());
+    }
+
+    public static Result profile() {
+        User user = User.findByAuthUserIdentity(PlayAuthenticate.getUser(session()));
+        return ok(profile.render(user));
     }
 }

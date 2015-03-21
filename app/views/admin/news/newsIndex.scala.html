@@ -12,10 +12,10 @@
                     <nav>
                         <ul class="pager">
                             @if(page >= 1) {
-                            <li class="previous"><a href="/admin/news/@(page-1)"><span aria-hidden="true">&larr;</span> Previous Page</a></li>
+                            <li class="previous"><a href="@routes.Admin.newsIndex(page-1)"><span aria-hidden="true">&larr;</span> Previous Page</a></li>
                             }
                             @if(hasNextPage) {
-                            <li class="next"><a href="/admin/news/@(page+1)">Next Page<span aria-hidden="true">&rarr;</span></a></li>
+                            <li class="next"><a href="@routes.Admin.newsIndex(page+1)">Next Page<span aria-hidden="true">&rarr;</span></a></li>
                             }
                         </ul>
                     </nav>
@@ -51,10 +51,10 @@
                     <nav>
                         <ul class="pager">
                             @if(page >= 1) {
-                            <li class="previous"><a href="/admin/news/@(page-1)"><span aria-hidden="true">&larr;</span> Previous Page</a></li>
+                            <li class="previous"><a href="@routes.Admin.newsIndex(page-1)"><span aria-hidden="true">&larr;</span> Previous Page</a></li>
                             }
                             @if(hasNextPage) {
-                            <li class="next"><a href="/admin/news/@(page+1)">Next Page<span aria-hidden="true">&rarr;</span></a></li>
+                            <li class="next"><a href="@routes.Admin.newsIndex(page+1)">Next Page<span aria-hidden="true">&rarr;</span></a></li>
                             }
                         </ul>
                     </nav>
