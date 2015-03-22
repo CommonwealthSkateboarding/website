@@ -2,6 +2,7 @@ package controllers;
 
 import models.security.AuditRecord;
 import models.site.Issue;
+import models.skatepark.Registration;
 import models.skatepark.Visit;
 import models.square.Payment;
 import models.square.PaymentItemization;
@@ -127,7 +128,19 @@ public class Slack {
     }
 
     public static void notifyOfClosedIssue(Issue issue) {
-        dispatch(new SlackMessage(SLACKBOT_GENERAL_CHANNEL, getLocalUser(session()).name, ("Issue closed: " + issue.title +
-                " [<" + BASE_URL + routes.Admin.issueIndex()) + "|View Issues>]"));
+        dispatch(new SlackMessage(SLACKBOT_GENERAL_CHANNEL, getLocalUser(session()).name, ("Issue closed: " +
+                issue.title + " [<" + BASE_URL + routes.Admin.issueIndex()) + "|View Issues>]"));
+    }
+
+    public static void emitCampRegistrationPayment(Registration reg) {
+        dispatch(new SlackMessage(SLACKBOT_FINANCE_CHANNEL, reg.participantName, ("Payment of "
+                + prettyDollars(reg.totalPaid) + " for " + reg.camp.title + " registration of " + reg.participantName +
+                " [<" + BASE_URL + routes.Admin.viewCampPage(reg.camp.id)) + "|View Camp>]"));
+    }
+
+    public static void emitEventRegistrationPayment(Registration reg) {
+        dispatch(new SlackMessage(SLACKBOT_FINANCE_CHANNEL, reg.participantName,
+                ("Payment of " + prettyDollars(reg.totalPaid) + " for " + reg.event.name + " registration of " +
+                reg.participantName + " [<" + BASE_URL + routes.Admin.viewEventPage(reg.event.id)) + "|View Event>]"));
     }
 }

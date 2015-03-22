@@ -157,6 +157,7 @@ public class Application extends Controller {
             audit("Added registration for camp " + camp.title + " from web for " + info.name, camp);
 
             Email.sendCampRegistrationConfirmation(info.email, reg);
+            Slack.emitCampRegistrationPayment(reg);
 
             return redirect(routes.Application.registrationPage());
         } catch (CardException e) {
@@ -197,6 +198,7 @@ public class Application extends Controller {
             audit("Added registration for event " + event.name + " from web for " + info.name, event);
 
             Email.sendEventRegistrationConfirmation(info.email, reg);
+            Slack.emitEventRegistrationPayment(reg);
 
             return redirect(routes.Application.registrationPage());
         } catch (CardException e) {
