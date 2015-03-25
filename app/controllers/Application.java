@@ -9,6 +9,7 @@ import models.skatepark.*;
 import org.apache.commons.lang3.time.DateUtils;
 import play.Logger;
 import play.cache.Cache;
+import play.cache.Cached;
 import play.data.Form;
 import play.db.ebean.Model;
 import play.mvc.*;
@@ -24,6 +25,7 @@ public class Application extends Controller {
     public static final String USER_ROLE = "USER";
     public static final Double CAMP_DEPOSIT = 100.0; //Dollars
     public static final Double EVENT_DEPOSIT = 50.0; //Dollars
+    private static final int CACHE_TIME_IN_SECONDS = 2 * 60; // 2 minutes
 
     public static Result removeTrailingSlash(String path) {
         return movedPermanently("/" + path);
@@ -44,7 +46,7 @@ public class Application extends Controller {
         List<NewsItem> news = (List<NewsItem>) Cache.get(cacheKey);
         if (null == news) {
             news = getNewsItems(page);
-            Cache.set(cacheKey, news, 60 * 1); // cache for 1 minute
+            Cache.set(cacheKey, news, CACHE_TIME_IN_SECONDS);
         }
         if (news.size() == (PER_PAGE + 1)) { // if there is another page after
             news.remove(PER_PAGE);
@@ -81,14 +83,17 @@ public class Application extends Controller {
         return ok(blog.render(news, page, hasNextPage));
     }
 
+    @Cached(duration = CACHE_TIME_IN_SECONDS, key = "shop")
     public static Result shop(){
         return ok(shop.render());
     }
 
+    @Cached(duration = CACHE_TIME_IN_SECONDS, key = "camp")
     public static Result camp(){
-        Date tomorrow = new Date();
-        tomorrow = DateUtils.ceiling(tomorrow, Calendar.DATE);
-        List<Camp> camps = Camp.find.where().gt("registrationEndDate", tomorrow).orderBy("startDate").findList();
+        Date today = new Date();
+        today = DateUtils.ceiling(today, Calendar.DATE);
+        today = DateUtils.addDays(today, -1);
+        List<Camp> camps = Camp.find.where().ge("registrationEndDate", today).orderBy("startDate").findList();
         return ok(camp.render(camps));
     }
 
@@ -100,10 +105,12 @@ public class Application extends Controller {
         return ok(campDetail.render(camp, null));
     }
 
+    @Cached(duration = CACHE_TIME_IN_SECONDS, key = "sessions")
     public static Result sessions(){
         return ok(sessions.render());
     }
 
+    @Cached(duration = CACHE_TIME_IN_SECONDS, key = "events")
     public static Result events() {
         Date now = new Date();
         List<Event> publicEvents = Event.find.orderBy("startTime").where().gt("endTime", now)
@@ -118,11 +125,13 @@ public class Application extends Controller {
         }
         return ok(eventDetail.render(event, null));
     }
-    
+
+    @Cached(duration = CACHE_TIME_IN_SECONDS, key = "about")
     public static Result about(){
         return ok(about.render());
     }
 
+    @Cached(duration = CACHE_TIME_IN_SECONDS, key = "contact")
     public static Result contact(){
         return ok(contact.render());
     }
