@@ -47,7 +47,5 @@ public class Payment {
     public PaymentItemization[] itemizations;
 
     public Money swedish_rounding_money;
-
-    public String itemization_type;
 }
 
