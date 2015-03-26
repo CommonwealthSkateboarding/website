@@ -17,6 +17,8 @@ public class Registration extends Model {
 
 
     public enum PaymentType {
+        @EnumValue("NONE")
+        NONE,
         @EnumValue("CASH")
         CASH,
         @EnumValue("SQUARE")

@@ -45,7 +45,7 @@
                 <label>Total Paid:</label><br/><input type="text" name="totalPaid" value="@reg.totalPaid" class="form-control" /><br/>
                 <label>Payment Type</label><br/>
                 <select name="paymentType" class="form-control">
-                    <option value="" @if(reg.paymentType == null){selected} >Not Paid</option>
+                    <option value="NONE" @if(reg.paymentType.name() == "NONE"){selected} >Not Paid</option>
                     <option value="CASH" @if(reg.paymentType.name() == "CASH"){selected} >Cash</option>
                     <option value="STRIPE" @if(reg.paymentType.name() == "STRIPE"){selected} >Stripe</option>
                     <option value="SQUARE" @if(reg.paymentType.name() == "SQUARE"){selected} >Square</option>

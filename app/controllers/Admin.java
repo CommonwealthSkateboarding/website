@@ -622,6 +622,9 @@ public class Admin extends Controller {
         registration.camp = camp;
         registration.registrationType = Registration.RegistrationType.CAMP;
         registration.confirmationId = org.apache.commons.lang3.RandomStringUtils.random(6, "ABCDEFGHJKMNPQRSTUVWXYZ23456789");
+        if(registration.totalPaid == null) {
+            registration.totalPaid = 0.00;
+        }
 
         registration.save();
 
@@ -777,6 +780,9 @@ public class Admin extends Controller {
         registration.event = event;
         registration.registrationType = Registration.RegistrationType.EVENT;
         registration.confirmationId = org.apache.commons.lang3.RandomStringUtils.random(6, "ABCDEFGHJKMNPQRSTUVWXYZ23456789");
+        if(registration.totalPaid == null) {
+            registration.totalPaid = 0.00;
+        }
 
         registration.save();
 
