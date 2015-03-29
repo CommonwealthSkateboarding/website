@@ -66,7 +66,7 @@ public class UnlimitedPass extends Model {
 
     public boolean isValid() {
         Date now = new Date();
-        return (this.starts.before(now) && this.expires.after(now));
+        return (this.starts.before(now) && (null == this.expires || this.expires.after(now)));
     }
 
 }
