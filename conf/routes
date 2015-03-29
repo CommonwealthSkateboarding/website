@@ -76,6 +76,7 @@ GET     /admin/camps/:id/register               controllers.Admin.campRegistrati
 POST    /admin/camps/:id/register               controllers.Admin.addCampRegistration(id: String)
 GET     /admin/camps/registration/:id/edit      controllers.Admin.editCampRegistrationPage(id: Long)
 POST    /admin/camps/registration/:id/edit      controllers.Admin.editCampRegistration(id: Long)
+GET     /admin/camps/:id/archive                controllers.Admin.archiveCamp(id: String)
 
 GET     /admin/events                           controllers.Admin.eventIndex()
 GET     /admin/events/new                       controllers.Admin.addEventPage()

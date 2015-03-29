@@ -33,6 +33,8 @@ create table bitcoin_sale (
   constraint pk_bitcoin_sale primary key (id))
 ;
 
+alter table camp add archived tinyint(1) NOT NULL DEFAULT 0;
+
 # --- !Downs
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -47,5 +49,7 @@ alter table audit_record modify camp_id bigint;
 alter table registration modify camp_id bigint;
 
 drop table bitcoin_sale;
+
+alter table camp drop column archived;
 
 SET FOREIGN_KEY_CHECKS=1;

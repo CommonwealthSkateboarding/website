@@ -528,7 +528,7 @@ public class Admin extends Controller {
 
     @Restrict({@Group("CAMP")})
     public static Result campIndex() {
-        List<Camp> camps = Camp.find.findList();
+        List<Camp> camps = Camp.find.where().eq("archived", false).orderBy("startDate").findList();
         return ok(campIndex.render(camps, getLocalUser(session())));
     }
 
@@ -666,6 +666,20 @@ public class Admin extends Controller {
         audit("Edited registration for " + reg.participantName + " to " + reg.camp.title, null, reg.camp);
 
         return redirect(routes.Admin.viewCampPage(reg.camp.id));
+    }
+
+    @Restrict({@Group("CAMP")})
+    public static Result archiveCamp(String id) {
+        Camp camp = (Camp) new Model.Finder(String.class, Camp.class).byId(id);
+        if (null == camp) {
+            return redirect(routes.Admin.campIndex()); // not found
+        }
+        camp.archived = true;
+        camp.save();
+
+        audit("Archived camp " + camp.title, null, camp);
+
+        return redirect(routes.Admin.campIndex());
     }
 
     @Restrict({@Group("EVENTS")})
