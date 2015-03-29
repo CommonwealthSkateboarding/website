@@ -1,6 +1,6 @@
 @(sales: List[models.skatepark.UnheardSale], localUser: models.security.User = null)
 @import admin.wrapper
-@wrapper(localUser, "unheard", "unheard") {
+@wrapper(localUser, "register", "unheard") {
 <h3><i class="fa fa-angle-right"></i> Unheard Sale Database</h3>
 <div class="row mb">
 
@@ -52,7 +52,7 @@
                         <tr>
                             <td>@sale.brand</td>
                             <td>@sale.description</td>
-                            <td>@utils.Formatter.prettyDollars(sale.retailPrice)</td>
+                            <td>@utils.Formatter.prettyDollarsAndCents(sale.retailPrice)</td>
                             <td>@if(sale.teamRiderSale) { Yes } else { No }</td>
                             <td>@sale.soldBy.name</td>
                             <td>@sale.created.format("MM/dd/yyyy h:mm a")</td>

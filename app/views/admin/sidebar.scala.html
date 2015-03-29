@@ -40,10 +40,16 @@
                 </a>
             </li>
             <li class="sub-menu">
-                <a @if(activeSection=="unheard") { class="active" } href="@routes.Admin.unheardSaleIndex()" >
+                <a @if(activeSection=="register") { class="active" } href="javascript:;" >
                     <i class="fa fa-money"></i>
-                    <span>Unheard Sales</span>
+                    <span>Register & Sales</span>
                 </a>
+                <ul class="sub">
+                    <li @if(activePage=="unheard") { class="active" }><a href="@routes.Admin.unheardSaleIndex()">Unheard Sales</a></li>
+                </ul>
+                <ul class="sub">
+                    <li @if(activePage=="bitcoin") { class="active" }><a href="@routes.Admin.newBitcoinSale()">Bitcoin Sales</a></li>
+                </ul>
             </li>
             @restrict(la(as("CAMP"))) {
                 <li class="sub-menu">

@@ -52,7 +52,7 @@
             </tr>
             <tr>
                 <td>Cost</td>
-                <td>@utils.Formatter.prettyDollars(event.cost)</td>
+                <td>@utils.Formatter.prettyDollarsAndCents(event.cost)</td>
             </tr>
             <tr>
                 <td>Public Notes</td>
@@ -93,7 +93,7 @@
                     <td>@reg.timestamp.format("MM/dd/yyyy")</td>
                     <td>@if(reg.paid) { <span class="label label-success">PAID</span> } else { <span class="label label-danger">UNPAID</span> }</td>
                     <td><span class="label label-primary">@reg.paymentType</span></td>
-                    <td>@utils.Formatter.prettyDollars(reg.totalPaid)</td>
+                    <td>@utils.Formatter.prettyDollarsAndCents(reg.totalPaid)</td>
                     <td>@Html(reg.notes)</td>
                     <td><a href="@routes.Admin.editEventRegistrationPage(reg.id)" class="btn btn-primary btn-xs">Edit</a></td>
                 </tr>

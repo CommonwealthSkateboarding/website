@@ -134,7 +134,7 @@
 
 <div class="col-lg-4 col-md-4 col-sm-4">
     <div class="showback">
-        <h4 class="pull-right"><span class="label @if(member.credit != null && member.credit<0){label-danger}else{label-default}">@utils.Formatter.prettyDollars(member.credit)</span></h4>
+        <h4 class="pull-right"><span class="label @if(member.credit != null && member.credit<0){label-danger}else{label-default}">@utils.Formatter.prettyDollarsAndCents(member.credit)</span></h4>
         <h4><i class="fa fa-angle-right"></i> Food Credit</h4>
         <div class="collapse-group">
             <form action="@routes.Admin.addCredit(member.id)" method="post" class="form-inline collapse text-center" role="form">

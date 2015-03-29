@@ -3,6 +3,7 @@ package controllers;
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
 import com.feth.play.module.pa.PlayAuthenticate;
+import com.stripe.model.Charge;
 import models.security.AuditRecord;
 import models.security.SecurityRole;
 import models.security.User;
@@ -10,6 +11,7 @@ import models.site.Issue;
 import models.site.NewsItem;
 import models.skatepark.*;
 import org.apache.commons.lang3.time.DateUtils;
+import play.Logger;
 import play.data.Form;
 import play.db.ebean.Model;
 import play.mvc.Controller;
@@ -26,7 +28,8 @@ import views.html.admin.membership.*;
 import views.html.admin.news.addNews;
 import views.html.admin.news.editNews;
 import views.html.admin.news.newsIndex;
-import views.html.admin.unheard.unheardSaleIndex;
+import views.html.admin.register.unheardSaleIndex;
+import views.html.admin.register.bitcoinSale;
 import views.html.admin.userIndex;
 
 import java.text.ParseException;
@@ -452,7 +455,7 @@ public class Admin extends Controller {
         Double amount = Double.parseDouble((String) Form.form().bindFromRequest().data().get("amount"));
         Membership member = (Membership) new Model.Finder(Long.class, Membership.class).byId(memberId);
         member.deposit(amount);
-        audit("Added " + utils.Formatter.prettyDollars(amount) + " credit to " + member.name + "'s membership", member, null);
+        audit("Added " + utils.Formatter.prettyDollarsAndCents(amount) + " credit to " + member.name + "'s membership", member, null);
         return redirect(routes.Admin.viewMemberPage(memberId));
     }
 
@@ -460,7 +463,7 @@ public class Admin extends Controller {
         Double amount = Double.parseDouble((String) Form.form().bindFromRequest().data().get("amount"));
         Membership member = (Membership) new Model.Finder(Long.class, Membership.class).byId(memberId);
         member.spend(amount);
-        audit("Subtracted " + utils.Formatter.prettyDollars(amount) + " credit from " + member.name + "'s membership", member, null);
+        audit("Subtracted " + utils.Formatter.prettyDollarsAndCents(amount) + " credit from " + member.name + "'s membership", member, null);
         return redirect(routes.Admin.viewMemberPage(memberId));
     }
 
@@ -916,5 +919,28 @@ public class Admin extends Controller {
         audit("Invoiced unheard sale (id: " + sale.id + ")", null, null);
 
         return redirect(routes.Admin.unheardSaleIndex());
+    }
+
+    public static Result newBitcoinSale() {
+
+        List<BitcoinSale> sales = BitcoinSale.find.orderBy("created").setMaxRows(PER_PAGE).findList();
+        return ok(bitcoinSale.render(sales, getLocalUser(session())));
+    }
+
+    public static Result addBitcoinSale() {
+        BitcoinSale sale = Form.form(BitcoinSale.class).bindFromRequest().get();
+        sale.created = new Date();
+        sale.soldBy = getLocalUser(session());
+        sale.save();
+        try {
+            Charge charge = Stripe.chargeStripe(sale.amount, sale.stripeToken, "Shop sale: " + sale.description);
+            audit("Processed bitcoin sale for " + sale.description, null, null);
+            Slack.emitBitcoinPayment(charge);
+            return redirect(routes.Admin.newBitcoinSale());
+        } catch (Exception e) {
+            Logger.error("Stripe error", e);
+            return internalServerError(e.toString());
+        }
+
     }
 }

@@ -21,7 +21,7 @@
                         @defining(members(index)) { member =>
                             <tr>
                                 <td>@member.name</td>
-                                <td>@utils.Formatter.prettyDollars(member.credit)</td>
+                                <td>@utils.Formatter.prettyDollarsAndCents(member.credit)</td>
                                 <td><a href="@routes.Admin.viewMemberPage(member.id)" class="btn btn-theme btn-block">View</a></td>
                             </tr>
                         }

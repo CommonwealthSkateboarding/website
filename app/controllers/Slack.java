@@ -1,5 +1,6 @@
 package controllers;
 
+import com.stripe.model.Charge;
 import models.security.AuditRecord;
 import models.site.Issue;
 import models.skatepark.Registration;
@@ -20,7 +21,7 @@ import java.util.*;
 
 import static controllers.Admin.getLocalUser;
 import static play.mvc.Http.Context.Implicit.session;
-import static utils.Formatter.prettyDollars;
+import static utils.Formatter.prettyDollarsAndCents;
 
 /**
  * Created by cdelargy on 1/15/15.
@@ -112,10 +113,10 @@ public class Slack {
             Logger.error("Square sending unparse-able dates?", e);
         }
         sb.append("<" + payment.receipt_url + "|Square order " + payment.id + "> (" +
-                prettyDollars(payment.total_collected_money.amount / 100.0) + " " + paymentMethods.toString() + ") ");
+                prettyDollarsAndCents(payment.total_collected_money.amount / 100.0) + " " + paymentMethods.toString() + ") ");
         for (PaymentItemization item : Arrays.asList(payment.itemizations)) {
             sb.append("\n" + item.quantity.intValue() + "x " + item.name + " (" +
-                    prettyDollars(item.total_money.amount/100) + ")");
+                    prettyDollarsAndCents(item.total_money.amount/100) + ")");
         }
         dispatch(new SlackMessage(SLACKBOT_FINANCE_CHANNEL, null, sb.toString()));
 
@@ -134,13 +135,18 @@ public class Slack {
 
     public static void emitCampRegistrationPayment(Registration reg) {
         dispatch(new SlackMessage(SLACKBOT_FINANCE_CHANNEL, reg.participantName, ("Payment of "
-                + prettyDollars(reg.totalPaid) + " for " + reg.camp.title + " registration of " + reg.participantName +
+                + prettyDollarsAndCents(reg.totalPaid) + " for " + reg.camp.title + " registration of " + reg.participantName +
                 " [<" + BASE_URL + routes.Admin.viewCampPage(reg.camp.id)) + "|View Camp>]"));
     }
 
     public static void emitEventRegistrationPayment(Registration reg) {
         dispatch(new SlackMessage(SLACKBOT_FINANCE_CHANNEL, reg.participantName,
-                ("Payment of " + prettyDollars(reg.totalPaid) + " for " + reg.event.name + " registration of " +
+                ("Payment of " + prettyDollarsAndCents(reg.totalPaid) + " for " + reg.event.name + " registration of " +
                 reg.participantName + " [<" + BASE_URL + routes.Admin.viewEventPage(reg.event.id)) + "|View Event>]"));
+    }
+
+    public static void emitBitcoinPayment(Charge charge) {
+        dispatch(new SlackMessage(SLACKBOT_FINANCE_CHANNEL, getLocalUser(session()).name,
+                ("Payment of " + prettyDollarsAndCents((charge.getAmount()/100.0)) + " for " + charge.getDescription())));
     }
 }
