@@ -119,9 +119,9 @@
 					<div class="form-row payment">
 						<p class="h6">Choose Payment Amount</p>
 						<radiogroup>
-							<input type="radio" name="fullyPaid" id="full-price"  @if(null!=info){value="@info.fullyPaid"}else{value="true"} checked required><label for="full-price"> <i class="fa fa-check"></i> <strong>Full</strong>&nbsp;(@utils.Formatter.prettyDollars(camp.cost))</label>
+							<input type="radio" name="fullyPaid" id="full-price" @if(null!=info && (info.fullyPaid != true)){ } else { checked } required><label for="full-price"> <i class="fa fa-check"></i> <strong>Full</strong>&nbsp;(@utils.Formatter.prettyDollars(camp.cost))</label>
 							@if(camp.cost>controllers.Application.CAMP_DEPOSIT) {
-								<input type="radio" name="fullyPaid" id="deposit" @if(null!=info){value="!@info.fullyPaid"}else{value="false"}><label for="deposit"> <i class="fa fa-check"></i> <strong>Deposit</strong>&nbsp;(@utils.Formatter.prettyDollars(controllers.Application.CAMP_DEPOSIT))</label>
+								<input type="radio" name="fullyPaid" id="deposit" @if(null!=info && (info.fullyPaid != true)){ checked } else { }><label for="deposit"> <i class="fa fa-check"></i> <strong>Deposit</strong>&nbsp;(@utils.Formatter.prettyDollars(controllers.Application.CAMP_DEPOSIT))</label>
 							}
 						</radiogroup>
 					</div>
