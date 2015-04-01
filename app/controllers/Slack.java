@@ -54,8 +54,7 @@ public class Slack {
 
     public static void emitAuditLog(AuditRecord log) {
         // Set user's name when available
-        dispatch(new SlackMessage(SLACKBOT_AUDIT_CHANNEL, ((null == log.user)?null:log.user.name), (log.delta + " [<" +
-                BASE_URL + routes.Admin.logIndex(0)) + "|Log>]"));
+        dispatch(new SlackMessage(SLACKBOT_AUDIT_CHANNEL, ((null == log.user)?null:log.user.name), log.delta));
     }
 
     public static void emitDailyAttendanceReport() {
