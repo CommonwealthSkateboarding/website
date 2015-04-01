@@ -48,7 +48,7 @@
                     <li @if(activePage=="unheard") { class="active" }><a href="@routes.Admin.unheardSaleIndex()">Unheard Sales</a></li>
                 </ul>
                 <ul class="sub">
-                    <li @if(activePage=="bitcoin") { class="active" }><a href="@routes.Admin.newBitcoinSale()">Bitcoin Sales</a></li>
+                    <li @if(activePage=="bitcoin") { class="active" }><a href="@routes.Admin.bitcoinSaleIndex()">Bitcoin Sales</a></li>
                 </ul>
             </li>
             @restrict(la(as("CAMP"))) {

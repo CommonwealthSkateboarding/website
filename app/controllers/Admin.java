@@ -935,9 +935,8 @@ public class Admin extends Controller {
         return redirect(routes.Admin.unheardSaleIndex());
     }
 
-    public static Result newBitcoinSale() {
-
-        List<BitcoinSale> sales = BitcoinSale.find.orderBy("created").setMaxRows(PER_PAGE).findList();
+    public static Result bitcoinSaleIndex() {
+        List<BitcoinSale> sales = BitcoinSale.find.orderBy("created DESC").setMaxRows(PER_PAGE).findList();
         return ok(bitcoinSale.render(sales, getLocalUser(session())));
     }
 
@@ -950,7 +949,7 @@ public class Admin extends Controller {
             Charge charge = Stripe.chargeStripe(sale.amount, sale.stripeToken, "Shop sale: " + sale.description);
             audit("Processed bitcoin sale for " + sale.description, null, null);
             Slack.emitBitcoinPayment(charge);
-            return redirect(routes.Admin.newBitcoinSale());
+            return redirect(routes.Admin.bitcoinSaleIndex());
         } catch (Exception e) {
             Logger.error("Stripe error", e);
             return internalServerError(e.toString());

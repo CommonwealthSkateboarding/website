@@ -102,7 +102,7 @@ POST    /admin/unheardSale/new                  controllers.Admin.addUnheardSale
 GET     /admin/unheardSale/:id/delete           controllers.Admin.deleteUnheardSale(id: Long)
 GET     /admin/unheardSale/:id/invoice          controllers.Admin.invoiceUnheardSale(id: Long)
 
-GET     /admin/bitcoin/new                      controllers.Admin.newBitcoinSale()
+GET     /admin/bitcoin                          controllers.Admin.bitcoinSaleIndex()
 POST    /admin/bitcoin/new                      controllers.Admin.addBitcoinSale()
 
 GET     /admin/autocomplete/member/:search      controllers.Autocomplete.searchMembersByName(search)
