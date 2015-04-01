@@ -22,6 +22,29 @@
                 }
             </div>
         }
+    } else {
+        <div class="alert alert-info">
+            <h2 class="text-center">@member.name</h2>
+            @if(null != member.lastVisit) {
+                <p class="text-center">last checked in <span class="timeago" title="@member.lastVisit.time.format("yyyy-MM-dd'T'HH:mmZ")"></span></p>
+            }
+            @if(null == member.getMostValidUnlimitedPass()) {
+                <p class="text-center">
+                    @if(member.sessionPasses > 0) {
+                        <a href="@routes.Admin.sessionVisit(member.id, false)" class="btn btn-success">Use a saved session pass (@member.sessionPasses left)</a>
+                    } else {
+                        <a href="@routes.Admin.sessionVisit(member.id, true)" class="btn btn-danger">Buy a session pass for today</a>
+                    }
+                    @if(member.allDayPasses > 0) {
+                        <a href="@routes.Admin.allDayVisit(member.id, false)" class="btn btn-info">Use a saved all-day pass (@member.allDayPasses left)</a>
+                    } else {
+                        <a href="@routes.Admin.allDayVisit(member.id, true)" class="btn btn-warning">Buy an all-day pass for today</a>
+                    }
+                </p>
+            } else {
+                <p class="text-center"><a href="@routes.Admin.memberPassVisit(member.id, member.getMostValidUnlimitedPass().id)" class="btn btn-success">Check in with unlimited pass</a></p>
+            }
+        </div>
     }
     <div class="showback">
         <a href="@routes.Admin.editMemberPage(member.id)" class="btn btn-theme pull-right">Edit</a>
