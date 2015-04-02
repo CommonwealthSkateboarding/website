@@ -64,4 +64,7 @@ public class Event extends Model {
         }
         return results;
     }
+    public boolean isPastRegistrationEndDate() {
+        return registrationEndDate.before(new Date());
+    }
 }

@@ -52,4 +52,8 @@ public class Camp extends Model {
 
     public static final Finder<Long, Camp> find = new Finder<Long, Camp>(Long.class, Camp.class);
 
+    public boolean isPastRegistrationEndDate() {
+        return registrationEndDate.before(new Date());
+    }
+
 }

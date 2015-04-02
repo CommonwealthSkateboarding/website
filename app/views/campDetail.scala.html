@@ -52,7 +52,11 @@
       }
 			<p>@Html(camp.description)</p>
 
-			@if(camp.registrations.size() < camp.maxRegistrations) {
+			@if(camp.isPastRegistrationEndDate()) {
+				<p class="h4">Camp Registration</p>
+				<p>Sorry, but the date for registration has passed.</p>
+			} else {
+			  @if(camp.registrations.size() < camp.maxRegistrations) {
 				<p class="h4">Camp Registration</p>
 
 				@******************************************
@@ -173,8 +177,11 @@
               handler.close();
             });
 		</script>
-
 				</form>
+			  } else {
+				<p class="h4">Camp Registration</p>
+				<p>Sorry, but this camp is currently full.</p>
+			  }
 			}
 		</div>
 	</div>

@@ -87,7 +87,7 @@
         }
 		<p class="h4">Description</p>
 		<p>@Html(event.notes)</p>
-	@if(event.registrable && (null != event.cost) && (event.registrations.size() < event.maxRegistrations)) {
+	@if(event.registrable && (null != event.cost) && (event.registrations.size() < event.maxRegistrations) && !event.isPastRegistrationEndDate()) {
 		<p class="h4">Register</p>
 
 		@******************************************
