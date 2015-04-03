@@ -57,7 +57,7 @@
                             <td>@sale.soldBy.name</td>
                             <td>@sale.created.format("MM/dd/yyyy h:mm a")</td>
                             <td><a href="@routes.Admin.deleteUnheardSale(sale.id)" class="btn btn-theme btn-block">Delete</a></td>
-                            <td><a href="@routes.Admin.invoiceUnheardSale(sale.id)" class="btn btn-theme btn-block">Mark Invoiced</a></td>
+                            <td>@if(sale.invoiced){<i>Already Invoiced</i>}else{<a href="@routes.Admin.invoiceUnheardSale(sale.id)" class="btn btn-theme btn-block">Mark Invoiced</a>}</td>
                         </tr>
                     }
                     </tbody>
