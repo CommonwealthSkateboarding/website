@@ -49,5 +49,7 @@ public class Payment {
     public Money swedish_rounding_money;
 
     public Money gross_sales_money;
+
+    public Money net_sales_money;
 }
 
