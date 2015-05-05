@@ -1,4 +1,4 @@
-@()
+@(registration: models.skatepark.Registration)
 
 @main("registration", false, "Registration Confirmation | Commonwealth Skateboarding | Portland, Oregon") {
     <section id="registration">
@@ -7,4 +7,22 @@
     	<p class="h5">Thank you for making your payment online, you will receive your receipt via email shortly.</p>
     	<p>If you'd like, you can register for another <a href="/camp">camp</a> or <a href="/events">event</a> or return to <a href="/">our homepage</a>.</p>
   </section>
+@if(registration != null) {
+<!-- Facebook Conversion Code for Camps -->
+<script>(function() {
+  var _fbq = window._fbq || (window._fbq = []);
+  if (!_fbq.loaded) {
+    var fbds = document.createElement('script');
+    fbds.async = true;
+    fbds.src = '//connect.facebook.net/en_US/fbds.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(fbds, s);
+    _fbq.loaded = true;
+  }
+})();
+window._fbq = window._fbq || [];
+window._fbq.push(['track', '6025930903913', {'value':'@registration.totalPaid','currency':'USD'}]);
+</script>
+<noscript><img height="1" width="1" alt="" style="display:none" src="https://www.facebook.com/tr?ev=6025930903913&amp;cd[value]=@registration.totalPaid&amp;cd[currency]=USD&amp;noscript=1" /></noscript>
+  }
 }

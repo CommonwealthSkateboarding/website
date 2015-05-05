@@ -168,7 +168,7 @@ public class Application extends Controller {
             Email.sendCampRegistrationConfirmation(info.email, reg);
             Slack.emitCampRegistrationPayment(reg);
 
-            return redirect(routes.Application.registrationPage());
+            return redirect(routes.Application.registrationPage(reg.confirmationId));
         } catch (CardException e) {
             return ok(campDetail.render(camp, info));
         } catch (Exception e) {
@@ -209,7 +209,7 @@ public class Application extends Controller {
             Email.sendEventRegistrationConfirmation(info.email, reg);
             Slack.emitEventRegistrationPayment(reg);
 
-            return redirect(routes.Application.registrationPage());
+            return redirect(routes.Application.registrationPage(reg.confirmationId));
         } catch (CardException e) {
             return ok(eventDetail.render(event, info));
         } catch (Exception e) {
@@ -233,7 +233,8 @@ public class Application extends Controller {
         Slack.emitAuditLog(log);
     }
 
-    public static Result registrationPage() {
-        return ok(registrationPage.render());
+    public static Result registrationPage(String id) {
+        Registration registration = Registration.find.where().eq("confirmationId", id).findUnique();
+        return ok(registrationPage.render(registration));
     }
 }

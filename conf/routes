@@ -18,7 +18,7 @@ GET     /about                      controllers.Application.about()
 GET     /contact                    controllers.Application.contact()
 POST    /camp/:id/register          controllers.Application.registerForCampWithStripe(id: String)
 POST    /event/:id/register         controllers.Application.registerForEventWithStripe(id: String)
-GET     /registration               controllers.Application.registrationPage()
+GET     /registration/:id           controllers.Application.registrationPage(id: String)
 
 # Session
 GET     /login                      controllers.Application.login()
