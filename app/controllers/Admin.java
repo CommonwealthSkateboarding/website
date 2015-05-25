@@ -969,13 +969,7 @@ public class Admin extends Controller {
     }
 
     public static Result addClosure() {
-        //ClosureNotice closure = Form.form(ClosureNotice.class).bindFromRequest().get();
-        Form<ClosureNotice> form = Form.form(ClosureNotice.class).bindFromRequest();
-        if (form.hasErrors()) {
-            Logger.error("Bad in class Foo trying to submit my form: " + form.errorsAsJson());
-            return badRequest(form.errorsAsJson());
-        }
-        ClosureNotice closure = form.get();
+        ClosureNotice closure = Form.form(ClosureNotice.class).bindFromRequest().get();
         closure.created = new Date();
         closure.createdBy = getLocalUser(session());
         closure.save();
