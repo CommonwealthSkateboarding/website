@@ -45,7 +45,6 @@ public class Application extends Controller {
 
         List<ClosureNotice> closures = (List<ClosureNotice>) Cache.get(ClosureNotice.CURRENTLY_ACTIVE_CLOSURES_CACHE_NAME);
         if (null == closures) {
-            Logger.info("empty cache for closures");
             closures = ClosureNotice.find.where().eq("enabled", true).findList();
             Cache.set(ClosureNotice.CURRENTLY_ACTIVE_CLOSURES_CACHE_NAME, closures);
         }
@@ -57,6 +56,7 @@ public class Application extends Controller {
             news = getNewsItems(page);
             Cache.set(cacheKey, news, CACHE_TIME_IN_SECONDS);
         }
+        
         if (news.size() == (PER_PAGE + 1)) { // if there is another page after
             news.remove(PER_PAGE);
             hasNextPage = true;
