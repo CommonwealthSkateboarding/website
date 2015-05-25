@@ -1,0 +1,25 @@
+
+
+.alert {
+	p:first-of-type { margin: 0; }
+	// 100% width alert
+	// Usage: Top of pages
+	&.full-width {
+		background: $error;
+		color: $white;
+		padding: 20px;
+
+		p {
+			text-align: center;
+			&.h1 {
+				@include rem(font-size, 20px);
+				@include rem(line-height, 22px);
+				-moz-font-feature-settings: "onum" 0, "kern" 1;
+				-moz-font-feature-settings: "onum=0, kern=1";
+				-ms-font-feature-settings: "onum" 0, "kern" 1;
+				-webkit-font-feature-settings: "onum" 0, "kern" 1;
+				font-feature-settings: "onum" 0, "kern" 1;
+			}
+		}
+	}
+}
