@@ -97,6 +97,11 @@ POST    /admin/issues/new                       controllers.Admin.addIssue()
 GET     /admin/issues/:id/resolve               controllers.Admin.resolveIssue(id: Long)
 GET     /admin/issues/:id/take                  controllers.Admin.takeIssue(id: Long)
 
+GET     /admin/closures                         controllers.Admin.closureIndex()
+POST    /admin/closures/new                     controllers.Admin.addClosure()
+GET     /admin/closures/:id/archive             controllers.Admin.archiveClosure(id: Long)
+GET     /admin/closures/:id/toggle              controllers.Admin.toggleClosure(id: Long, state: Boolean)
+
 GET     /admin/unheardSale                      controllers.Admin.unheardSaleIndex()
 POST    /admin/unheardSale/new                  controllers.Admin.addUnheardSale()
 GET     /admin/unheardSale/:id/delete           controllers.Admin.deleteUnheardSale(id: Long)

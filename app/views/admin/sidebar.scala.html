@@ -40,6 +40,12 @@
                 </a>
             </li>
             <li class="sub-menu">
+                <a @if(activeSection=="closures") { class="active" } href="@routes.Admin.closureIndex()" >
+                    <i class="fa fa-bell"></i>
+                    <span>Closures</span>
+                </a>
+            </li>
+            <li class="sub-menu">
                 <a @if(activeSection=="register") { class="active" } href="javascript:;" >
                     <i class="fa fa-money"></i>
                     <span>Register & Sales</span>

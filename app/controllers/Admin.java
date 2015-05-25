@@ -7,11 +7,13 @@ import com.stripe.model.Charge;
 import models.security.AuditRecord;
 import models.security.SecurityRole;
 import models.security.User;
+import models.site.ClosureNotice;
 import models.site.Issue;
 import models.site.NewsItem;
 import models.skatepark.*;
 import org.apache.commons.lang3.time.DateUtils;
 import play.Logger;
+import play.cache.Cache;
 import play.data.Form;
 import play.db.ebean.Model;
 import play.mvc.Controller;
@@ -20,6 +22,7 @@ import play.mvc.Result;
 import play.mvc.Security;
 import utils.TimeUtil;
 import views.html.admin.camp.*;
+import views.html.admin.closure.closureIndex;
 import views.html.admin.event.*;
 import views.html.admin.index;
 import views.html.admin.issues.issueIndex;
@@ -96,7 +99,7 @@ public class Admin extends Controller {
     public static Result addNewsItem() {
         NewsItem newsItem = Form.form(NewsItem.class).bindFromRequest().get();
 
-        String titleDigest = newsItem.title.toLowerCase().replaceAll("[^A-Za-z0-9 ]", "").replaceAll(" ","_");
+        String titleDigest = newsItem.title.toLowerCase().replaceAll("[^A-Za-z0-9 ]", "").replaceAll(" ", "_");
         String proposedId = titleDigest.substring(0,(titleDigest.length()>64)?64:titleDigest.length());
         NewsItem news = (NewsItem) new Model.Finder(String.class, NewsItem.class).byId(proposedId);
         //If one already exists, append a 4 digit number
@@ -139,7 +142,7 @@ public class Admin extends Controller {
 
     public static Result memberIndex(Long page) {
         boolean hasNextPage = false;
-        List<Membership> list = Membership.find.orderBy(RECENT_VISIT_ORDER).setMaxRows(PER_PAGE+1)
+        List<Membership> list = Membership.find.orderBy(RECENT_VISIT_ORDER).setMaxRows(PER_PAGE + 1)
                 .setFirstRow(page.intValue() * PER_PAGE).findList();
         if (list.size() == (PER_PAGE + 1)) { // if there is another page after
             list.remove(PER_PAGE);
@@ -485,6 +488,8 @@ public class Admin extends Controller {
             log.camp = (Camp) payload;
         } else if (payload.getClass().equals(Event.class)) {
             log.event = (Event) payload;
+        } else if (payload.getClass().equals(ClosureNotice.class)) {
+            log.closure = (ClosureNotice) payload;
         }
         //TODO: Consider adding link for admin issues
         log.save();
@@ -699,7 +704,7 @@ public class Admin extends Controller {
     public static Result addEvent() {
         Event event = Form.form(Event.class).bindFromRequest().get();
 
-        String titleDigest = event.name.toLowerCase().replaceAll("[^A-Za-z0-9 ]", "").replaceAll(" ","_");
+        String titleDigest = event.name.toLowerCase().replaceAll("[^A-Za-z0-9 ]", "").replaceAll(" ", "_");
         String proposedId = titleDigest.substring(0,(titleDigest.length()>56)?56:titleDigest.length()) +
                 "_" + TimeUtil.getMonthYearString(event.startTime);
         Event event2 = (Event) new Model.Finder(String.class, Event.class).byId(proposedId);
@@ -956,4 +961,65 @@ public class Admin extends Controller {
         }
 
     }
+
+    public static Result closureIndex() {
+        Date now = new Date();
+        List<ClosureNotice> closures = ClosureNotice.find.orderBy("created").where().eq("archived", false).findList();
+        return ok(closureIndex.render(closures, getLocalUser(session())));
+    }
+
+    public static Result addClosure() {
+        //ClosureNotice closure = Form.form(ClosureNotice.class).bindFromRequest().get();
+        Form<ClosureNotice> form = Form.form(ClosureNotice.class).bindFromRequest();
+        if (form.hasErrors()) {
+            Logger.error("Bad in class Foo trying to submit my form: " + form.errorsAsJson());
+            return badRequest(form.errorsAsJson());
+        }
+        ClosureNotice closure = form.get();
+        closure.created = new Date();
+        closure.createdBy = getLocalUser(session());
+        closure.save();
+
+        if (closure.enabled) {
+            Cache.remove(ClosureNotice.CURRENTLY_ACTIVE_CLOSURES_CACHE_NAME);
+        }
+
+        audit("Added new closure notice: " + closure.message, null, closure);
+
+        return redirect(routes.Admin.closureIndex());
+    }
+
+    public static Result archiveClosure(Long id) {
+        ClosureNotice closure = ClosureNotice.find.byId(id);
+        if (null == closure) {
+            return redirect(routes.Admin.closureIndex()); // not found
+        }
+        if (closure.enabled) {
+            Cache.remove(ClosureNotice.CURRENTLY_ACTIVE_CLOSURES_CACHE_NAME);
+        }
+        closure.enabled = false;
+        closure.archived = true;
+        closure.save();
+
+        audit("Archived closure \"" + closure.message + "\"", null, closure);
+
+        return redirect(routes.Admin.closureIndex());
+    }
+
+    public static Result toggleClosure(Long id, boolean state) {
+        ClosureNotice closure = ClosureNotice.find.byId(id);
+        if (null == closure) {
+            return redirect(routes.Admin.closureIndex()); // not found
+        }
+        closure.enabled = state;
+        closure.save();
+
+        Cache.remove(ClosureNotice.CURRENTLY_ACTIVE_CLOSURES_CACHE_NAME);
+
+        audit((closure.enabled?"Enabled":"Disabled") + " closure \"" + closure.message + "\"" , null, closure);
+
+        return redirect(routes.Admin.closureIndex());
+    }
+
+
 }

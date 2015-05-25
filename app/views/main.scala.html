@@ -1,4 +1,4 @@
-@(bodyClass: String = "home", includeCarousel: Boolean = false, title: String = "Commonwealth Skateboarding | Portland, Oregon")(content: Html)
+@(bodyClass: String = "home", includeCarousel: Boolean = false, title: String = "Commonwealth Skateboarding | Portland, Oregon", closures: List[models.site.ClosureNotice] = null)(content: Html)
 
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
@@ -62,9 +62,13 @@
 
 		<body class="@bodyClass">
 
-		<div class="full-width alert">
-			<p class="h1">Commonwealth will be closed on Memorial Day (Monday, May 25, 2015).</p>
-		</div>
+		@if(null != closures) {
+			@for(closure <- closures) {
+				<div class="full-width alert">
+					<p class="h1">@closure.message</p>
+				</div>
+			}
+		}
 
 		<!--[if lt IE 7]>
 		<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>

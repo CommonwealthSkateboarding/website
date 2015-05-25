@@ -4,6 +4,7 @@ import com.avaje.ebean.Expr;
 import com.stripe.exception.CardException;
 import com.stripe.model.Charge;
 import models.security.AuditRecord;
+import models.site.ClosureNotice;
 import models.site.NewsItem;
 import models.skatepark.*;
 import org.apache.commons.lang3.time.DateUtils;
@@ -25,7 +26,7 @@ public class Application extends Controller {
     public static final String USER_ROLE = "USER";
     public static final Double CAMP_DEPOSIT = 100.0; //Dollars
     public static final Double EVENT_DEPOSIT = 50.0; //Dollars
-    private static final int CACHE_TIME_IN_SECONDS = 2 * 60; // 2 minutes
+    public static final int CACHE_TIME_IN_SECONDS = 2 * 60; // 2 minutes
 
     public static Result removeTrailingSlash(String path) {
         return movedPermanently("/" + path);
@@ -41,6 +42,14 @@ public class Application extends Controller {
     }
 
     public static Result index(Long page) {
+
+        List<ClosureNotice> closures = (List<ClosureNotice>) Cache.get(ClosureNotice.CURRENTLY_ACTIVE_CLOSURES_CACHE_NAME);
+        if (null == closures) {
+            Logger.info("empty cache for closures");
+            closures = ClosureNotice.find.where().eq("enabled", true).findList();
+            Cache.set(ClosureNotice.CURRENTLY_ACTIVE_CLOSURES_CACHE_NAME, closures);
+        }
+
         String cacheKey = "newsPage" + page;
         boolean hasNextPage = false;
         List<NewsItem> news = (List<NewsItem>) Cache.get(cacheKey);
@@ -52,7 +61,7 @@ public class Application extends Controller {
             news.remove(PER_PAGE);
             hasNextPage = true;
         }
-        return ok(index.render(news, page, hasNextPage));
+        return ok(index.render(news, closures, page, hasNextPage));
     }
 
     private static List<NewsItem> getNewsItems(Long page) {
