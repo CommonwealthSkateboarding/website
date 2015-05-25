@@ -16,7 +16,13 @@
 				</li>
 				<li class="registrants">
 					<p class="h6">Spots Available</p>
-					<p>@(camp.maxRegistrations - camp.registrations.size()) left</p>
+					<p>
+						@if(0 >= (camp.maxRegistrations - camp.registrations.size())) {
+							Sold out!
+						} else {
+							@(camp.maxRegistrations - camp.registrations.size()) left
+						}
+					</p>
 				</li>
 				<li class="cost">
 					<p class="h6">Cost</p>
