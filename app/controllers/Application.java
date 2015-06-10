@@ -17,6 +17,7 @@ import play.mvc.*;
 
 import views.html.*;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Application extends Controller {
@@ -244,6 +245,36 @@ public class Application extends Controller {
 
     public static Result registrationPage(String id) {
         Registration registration = Registration.find.where().eq("confirmationId", id).findUnique();
-        return ok(registrationPage.render(registration));
+        return ok(registrationPage.render(registration, null));
+    }
+
+    public static Result registrationPayBalance(String id) {
+
+        Registration registration = Registration.find.where().eq("confirmationId", id).findUnique();
+
+        RegistrationInfo info = Form.form(RegistrationInfo.class).bindFromRequest().get();
+        Double amount = registration.getRemainingDue();
+
+        try {
+            Charge charge = Stripe.chargeStripe(amount, info.stripeToken, "Remainder of payment due");
+
+            registration.paid = true;
+            registration.totalPaid = registration.totalPaid + amount;
+            SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy h:mm a");
+            Date now = new Date();
+            registration.notes = registration.notes + "<br><br>At " + dateFormat.format(now) + " paid (" + utils.Formatter.prettyDollarsAndCents(amount) + ") on the web and generated a stripe chargeId of: " + charge.getId();
+            registration.update();
+
+            audit("Processed rest of payment for registration " + registration.confirmationId + " from web for " + registration.participantName, null);
+
+            Slack.emitRegistrationBalancePayment(registration, amount);
+
+            return redirect(routes.Application.registrationPage(registration.confirmationId));
+        } catch (CardException e) {
+            return ok(registrationPage.render(registration, info));
+        } catch (Exception e) {
+            Logger.error("Stripe error", e);
+            return internalServerError();
+        }
     }
 }

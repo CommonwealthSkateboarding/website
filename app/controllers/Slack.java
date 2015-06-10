@@ -144,6 +144,11 @@ public class Slack {
                 reg.participantName + " [<" + BASE_URL + routes.Admin.viewEventPage(reg.event.id)) + "|View Event>]"));
     }
 
+    public static void emitRegistrationBalancePayment(Registration reg, Double amount) {
+        dispatch(new SlackMessage(SLACKBOT_FINANCE_CHANNEL, reg.participantName, ("Balance payment of "
+                + prettyDollarsAndCents(amount) + " for registration of " + reg.participantName)));
+    }
+
     public static void emitBitcoinPayment(Charge charge) {
         dispatch(new SlackMessage(SLACKBOT_FINANCE_CHANNEL, getLocalUser(session()).name,
                 ("Payment of " + prettyDollarsAndCents((charge.getAmount()/100.0)) + " for " + charge.getDescription())));

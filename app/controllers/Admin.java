@@ -674,6 +674,22 @@ public class Admin extends Controller {
     }
 
     @Restrict({@Group("CAMP")})
+    public static Result sendBalanceEmail(Long id) {
+        Registration reg = (Registration) new Model.Finder(Long.class, Registration.class).byId(id);
+        if (null == reg) {
+            return notFound("Bad registration id");
+        };
+        if (reg.getRemainingDue() > 0) {
+            Email.sendCampRegistrationBalanceEmail(reg.registrantEmail, reg);
+
+            audit("Sent balance reminder to " + reg.registrantEmail + " re: " + reg.camp.title, null, reg.camp);
+        }
+
+        return redirect(routes.Admin.viewCampPage(reg.camp.id));
+    }
+
+
+    @Restrict({@Group("CAMP")})
     public static Result archiveCamp(String id) {
         Camp camp = (Camp) new Model.Finder(String.class, Camp.class).byId(id);
         if (null == camp) {

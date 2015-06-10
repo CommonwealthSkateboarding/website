@@ -65,4 +65,15 @@ public class Registration extends Model {
     public String confirmationId;
 
     public static final Finder<Long, Registration> find = new Finder<Long, Registration>(Long.class, Registration.class);
+
+    public Double getRemainingDue() {
+        Double remaining = 0.0;
+        switch (this.registrationType) {
+            case CAMP: remaining = (this.camp.cost - this.totalPaid);
+                break;
+            case EVENT: remaining = (this.event.cost - this.totalPaid);
+                break;
+        }
+        return remaining;
+    }
 }

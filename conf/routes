@@ -19,6 +19,7 @@ GET     /contact                    controllers.Application.contact()
 POST    /camp/:id/register          controllers.Application.registerForCampWithStripe(id: String)
 POST    /event/:id/register         controllers.Application.registerForEventWithStripe(id: String)
 GET     /registration/:id           controllers.Application.registrationPage(id: String)
+POST    /registration/:id/pay       controllers.Application.registrationPayBalance(id: String)
 
 # Session
 GET     /login                      controllers.Application.login()
@@ -76,6 +77,7 @@ GET     /admin/camps/:id/register               controllers.Admin.campRegistrati
 POST    /admin/camps/:id/register               controllers.Admin.addCampRegistration(id: String)
 GET     /admin/camps/registration/:id/edit      controllers.Admin.editCampRegistrationPage(id: Long)
 POST    /admin/camps/registration/:id/edit      controllers.Admin.editCampRegistration(id: Long)
+GET     /admin/camps/registration/:id/balance   controllers.Admin.sendBalanceEmail(id: Long)
 GET     /admin/camps/:id/archive                controllers.Admin.archiveCamp(id: String)
 
 GET     /admin/events                           controllers.Admin.eventIndex()
