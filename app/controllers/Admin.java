@@ -683,6 +683,11 @@ public class Admin extends Controller {
             Email.sendCampRegistrationBalanceEmail(reg.registrantEmail, reg);
 
             audit("Sent balance reminder to " + reg.registrantEmail + " re: " + reg.camp.title, null, reg.camp);
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy h:mm a");
+            Date now = new Date();
+            reg.notes = reg.notes + "<br>At " + dateFormat.format(now) + " sent request for balance payment to " + reg.registrantEmail;
+            reg.update();
         }
 
         return redirect(routes.Admin.viewCampPage(reg.camp.id));
