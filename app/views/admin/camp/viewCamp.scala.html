@@ -76,7 +76,7 @@
                             <td>@if(reg.paid) {
                                 <span class="label label-success">PAID</span>
                             } else {
-                                @if(null != reg.registrantEmail) {
+                                @if(null != reg.registrantEmail & "" != reg.registrantEmail) {
                                     <a href="@routes.Admin.sendBalanceEmail(reg.id)" class="btn btn-danger btn-xs"><i class="fa fa-envelope-o"></i> Invoice</a>
                                 } else {
                                     <span class="label label-danger">UNPAID</span>
