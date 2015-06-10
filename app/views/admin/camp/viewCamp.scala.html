@@ -76,7 +76,11 @@
                             <td>@if(reg.paid) {
                                 <span class="label label-success">PAID</span>
                             } else {
-                                <a href="@routes.Admin.sendBalanceEmail(reg.id)" class="btn btn-danger btn-xs"><i class="fa fa-envelope-o"></i> Invoice</a>
+                                @if(null != reg.registrantEmail) {
+                                    <a href="@routes.Admin.sendBalanceEmail(reg.id)" class="btn btn-danger btn-xs"><i class="fa fa-envelope-o"></i> Invoice</a>
+                                } else {
+                                    <span class="label label-danger">UNPAID</span>
+                                }
                             }</td>
                             <td><span class="label label-primary">@reg.paymentType</span></td>
                             <td>@utils.Formatter.prettyDollarsAndCents(reg.totalPaid)</td>
