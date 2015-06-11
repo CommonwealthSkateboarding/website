@@ -167,8 +167,11 @@
 				</tr>
 				<tr>
 					<td width="600" style="border-collapse: collapse;padding-top: 30px;">
-						<p class="h2" style="margin: 1em 0;color: #858585;font-family: &quot;Courier New&quot;;font-size: 24px;line-height: 1.2;margin-top: 0;">Thanks for registering for Commonwealth Skatepark's camp, @registration.camp.title.</p>
-						<p style="margin: 1em 0;color: #858585;font-family: &quot;Courier New&quot;;font-size: 18px;line-height: 1.2;">Your payment of @utils.Formatter.prettyDollarsAndCents(registration.totalPaid) has been received and the remaining @utils.Formatter.prettyDollarsAndCents(registration.getRemainingDue()) is due by @registration.camp.startDate.format("MM/dd/yyyy"). You can make a payment online by visiting <a href="@play.Play.application().configuration().getString("application.baseUrl")@routes.Application.registrationPage(registration.confirmationId)" style="color: #9a8b60;font-weight: bold;text-decoration: none;">your confirmation page</a>.</p>
+						<p class="h2" style="margin: 1em 0;color: #858585;font-family: &quot;Courier New&quot;;font-size: 24px;line-height: 1.2;margin-top: 0;">Thanks for registering for Commonwealth Skatepark's @registration.camp.title camp.</p>
+						<p style="margin: 1em 0;color: #858585;font-family: &quot;Courier New&quot;;font-size: 18px;line-height: 1.2;">Your camp deposit payment of @utils.Formatter.prettyDollarsAndCents(registration.totalPaid)has been received.</p>
+						<p style="margin: 1em 0;color: #858585;font-family: &quot;Courier New&quot;;font-size: 18px;line-height: 1.2;">The remaining @utils.Formatter.prettyDollarsAndCents(registration.getRemainingDue()) is due by the first day of camp, @registration.camp.startDate.format("MM/dd/yyyy") by 9:30 AM when the van departs.</p>
+						<p style="margin: 1em 0;color: #858585;font-family: &quot;Courier New&quot;;font-size: 18px;line-height: 1.2;">If we do not receive payment or a detailed explanation of extenuating circumstances, we reserve the right to fill the spot.</p>
+						<p style="margin: 1em 0;color: #858585;font-family: &quot;Courier New&quot;;font-size: 18px;line-height: 1.2;">You can make a payment online by visiting <a href="@play.Play.application().configuration().getString("application.baseUrl")@routes.Application.registrationPage(registration.confirmationId)" style="color: #9a8b60;font-weight: bold;text-decoration: none;">your confirmation page</a>.</p>
 
 						<p style="margin: 1em 0;color: #858585;font-family: &quot;Courier New&quot;;font-size: 18px;line-height: 1.2;">This camp is scheduled to run between @registration.camp.startDate.format("MM/dd/yyyy") and
 							@registration.camp.endDate.format("MM/dd/yyyy"). Schedule: @registration.camp.scheduleDescription</p>
