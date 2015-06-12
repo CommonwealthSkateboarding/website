@@ -679,16 +679,14 @@ public class Admin extends Controller {
         if (null == reg) {
             return notFound("Bad registration id");
         };
-        if (reg.getRemainingDue() > 0) {
-            Email.sendCampReminderEmail(reg.registrantEmail, reg);
+        Email.sendCampReminderEmail(reg.registrantEmail, reg);
 
-            audit("Sent camp reminder to " + reg.registrantEmail + " re: " + reg.camp.title, null, reg.camp);
+        audit("Sent camp reminder to " + reg.registrantEmail + " re: " + reg.camp.title, null, reg.camp);
 
-            SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy h:mm a");
-            Date now = new Date();
-            reg.notes = reg.notes + "<br>At " + dateFormat.format(now) + " sent reminder of camp to " + reg.registrantEmail;
-            reg.update();
-        }
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy h:mm a");
+        Date now = new Date();
+        reg.notes = reg.notes + "<br>At " + dateFormat.format(now) + " sent reminder of camp to " + reg.registrantEmail;
+        reg.update();
 
         return redirect(routes.Admin.viewCampPage(reg.camp.id));
     }
