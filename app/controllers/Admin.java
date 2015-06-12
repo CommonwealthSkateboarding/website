@@ -682,7 +682,7 @@ public class Admin extends Controller {
         if (reg.getRemainingDue() > 0) {
             Email.sendCampReminderEmail(reg.registrantEmail, reg);
 
-            audit("Sent balance reminder to " + reg.registrantEmail + " re: " + reg.camp.title, null, reg.camp);
+            audit("Sent camp reminder to " + reg.registrantEmail + " re: " + reg.camp.title, null, reg.camp);
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy h:mm a");
             Date now = new Date();
