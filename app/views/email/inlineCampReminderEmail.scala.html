@@ -4,7 +4,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Commonwealth Skatepark Registration Payment Reminder</title>
+	<title>Commonwealth Skatepark Upcoming Camp Reminder</title>
 	<style type="text/css">
 		/* Based on The MailChimp Reset INLINE: Yes. */
 		/* Client-specific Styles */
@@ -168,13 +168,27 @@
 				<tr>
 					<td width="600" style="border-collapse: collapse;padding-top: 30px;">
 						<p class="h2" style="margin: 1em 0;color: #858585;font-family: &quot;Courier New&quot;;font-size: 24px;line-height: 1.2;margin-top: 0;">Thanks for registering for Commonwealth Skatepark's @registration.camp.title camp.</p>
-						<p style="margin: 1em 0;color: #858585;font-family: &quot;Courier New&quot;;font-size: 18px;line-height: 1.2;">Your camp deposit payment of @utils.Formatter.prettyDollarsAndCents(registration.totalPaid)has been received.</p>
-						<p style="margin: 1em 0;color: #858585;font-family: &quot;Courier New&quot;;font-size: 18px;line-height: 1.2;">The remaining @utils.Formatter.prettyDollarsAndCents(registration.getRemainingDue()) is due by the first day of camp, @registration.camp.startDate.format("MM/dd/yyyy") by 9:30 AM when the van departs.</p>
-						<p style="margin: 1em 0;color: #858585;font-family: &quot;Courier New&quot;;font-size: 18px;line-height: 1.2;">If we do not receive payment or a detailed explanation of extenuating circumstances, we reserve the right to fill the spot.</p>
-						<p style="margin: 1em 0;color: #858585;font-family: &quot;Courier New&quot;;font-size: 18px;line-height: 1.2;">You can make a payment online by visiting <a href="@play.Play.application().configuration().getString("application.baseUrl")@routes.Application.registrationPage(registration.confirmationId)" style="color: #9a8b60;font-weight: bold;text-decoration: none;">your confirmation page</a>.</p>
 
-						<p style="margin: 1em 0;color: #858585;font-family: &quot;Courier New&quot;;font-size: 18px;line-height: 1.2;">This camp is scheduled to run between @registration.camp.startDate.format("MM/dd/yyyy") and
-							@registration.camp.endDate.format("MM/dd/yyyy"). Schedule: @registration.camp.scheduleDescription</p>
+						<p style="margin: 1em 0;color: #858585;font-family: &quot;Courier New&quot;;font-size: 18px;line-height: 1.2;">Hey parents & campers!</p>
+
+						<p style="margin: 1em 0;color: #858585;font-family: &quot;Courier New&quot;;font-size: 18px;line-height: 1.2;">We’re only a few days away from the first day of Summer Skate Camp!</p>
+
+						<p style="margin: 1em 0;color: #858585;font-family: &quot;Courier New&quot;;font-size: 18px;line-height: 1.2;">We’ll have staff on site starting at 8:30AM Monday to check in campers and get waivers signed for campers who have never skated at Commonwealth before. Drop-off for the remainder of the week will be at 9AM with the van departing for the outdoor skateparks around 9:30AM each day.</p>
+
+						<p style="margin: 1em 0;color: #858585;font-family: &quot;Courier New&quot;;font-size: 18px;line-height: 1.2;">Just a reminder that skate campers are expected to bring:<br>
+						* Lunch or money for a lunch. Our instructors make a short lunch stop at one of the restaurants near each park, but these stops are chosen for efficiency in accommodating up to 13 children and maximizing skateboarding time, so it’s difficult to guarantee the availability of many healthy options. When in doubt, pack a lunch.<br>
+						* Water, water, water… Our camps involve skateboarding every day, often in direct sun. We have backup water available in the van each day, but please send your camper with a water bottle and we’ll make sure they stay hydrated.<br>
+						* Sunblock<br>
+						* Helmet (pads are optional, but a good idea)<br></p>
+
+						@if(registration.getRemainingDue()>0) {
+							<p style="margin: 1em 0;color: #858585;font-family: &quot;Courier New&quot;;font-size: 18px;line-height: 1.2;">Our records show that we’ve received a camp deposit of @utils.Formatter.prettyDollarsAndCents(registration.totalPaid).</p>
+							<p style="margin: 1em 0;color: #858585;font-family: &quot;Courier New&quot;;font-size: 18px;line-height: 1.2;">The remaining @utils.Formatter.prettyDollarsAndCents(registration.getRemainingDue()) is due by the first day of camp, @registration.camp.startDate.format("MM/dd/yyyy") before our van departs. You can pay the remaining balance online by following <a href="@play.Play.application().configuration().getString("application.baseUrl")@routes.Application.registrationPage(registration.confirmationId)" style="color: #9a8b60;font-weight: bold;text-decoration: none;">this link to your confirmation page</a>, or you can pay in person on the first day of camp with cash, credit card or check.</p>
+
+							<p style="margin: 1em 0;color: #858585;font-family: &quot;Courier New&quot;;font-size: 18px;line-height: 1.2;">If we do not receive payment or a detailed explanation of extenuating circumstances, we reserve the right to advertise the spot as available via social media, our website, and any available channels.</p>
+						} else {
+							<p style="margin: 1em 0;color: #858585;font-family: &quot;Courier New&quot;;font-size: 18px;line-height: 1.2;">Our records show that we’ve received payment in full, so no other payments are due!</p>
+						}
 
 						<p style="margin: 1em 0;color: #858585;font-family: &quot;Courier New&quot;;font-size: 18px;line-height: 1.2;">For more information on this camp, please see the website's <a href="@play.Play.application().configuration().getString("application.baseUrl")@routes.Application.campDetail(registration.camp.id)" style="color: #9a8b60;font-weight: bold;text-decoration: none;">camp page</a>.</p>
 

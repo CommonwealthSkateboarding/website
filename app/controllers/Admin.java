@@ -674,19 +674,19 @@ public class Admin extends Controller {
     }
 
     @Restrict({@Group("CAMP")})
-    public static Result sendBalanceEmail(Long id) {
+    public static Result sendCampReminderEmail(Long id) {
         Registration reg = (Registration) new Model.Finder(Long.class, Registration.class).byId(id);
         if (null == reg) {
             return notFound("Bad registration id");
         };
         if (reg.getRemainingDue() > 0) {
-            Email.sendCampRegistrationBalanceEmail(reg.registrantEmail, reg);
+            Email.sendCampReminderEmail(reg.registrantEmail, reg);
 
             audit("Sent balance reminder to " + reg.registrantEmail + " re: " + reg.camp.title, null, reg.camp);
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy h:mm a");
             Date now = new Date();
-            reg.notes = reg.notes + "<br>At " + dateFormat.format(now) + " sent request for balance payment to " + reg.registrantEmail;
+            reg.notes = reg.notes + "<br>At " + dateFormat.format(now) + " sent reminder of camp to " + reg.registrantEmail;
             reg.update();
         }
 
