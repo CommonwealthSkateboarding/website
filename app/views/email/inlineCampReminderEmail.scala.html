@@ -195,12 +195,12 @@
 		<table class="content" cellpadding="0" cellspacing="0" border="0" align="center" width="540" style="border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;margin-bottom: 60px;">
 			<tr>
 				<td width="600" valign="top" style="border-collapse: collapse;padding-top: 30px;">
-					<img class="image_fix logo" src="@play.Play.application().configuration().getString(" application.baseurl") style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;display: block;padding-top: 15px;">assets/img/email/cw_logo--white@@2x.png" alt="Commonwealth Skateboarding" title="Commonwealth Skateboarding" width="60" height="60" />
+					<img class="image_fix logo" src="@play.Play.application().configuration().getString("application.baseUrl") style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;display: block;padding-top: 15px;">assets/img/email/cw_logo--white@@2x.png" alt="Commonwealth Skateboarding" title="Commonwealth Skateboarding" width="60" height="60" />
 				</td>
 			</tr>
 			<tr>
 				<td width="600" style="border-collapse: collapse;padding-top: 30px;">
-					<img class="image_fix" src="@play.Play.application().configuration().getString(" application.baseurl") style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;display: block;">assets/img/email/header--welcome@@2x.png" alt="Welcome Campers!" title="Camp Welcome Letter" width="223" height="85" />
+					<img class="image_fix" src="@play.Play.application().configuration().getString("application.baseUrl") style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;display: block;">assets/img/email/header--welcome@@2x.png" alt="Welcome Campers!" title="Camp Welcome Letter" width="223" height="85" />
 				</td>
 			</tr>
 			<tr>
@@ -238,7 +238,7 @@
 					</table>
 				}
 
-					<table class="red notice" width="100%" style="border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;border-radius: 3px;margin: 15px 0;background: #803634;"> 
+					<!-- <table class="red notice" width="100%" style="border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;border-radius: 3px;margin: 15px 0;background: #803634;"> 
 						<tr>
 							<th style="padding: 20px 30px 0 30px;text-align: left;"> 
 								<p style="margin: 0;color: #FFF;font-family: &quot;Helvetica Nueue&quot;, Helvetica, Arial, sans-serif;font-size: 18px;line-height: 1.5;">Emergency Contact Info Needed!</p>
@@ -249,7 +249,7 @@
 								<p style="margin: 9px 0;color: #FFF;font-family: &quot;Helvetica Nueue&quot;, Helvetica, Arial, sans-serif;font-size: 15px;line-height: 1.5;">We don't have your camper's emergency contact information on file. You can <a href="#" style="border-bottom: 2px solid #FFF;color: #FFF;font-weight: bold;text-decoration: none;">fill it out online</a> now, or as a part of the waiver you'll be signing on the first day of camp.</p>
 							</td>
 						</tr>
-					</table>
+					</table> -->
 
 					<br>
 
@@ -293,7 +293,7 @@
 					<br>
 
 					<p class="h2" style="margin: 1em 0;color: #858585;font-family: &quot;Courier New&quot;;font-size: 24px;line-height: 1.2;margin-top: 0;">Links</p>
-					<p style="margin: 1em 0;color: #858585;font-family: &quot;Helvetica Nueue&quot;, Helvetica, Arial, sans-serif;font-size: 18px;line-height: 1.4;"><a href="@play.Play.application().configuration().getString("application.baseurl")@routes.application.campdetail(registration.camp.id)" style="border-bottom: 2px solid rgba(154, 139, 96, 0.6);color: #9a8b60;font-weight: bold;text-decoration: none;">Camp Details</a> / <a href="http://commonwealthskateboarding.com/contact" style="border-bottom: 2px solid rgba(154, 139, 96, 0.6);color: #9a8b60;font-weight: bold;text-decoration: none;">Our Location</a></p>
+					<p style="margin: 1em 0;color: #858585;font-family: &quot;Helvetica Nueue&quot;, Helvetica, Arial, sans-serif;font-size: 18px;line-height: 1.4;"><a href="@play.Play.application().configuration().getString("application.baseUrl")@routes.Application.campDetail(registration.camp.id)" style="border-bottom: 2px solid rgba(154, 139, 96, 0.6);color: #9a8b60;font-weight: bold;text-decoration: none;">Camp Details</a> / <a href="http://commonwealthskateboarding.com/contact" style="border-bottom: 2px solid rgba(154, 139, 96, 0.6);color: #9a8b60;font-weight: bold;text-decoration: none;">Our Location</a></p>
 
 					<p style="margin: 1em 0;color: #858585;font-family: &quot;Helvetica Nueue&quot;, Helvetica, Arial, sans-serif;font-size: 18px;line-height: 1.4;">Questions or Concerns 
 					<br>
@@ -303,7 +303,7 @@
 					<br>
 
 					<p class="h2" style="margin: 1em 0;color: #858585;font-family: &quot;Courier New&quot;;font-size: 24px;line-height: 1.2;margin-top: 0;">We look forward to seeing you!</p>
-					<p style="margin: 1em 0;color: #858585;font-family: &quot;Helvetica Nueue&quot;, Helvetica, Arial, sans-serif;font-size: 18px;line-height: 1.4;">&mdash; <a href="@play.Play.application().configuration().getString("application.baseurl")" target="_blank" title="Commonwealth Skateboarding Website" style="border-bottom: 2px solid rgba(154, 139, 96, 0.6);color: #9a8b60;font-weight: bold;text-decoration: none;">Commonwealth Skatepark</a>
+					<p style="margin: 1em 0;color: #858585;font-family: &quot;Helvetica Nueue&quot;, Helvetica, Arial, sans-serif;font-size: 18px;line-height: 1.4;">&mdash; <a href="@play.Play.application().configuration().getString("application.baseUrl")" target="_blank" title="Commonwealth Skateboarding Website" style="border-bottom: 2px solid rgba(154, 139, 96, 0.6);color: #9a8b60;font-weight: bold;text-decoration: none;">Commonwealth Skatepark</a>
 					</p>
 				</td>
 			</tr>
