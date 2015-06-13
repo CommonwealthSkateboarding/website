@@ -209,21 +209,20 @@
 					<br />
 
 					@if(registration.getRemainingDue()>0) {
-						<table class="gold notice" width="100%">
-							<tr>
-								<th> 
-									<p>You have a remainder of @utils.Formatter.prettyDollarsAndCents(registration.camp.cost - registration.totalPaid) that will be due by 9:30AM on @registration.camp.startDate.format("MM/dd").</p> 
-								</th>
-							</tr>
-							<tr>
-								<td>
-									<p class="white">You can choose to <a href="@play.Play.application().configuration().getString("application.baseUrl")@routes.Application.registrationPage(registration.confirmationId)">pay it online</a> or in person with cash, card, or check on the first day of camp.</p> 
-									<p><strong>IMPORTANT:</strong> If payment is not received by this time, we reserve the right to advertise the spot as available via social media, our website, and any other available channels. In the event of extenuating circumstances preventing your camper's attendance or ability to pay, please also let us know as soon as possible. Unfortunately if we do not hear from you before the van leaves on the first day, you forgo your placement in the camp.</p>
-								</td>
-							</tr>
-						</table>
-					}
-					else {
+					<table class="gold notice" width="100%">
+						<tr>
+							<th> 
+								<p>You have a remainder of @utils.Formatter.prettyDollarsAndCents(registration.camp.cost - registration.totalPaid) that will be due by 9:30AM on @registration.camp.startDate.format("MM/dd").</p> 
+							</th>
+						</tr>
+						<tr>
+							<td>
+								<p class="white">You can choose to <a href="@play.Play.application().configuration().getString("application.baseUrl")@routes.Application.registrationPage(registration.confirmationId)">pay it online</a> or in person with cash, card, or check on the first day of camp.</p> 
+								<p><strong>IMPORTANT:</strong> If payment is not received by this time, we reserve the right to advertise the spot as available via social media, our website, and any other available channels. In the event of extenuating circumstances preventing your camper's attendance or ability to pay, please also let us know as soon as possible. Unfortunately if we do not hear from you before the van leaves on the first day, you forgo your placement in the camp.</p>
+							</td>
+						</tr>
+					</table>
+					} else {
 					<table class="green notice" width="100%">
 						<tr>
 							<th> 
@@ -236,7 +235,7 @@
 							</td>
 						</tr>
 					</table>
-				}
+					}
 
 					<table class="red notice" width="100%"> 
 						<tr>
