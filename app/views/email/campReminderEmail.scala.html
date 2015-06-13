@@ -158,11 +158,13 @@
 		table.notice p { font-size: 15px; line-height: 1.5; margin: 9px 0; }
 		table.notice p strong.callout { font-size: 18px; }
 		table.notice p strong,
-		table.notice.red p { color: #FFF; }
+		table.notice.red p,
+		table.notice.green p { color: #FFF; }
 		table.notice p a { color: #FFF; border-bottom: 2px solid #FFF; }
 
 		table.notice.gold { background: #222; }
 		table.notice.red { background: #803634; }
+		table.notice.green { background: #369958;}
 		
 
 	</style>
@@ -206,7 +208,7 @@
 					<p class="small">You're receiving this email because you registered for Commonwealth Skatepark's @registration.camp.title camp. <strong>This message contains a lot of important information, so please don't gloss it over!</strong></p>
 					<br />
 
-					@if(!registration.paid) {
+					@if(registration.getRemainingDue()>0) {
 						<table class="gold notice" width="100%">
 							<tr>
 								<th> 
@@ -221,6 +223,20 @@
 							</tr>
 						</table>
 					}
+					else {
+					<table class="green notice" width="100%">
+						<tr>
+							<th> 
+								<p>Thank you!</p>
+							</th>
+						</tr>
+						<tr>
+							<td>
+								<p>You've already paid your camp dues in full, so you're good to go!</p>
+							</td>
+						</tr>
+					</table>
+				}
 
 					<table class="red notice" width="100%"> 
 						<tr>
