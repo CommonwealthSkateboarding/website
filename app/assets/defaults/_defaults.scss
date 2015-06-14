@@ -43,6 +43,12 @@ ul {
 .fade { transition: all .1s ease-in; }
 a { text-decoration: none; @extend .fade; }
 
+hr { 
+	border: 0; 
+	border-top: 1px solid $gold; 
+	margin: 9px 0;
+}
+
 .flex { display: flex; }
 // .left { float: left; }
 // .right { float: right; }
