@@ -100,10 +100,11 @@ public class Application extends Controller {
 
     @Cached(duration = CACHE_TIME_IN_SECONDS, key = "camp")
     public static Result camp(){
-        Date today = new Date();
-        today = DateUtils.ceiling(today, Calendar.DATE);
-        today = DateUtils.addDays(today, -1);
-        List<Camp> camps = Camp.find.where().ge("registrationEndDate", today).eq("archived", false).orderBy("startDate").findList();
+        //Date today = new Date();
+        //today = DateUtils.ceiling(today, Calendar.DATE);
+        //today = DateUtils.addDays(today, -1);
+        //List<Camp> camps = Camp.find.where().ge("registrationEndDate", today).eq("archived", false).orderBy("startDate").findList();
+        List<Camp> camps = Camp.find.where().eq("archived", false).orderBy("startDate").findList();
         return ok(camp.render(camps));
     }
 
