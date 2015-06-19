@@ -1,15 +1,12 @@
 package controllers;
 
-import com.avaje.ebean.Expr;
 import com.stripe.exception.CardException;
 import com.stripe.model.Charge;
 import models.security.AuditRecord;
 import models.site.ClosureNotice;
 import models.site.NewsItem;
 import models.skatepark.*;
-import org.apache.commons.lang3.time.DateUtils;
 import play.Logger;
-import play.cache.Cache;
 import play.cache.Cached;
 import play.data.Form;
 import play.db.ebean.Model;
@@ -23,11 +20,9 @@ import java.util.*;
 public class Application extends Controller {
 
     public static final int PER_PAGE = 5;
-    public static final String STICKY_REVERSE_DATE_ORDER = "sticky DESC, createDate DESC";
     public static final String USER_ROLE = "USER";
     public static final Double CAMP_DEPOSIT = 100.0; //Dollars
     public static final Double EVENT_DEPOSIT = 50.0; //Dollars
-    public static final int CACHE_TIME_IN_SECONDS = 2 * 60; // 2 minutes
 
     public static Result removeTrailingSlash(String path) {
         return movedPermanently("/" + path);
@@ -43,37 +38,21 @@ public class Application extends Controller {
     }
 
     public static Result index(Long page) {
+        List<ClosureNotice> closures = ClosureNotice.getCachedActiveClosures();
 
-        List<ClosureNotice> closures = (List<ClosureNotice>) Cache.get(ClosureNotice.CURRENTLY_ACTIVE_CLOSURES_CACHE_NAME);
-        if (null == closures) {
-            closures = ClosureNotice.find.where().eq("enabled", true).findList();
-            Cache.set(ClosureNotice.CURRENTLY_ACTIVE_CLOSURES_CACHE_NAME, closures);
-        }
-
-        String cacheKey = "newsPage" + page;
         boolean hasNextPage = false;
-        List<NewsItem> news = (List<NewsItem>) Cache.get(cacheKey);
-        if (null == news) {
-            news = getNewsItems(page);
-            Cache.set(cacheKey, news, CACHE_TIME_IN_SECONDS);
-        }
+
+        List<NewsItem> news = NewsItem.getCachedPagedNews(true, page, PER_PAGE);
         
         if (news.size() == (PER_PAGE + 1)) { // if there is another page after
-            news.remove(PER_PAGE);
             hasNextPage = true;
         }
-        return ok(index.render(news, closures, page, hasNextPage));
-    }
-
-    private static List<NewsItem> getNewsItems(Long page) {
-        Date now = new Date();
-        return new Model.Finder(Long.class, NewsItem.class)
-                .where().or(Expr.eq("expires", false), Expr.gt("expireDate", now)).where().eq("frontPage", true)
-                .setMaxRows(PER_PAGE+1).setFirstRow(page.intValue()*PER_PAGE).orderBy(STICKY_REVERSE_DATE_ORDER).findList();
+        return ok(index.render((hasNextPage?news.subList(0,PER_PAGE-1):news), closures, page, hasNextPage));
     }
 
     public static Result showNews(String id) {
-        NewsItem news = (NewsItem) new Model.Finder(String.class, NewsItem.class).byId(id);
+        //todo add individual cache
+        NewsItem news = NewsItem.find.byId(id);
         Date now = new Date();
         if (null == news || (news.expires && news.expireDate.before(now))) {
             return redirect(routes.Application.index(0)); // not found, deleted, expired
@@ -83,66 +62,55 @@ public class Application extends Controller {
 
     public static Result blog(Long page) {
         boolean hasNextPage = false;
-        Date now = new Date();
-        List<NewsItem> news = NewsItem.find.where().or(Expr.eq("expires", false), Expr.gt("expireDate", now))
-                .setMaxRows(PER_PAGE+1).setFirstRow(page.intValue()*PER_PAGE).orderBy("createDate DESC").findList();
+
+        List<NewsItem> news = NewsItem.getCachedPagedNews(false, page, PER_PAGE);
         if (news.size() == (PER_PAGE + 1)) { // if there is another page after
-            news.remove(PER_PAGE);
             hasNextPage = true;
         }
-        return ok(blog.render(news, page, hasNextPage));
+        return ok(blog.render((hasNextPage?news.subList(0,PER_PAGE-1):news), page, hasNextPage));
     }
 
-    @Cached(duration = CACHE_TIME_IN_SECONDS, key = "shop")
+    @Cached(key = "shop")
     public static Result shop(){
         return ok(shop.render());
     }
 
-    @Cached(duration = CACHE_TIME_IN_SECONDS, key = "camp")
     public static Result camp(){
-        //Date today = new Date();
-        //today = DateUtils.ceiling(today, Calendar.DATE);
-        //today = DateUtils.addDays(today, -1);
-        //List<Camp> camps = Camp.find.where().ge("registrationEndDate", today).eq("archived", false).orderBy("startDate").findList();
-        List<Camp> camps = Camp.find.where().eq("archived", false).orderBy("startDate").findList();
+        List<Camp> camps = Camp.getActiveCamps();
         return ok(camp.render(camps));
     }
 
     public static Result campDetail(String id) {
-        Camp camp = (Camp) new Model.Finder(String.class, Camp.class).byId(id);
+        Camp camp = Camp.find.byId(id);
         if (null == camp) {
             return redirect(routes.Application.camp()); // not found
         }
         return ok(campDetail.render(camp, null));
     }
 
-    @Cached(duration = CACHE_TIME_IN_SECONDS, key = "sessions")
+    @Cached(key = "sessions")
     public static Result sessions(){
         return ok(sessions.render());
     }
 
-    @Cached(duration = CACHE_TIME_IN_SECONDS, key = "events")
     public static Result events() {
-        Date now = new Date();
-        List<Event> publicEvents = Event.find.orderBy("startTime").where().gt("endTime", now)
-                .where().eq("archived", false).where().eq("public_visibility", true).findList();
-        return ok(events.render(publicEvents));
+        return ok(events.render(Event.getActivePublicEvents()));
     }
 
     public static Result eventDetail(String id) {
-        Event event = (Event) new Model.Finder(String.class, Event.class).byId(id);
+        Event event = Event.find.byId(id);
         if (null == event) {
             return redirect(routes.Application.events()); // not found
         }
         return ok(eventDetail.render(event, null));
     }
 
-    @Cached(duration = CACHE_TIME_IN_SECONDS, key = "about")
+    @Cached(key = "about")
     public static Result about(){
         return ok(about.render());
     }
 
-    @Cached(duration = CACHE_TIME_IN_SECONDS, key = "contact")
+    @Cached(key = "contact")
     public static Result contact(){
         return ok(contact.render());
     }

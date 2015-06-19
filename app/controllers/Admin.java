@@ -13,7 +13,6 @@ import models.site.NewsItem;
 import models.skatepark.*;
 import org.apache.commons.lang3.time.DateUtils;
 import play.Logger;
-import play.cache.Cache;
 import play.data.Form;
 import play.db.ebean.Model;
 import play.mvc.Controller;
@@ -72,7 +71,7 @@ public class Admin extends Controller {
         boolean hasNextPage = false;
         List<NewsItem> news = new Model.Finder(String.class, NewsItem.class)
                 .setMaxRows(PER_PAGE + 1).setFirstRow(page.intValue() * PER_PAGE).
-                        orderBy(Application.STICKY_REVERSE_DATE_ORDER).findList();
+                        orderBy(NewsItem.STICKY_REVERSE_DATE_ORDER).findList();
 
         if (news.size() == (PER_PAGE + 1)) { // if there is another page after
             news.remove(PER_PAGE);
@@ -993,10 +992,6 @@ public class Admin extends Controller {
         closure.createdBy = getLocalUser(session());
         closure.save();
 
-        if (closure.enabled) {
-            Cache.remove(ClosureNotice.CURRENTLY_ACTIVE_CLOSURES_CACHE_NAME);
-        }
-
         audit("Added new closure notice: " + closure.message, null, closure);
 
         return redirect(routes.Admin.closureIndex());
@@ -1006,9 +1001,6 @@ public class Admin extends Controller {
         ClosureNotice closure = ClosureNotice.find.byId(id);
         if (null == closure) {
             return redirect(routes.Admin.closureIndex()); // not found
-        }
-        if (closure.enabled) {
-            Cache.remove(ClosureNotice.CURRENTLY_ACTIVE_CLOSURES_CACHE_NAME);
         }
         closure.enabled = false;
         closure.archived = true;
@@ -1026,8 +1018,6 @@ public class Admin extends Controller {
         }
         closure.enabled = state;
         closure.save();
-
-        Cache.remove(ClosureNotice.CURRENTLY_ACTIVE_CLOSURES_CACHE_NAME);
 
         audit((closure.enabled?"Enabled":"Disabled") + " closure \"" + closure.message + "\"" , null, closure);
 

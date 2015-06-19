@@ -15,7 +15,6 @@ import java.util.Date;
 @Entity
 public class Registration extends Model {
 
-
     public enum PaymentType {
         @EnumValue("NONE")
         NONE,
@@ -75,5 +74,17 @@ public class Registration extends Model {
                 break;
         }
         return remaining;
+    }
+
+    @Override
+    public void save() {
+        play.cache.Cache.remove(Camp.ACTIVE_CAMPS_CACHE_NAME);
+        super.save();
+    }
+
+    @Override
+    public void update() {
+        play.cache.Cache.remove(Camp.ACTIVE_CAMPS_CACHE_NAME);
+        super.update();
     }
 }
