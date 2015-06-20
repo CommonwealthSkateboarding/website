@@ -51,8 +51,7 @@ public class Application extends Controller {
     }
 
     public static Result showNews(String id) {
-        //todo add individual cache
-        NewsItem news = NewsItem.find.byId(id);
+        NewsItem news = NewsItem.getCachedNews(id);
         Date now = new Date();
         if (null == news || (news.expires && news.expireDate.before(now))) {
             return redirect(routes.Application.index(0)); // not found, deleted, expired

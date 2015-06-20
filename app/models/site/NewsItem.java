@@ -53,12 +53,14 @@ public class NewsItem extends Model {
     @Override
     public void save() {
         clearCachedPages();
+        play.cache.Cache.set("news"+id, this);
         super.save();
     }
 
     @Override
     public void update() {
         clearCachedPages();
+        play.cache.Cache.set("news"+id, this);
         super.update();
     }
 
@@ -87,6 +89,15 @@ public class NewsItem extends Model {
                         .setFirstRow(page.intValue() * perPage).orderBy(STICKY_REVERSE_DATE_ORDER).findList();
             }
             play.cache.Cache.set(cacheKey, news);
+        }
+        return news;
+    }
+
+    public static NewsItem getCachedNews(String id) {
+        NewsItem news = (NewsItem) play.cache.Cache.get("news"+id);
+        if (null == news) {
+            news = find.byId(id);
+            play.cache.Cache.set("news"+id, news);
         }
         return news;
     }
