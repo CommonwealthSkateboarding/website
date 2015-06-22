@@ -233,7 +233,7 @@ public class Application extends Controller {
             registration.notes = registration.notes + "<br><br>At " + dateFormat.format(now) + " paid (" + utils.Formatter.prettyDollarsAndCents(amount) + ") on the web and generated a stripe chargeId of: " + charge.getId();
             registration.update();
 
-            audit("Processed rest of payment for registration " + registration.confirmationId + " from web for " + registration.participantName, null);
+            audit("Processed rest of payment for registration " + registration.confirmationId + " from web for " + registration.participantName, (registration.registrationType.equals(Registration.RegistrationType.CAMP)?registration.camp:registration.event);
 
             Slack.emitRegistrationBalancePayment(registration, amount);
 
