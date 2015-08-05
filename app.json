@@ -1,0 +1,34 @@
+{
+  "name":"cw-test",
+  "description":"CW Test Site",
+  "scripts":{},
+  "env":{
+    "BUILDPACK_URL":{
+      "required":true
+    },
+    "FB_CLIENT_ID":{
+      "required":true
+    },
+    "FB_CLIENT_SECRET":{
+      "required":true
+    },
+    "hostname":{
+      "required":true
+    },
+    "JAVA_OPTS":{
+      "required":true
+    },
+    "PATH":{
+      "required":true
+    },
+    "REPO":{
+      "required":true
+    },
+    "TZ":{
+      "required":true
+    }
+  },
+  "addons":[
+    "cleardb"
+  ]
+}
