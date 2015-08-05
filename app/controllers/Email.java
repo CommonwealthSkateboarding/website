@@ -6,6 +6,7 @@ import models.skatepark.Registration;
 import play.Play;
 import play.mvc.Controller;
 import views.html.email.inlineCampRegistrationEmail;
+import views.html.email.inlineCampReminderEmail;
 import views.html.email.inlineEventRegistrationEmail;
 
 /**
@@ -29,6 +30,15 @@ public class Email extends Controller {
         mail.setRecipient(recipientAddress);
         mail.setFrom(COMMONWEALTH_RETURN_EMAIL);
         String body = inlineEventRegistrationEmail.render(registration).body();
+        mail.sendHtml(body);
+    }
+
+    public static void sendCampReminderEmail(String recipientAddress, Registration registration) {
+        MailerAPI mail = play.Play.application().plugin(MailerPlugin.class).email();
+        mail.setSubject("Commonwealth Skatepark Upcoming Camp Reminder");
+        mail.setRecipient(recipientAddress);
+        mail.setFrom(COMMONWEALTH_RETURN_EMAIL);
+        String body = inlineCampReminderEmail.render(registration).body();
         mail.sendHtml(body);
     }
 }

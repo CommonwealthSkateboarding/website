@@ -19,6 +19,14 @@ public class Formatter {
             return ("$0");
         }
     }
+    public static String prettyDollarsAndCents(Double dbl) {
+        DecimalFormat df = new DecimalFormat("0.00");
+        if (null != dbl) {
+            return ((dbl < 0)?"-$":"$") + df.format(Math.abs(dbl));
+        } else {
+            return ("$0.00");
+        }
+    }
 
     private static String hex(byte[] array) {
         StringBuffer sb = new StringBuffer();

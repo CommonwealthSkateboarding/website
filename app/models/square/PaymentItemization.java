@@ -29,4 +29,6 @@ public class PaymentItemization {
     public PaymentDiscount[] discounts;
 
     public PaymentModifier[] modifiers;
+
+    public String itemization_type;
 }

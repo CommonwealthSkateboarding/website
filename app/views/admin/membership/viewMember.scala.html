@@ -22,6 +22,29 @@
                 }
             </div>
         }
+    } else {
+        <div class="alert alert-info">
+            <h2 class="text-center">@member.name</h2>
+            @if(null != member.lastVisit) {
+                <p class="text-center">last checked in <span class="timeago" title="@member.lastVisit.time.format("yyyy-MM-dd'T'HH:mmZ")"></span></p>
+            }
+            @if(null == member.getMostValidUnlimitedPass()) {
+                <p class="text-center">
+                    @if(member.sessionPasses > 0) {
+                        <a href="@routes.Admin.sessionVisit(member.id, false)" class="btn btn-success">Use a saved session pass (@member.sessionPasses left)</a>
+                    } else {
+                        <a href="@routes.Admin.sessionVisit(member.id, true)" class="btn btn-danger"><i class="fa fa-money"></i> Buy a session pass for today</a>
+                    }
+                    @if(member.allDayPasses > 0) {
+                        <a href="@routes.Admin.allDayVisit(member.id, false)" class="btn btn-info">Use a saved all-day pass (@member.allDayPasses left)</a>
+                    } else {
+                        <a href="@routes.Admin.allDayVisit(member.id, true)" class="btn btn-warning"><i class="fa fa-money"></i> Buy an all-day pass for today</a>
+                    }
+                </p>
+            } else {
+                <p class="text-center"><a href="@routes.Admin.memberPassVisit(member.id, member.getMostValidUnlimitedPass().id)" class="btn btn-success">Check in with unlimited pass</a></p>
+            }
+        </div>
     }
     <div class="showback">
         <a href="@routes.Admin.editMemberPage(member.id)" class="btn btn-theme pull-right">Edit</a>
@@ -134,7 +157,7 @@
 
 <div class="col-lg-4 col-md-4 col-sm-4">
     <div class="showback">
-        <h4 class="pull-right"><span class="label @if(member.credit != null && member.credit<0){label-danger}else{label-default}">@utils.Formatter.prettyDollars(member.credit)</span></h4>
+        <h4 class="pull-right"><span class="label @if(member.credit != null && member.credit<0){label-danger}else{label-default}">@utils.Formatter.prettyDollarsAndCents(member.credit)</span></h4>
         <h4><i class="fa fa-angle-right"></i> Food Credit</h4>
         <div class="collapse-group">
             <form action="@routes.Admin.addCredit(member.id)" method="post" class="form-inline collapse text-center" role="form">
@@ -187,11 +210,13 @@
                     <p><a class="btn pull-right" id="modifyPass@pass.id" href="#">Edit</a></p>
                 </div>
                 <h4>@pass.starts.format("MM/dd/yyyy") - @pass.expires.format("MM/dd/yyyy")</h4>
-                @if(pass.isValid()) {
-                    <div class="col-md-12 mb">
-                        <a href="@routes.Admin.memberPassVisit(member.id, pass.id)" class="btn btn-success btn-block @if(member.isCheckedInToday()) { disabled }">Check In</a>
-                    </div>
-                }
+                <!-- Removing sidebar checkin buttons
+                    @if(pass.isValid()) {
+                        <div class="col-md-12 mb">
+                            <a href="@routes.Admin.memberPassVisit(member.id, pass.id)" class="btn btn-success btn-block @if(member.isCheckedInToday()) { disabled }">Check In</a>
+                        </div>
+                    }
+                -->
             </div>
         }
         </div>
@@ -219,10 +244,13 @@
     <div class="showback">
         <h4 class="pull-right"><span class="label label-default">@member.sessionPasses Remaining</span></h4>
         <h4><i class="fa fa-angle-right"></i> Session Passes</h4>
-        <p><a href="@routes.Admin.sessionVisit(member.id)" class="btn btn-theme btn-block @if(0 == member.sessionPasses || member.isCheckedInToday()) { disabled } ">Check In</a></p>
-        <a href="@routes.Admin.addSessionPass(member.id, 1)" class="btn btn-xs btn-default btn-block">Add 1 Pass</a>
-        <a href="@routes.Admin.addSessionPass(member.id, 10)" class="btn btn-xs btn-default btn-block">Add 10 Passes</a>
-        <a href="@routes.Admin.subtractSessionPass(member.id)" class="btn btn-xs btn-default btn-block @if(0 == member.sessionPasses) { disabled }">Subtract</a>
+        <p>
+            <!-- Removing sidebar checkin buttons
+                <a href="@routes.Admin.sessionVisit(member.id)" class="btn btn-theme btn-block @if(0 == member.sessionPasses || member.isCheckedInToday()) { disabled } ">Check In</a></p>
+            -->
+            <a href="@routes.Admin.addSessionPass(member.id, 1)" class="btn btn-xs btn-default btn-block">Add 1 Pass</a>
+            <a href="@routes.Admin.addSessionPass(member.id, 10)" class="btn btn-xs btn-default btn-block">Add 10 Passes</a>
+            <a href="@routes.Admin.subtractSessionPass(member.id)" class="btn btn-xs btn-default btn-block @if(0 == member.sessionPasses) { disabled }">Subtract</a>
     </div>
 </div>
 
@@ -230,9 +258,12 @@
     <div class="showback">
         <h4 class="pull-right"><span class="label label-default">@member.allDayPasses Remaining</span></h4>
         <h4><i class="fa fa-angle-right"></i> All Day Passes</h4>
-        <p><a href="@routes.Admin.allDayVisit(member.id)" class="btn btn-theme btn-block @if(0 == member.allDayPasses || member.isCheckedInToday()) { disabled } ">Check In</a></p>
-        <a href="@routes.Admin.addAllDayPass(member.id)" class="btn btn-xs btn-default btn-block">Add</a>
-        <a href="@routes.Admin.subtractAllDayPass(member.id)" class="btn btn-xs btn-default btn-block @if(0 == member.allDayPasses) { disabled }">Subtract</a>
+        <p>
+            <!-- Removing sidebar checkin buttons
+                <a href="@routes.Admin.allDayVisit(member.id)" class="btn btn-theme btn-block @if(0 == member.allDayPasses || member.isCheckedInToday()) { disabled } ">Check In</a></p>
+            -->
+            <a href="@routes.Admin.addAllDayPass(member.id)" class="btn btn-xs btn-default btn-block">Add</a>
+            <a href="@routes.Admin.subtractAllDayPass(member.id)" class="btn btn-xs btn-default btn-block @if(0 == member.allDayPasses) { disabled }">Subtract</a>
     </div>
 </div>
 <script>

@@ -20,7 +20,9 @@
                         <th>Cost</th>
                         <th>Schedule</th>
                         <th>Instructors</th>
-                        <th>Manual Registration</th>
+                        <th>View</th>
+                        <th>Edit</th>
+                        <th>Archive</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -32,10 +34,12 @@
                             <td>@camp.endDate.format("MM/dd/yyyy")</td>
                             <td>@camp.registrationEndDate.format("MM/dd/yyyy")</td>
                             <td>@camp.registrations.size()/@camp.maxRegistrations</td>
-                            <td>@utils.Formatter.prettyDollars(camp.cost)</td>
+                            <td>@utils.Formatter.prettyDollarsAndCents(camp.cost)</td>
                             <td>@camp.scheduleDescription</td>
                             <td>@camp.instructors</td>
-                            <td><a href="@routes.Admin.campRegistrationPage(camp.id)" class="btn btn-success btn-xs">Add New Registration</a></td>
+                            <td><a href="@routes.Admin.viewCampPage(camp.id)" class="btn btn-theme btn-block">View</a></td>
+                            <td><a href="@routes.Admin.editCampPage(camp.id)" class="btn btn-theme btn-block">Edit</a></td>
+                            <td><a href="@routes.Admin.archiveCamp(camp.id)" class="btn btn-theme btn-block">Archive</a></td>
                         </tr>
                     }
                     </tbody>

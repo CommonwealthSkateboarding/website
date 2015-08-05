@@ -3,13 +3,16 @@ package controllers;
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
 import com.feth.play.module.pa.PlayAuthenticate;
+import com.stripe.model.Charge;
 import models.security.AuditRecord;
 import models.security.SecurityRole;
 import models.security.User;
+import models.site.ClosureNotice;
 import models.site.Issue;
 import models.site.NewsItem;
 import models.skatepark.*;
 import org.apache.commons.lang3.time.DateUtils;
+import play.Logger;
 import play.data.Form;
 import play.db.ebean.Model;
 import play.mvc.Controller;
@@ -18,6 +21,7 @@ import play.mvc.Result;
 import play.mvc.Security;
 import utils.TimeUtil;
 import views.html.admin.camp.*;
+import views.html.admin.closure.closureIndex;
 import views.html.admin.event.*;
 import views.html.admin.index;
 import views.html.admin.issues.issueIndex;
@@ -26,7 +30,8 @@ import views.html.admin.membership.*;
 import views.html.admin.news.addNews;
 import views.html.admin.news.editNews;
 import views.html.admin.news.newsIndex;
-import views.html.admin.unheard.unheardSaleIndex;
+import views.html.admin.register.unheardSaleIndex;
+import views.html.admin.register.bitcoinSale;
 import views.html.admin.userIndex;
 
 import java.text.ParseException;
@@ -66,7 +71,7 @@ public class Admin extends Controller {
         boolean hasNextPage = false;
         List<NewsItem> news = new Model.Finder(String.class, NewsItem.class)
                 .setMaxRows(PER_PAGE + 1).setFirstRow(page.intValue() * PER_PAGE).
-                        orderBy(Application.STICKY_REVERSE_DATE_ORDER).findList();
+                        orderBy(NewsItem.STICKY_REVERSE_DATE_ORDER).findList();
 
         if (news.size() == (PER_PAGE + 1)) { // if there is another page after
             news.remove(PER_PAGE);
@@ -93,7 +98,7 @@ public class Admin extends Controller {
     public static Result addNewsItem() {
         NewsItem newsItem = Form.form(NewsItem.class).bindFromRequest().get();
 
-        String titleDigest = newsItem.title.toLowerCase().replaceAll("[^A-Za-z0-9 ]", "").replaceAll(" ","_");
+        String titleDigest = newsItem.title.toLowerCase().replaceAll("[^A-Za-z0-9 ]", "").replaceAll(" ", "_");
         String proposedId = titleDigest.substring(0,(titleDigest.length()>64)?64:titleDigest.length());
         NewsItem news = (NewsItem) new Model.Finder(String.class, NewsItem.class).byId(proposedId);
         //If one already exists, append a 4 digit number
@@ -136,7 +141,7 @@ public class Admin extends Controller {
 
     public static Result memberIndex(Long page) {
         boolean hasNextPage = false;
-        List<Membership> list = Membership.find.orderBy(RECENT_VISIT_ORDER).setMaxRows(PER_PAGE+1)
+        List<Membership> list = Membership.find.orderBy(RECENT_VISIT_ORDER).setMaxRows(PER_PAGE + 1)
                 .setFirstRow(page.intValue() * PER_PAGE).findList();
         if (list.size() == (PER_PAGE + 1)) { // if there is another page after
             list.remove(PER_PAGE);
@@ -452,7 +457,7 @@ public class Admin extends Controller {
         Double amount = Double.parseDouble((String) Form.form().bindFromRequest().data().get("amount"));
         Membership member = (Membership) new Model.Finder(Long.class, Membership.class).byId(memberId);
         member.deposit(amount);
-        audit("Added " + utils.Formatter.prettyDollars(amount) + " credit to " + member.name + "'s membership", member, null);
+        audit("Added " + utils.Formatter.prettyDollarsAndCents(amount) + " credit to " + member.name + "'s membership", member, null);
         return redirect(routes.Admin.viewMemberPage(memberId));
     }
 
@@ -460,7 +465,7 @@ public class Admin extends Controller {
         Double amount = Double.parseDouble((String) Form.form().bindFromRequest().data().get("amount"));
         Membership member = (Membership) new Model.Finder(Long.class, Membership.class).byId(memberId);
         member.spend(amount);
-        audit("Subtracted " + utils.Formatter.prettyDollars(amount) + " credit from " + member.name + "'s membership", member, null);
+        audit("Subtracted " + utils.Formatter.prettyDollarsAndCents(amount) + " credit from " + member.name + "'s membership", member, null);
         return redirect(routes.Admin.viewMemberPage(memberId));
     }
 
@@ -482,6 +487,8 @@ public class Admin extends Controller {
             log.camp = (Camp) payload;
         } else if (payload.getClass().equals(Event.class)) {
             log.event = (Event) payload;
+        } else if (payload.getClass().equals(ClosureNotice.class)) {
+            log.closure = (ClosureNotice) payload;
         }
         //TODO: Consider adding link for admin issues
         log.save();
@@ -525,7 +532,7 @@ public class Admin extends Controller {
 
     @Restrict({@Group("CAMP")})
     public static Result campIndex() {
-        List<Camp> camps = Camp.find.findList();
+        List<Camp> camps = Camp.find.where().eq("archived", false).orderBy("startDate").findList();
         return ok(campIndex.render(camps, getLocalUser(session())));
     }
 
@@ -622,6 +629,9 @@ public class Admin extends Controller {
         registration.camp = camp;
         registration.registrationType = Registration.RegistrationType.CAMP;
         registration.confirmationId = org.apache.commons.lang3.RandomStringUtils.random(6, "ABCDEFGHJKMNPQRSTUVWXYZ23456789");
+        if(registration.totalPaid == null) {
+            registration.totalPaid = 0.00;
+        }
 
         registration.save();
 
@@ -662,6 +672,39 @@ public class Admin extends Controller {
         return redirect(routes.Admin.viewCampPage(reg.camp.id));
     }
 
+    @Restrict({@Group("CAMP")})
+    public static Result sendCampReminderEmail(Long id) {
+        Registration reg = (Registration) new Model.Finder(Long.class, Registration.class).byId(id);
+        if (null == reg) {
+            return notFound("Bad registration id");
+        };
+        Email.sendCampReminderEmail(reg.registrantEmail, reg);
+
+        audit("Sent camp reminder to " + reg.registrantEmail + " re: " + reg.camp.title, null, reg.camp);
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy h:mm a");
+        Date now = new Date();
+        reg.notes = reg.notes + "<br>At " + dateFormat.format(now) + " sent reminder of camp to " + reg.registrantEmail;
+        reg.update();
+
+        return redirect(routes.Admin.viewCampPage(reg.camp.id));
+    }
+
+
+    @Restrict({@Group("CAMP")})
+    public static Result archiveCamp(String id) {
+        Camp camp = (Camp) new Model.Finder(String.class, Camp.class).byId(id);
+        if (null == camp) {
+            return redirect(routes.Admin.campIndex()); // not found
+        }
+        camp.archived = true;
+        camp.save();
+
+        audit("Archived camp " + camp.title, null, camp);
+
+        return redirect(routes.Admin.campIndex());
+    }
+
     @Restrict({@Group("EVENTS")})
     public static Result eventIndex() {
         Date now = new Date();
@@ -679,7 +722,7 @@ public class Admin extends Controller {
     public static Result addEvent() {
         Event event = Form.form(Event.class).bindFromRequest().get();
 
-        String titleDigest = event.name.toLowerCase().replaceAll("[^A-Za-z0-9 ]", "").replaceAll(" ","_");
+        String titleDigest = event.name.toLowerCase().replaceAll("[^A-Za-z0-9 ]", "").replaceAll(" ", "_");
         String proposedId = titleDigest.substring(0,(titleDigest.length()>56)?56:titleDigest.length()) +
                 "_" + TimeUtil.getMonthYearString(event.startTime);
         Event event2 = (Event) new Model.Finder(String.class, Event.class).byId(proposedId);
@@ -777,6 +820,9 @@ public class Admin extends Controller {
         registration.event = event;
         registration.registrationType = Registration.RegistrationType.EVENT;
         registration.confirmationId = org.apache.commons.lang3.RandomStringUtils.random(6, "ABCDEFGHJKMNPQRSTUVWXYZ23456789");
+        if(registration.totalPaid == null) {
+            registration.totalPaid = 0.00;
+        }
 
         registration.save();
 
@@ -911,4 +957,72 @@ public class Admin extends Controller {
 
         return redirect(routes.Admin.unheardSaleIndex());
     }
+
+    public static Result bitcoinSaleIndex() {
+        List<BitcoinSale> sales = BitcoinSale.find.orderBy("created DESC").setMaxRows(PER_PAGE).findList();
+        return ok(bitcoinSale.render(sales, getLocalUser(session())));
+    }
+
+    public static Result addBitcoinSale() {
+        BitcoinSale sale = Form.form(BitcoinSale.class).bindFromRequest().get();
+        sale.created = new Date();
+        sale.soldBy = getLocalUser(session());
+        sale.save();
+        try {
+            Charge charge = Stripe.chargeStripe(sale.amount, sale.stripeToken, "Shop sale: " + sale.description);
+            audit("Processed bitcoin sale for " + sale.description, null, null);
+            Slack.emitBitcoinPayment(charge);
+            return redirect(routes.Admin.bitcoinSaleIndex());
+        } catch (Exception e) {
+            Logger.error("Stripe error", e);
+            return internalServerError(e.toString());
+        }
+
+    }
+
+    public static Result closureIndex() {
+        Date now = new Date();
+        List<ClosureNotice> closures = ClosureNotice.find.orderBy("created").where().eq("archived", false).findList();
+        return ok(closureIndex.render(closures, getLocalUser(session())));
+    }
+
+    public static Result addClosure() {
+        ClosureNotice closure = Form.form(ClosureNotice.class).bindFromRequest().get();
+        closure.created = new Date();
+        closure.createdBy = getLocalUser(session());
+        closure.save();
+
+        audit("Added new closure notice: " + closure.message, null, closure);
+
+        return redirect(routes.Admin.closureIndex());
+    }
+
+    public static Result archiveClosure(Long id) {
+        ClosureNotice closure = ClosureNotice.find.byId(id);
+        if (null == closure) {
+            return redirect(routes.Admin.closureIndex()); // not found
+        }
+        closure.enabled = false;
+        closure.archived = true;
+        closure.save();
+
+        audit("Archived closure \"" + closure.message + "\"", null, closure);
+
+        return redirect(routes.Admin.closureIndex());
+    }
+
+    public static Result toggleClosure(Long id, boolean state) {
+        ClosureNotice closure = ClosureNotice.find.byId(id);
+        if (null == closure) {
+            return redirect(routes.Admin.closureIndex()); // not found
+        }
+        closure.enabled = state;
+        closure.save();
+
+        audit((closure.enabled?"Enabled":"Disabled") + " closure \"" + closure.message + "\"" , null, closure);
+
+        return redirect(routes.Admin.closureIndex());
+    }
+
+
 }

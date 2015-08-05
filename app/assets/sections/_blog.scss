@@ -27,7 +27,14 @@ body.blog { background-image: image-url("about/2014__park-exterior-header--001.j
 	width: 100%;
 
 	article { 
-		&.post-preview { width: 100%; }
+		&.post-preview { 
+			width: 100%; 
+			.h5 { 
+				@include rem(font-size, 60px);
+				padding-right: 45%;
+				a { box-shadow: none; }
+			 }
+		}
 
 		// &+& == all but the first
 		& + & { margin-top: $margin; }
@@ -46,8 +53,9 @@ body.blog { background-image: image-url("about/2014__park-exterior-header--001.j
 			.meta {
 				display: flex;
 				align-content: center;
-				@include rem(font-size, 9px);
-				@include rem(letter-spacing, .5px);
+				font-feature-settings: normal;
+				@include rem(font-size, 1rem);
+				@include rem(letter-spacing, .003rem);
 				margin: 6px 0 0;
 				text-transform: uppercase;
 

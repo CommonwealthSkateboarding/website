@@ -5,7 +5,7 @@
 
 <h3><i class="fa fa-angle-right"></i> Membership Database</h3>
 <div class="row mb">
-    <div class="col-lg-6">
+    <div class="col-lg-12">
         <div class="showback">
             <h4><i class="fa fa-angle-right"></i> Currently Active Unlimited Memberships (@current.size)</h4>
             <section id="unseen">
@@ -13,8 +13,8 @@
                     <thead>
                     <tr>
                         <th>Name</th>
-                        <th>Unlimited Pass Through</th>
                         <th>View</th>
+                        <th>Unlimited Pass Through</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -22,6 +22,7 @@
                         @if(pass.isValid()) {
                             <tr>
                                 <td>@member.name</td>
+                                <td><a href="@routes.Admin.viewMemberPage(member.id)" class="btn btn-theme btn-block">View</a></td>
                                 <td>Pass expires @pass.expires.format("MM/dd/yyyy")
                                     (<span class="timeago" title="@pass.expires.format("yyyy-MM-dd'T'HH:mmZ")"></span>)
                                     @if(null != member.lastVisit) {
@@ -30,7 +31,6 @@
                                         (<span class="timeago" title="@member.lastVisit.time.format("yyyy-MM-dd'T'HH:mmZ")"></span>)
                                     }
                                 </td>
-                                <td><a href="@routes.Admin.viewMemberPage(member.id)" class="btn btn-theme btn-block">View</a></td>
                             </tr>
                         }
                     }
@@ -39,7 +39,7 @@
             </section>
         </div>
     </div>
-    <div class="col-lg-6">
+    <div class="col-lg-12">
         <div class="showback">
             <h4><i class="fa fa-angle-right"></i> Unlimited Memberships Expired in the Last 3 Months (@expired.size)</h4>
             <section id="unseen">
@@ -47,8 +47,9 @@
                     <thead>
                     <tr>
                         <th>Name</th>
-                        <th>Unlimited Pass Through</th>
                         <th>View</th>
+                        <th>Unlimited Pass Through</th>
+                        <th>Visited Since Expired?</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -56,6 +57,7 @@
                         @if(!pass.isValid()) {
                             <tr>
                                 <td>@member.name</td>
+                                <td><a href="@routes.Admin.viewMemberPage(member.id)" class="btn btn-theme btn-block">View</a></td>
                                 <td>Pass expired @pass.expires.format("MM/dd/yyyy")
                                     (<span class="timeago" title="@pass.expires.format("yyyy-MM-dd'T'HH:mmZ")"></span>)
                                     @if(null != member.lastVisit) {
@@ -64,7 +66,7 @@
                                         (<span class="timeago" title="@member.lastVisit.time.format("yyyy-MM-dd'T'HH:mmZ")"></span>)
                                     }
                                 </td>
-                                <td><a href="@routes.Admin.viewMemberPage(member.id)" class="btn btn-theme btn-block">View</a></td>
+                                <td>@if(member.lastVisit.time.after(pass.expires)) { <i class="fa fa-2x fa-check-circle"></i> }</td>
                             </tr>
                         }
                     }

@@ -15,6 +15,7 @@ import utils.TimeUtil;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.TimeoutException;
 
 /**
  * Created by cdelargy on 12/18/14.
@@ -74,12 +75,12 @@ public class Square extends Controller {
         return payment;
     }
 
-    public static void runSlackPaymentsReport(Date since) {
+    public static void runSlackPaymentsReport(Date since) throws TimeoutException {
         Payment[] payments = null;
         if (enabled) {
             WSRequestHolder holder = WS.url(PAYMENT_URL).setHeader(AUTHORIZATION_HEADER, BEARER_TOKEN)
                     .setQueryParameter("begin_time", TimeUtil.getISO8601Date(since));
-            WSResponse response = holder.get().get(20000);
+            WSResponse response = holder.get().get(30000);
             if (response.getStatus() != OK) {
                 Logger.error("Got bad response from square when getting payments: " + response.getBody().toString());
             } else {
