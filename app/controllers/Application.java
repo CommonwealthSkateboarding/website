@@ -1,25 +1,25 @@
 package controllers;
 
-import com.avaje.ebean.Expr;
+import com.stripe.exception.CardException;
 import com.stripe.model.Charge;
 import models.security.AuditRecord;
+import models.site.ClosureNotice;
 import models.site.NewsItem;
 import models.skatepark.*;
-import org.apache.commons.lang3.time.DateUtils;
 import play.Logger;
-import play.cache.Cache;
+import play.cache.Cached;
 import play.data.Form;
 import play.db.ebean.Model;
 import play.mvc.*;
 
 import views.html.*;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Application extends Controller {
 
     public static final int PER_PAGE = 5;
-    public static final String STICKY_REVERSE_DATE_ORDER = "sticky DESC, createDate DESC";
     public static final String USER_ROLE = "USER";
     public static final Double CAMP_DEPOSIT = 100.0; //Dollars
     public static final Double EVENT_DEPOSIT = 50.0; //Dollars
@@ -38,29 +38,20 @@ public class Application extends Controller {
     }
 
     public static Result index(Long page) {
-        String cacheKey = "newsPage" + page;
+        List<ClosureNotice> closures = ClosureNotice.getCachedActiveClosures();
+
         boolean hasNextPage = false;
-        List<NewsItem> news = (List<NewsItem>) Cache.get(cacheKey);
-        if (null == news) {
-            news = getNewsItems(page);
-            Cache.set(cacheKey, news, 60 * 1); // cache for 1 minute
-        }
+
+        List<NewsItem> news = NewsItem.getCachedPagedNews(true, page, PER_PAGE);
+        
         if (news.size() == (PER_PAGE + 1)) { // if there is another page after
-            news.remove(PER_PAGE);
             hasNextPage = true;
         }
-        return ok(index.render(news, page, hasNextPage));
-    }
-
-    private static List<NewsItem> getNewsItems(Long page) {
-        Date now = new Date();
-        return new Model.Finder(Long.class, NewsItem.class)
-                .where().or(Expr.eq("expires", false), Expr.gt("expireDate", now)).where().eq("frontPage", true)
-                .setMaxRows(PER_PAGE+1).setFirstRow(page.intValue()*PER_PAGE).orderBy(STICKY_REVERSE_DATE_ORDER).findList();
+        return ok(index.render((hasNextPage?news.subList(0,PER_PAGE-1):news), closures, page, hasNextPage));
     }
 
     public static Result showNews(String id) {
-        NewsItem news = (NewsItem) new Model.Finder(String.class, NewsItem.class).byId(id);
+        NewsItem news = NewsItem.getCachedNews(id);
         Date now = new Date();
         if (null == news || (news.expires && news.expireDate.before(now))) {
             return redirect(routes.Application.index(0)); // not found, deleted, expired
@@ -70,58 +61,55 @@ public class Application extends Controller {
 
     public static Result blog(Long page) {
         boolean hasNextPage = false;
-        Date now = new Date();
-        List<NewsItem> news = NewsItem.find.where().or(Expr.eq("expires", false), Expr.gt("expireDate", now))
-                .setMaxRows(PER_PAGE+1).setFirstRow(page.intValue()*PER_PAGE).orderBy("createDate DESC").findList();
+
+        List<NewsItem> news = NewsItem.getCachedPagedNews(false, page, PER_PAGE);
         if (news.size() == (PER_PAGE + 1)) { // if there is another page after
-            news.remove(PER_PAGE);
             hasNextPage = true;
         }
-        return ok(blog.render(news, page, hasNextPage));
+        return ok(blog.render((hasNextPage?news.subList(0,PER_PAGE-1):news), page, hasNextPage));
     }
 
+    @Cached(key = "shop")
     public static Result shop(){
         return ok(shop.render());
     }
 
     public static Result camp(){
-        Date tomorrow = new Date();
-        tomorrow = DateUtils.ceiling(tomorrow, Calendar.DATE);
-        List<Camp> camps = Camp.find.where().gt("registrationEndDate", tomorrow).orderBy("startDate").findList();
+        List<Camp> camps = Camp.getActiveCamps();
         return ok(camp.render(camps));
     }
 
     public static Result campDetail(String id) {
-        Camp camp = (Camp) new Model.Finder(String.class, Camp.class).byId(id);
+        Camp camp = Camp.find.byId(id);
         if (null == camp) {
             return redirect(routes.Application.camp()); // not found
         }
-        return ok(campDetail.render(camp));
+        return ok(campDetail.render(camp, null));
     }
 
+    @Cached(key = "sessions")
     public static Result sessions(){
         return ok(sessions.render());
     }
 
     public static Result events() {
-        Date now = new Date();
-        List<Event> publicEvents = Event.find.orderBy("startTime").where().gt("endTime", now)
-                .where().eq("archived", false).where().eq("public_visibility", true).findList();
-        return ok(events.render(publicEvents));
+        return ok(events.render(Event.getActivePublicEvents()));
     }
 
     public static Result eventDetail(String id) {
-        Event event = (Event) new Model.Finder(String.class, Event.class).byId(id);
+        Event event = Event.find.byId(id);
         if (null == event) {
             return redirect(routes.Application.events()); // not found
         }
-        return ok(eventDetail.render(event));
+        return ok(eventDetail.render(event, null));
     }
-    
+
+    @Cached(key = "about")
     public static Result about(){
         return ok(about.render());
     }
 
+    @Cached(key = "contact")
     public static Result contact(){
         return ok(contact.render());
     }
@@ -134,34 +122,37 @@ public class Application extends Controller {
             return redirect(routes.Application.camp()); // not found
         }
 
-        String name = Form.form().bindFromRequest().data().get("name");
-        String email = Form.form().bindFromRequest().data().get("email");
-        String billingName = Form.form().bindFromRequest().data().get("billingName");
-        String telephone = Form.form().bindFromRequest().data().get("telephone");
-        String stripeToken = Form.form().bindFromRequest().data().get("stripeToken");
-        Boolean fullyPaid = Boolean.parseBoolean(Form.form().bindFromRequest().data().get("fully-paid"));
+        RegistrationInfo info = Form.form(RegistrationInfo.class).bindFromRequest().get();
 
-        Charge charge = Stripe.chargeStripe(fullyPaid?camp.cost:CAMP_DEPOSIT, stripeToken, "Registration for " + camp.title);
+        try {
+            Charge charge = Stripe.chargeStripe(info.fullyPaid?camp.cost:CAMP_DEPOSIT, info.stripeToken, "Registration for " + camp.title);
 
-        Registration reg = new Registration();
+            Registration reg = new Registration();
 
-        reg.registrationType = Registration.RegistrationType.CAMP;
-        reg.camp = camp;
-        reg.paid = fullyPaid.booleanValue();
-        reg.totalPaid = (fullyPaid?camp.cost:CAMP_DEPOSIT);
-        reg.registrantEmail = email;
-        reg.participantName = name;
-        reg.paymentType = Registration.PaymentType.STRIPE;
-        reg.timestamp = new Date();
-        reg.notes = "Paid (" + utils.Formatter.prettyDollars(reg.totalPaid) + ") on the web by " + billingName + "(" + (telephone.isEmpty()?"":"tel: "+telephone+", ") + "email: " + email + ") and generated a stripe chargeId of: " + charge.getId();
-        reg.confirmationId = org.apache.commons.lang3.RandomStringUtils.random(6, "ABCDEFGHJKMNPQRSTUVWXYZ23456789");
-        reg.save();
+            reg.registrationType = Registration.RegistrationType.CAMP;
+            reg.camp = camp;
+            reg.paid = info.fullyPaid.booleanValue();
+            reg.totalPaid = (info.fullyPaid ? camp.cost : CAMP_DEPOSIT);
+            reg.registrantEmail = info.email;
+            reg.participantName = info.name;
+            reg.paymentType = Registration.PaymentType.STRIPE;
+            reg.timestamp = new Date();
+            reg.notes = "Paid (" + utils.Formatter.prettyDollarsAndCents(reg.totalPaid) + ") on the web by " + info.billingName + "(" + (info.telephone.isEmpty() ? "" : "tel: " + info.telephone + ", ") + "email: " + info.email + ") and generated a stripe chargeId of: " + charge.getId();
+            reg.confirmationId = org.apache.commons.lang3.RandomStringUtils.random(6, "ABCDEFGHJKMNPQRSTUVWXYZ23456789");
+            reg.save();
 
-        audit("Added registration for camp " + camp.title + " from web for " + name, camp);
+            audit("Added registration for camp " + camp.title + " from web for " + info.name, camp);
 
-        Email.sendCampRegistrationConfirmation(email, reg);
+            Email.sendCampRegistrationConfirmation(info.email, reg);
+            Slack.emitCampRegistrationPayment(reg);
 
-        return redirect(routes.Application.registrationPage());
+            return redirect(routes.Application.registrationPage(reg.confirmationId));
+        } catch (CardException e) {
+            return ok(campDetail.render(camp, info));
+        } catch (Exception e) {
+            Logger.error("Stripe error", e);
+            return internalServerError();
+        }
     }
 
     public static Result registerForEventWithStripe(String id) {
@@ -172,34 +163,37 @@ public class Application extends Controller {
             return redirect(routes.Application.events()); // not found
         }
 
-        String name = Form.form().bindFromRequest().data().get("name");
-        String billingName = Form.form().bindFromRequest().data().get("billingName");
-        String telephone = Form.form().bindFromRequest().data().get("telephone");
-        String email = Form.form().bindFromRequest().data().get("email");
-        String stripeToken = Form.form().bindFromRequest().data().get("stripeToken");
-        Boolean fullyPaid = Boolean.parseBoolean(Form.form().bindFromRequest().data().get("fully-paid"));
+        RegistrationInfo info = Form.form(RegistrationInfo.class).bindFromRequest().get();
 
-        Charge charge = Stripe.chargeStripe(fullyPaid?event.cost:EVENT_DEPOSIT, stripeToken, "Registration for " + event.name);
+        try {
+            Charge charge = Stripe.chargeStripe(info.fullyPaid ? event.cost : EVENT_DEPOSIT, info.stripeToken, "Registration for " + event.name);
 
-        Registration reg = new Registration();
+            Registration reg = new Registration();
 
-        reg.registrationType = Registration.RegistrationType.EVENT;
-        reg.event = event;
-        reg.paid = fullyPaid.booleanValue();
-        reg.totalPaid = (fullyPaid?event.cost:EVENT_DEPOSIT);
-        reg.registrantEmail = email;
-        reg.participantName = name;
-        reg.paymentType = Registration.PaymentType.STRIPE;
-        reg.timestamp = new Date();
-        reg.notes = "Paid (" + utils.Formatter.prettyDollars(reg.totalPaid) + ") on the web by " + billingName + "(" + (telephone.isEmpty()?"":"tel: "+telephone+", ") + "email: " + email + ") and generated a stripe chargeId of: " + charge.getId();
-        reg.confirmationId = org.apache.commons.lang3.RandomStringUtils.random(6, "ABCDEFGHJKMNPQRSTUVWXYZ23456789");
-        reg.save();
+            reg.registrationType = Registration.RegistrationType.EVENT;
+            reg.event = event;
+            reg.paid = info.fullyPaid.booleanValue();
+            reg.totalPaid = (info.fullyPaid ? event.cost : EVENT_DEPOSIT);
+            reg.registrantEmail = info.email;
+            reg.participantName = info.name;
+            reg.paymentType = Registration.PaymentType.STRIPE;
+            reg.timestamp = new Date();
+            reg.notes = "Paid (" + utils.Formatter.prettyDollarsAndCents(reg.totalPaid) + ") on the web by " + info.billingName + "(" + (info.telephone.isEmpty() ? "" : "tel: " + info.telephone + ", ") + "email: " + info.email + ") and generated a stripe chargeId of: " + charge.getId();
+            reg.confirmationId = org.apache.commons.lang3.RandomStringUtils.random(6, "ABCDEFGHJKMNPQRSTUVWXYZ23456789");
+            reg.save();
 
-        audit("Added registration for event " + event.name + " from web for " + name, event);
+            audit("Added registration for event " + event.name + " from web for " + info.name, event);
 
-        Email.sendEventRegistrationConfirmation(email, reg);
+            Email.sendEventRegistrationConfirmation(info.email, reg);
+            Slack.emitEventRegistrationPayment(reg);
 
-        return redirect(routes.Application.registrationPage());
+            return redirect(routes.Application.registrationPage(reg.confirmationId));
+        } catch (CardException e) {
+            return ok(eventDetail.render(event, info));
+        } catch (Exception e) {
+            Logger.error("Stripe error", e);
+            return internalServerError();
+        }
     }
 
     public static void audit(String description, Object payload) {
@@ -217,7 +211,38 @@ public class Application extends Controller {
         Slack.emitAuditLog(log);
     }
 
-    public static Result registrationPage() {
-        return ok(registrationPage.render());
+    public static Result registrationPage(String id) {
+        Registration registration = Registration.find.where().eq("confirmationId", id).findUnique();
+        return ok(registrationPage.render(registration, null));
+    }
+
+    public static Result registrationPayBalance(String id) {
+
+        Registration registration = Registration.find.where().eq("confirmationId", id).findUnique();
+
+        RegistrationInfo info = Form.form(RegistrationInfo.class).bindFromRequest().get();
+        Double amount = registration.getRemainingDue();
+
+        try {
+            Charge charge = Stripe.chargeStripe(amount, info.stripeToken, "Remainder of payment due");
+
+            registration.paid = true;
+            registration.totalPaid = registration.totalPaid + amount;
+            SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy h:mm a");
+            Date now = new Date();
+            registration.notes = registration.notes + "<br><br>At " + dateFormat.format(now) + " paid (" + utils.Formatter.prettyDollarsAndCents(amount) + ") on the web and generated a stripe chargeId of: " + charge.getId();
+            registration.update();
+
+            audit("Processed rest of payment for registration " + registration.confirmationId + " from web for " + registration.participantName, (registration.registrationType.equals(Registration.RegistrationType.CAMP)?registration.camp:registration.event));
+
+            Slack.emitRegistrationBalancePayment(registration, amount);
+
+            return redirect(routes.Application.registrationPage(registration.confirmationId));
+        } catch (CardException e) {
+            return ok(registrationPage.render(registration, info));
+        } catch (Exception e) {
+            Logger.error("Stripe error", e);
+            return internalServerError();
+        }
     }
 }

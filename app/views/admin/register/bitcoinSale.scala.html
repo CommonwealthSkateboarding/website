@@ -1,0 +1,84 @@
+@(sales: List[models.skatepark.BitcoinSale] = null, localUser: models.security.User = null)
+@import admin.wrapper
+@wrapper(localUser, "register", "bitcoin") {
+<h3><i class="fa fa-angle-right"></i> Admin Register Console</h3>
+<div class="row mb">
+
+
+    <div class="col-lg-12">
+        <div class="showback">
+            <h4><i class="fa fa-angle-right"></i> New Bitcoin Sale</h4>
+            <form action="@routes.Admin.addBitcoinSale()" method="post" id="payment-form" class="form-horizontal style-form">
+                <label>Sale Description (items, etc):</label><br/><input type="text" name="description" id="description" class="form-control" placeholder="Description"/><br/>
+                <label>Total Amount:</label><br/><input type="text" name="amount" id="amount" class="form-control" placeholder="0.00"/><br/>
+
+                <button type="submit" id="pay" class="btn btn-theme btn-block">Get Bitcoin Payment Screen</button>
+                <script src="https://checkout.stripe.com/checkout.js"></script>
+                <script>
+                    var handler = StripeCheckout.configure({
+                      key: '@controllers.Stripe.STRIPE_PUBLIC_KEY',
+                      image: 'https://s3.amazonaws.com/stripe-uploads/acct_154QX0FIzru1QGQUmerchant-icon-1421729277975-cw--logo--lettermark-black.png',
+                      token: function(token) {
+                          var $form = $('#payment-form');
+                          // Insert the token into the form so it gets submitted to the server
+                          $form.append($('<input type="hidden" name="stripeToken" />').val(token.id));
+                          // and submit
+                          $form.get(0).submit();
+                      }
+                    });
+
+                    $('#pay').on('click', function(e) {
+                        handler.open({
+                            name: 'Commonwealth Skate',
+                            description: $('#description').val(),
+                            amount: parseInt($('#amount').val()*100),
+                            email: "info@@commonwealthskateboarding.com",
+                            currency: 'usd',
+                            bitcoin: true
+                        });
+                      e.preventDefault();
+                    });
+
+                    // Close Checkout on page navigation
+                    $(window).on('popstate', function() {
+                      handler.close();
+                    });
+                </script>
+            </form>
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="showback">
+            <h4><i class="fa fa-angle-right"></i> Bitcoin Sales</h4>
+            <section id="unseen">
+                <table class="table table-bordered table-striped table-condensed">
+                    <thead>
+                    <tr>
+                        <th>Description</th>
+                        <th>Price</th>
+                        <th>Sold By</th>
+                        <th>Sale Date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @for(sale <- sales) {
+                    <tr>
+                        <td>@sale.description</td>
+                        <td>@utils.Formatter.prettyDollarsAndCents(sale.amount)</td>
+                        <td>@sale.soldBy.name</td>
+                        <td>@sale.created.format("MM/dd/yyyy h:mm a")</td>
+                    </tr>
+                    }
+                    </tbody>
+                </table>
+            </section>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function(){
+
+    });
+</script>
+}

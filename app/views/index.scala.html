@@ -1,6 +1,6 @@
-@(news: List[models.site.NewsItem], page: Long, hasNextPage: Boolean)
+@(news: List[models.site.NewsItem], closures: List[models.site.ClosureNotice], page: Long, hasNextPage: Boolean)
 
-@main("home", true) {
+@main("home", true, null, closures) {
 
 <section id="blog">
 

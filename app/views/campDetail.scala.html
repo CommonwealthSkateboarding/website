@@ -1,4 +1,4 @@
-@(camp: models.skatepark.Camp)
+@(camp: models.skatepark.Camp, info: models.skatepark.RegistrationInfo)
 
 @main("camp-detail", false, camp.title + " | Commonwealth Skateboarding | Portland, Oregon") {
 <section id="camp-detail">
@@ -16,11 +16,18 @@
 				</li>
 				<li class="registrants">
 					<p class="h6">Spots Available</p>
-					<p>@(camp.maxRegistrations - camp.registrations.size()) left</p>
+					<p>
+						@if(0 >= (camp.maxRegistrations - camp.registrations.size())) {
+							Sold out!
+						} else {
+							@(camp.maxRegistrations - camp.registrations.size()) left
+						}
+					</p>
 				</li>
 				<li class="cost">
 					<p class="h6">Cost</p>
 					<p>@utils.Formatter.prettyDollars(camp.cost)</p>
+                    <p><img src="@routes.Assets.at("img/credit-cards.png")" alt="Payment Methods"></p>
 				</li>
 				<li class="schedule">
 					<p class="h6">Schedule</p>
@@ -45,10 +52,17 @@
 		</div>
 
 		<div class="sign-up">
-			<!-- <p class="h4">Description</p> -->
-			@Html(camp.description)
+      @if(null!=info) {
+          <p class="h4">Sorry, but there was a problem with your card</p>
+          <p>Your payment could not be processed. Try again or use another card, and if this problem persists, please <a href="/contact">contact us</a>.</p>
+      }
+			<p>@Html(camp.description)</p>
 
-			@if(camp.registrations.size() < camp.maxRegistrations) {
+			@if(camp.isPastRegistrationEndDate()) {
+				<p class="h4">Camp Registration</p>
+				<p>Sorry, but the date for registration has passed.</p>
+			} else {
+			  @if(camp.registrations.size() < camp.maxRegistrations) {
 				<p class="h4">Camp Registration</p>
 
 				@******************************************
@@ -62,28 +76,28 @@
 					<div class="form-row">
 						<label>
 							<span class="h6">Participant Name</span>
-							<input id="p_name" name="name" type="text" placeholder="" required autofocus>
+							<input id="p_name" name="name" type="text" placeholder="" @if(null!=info){value="@info.name"} required autofocus>
 						</label>
 					</div>
 					
 					<div class="form-row">
 						<label>
 							<span class="h6">Billing Name</span>
-							<input id="b_name" name="billingName" type="text" placeholder="" required>
+							<input id="b_name" name="billingName" type="text" placeholder="" @if(null!=info){value="@info.billingName"} required>
 						</label>
 					</div>
 
 					<div class="form-row">
 						<label>
 							<span class="h6">Billing Email</span>
-							<input id="email" name="email" type="email" placeholder="name&#064;domain.com" required>
+							<input id="email" name="email" type="email" placeholder="name&#064;domain.com" @if(null!=info){value="@info.email"} required>
 						</label>
 					</div>
 
 					<div class="form-row">
 						<label>
 							<span class="h6">Phone Number</span>
-							<input id="tel" name="telephone" type="tel" placeholder="(555) 555-5555">
+							<input id="tel" name="telephone" type="tel" placeholder="(555) 555-5555" @if(null!=info){value="@info.telephone"}>
 						</label>
 					</div>
 
@@ -115,9 +129,9 @@
 					<div class="form-row payment">
 						<p class="h6">Choose Payment Amount</p>
 						<radiogroup>
-							<input type="radio" name="fully-paid" id="full-price" value="true" checked required><label for="full-price"> <i class="fa fa-check"></i> <strong>Full</strong>&nbsp;(@utils.Formatter.prettyDollars(camp.cost))</label>
+							<input type="radio" name="fullyPaid" id="full-price" @if(null!=info && (info.fullyPaid != true)){} else { checked } value="true"><label for="full-price"> <i class="fa fa-check"></i> <strong>Full</strong>&nbsp;(@utils.Formatter.prettyDollars(camp.cost))</label>
 							@if(camp.cost>controllers.Application.CAMP_DEPOSIT) {
-								<input type="radio" name="fully-paid" id="deposit" value="false"><label for="deposit"> <i class="fa fa-check"></i> <strong>Deposit</strong>&nbsp;(@utils.Formatter.prettyDollars(controllers.Application.CAMP_DEPOSIT))</label>
+								<input type="radio" name="fullyPaid" id="deposit" @if(null!=info && (info.fullyPaid != true)){ checked } else {} value="false"><label for="deposit"> <i class="fa fa-check"></i> <strong>Deposit</strong>&nbsp;(@utils.Formatter.prettyDollars(controllers.Application.CAMP_DEPOSIT))</label>
 							}
 						</radiogroup>
 					</div>
@@ -169,8 +183,11 @@
               handler.close();
             });
 		</script>
-
 				</form>
+			  } else {
+				<p class="h4">Camp Registration</p>
+				<p>Sorry, but this camp is currently full.</p>
+			  }
 			}
 		</div>
 	</div>

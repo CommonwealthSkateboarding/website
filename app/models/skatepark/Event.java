@@ -17,6 +17,8 @@ import java.util.List;
 @Entity
 public class Event extends Model {
 
+    public static final String ACTIVE_EVENTS_CACHE_NAME = "activeEvents";
+
     @Id
     public String id;
 
@@ -53,7 +55,7 @@ public class Event extends Model {
 
     public boolean archived;
 
-    public static final Finder<Long, Event> find = new Finder(Long.class, Event.class);
+    public static final Finder<String, Event> find = new Finder(String.class, Event.class);
 
     public List<Event> findConflicts() {
         List<Event> results = new ArrayList<>();
@@ -63,5 +65,20 @@ public class Event extends Model {
                     .ne("id", this.id).eq("archived", false).findList();
         }
         return results;
+    }
+    public boolean isPastRegistrationEndDate() {
+        return registrationEndDate.before(new Date());
+    }
+
+
+    public static List<Event> getActivePublicEvents() {
+        List<Event> events = (List<Event>) play.cache.Cache.get(ACTIVE_EVENTS_CACHE_NAME);
+        if (null == events) {
+            Date now = new Date();
+            events = Event.find.orderBy("startTime").where().gt("endTime", now)
+                    .where().eq("archived", false).where().eq("public_visibility", true).findList();
+            play.cache.Cache.set(ACTIVE_EVENTS_CACHE_NAME, events);
+        }
+        return events;
     }
 }

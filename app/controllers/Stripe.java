@@ -1,5 +1,6 @@
 package controllers;
 
+import com.stripe.exception.*;
 import com.stripe.model.Charge;
 import play.Logger;
 import play.Play;
@@ -16,7 +17,7 @@ public class Stripe extends Controller {
     private static String STRIPE_API_KEY = Play.application().configuration().getString("stripe.apikey");
     public static String STRIPE_PUBLIC_KEY = Play.application().configuration().getString("stripe.publickey");
 
-    public static Charge chargeStripe(Double amount, String stripeToken, String description) {
+    public static Charge chargeStripe(Double amount, String stripeToken, String description) throws CardException, APIException, AuthenticationException, InvalidRequestException, APIConnectionException {
 
         com.stripe.Stripe.apiKey = STRIPE_API_KEY;
 
@@ -28,11 +29,7 @@ public class Stripe extends Controller {
 
         Charge charge = null;
 
-        try {
-            charge = Charge.create(chargeParams);
-        } catch (Exception e) {
-            Logger.error("Error when attempting to charge with stripe", e);
-        }
+        charge = Charge.create(chargeParams);
         return charge;
     }
 }

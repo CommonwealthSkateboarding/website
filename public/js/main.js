@@ -4,11 +4,16 @@ $(document).ready(function(){
 	var header = $("header#main");
 	var mobileNav = $("header#main nav.mobile");
 
-	// Toggle Mobile Nav
+	// Mobile Nav
 	mobileNav.click(function() {
 		$(this).find("i").toggleClass("fa-list fa-times");
 		$(this).toggleClass("expanded");
 	});
+
+	if($(mobileNav).is(':visible')) {
+		$(".alert.full-width").addClass("mobile");
+		$(".logo--extended").addClass("alert");
+	}
 
 	// Apply .active to clicked nav item
 	$('header#main nav a[href$="/' + location.pathname.split("/")[1] + '"]').addClass('active');

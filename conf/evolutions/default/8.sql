@@ -24,6 +24,17 @@ create table registration (
   constraint pk_registration primary key (id))
 ;
 
+create table bitcoin_sale (
+  id                        bigint auto_increment NOT NULL,
+  description               text,
+  amount                    decimal(13,2) NOT NULL,
+  created                   datetime NOT NULL,
+  sold_by_id                bigint NOT NULL,
+  constraint pk_bitcoin_sale primary key (id))
+;
+
+alter table camp add archived tinyint(1) NOT NULL DEFAULT 0;
+
 # --- !Downs
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -36,5 +47,9 @@ alter table registration modify event_id bigint;
 alter table camp modify id bigint auto_increment not null;
 alter table audit_record modify camp_id bigint;
 alter table registration modify camp_id bigint;
+
+drop table bitcoin_sale;
+
+alter table camp drop column archived;
 
 SET FOREIGN_KEY_CHECKS=1;

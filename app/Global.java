@@ -25,6 +25,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import static play.mvc.Results.internalServerError;
 import static play.mvc.Results.notFound;
@@ -118,9 +119,13 @@ public class Global extends GlobalSettings {
                 Duration.create(5, TimeUnit.MINUTES),
                 () -> {
                     Date lastQueriedSquare = (Date) Cache.get(LAST_QUERIED_SQUARE);
-                    Cache.set(LAST_QUERIED_SQUARE, new Date());
-                    if (null != lastQueriedSquare) {
-                        Square.runSlackPaymentsReport(lastQueriedSquare);
+                    try {
+                        if (null != lastQueriedSquare) {
+                            Square.runSlackPaymentsReport(lastQueriedSquare);
+                        }
+                        Cache.set(LAST_QUERIED_SQUARE, new Date());
+                    } catch (TimeoutException e) {
+                        Logger.error("Square did not respond to our request", e);
                     }
                 }, Akka.system().dispatcher()
         );
