@@ -57,38 +57,6 @@ public class Slack {
         dispatch(new SlackMessage(SLACKBOT_AUDIT_CHANNEL, ((null == log.user)?null:log.user.name), log.delta));
     }
 
-    public static void emitDailyAttendanceReport() {
-        Date today = DateUtils.addDays(new Date(), -1);
-        today = DateUtils.ceiling(today, Calendar.DATE);
-        List<Visit> visits = Visit.find.where().eq("refunded", false).where().gt("time", today).findList();
-        HashMap<Visit.VisitType, Integer> breakdown = new HashMap<>();
-        for(Visit visit : visits) {
-            if (breakdown.containsKey(visit.visitType)) {
-                breakdown.put(visit.visitType, (breakdown.get(visit.visitType) + 1));
-            } else {
-                breakdown.put(visit.visitType, 1);
-            }
-        }
-
-        StringBuffer sb = new StringBuffer();
-        int totalAttendance = 0;
-        sb.append("Attendance report for " + dateFormat.format(today) + ": \n");
-        if (breakdown.isEmpty()) {
-            sb.append("No visits today!");
-        } else {
-            for (Visit.VisitType type : Visit.VisitType.values()) {
-                if (null != breakdown.get(type)) {
-                    sb.append(type.name() + ": " + breakdown.get(type) + "\n");
-                    totalAttendance = totalAttendance + breakdown.get(type);
-                }
-            }
-            sb.append("Total: " + totalAttendance);
-        }
-
-        dispatch(new SlackMessage(SLACKBOT_GENERAL_CHANNEL, null, (sb.toString() + " [<" + BASE_URL +
-                routes.Admin.dashboard()) + "|Dashboard>]"));
-    }
-
     public static Void emitPaymentDetails(Payment payment) {
         StringBuilder sb = new StringBuilder();
         StringBuilder paymentMethods = new StringBuilder();
