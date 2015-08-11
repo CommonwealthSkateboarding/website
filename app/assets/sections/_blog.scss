@@ -29,11 +29,6 @@ body.blog { background-image: image-url("about/2014__park-exterior-header--001.j
 	article { 
 		&.post-preview { 
 			width: 100%; 
-			.h5 { 
-				@include rem(font-size, 60px);
-				padding-right: 45%;
-				a { box-shadow: none; }
-			 }
 		}
 
 		// &+& == all but the first
@@ -42,13 +37,16 @@ body.blog { background-image: image-url("about/2014__park-exterior-header--001.j
 		header {
 			padding: 0 $margin/2;
 
-			// .h5 { 
-			// 	color: $white;
-			// 	@include rem(font-size, 18px);
-			// 	line-height: 1.2;
-			// 	margin: 0 0 6px 0;
-			// 	text-transform: none;
-			// }
+			.h5 { 
+				@include rem(font-size, 60px);
+				padding-right: 45%;
+				a.more { 
+					box-shadow: none; 
+					&:hover { 
+						box-shadow: inset 0 -9px 0 0 #9A8B60;
+					}
+				}
+			}
 
 			.meta {
 				display: flex;
