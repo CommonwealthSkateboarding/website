@@ -14,4 +14,6 @@ public class SquareWebhook {
     public EventType event_type;
 
     public String merchant_id;
+
+    public String location_id;
 }
