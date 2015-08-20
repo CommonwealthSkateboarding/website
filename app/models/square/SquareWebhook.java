@@ -6,7 +6,7 @@ package models.square;
 public class SquareWebhook {
 
     public enum EventType {
-        PAYMENT_UPDATED
+        PAYMENT_UPDATED, TEST_NOTIFICATION, TIMECARD_UPDATED
     }
 
     public String entity_id;
