@@ -20,6 +20,8 @@ libraryDependencies += "com.feth" %% "play-authenticate" % "0.6.8"
 
 libraryDependencies += "be.objectify" %% "deadbolt-java" % "2.3.1"
 
+libraryDependencies += "com.newrelic.agent.java" % "newrelic-agent" % "3.14.0"
+
 libraryDependencies += "com.stripe" % "stripe-java" % "1.24.1"
 
 JsEngineKeys.engineType := JsEngineKeys.EngineType.Node

@@ -115,7 +115,6 @@ public class Global extends GlobalSettings {
         );
          **/
 
-        /** To be replaced if webhooks for square break again
         Akka.system().scheduler().schedule(Duration.create(10, TimeUnit.SECONDS),
                 Duration.create(5, TimeUnit.MINUTES),
                 () -> {
@@ -130,7 +129,6 @@ public class Global extends GlobalSettings {
                     }
                 }, Akka.system().dispatcher()
         );
-         **/
     }
 /**
     private static int nextExecutionInSeconds(int hour, int minute){

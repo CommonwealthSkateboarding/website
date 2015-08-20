@@ -103,12 +103,8 @@ public class Square extends Controller {
         try {
             ObjectMapper mapper = new ObjectMapper();
             final SquareWebhook hook = mapper.readValue(request().body().asJson().toString(), SquareWebhook.class);
-            if (SquareWebhook.EventType.PAYMENT_UPDATED == hook.event_type) {
-                Promise<Payment> promisedPayment = Promise.promise(() -> getPayment(hook.entity_id));
-                promisedPayment.map(Slack::emitPaymentDetails);
-            } else {
-                Logger.info("Discarding unsupported square webhook for " + hook.event_type.name());
-            }
+            Promise<Payment> promisedPayment = Promise.promise(() -> getPayment(hook.entity_id));
+            promisedPayment.map(Slack::emitPaymentDetails);
         } catch (IOException e) {
             Logger.error("Bad conversion of square webhook invocation", e);
         }
