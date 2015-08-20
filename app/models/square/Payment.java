@@ -1,8 +1,11 @@
 package models.square;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * Created by cdelargy on 1/15/15.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Payment {
     public String id;
 
