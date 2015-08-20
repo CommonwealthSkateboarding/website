@@ -1,6 +1,8 @@
 body.about {
 	background-image: image-url("about/2012__park-interior-header--001.jpg");
 
+	.story, .features { margin-top: 30px; }
+
 	.story {
 		.highlight span {
 			@extend .handwriting;

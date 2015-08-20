@@ -2,35 +2,67 @@
 
 @main("sessions", false, "Skate Sessions | Commonwealth Skateboarding | Portland, Oregon") {
 
-	<section id="sessions">
-		<p class="h1">Get rad, stay rad</p>
-		<h2>Specialty Sessions</h2>
+  <section id="sessions">
+    <p class="h1">Get rad, stay rad</p>
+    <h2>Sessions</h2>
 
-		<div class="grid">
+    <div class="grid">
 
-	    <div class="slag">
-	      <p id="slag" class="h5">Skate Like a Girl</p>
-	      <p class="when">Sundays | 9:30AM&ndash;1PM</p>
-	      <p>Commonwealth works closely with Skate Like A Girl PDX, a non-profit dedicated to teaching women and young girls how to skate and provide a fun, comfortable environment to earn those first skateboard bruises. Skate Like A Girl conducts regular skate clinics at Commonwealth <strong>on the first and second Sunday of each month</strong> from 9:30AM&ndash;1:00PM, as well as occasional ladies-only skate sessions, outdoor events and camps.</p>
+      <div class="general">
+        <p id="general" class="h5">General Sessions</p>
+        <p class="when">Every Day | 2PM&ndash;8PM &mdash; [$7 2-Hours] [$10 All Day]</p>
+        <p>Our general sessions are free skates open to anyone and everyone of any age or ability. Everyone who skates must sign a waiver, and first-time skaters under 18 must have a legal guardian sign theirs. As per these waivers, minors are required to wear helmets. The shop shares the same hours, so if you need any assistance or gear, we're a doorway away.</p>
+      </div>
 
-				<p>Skate Like A Girl handles their own clinic registrations and all proceeds benefit their non-profit. Information and Registration can be found on <a href="http://www.skatelikeagirlpdx.com/#!clinics/c13y0" target="_blank">their Skate Clinics page</a>.</p>
-				<!-- <figure>
-					<img src="@routes.Assets.at("img/events/2013__SLAG--002.jpg")" alt="Kristina Narayan, program director for the PDX chapter of Skate Like a Girl, showing off her bowl skills.">
-					<figcaption>Kristina Narayan, 2013</figcaption>
-				</figure> -->
-	    </div>
+      <div class="kids">
+        <p id="kids" class="h5">Just Kids</p>
+        <p class="when">Saturdays | 10AM&ndash;12PM (Noon) &mdash; $7</p>
+        <p>Our kids-only sessions are for anyone 14 and under. They take place each Saturday morning from 10AM&ndash;12:00PM. This is a good opportunity for younger kids and novices to skate Commonwealth without feeling intimidated by some of the older or more advanced skaters.</p>
 
-	     <div class="kids">
-	      <p id="slag" class="h5">Kids Only</p>
-	      <p class="when">Saturdays | 10AM&ndash;12PM (Noon)</p>
-	      <p>Commonwealth has a kids-only session for children 14 and under on Saturday mornings from 10AM&ndash;12:00PM. This is a good opportunity for younger kids and novices to skate Commonwealth without feeling intimidated by some of the older skaters.</p>
-	    </div>
+        <p><strong>Parents or legal guardians must be present to sign a waiver for all first-time skaters</strong>, but you are not obligated to stick around.</p>
 
-			 <div class="oldman">
-	      <p id="slag" class="h5">Old Man Nights</p>
-	      <p class="when">Mondays &amp; Wednesdays | 8PM&ndash;10PM</p>
-	      <p>Every Monday and Wednesday nights from 8PM&ndash;10PM, Commonwealth hosts a 21+ session for the older shredders. And of course ladies are always welcome!</p>
-	    </div>
+        <p><strong>Helmets are mandatory</strong>, and any other gear you might need is available to purchase on-site.</p>
+      </div>
+
+      <div class="slag">
+        <p id="slag" class="h5">Skate Like a Girl Sunday Clinics</p>
+        <p class="when">Sundays* | 9:30AM&ndash;1PM &mdash; Free**</p>
+        <p>Commonwealth works closely with <a href="http://www.skatelikeagirlpdx.com/" target="_blank">Skate Like A Girl PDX</a>, a non-profit dedicated to teaching women and young girls how to skate while providing a fun &amp; comfortable environment to earn those first bruises.</p>
+
+        <p><strong>On the first and second Sunday of each month</strong>, Skate Like A Girl conducts skate clinics at Commonwealth. They come in three varieties:</p>
+
+        <ul>
+          <li><strong>Beginners Ages 7 &amp; Under</strong> (9:30AM&ndash;11AM)</li>
+          <li><strong>Beginners Ages 7 &amp; Up</strong> (11:30AM&ndash;1PM)</li>
+          <li><strong>Intermediate Youth &amp; All-Levels Adults</strong> (10:30AM&ndash;12PM)</li>
+        </ul>
+
+        <p><strong>**Registration is free</strong>, but a $10 donation is suggested and goes directly back into the program. See the <a href="http://www.skatelikeagirlpdx.com/#!clinics/c13y0" target="_blank">Sunday Clinics</a> page to see when the next scheduled / available sessions are.</p>
+      </div>
+      <div>
+        <figure>
+          <img src="@routes.Assets.at("img/events/2013__SLAG--002b.jpg")" alt="Kristina Narayan, program director for the PDX chapter of Skate Like a Girl, showing off her bowl skills." class="kristina-slagpdx">
+          <figcaption>Kristina Narayan, Program Director of Skate Like a Girl PDX, shows the class how to skate the bowl.</figcaption>
+        </figure>
+      </div>
+
+      <div class="ladies">
+        <p id="ladies" class="h5">Ladies Night</p>
+        <p class="when">Tuesdays | 6PM&ndash;8PM &mdash; Free [$7 for dudes]</p>
+        <p>Everyone's welcome, but ladies skate free! Hosted by <a href="http://www.skatelikeagirlpdx.com/" target="_blank">Skate Like a Girl PDX</a>.</p>
+      </div>
+
+       <div class="olds">
+        <p id="olds" class="h5">Olds Nights</p>
+        <p class="when">Mondays &amp; Wednesdays | 8PM&ndash;10PM </p>
+        <p>Every Monday and Wednesday night from 8PM&ndash;10PM, Commonwealth hosts a 21+ session for the <s>older</s> <strong>seasoned</strong> shredders.</p>
+      </div>
+
+      <div class="fnr">
+        <p id="fnr" class="h5">Friday Night Riot</p>
+        <p class="when">Fridays | 8PM&ndash;10PM &mdash; $7</p>
+        <p>Late-night general session every Friday until 10PM. The shop is also open during this time.</p>
+      </div>
 
   </section>
 

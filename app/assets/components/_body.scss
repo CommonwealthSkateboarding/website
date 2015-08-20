@@ -6,7 +6,7 @@ body {
 }
 
 [id="content"] {
-	background-image: -webkit-linear-gradient(top, transparent, $black 600px);
+	background-image: linear-gradient(top, transparent, $black 600px);
 	color: $gray;
 	width: 100%;
 
