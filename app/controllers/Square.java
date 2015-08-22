@@ -24,6 +24,7 @@ public class Square extends Controller {
     public static final String AUTHORIZATION_HEADER = "Authorization";
     public static final String SQUARE_TOKEN = "square.token";
     public static final String BEARER_TOKEN = "Bearer " + Play.application().configuration().getString(SQUARE_TOKEN);
+    public static final String LAST_WEBHOOK_ENTITY_ID = "lastWebhookEntityId";
 
     private static String BASE_URL = "https://connect.squareup.com/v1/me/";
     private static String INVENTORY_URL = BASE_URL + "inventory";
@@ -104,8 +105,14 @@ public class Square extends Controller {
             ObjectMapper mapper = new ObjectMapper();
             final SquareWebhook hook = mapper.readValue(request().body().asJson().toString(), SquareWebhook.class);
             if (SquareWebhook.EventType.PAYMENT_UPDATED == hook.event_type) {
-                Promise<Payment> promisedPayment = Promise.promise(() -> getPayment(hook.entity_id));
-                promisedPayment.map(Slack::emitPaymentDetails);
+                String lastWebhookEntityId = (String) play.cache.Cache.get(LAST_WEBHOOK_ENTITY_ID);
+                if (hook.entity_id.equals(lastWebhookEntityId)) {
+                    Logger.info("Ignoring square webhook with same entityId as the last: " +  hook.entity_id);
+                } else {
+                    play.cache.Cache.set(LAST_WEBHOOK_ENTITY_ID, hook.entity_id);
+                    Promise<Payment> promisedPayment = Promise.promise(() -> getPayment(hook.entity_id));
+                    promisedPayment.map(Slack::emitPaymentDetails);
+                }
             } else {
                 Logger.info("Discarding unsupported square webhook for " + hook.event_type.name());
             }
