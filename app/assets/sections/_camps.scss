@@ -6,6 +6,14 @@ body.camp {
 		table[id="camps"] {
 			@include dataTable();
 			td.instructors { @include rem(font-size, 15px); }
+			td.no-camps {
+				text-align: center;
+				color: $white;
+				cursor: default;
+				&:hover {
+					background: none;
+				}
+			}
 		}
 	}
 }

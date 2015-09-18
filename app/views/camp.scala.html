@@ -45,6 +45,11 @@
 		   <td class="instructors">@camp.instructors</td>
 		</tr>
 		}
+		@if(camps.size == 0) {
+			<tr>
+				<td class="no-camps" colspan="5">No camps are scheduled at this time. Please check back later.</td>
+			</tr>
+		}
 		</tbody>
 	</table>
 
