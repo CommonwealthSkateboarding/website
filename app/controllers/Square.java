@@ -24,6 +24,7 @@ public class Square extends Controller {
     public static final String AUTHORIZATION_HEADER = "Authorization";
     public static final String SQUARE_TOKEN = "square.token";
     public static final String BEARER_TOKEN = "Bearer " + Play.application().configuration().getString(SQUARE_TOKEN);
+    public static final String LAST_WEBHOOK_ENTITY_ID = "lastWebhookEntityId";
 
     private static String BASE_URL = "https://connect.squareup.com/v1/me/";
     private static String INVENTORY_URL = BASE_URL + "inventory";
@@ -80,7 +81,7 @@ public class Square extends Controller {
         if (enabled) {
             WSRequestHolder holder = WS.url(PAYMENT_URL).setHeader(AUTHORIZATION_HEADER, BEARER_TOKEN)
                     .setQueryParameter("begin_time", TimeUtil.getISO8601Date(since));
-            WSResponse response = holder.get().get(20000);
+            WSResponse response = holder.get().get(30000);
             if (response.getStatus() != OK) {
                 Logger.error("Got bad response from square when getting payments: " + response.getBody().toString());
             } else {
@@ -103,8 +104,18 @@ public class Square extends Controller {
         try {
             ObjectMapper mapper = new ObjectMapper();
             final SquareWebhook hook = mapper.readValue(request().body().asJson().toString(), SquareWebhook.class);
-            Promise<Payment> promisedPayment = Promise.promise(() -> getPayment(hook.entity_id));
-            promisedPayment.map(Slack::emitPaymentDetails);
+            if (SquareWebhook.EventType.PAYMENT_UPDATED == hook.event_type) {
+                String lastWebhookEntityId = (String) play.cache.Cache.get(LAST_WEBHOOK_ENTITY_ID);
+                if (hook.entity_id.equals(lastWebhookEntityId)) {
+                    Logger.info("Ignoring square webhook with same entityId as the last: " +  hook.entity_id);
+                } else {
+                    play.cache.Cache.set(LAST_WEBHOOK_ENTITY_ID, hook.entity_id);
+                    Promise<Payment> promisedPayment = Promise.promise(() -> getPayment(hook.entity_id));
+                    promisedPayment.map(Slack::emitPaymentDetails);
+                }
+            } else {
+                Logger.info("Discarding unsupported square webhook for " + hook.event_type.name());
+            }
         } catch (IOException e) {
             Logger.error("Bad conversion of square webhook invocation", e);
         }

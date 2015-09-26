@@ -1,4 +1,4 @@
-@(bodyClass: String = "home", includeCarousel: Boolean = false, title: String = "Commonwealth Skateboarding | Portland, Oregon")(content: Html)
+@(bodyClass: String = "home", includeCarousel: Boolean = false, title: String = "Commonwealth Skateboarding | Portland, Oregon", closures: List[models.site.ClosureNotice] = null)(content: Html)
 
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
@@ -9,14 +9,14 @@
 			<meta charset="utf-8">
 			<meta http-equiv="X-UA-Compatible" content="IE=edge">
 			<title>@title</title>
-			<meta name="description" content="Commonwealth Skateboarding is Portland's only public indoor skatepark with a full service on-site retail skate shop. Commonwealth is 4,500 square feet of indoor concrete with a mellow double pocket bowl, bank, mini ramp and flat street section with a mix of boxes and rails. Support your locals!">
-            <meta name="keywords" content="commonwealth, skateboarding, skate, portland, oregon, skatepark, indoor, camp, store, concrete, public, shoes, wheels, decks, clothing, shirts, birthdays, events, location, open, hours, sign up, pictures, videos" />
+			<meta name="keywords" content="commonwealth, skateboarding, skate, portland, oregon, skatepark, indoor, camp, store, concrete, public, shoes, wheels, decks, clothing, shirts, birthdays, events, rental, location, open, hours, sign up, pictures, videos, skate like a girl, old man night, kids skate, ladies night" />
             <meta name="author" content="metatags generator">
             <meta name="robots" content="index, follow">
             <meta name="revisit-after" content="3 days">
             <!-- commonwealth, skatepark, skateboarding -->
+            <!-- Commonwealth Skateboarding is Portland's only public indoor skatepark and is attached to a full-service retail skate shop. The park is 4,500 square feet of indoor concrete with a mellow double pocket bowl, bank, mini ramp, and flat street section with a mix of boxes and rails. -->
 
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 			<!-- Typefaces -->
 			<link href='http://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700' rel='stylesheet'>
@@ -46,9 +46,29 @@
 			<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-instagram/0.3.1/instagram.min.js"></script>
 			<script src="http://cdn.jsdelivr.net/jquery.validation/1.13.1/jquery.validate.min.js"></script>
-		</head>
+
+			<!-- Hotjar Tracking Code for commonwealthskateboarding.com -->
+			<script>
+				(function(f,b){
+					var c;
+					f.hj=f.hj||function(){(f.hj.q=f.hj.q||[]).push(arguments)};
+					f._hjSettings={hjid:36915, hjsv:4};
+					c=b.createElement("script");c.async=1;
+					c.src="//static.hotjar.com/c/hotjar-"+f._hjSettings.hjid+".js?sv="+f._hjSettings.hjsv;
+					b.getElementsByTagName("head")[0].appendChild(c);
+				})(window,document);
+			</script>
+	</head>
 
 		<body class="@bodyClass">
+
+		@if(null != closures) {
+			@for(closure <- closures) {
+				<div class="full-width alert">
+					<p class="h1">@closure.message</p>
+				</div>
+			}
+		}
 
 		<!--[if lt IE 7]>
 		<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
@@ -60,10 +80,6 @@
 				@carousel()
 		} else {
 		}
-
-		<!-- <section id="social">
-			<div id="instagram"></div>
-		</section> -->
 
 		<div id="content">
 				<main data-purpose="flex-container">

@@ -22,7 +22,7 @@
                 </tr>
                 <tr>
                     <td>Cost</td>
-                    <td>@utils.Formatter.prettyDollars(event.cost)</td>
+                    <td>@utils.Formatter.prettyDollarsAndCents(event.cost)</td>
                 </tr>
             </table>
         </div>
@@ -37,7 +37,7 @@
                 <label>Total Paid:</label><br/><input type="text" name="totalPaid" class="form-control" /><br/>
                 <label>Payment Type</label><br/>
                 <select name="paymentType" class="form-control">
-                    <option value="">Not Paid</option>
+                    <option value="NONE">Not Paid</option>
                     <option value="CASH">Cash</option>
                     <option value="SQUARE">Square</option>
                     <option value="OTHER">Other (Add detail in notes)</option>

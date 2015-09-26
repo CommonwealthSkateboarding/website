@@ -19,7 +19,8 @@ GET     /contact                    controllers.Application.contact()
 GET     /profile                    controllers.Application.profile()
 POST    /camp/:id/register          controllers.Application.registerForCampWithStripe(id: String)
 POST    /event/:id/register         controllers.Application.registerForEventWithStripe(id: String)
-GET     /registration               controllers.Application.registrationPage()
+GET     /registration/:id           controllers.Application.registrationPage(id: String)
+POST    /registration/:id/pay       controllers.Application.registrationPayBalance(id: String)
 
 # Session
 GET     /login                      controllers.Application.login()
@@ -78,6 +79,8 @@ GET     /admin/camps/:id/register               controllers.Admin.campRegistrati
 POST    /admin/camps/:id/register               controllers.Admin.addCampRegistration(id: String)
 GET     /admin/camps/registration/:id/edit      controllers.Admin.editCampRegistrationPage(id: Long)
 POST    /admin/camps/registration/:id/edit      controllers.Admin.editCampRegistration(id: Long)
+GET     /admin/camps/registration/:id/reminder  controllers.Admin.sendCampReminderEmail(id: Long)
+GET     /admin/camps/:id/archive                controllers.Admin.archiveCamp(id: String)
 
 GET     /admin/events                           controllers.Admin.eventIndex()
 GET     /admin/events/new                       controllers.Admin.addEventPage()
@@ -98,10 +101,18 @@ POST    /admin/issues/new                       controllers.Admin.addIssue()
 GET     /admin/issues/:id/resolve               controllers.Admin.resolveIssue(id: Long)
 GET     /admin/issues/:id/take                  controllers.Admin.takeIssue(id: Long)
 
+GET     /admin/closures                         controllers.Admin.closureIndex()
+POST    /admin/closures/new                     controllers.Admin.addClosure()
+GET     /admin/closures/:id/archive             controllers.Admin.archiveClosure(id: Long)
+GET     /admin/closures/:id/toggle              controllers.Admin.toggleClosure(id: Long, state: Boolean)
+
 GET     /admin/unheardSale                      controllers.Admin.unheardSaleIndex()
 POST    /admin/unheardSale/new                  controllers.Admin.addUnheardSale()
 GET     /admin/unheardSale/:id/delete           controllers.Admin.deleteUnheardSale(id: Long)
 GET     /admin/unheardSale/:id/invoice          controllers.Admin.invoiceUnheardSale(id: Long)
+
+GET     /admin/bitcoin                          controllers.Admin.bitcoinSaleIndex()
+POST    /admin/bitcoin/new                      controllers.Admin.addBitcoinSale()
 
 GET     /admin/autocomplete/member/:search      controllers.Autocomplete.searchMembersByName(search)
 

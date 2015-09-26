@@ -11,11 +11,11 @@
         <p class="h1">Profile</p>
         <h3>Welcome, @user.name</h3>
 
-        <p>
+        <!--<p>
             <h3>My ID</h3>
             <img src="http://www.barcodes4.me/barcode/c39/@(user.publicId).png?IsReverseColor=1&isBorderDrawn=1"><br/>
             <code>@user.publicId</code>
-        </p>
+        </p>-->
 
         @if((null == user.membership) && (0 == user.guardianOf.size)) {
             <!-- Message for unlinked users (no membership) -->

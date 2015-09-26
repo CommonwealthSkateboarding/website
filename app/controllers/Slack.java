@@ -1,7 +1,9 @@
 package controllers;
 
+import com.stripe.model.Charge;
 import models.security.AuditRecord;
 import models.site.Issue;
+import models.skatepark.Registration;
 import models.skatepark.Visit;
 import models.square.Payment;
 import models.square.PaymentItemization;
@@ -19,7 +21,7 @@ import java.util.*;
 
 import static controllers.Admin.getLocalUser;
 import static play.mvc.Http.Context.Implicit.session;
-import static utils.Formatter.prettyDollars;
+import static utils.Formatter.prettyDollarsAndCents;
 
 /**
  * Created by cdelargy on 1/15/15.
@@ -52,40 +54,7 @@ public class Slack {
 
     public static void emitAuditLog(AuditRecord log) {
         // Set user's name when available
-        dispatch(new SlackMessage(SLACKBOT_AUDIT_CHANNEL, ((null == log.user)?null:log.user.name), (log.delta + " [<" +
-                BASE_URL + routes.Admin.logIndex(0)) + "|Log>]"));
-    }
-
-    public static void emitDailyAttendanceReport() {
-        Date today = DateUtils.addDays(new Date(), -1);
-        today = DateUtils.ceiling(today, Calendar.DATE);
-        List<Visit> visits = Visit.find.where().eq("refunded", false).where().gt("time", today).findList();
-        HashMap<Visit.VisitType, Integer> breakdown = new HashMap<>();
-        for(Visit visit : visits) {
-            if (breakdown.containsKey(visit.visitType)) {
-                breakdown.put(visit.visitType, (breakdown.get(visit.visitType) + 1));
-            } else {
-                breakdown.put(visit.visitType, 1);
-            }
-        }
-
-        StringBuffer sb = new StringBuffer();
-        int totalAttendance = 0;
-        sb.append("Attendance report for " + dateFormat.format(today) + ": \n");
-        if (breakdown.isEmpty()) {
-            sb.append("No visits today!");
-        } else {
-            for (Visit.VisitType type : Visit.VisitType.values()) {
-                if (null != breakdown.get(type)) {
-                    sb.append(type.name() + ": " + breakdown.get(type) + "\n");
-                    totalAttendance = totalAttendance + breakdown.get(type);
-                }
-            }
-            sb.append("Total: " + totalAttendance);
-        }
-
-        dispatch(new SlackMessage(SLACKBOT_GENERAL_CHANNEL, null, (sb.toString() + " [<" + BASE_URL +
-                routes.Admin.dashboard()) + "|Dashboard>]"));
+        dispatch(new SlackMessage(SLACKBOT_AUDIT_CHANNEL, ((null == log.user)?null:log.user.name), log.delta));
     }
 
     public static Void emitPaymentDetails(Payment payment) {
@@ -111,10 +80,10 @@ public class Slack {
             Logger.error("Square sending unparse-able dates?", e);
         }
         sb.append("<" + payment.receipt_url + "|Square order " + payment.id + "> (" +
-                prettyDollars(payment.total_collected_money.amount / 100.0) + " " + paymentMethods.toString() + ") ");
+                prettyDollarsAndCents(payment.total_collected_money.amount / 100.0) + " " + paymentMethods.toString() + ") ");
         for (PaymentItemization item : Arrays.asList(payment.itemizations)) {
             sb.append("\n" + item.quantity.intValue() + "x " + item.name + " (" +
-                    prettyDollars(item.total_money.amount/100) + ")");
+                    prettyDollarsAndCents(item.total_money.amount/100) + ")");
         }
         dispatch(new SlackMessage(SLACKBOT_FINANCE_CHANNEL, null, sb.toString()));
 
@@ -127,7 +96,29 @@ public class Slack {
     }
 
     public static void notifyOfClosedIssue(Issue issue) {
-        dispatch(new SlackMessage(SLACKBOT_GENERAL_CHANNEL, getLocalUser(session()).name, ("Issue closed: " + issue.title +
-                " [<" + BASE_URL + routes.Admin.issueIndex()) + "|View Issues>]"));
+        dispatch(new SlackMessage(SLACKBOT_GENERAL_CHANNEL, getLocalUser(session()).name, ("Issue closed: " +
+                issue.title + " [<" + BASE_URL + routes.Admin.issueIndex()) + "|View Issues>]"));
+    }
+
+    public static void emitCampRegistrationPayment(Registration reg) {
+        dispatch(new SlackMessage(SLACKBOT_FINANCE_CHANNEL, reg.participantName, ("Payment of "
+                + prettyDollarsAndCents(reg.totalPaid) + " for " + reg.camp.title + " registration of " + reg.participantName +
+                " [<" + BASE_URL + routes.Admin.viewCampPage(reg.camp.id)) + "|View Camp>]"));
+    }
+
+    public static void emitEventRegistrationPayment(Registration reg) {
+        dispatch(new SlackMessage(SLACKBOT_FINANCE_CHANNEL, reg.participantName,
+                ("Payment of " + prettyDollarsAndCents(reg.totalPaid) + " for " + reg.event.name + " registration of " +
+                reg.participantName + " [<" + BASE_URL + routes.Admin.viewEventPage(reg.event.id)) + "|View Event>]"));
+    }
+
+    public static void emitRegistrationBalancePayment(Registration reg, Double amount) {
+        dispatch(new SlackMessage(SLACKBOT_FINANCE_CHANNEL, reg.participantName, ("Balance payment of "
+                + prettyDollarsAndCents(amount) + " for registration of " + reg.participantName)));
+    }
+
+    public static void emitBitcoinPayment(Charge charge) {
+        dispatch(new SlackMessage(SLACKBOT_FINANCE_CHANNEL, getLocalUser(session()).name,
+                ("Payment of " + prettyDollarsAndCents((charge.getAmount()/100.0)) + " for " + charge.getDescription())));
     }
 }

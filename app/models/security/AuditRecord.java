@@ -1,5 +1,6 @@
 package models.security;
 
+import models.site.ClosureNotice;
 import models.site.NewsItem;
 import models.skatepark.*;
 import play.db.ebean.Model;
@@ -39,6 +40,9 @@ public class AuditRecord extends Model {
 
     @ManyToOne
     public Event event;
+
+    @ManyToOne
+    public ClosureNotice closure;
 
     public Date timestamp;
 

@@ -1,10 +1,84 @@
-@()
+@(reg: models.skatepark.Registration, info: models.skatepark.RegistrationInfo)
 
 @main("registration", false, "Registration Confirmation | Commonwealth Skateboarding | Portland, Oregon") {
     <section id="registration">
-    	<p class="h1">Congrats!</p>
-    	<h2>Registration Confirmed</h2>
-    	<p class="h5">Thank you for making your payment online, you will receive your receipt via email shortly.</p>
-    	<p>If you'd like, you can register for another <a href="/camp">camp</a> or <a href="/events">event</a> or return to <a href="/">our homepage</a>.</p>
+      <p class="h1">Congrats!</p>
+      <h2>Registration Confirmed</h2>
+      <p class="h5">Thank you for making your online registration, your registration will be sent to your email address.</p>
+      @if(reg != null) {
+        @if(reg.getRemainingDue()>0) {
+          <div class="grid no-margin">
+            <div class="sign-up">
+              @if(null!=info) {
+                <p class="h4">Sorry, but there was a problem with your card</p>
+                <p>Your payment could not be processed. Try again or use another card, and if this problem persists, please <a href="/contact">contact us</a>.</p>
+              }
+              <p class="h4">Registration Balance Payment</p>
+
+              @******************************************
+              * https://stripe.com/docs/tutorials/forms *
+              ******************************************@
+
+              <form action="@routes.Application.registrationPayBalance(reg.confirmationId)" method="POST" id="payment-form">
+
+                <script src="https://checkout.stripe.com/checkout.js"></script>
+                <footer>
+                  <button type="submit" id="pay">Pay @utils.Formatter.prettyDollars(reg.getRemainingDue())</button>
+                  <img src="@routes.Assets.at("img/credit-cards.png")" alt="Payment Methods">
+                </footer>
+                <script>
+                var handler = StripeCheckout.configure({
+                  key: '@controllers.Stripe.STRIPE_PUBLIC_KEY',
+                  image: 'https://s3.amazonaws.com/stripe-uploads/acct_154QX0FIzru1QGQUmerchant-icon-1421729277975-cw--logo--lettermark-black.png',
+                  token: function(token) {
+                      var $form = $('#payment-form');
+                      // Insert the token into the form so it gets submitted to the server
+                      $form.append($('<input type="hidden" name="stripeToken" />').val(token.id));
+                      // and submit
+                      $form.get(0).submit();
+                  }
+                });
+
+                $('#pay').on('click', function(e) {
+                  handler.open({
+                    name: 'Commonwealth Skate',
+                    description: 'Remaining Balance',
+                    amount: @((reg.getRemainingDue()*100).intValue),
+                    email: '@reg.registrantEmail',
+                    currency: 'usd',
+                    bitcoin: true
+                  });
+                  e.preventDefault();
+                });
+
+                // Close Checkout on page navigation
+                $(window).on('popstate', function() {
+                  handler.close();
+                });
+            </script>
+              </form>
+            </div>
+          </div>
+        } else {
+          <p>Your registration is completely paid.</p>
+        }
+        <!-- Facebook Conversion Code for Camps -->
+        <script>(function() {
+          var _fbq = window._fbq || (window._fbq = []);
+          if (!_fbq.loaded) {
+            var fbds = document.createElement('script');
+            fbds.async = true;
+            fbds.src = '//connect.facebook.net/en_US/fbds.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(fbds, s);
+            _fbq.loaded = true;
+          }
+          })();
+          window._fbq = window._fbq || [];
+          window._fbq.push(['track', '6025930903913', {'value':'@reg.totalPaid','currency':'USD'}]);
+        </script>
+        <noscript><img height="1" width="1" alt="" style="display:none" src="https://www.facebook.com/tr?ev=6025930903913&amp;cd[value]=@reg.totalPaid&amp;cd[currency]=USD&amp;noscript=1" /></noscript>
+      }
+      <p>If you'd like, you can register for another <a href="/camp">camp</a> or <a href="/events">event</a> or return to <a href="/">our homepage</a>.</p>
   </section>
 }

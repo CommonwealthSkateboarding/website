@@ -1,25 +1,24 @@
 # --- !Ups
 
-alter table users add membership_id bigint;
-alter table users add public_id varchar(16);
-alter table users add gift_card_balance decimal(13,2);
-alter table users add promotional_credit decimal(13,2);
-
-create table guardian (
-  users_id                       bigint not null,
-  membership_id                  bigint not null,
-  constraint pk_guardian primary key (users_id, membership_id))
+create table closure (
+  id                        bigint auto_increment NOT NULL,
+  message                   text,
+  created                   datetime NOT NULL,
+  created_by_id             bigint NOT NULL,
+  enabled                   tinyint(1) NOT NULL DEFAULT 0,
+  archived                  tinyint(1) NOT NULL DEFAULT 0,
+  constraint pk_closure primary key (id))
 ;
+
+alter table audit_record add closure_id bigint;
+
 
 # --- !Downs
 
 SET FOREIGN_KEY_CHECKS=0;
 
-alter table users drop membership_id;
-alter table users drop public_id;
-alter table users drop gift_card_balance;
-alter table users drop promotional_credit;
+drop table closure;
 
-drop table guardian;
+alter table audit_record drop column closure_id;
 
 SET FOREIGN_KEY_CHECKS=1;

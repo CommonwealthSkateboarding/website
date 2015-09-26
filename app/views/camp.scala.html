@@ -33,11 +33,22 @@
 			<!-- <td>@camp.startDate.format("M/dd")</td>
 			<td>@camp.endDate.format("M/dd")</td> -->
 			<!-- <td>@camp.registrationEndDate.format("MM/dd/yyyy")</td> -->
-			<td>@(camp.maxRegistrations - camp.registrations.size()) left</td>
+			<td>
+				@if(0 >= (camp.maxRegistrations - camp.registrations.size())) {
+					Sold out!
+				} else {
+					@(camp.maxRegistrations - camp.registrations.size()) left
+				}
+			</td>
 			<td>@utils.Formatter.prettyDollars(camp.cost)</td>
 		   <!--  <td>@camp.scheduleDescription</td> -->
 		   <td class="instructors">@camp.instructors</td>
 		</tr>
+		}
+		@if(camps.size == 0) {
+			<tr>
+				<td class="no-camps" colspan="5">No camps are scheduled at this time. Please check back later.</td>
+			</tr>
 		}
 		</tbody>
 	</table>

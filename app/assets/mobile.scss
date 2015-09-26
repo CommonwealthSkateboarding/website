@@ -189,7 +189,10 @@ and (max-device-width : 480px) {
 		.logo--extended,
 		nav.mobile { display: flex !important; }
 
-		.logo--extended { padding: 42px 30px 0px 30px !important; }
+		.logo--extended { 
+			padding: 42px 30px 0px 30px !important; 
+			&.alert { margin-top: 70px !important; }
+		}
 
 		nav { width: 100% !important; }
 
@@ -199,6 +202,7 @@ and (max-device-width : 480px) {
 		header[id="main"] .logo--extended { 
 			margin: 60px 0 30px 0 !important;
 			padding: 0 15px !important; 
+			&.alert { margin-top: 120px !important; }
 		}
 		[id="content"] { padding: 0 12px !important; }
 		footer .sponsors { margin: 0 0 18px 0 !important; }

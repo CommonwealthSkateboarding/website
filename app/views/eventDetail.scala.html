@@ -34,14 +34,12 @@
 					<li class="cost">
 						<p class="h6">Cost</p>
 						<p>@utils.Formatter.prettyDollars(event.cost)</p>
-					</li>
-					@if(controllers.Application.EVENT_DEPOSIT < event.cost){
-						<li class="cost">
-							<p class="notice"><strong>
-								A @utils.Formatter.prettyDollars(controllers.Application.EVENT_DEPOSIT)
-								non-refundable deposit is required for each participant.</strong></p>
-						</li>
-					}
+                        <p><img src="@routes.Assets.at("img/credit-cards.png")" alt="Payment Methods"></p>
+                        @if(controllers.Application.EVENT_DEPOSIT < event.cost){
+                            <p class="notice"><strong>A @utils.Formatter.prettyDollars(controllers.Application.EVENT_DEPOSIT)
+                            non-refundable deposit is required for each participant.</strong></p>
+                        }
+                    </li>
 				} else {
 					<li class="cost">
 						<p class="h6">Cost</p>
@@ -89,7 +87,7 @@
         }
 		<p class="h4">Description</p>
 		<p>@Html(event.notes)</p>
-	@if(event.registrable && (null != event.cost) && (event.registrations.size() < event.maxRegistrations)) {
+	@if(event.registrable && (null != event.cost) && (event.registrations.size() < event.maxRegistrations) && !event.isPastRegistrationEndDate()) {
 		<p class="h4">Register</p>
 
 		@******************************************
@@ -155,9 +153,9 @@
 			<div class="form-row">
 				<p class="h6">Choose Payment Amount</p>
 				<radiogroup>
-					<input type="radio" name="fully-paid" id="full-price" @if(null!=info){value="@info.fullyPaid"}else{value="true"} checked required><label for="full-price"> <i class="fa fa-check"></i> <strong>Full</strong>&nbsp;(@utils.Formatter.prettyDollars(event.cost))</label>
+					<input type="radio" name="fullyPaid" id="full-price" @if(null!=info && (info.fullyPaid != true)){} else { checked } value="true"><label for="full-price"> <i class="fa fa-check"></i> <strong>Full</strong>&nbsp;(@utils.Formatter.prettyDollars(event.cost))</label>
 					@if(event.cost>controllers.Application.EVENT_DEPOSIT) {
-						<input type="radio" name="fully-paid" id="deposit" @if(null!=info){value="@@info.fullyPaid"}else{value="false"}><label for="deposit"> <i class="fa fa-check"></i> <strong>Deposit</strong>&nbsp;(@utils.Formatter.prettyDollars(controllers.Application.EVENT_DEPOSIT))</label>
+						<input type="radio" name="fullyPaid" id="deposit" @if(null!=info && (info.fullyPaid != true)){ checked } else {} value="false"><label for="deposit"> <i class="fa fa-check"></i> <strong>Deposit</strong>&nbsp;(@utils.Formatter.prettyDollars(controllers.Application.EVENT_DEPOSIT))</label>
 					}
 				</radiogroup>
 			</div>
