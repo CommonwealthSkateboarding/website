@@ -82,8 +82,9 @@ public class Slack {
         sb.append("<" + payment.receipt_url + "|Square order " + payment.id + "> (" +
                 prettyDollarsAndCents(payment.total_collected_money.amount / 100.0) + " " + paymentMethods.toString() + ") ");
         for (PaymentItemization item : Arrays.asList(payment.itemizations)) {
-            sb.append("\n" + item.quantity.intValue() + "x " + item.name + " (" +
-                    prettyDollarsAndCents(item.total_money.amount/100) + ")");
+            sb.append("\n" + item.quantity.intValue() + "x " + item.name +
+                    (item.name.contains("Custom Amount")?" ಠ_ಠ":"") +
+                    " (" + prettyDollarsAndCents(item.total_money.amount/100) + ")");
         }
         dispatch(new SlackMessage(SLACKBOT_FINANCE_CHANNEL, null, sb.toString()));
 
