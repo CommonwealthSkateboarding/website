@@ -1,0 +1,122 @@
+@import com.feth.play.module.pa.views.html._
+@(user: models.security.User, self: Boolean)
+@main("profile", false, "Buy Park Passes | Commonwealth Skateboarding | Portland, Oregon") {
+    <section id="profile">
+
+        <p class="h1">Purchase Passes Online</p>
+
+        <form action="@routes.Application.newMemberSale()" method="POST">
+            <input name="self" value="@self" hidden>
+            <div class="form-row">
+                <label>
+                    <span class="h6">For</span>
+                    @if(self) {
+                        <input id="name" name="recipientName" type="text" placeholder="Your Name" value="@user.name" disabled>
+                        <a href="@routes.Application.memberSales(false)">(Buying for somebody other than you?)</a>
+                        <input name="membershipId" value="" hidden>
+                    } else {
+                        @if(user.guardianOf.size > 0) {
+                            <select id="membership" name="membershipId">
+                                @for(kid<-user.guardianOf) {
+                                    <option value="@kid.id">@kid.name</option>
+                                }
+                                <option value="">Another Member</option>
+                            </select>
+                        }
+                        <input id="name" name="recipientName" type="text" placeholder="Name of recipient">
+                        <a href="@routes.Application.memberSales(true)">(Buying for yourself?)</a><br>
+                    }
+                </label>
+            </div>
+            <div class="form-row">
+                <label>
+                    <select name="twoHourPasses">
+                        <option value="0">None</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                    </select>
+                    <span class="h6">Session Passes ($7 each)</span>
+                </label>
+            </div>
+            <div class="form-row">
+                <label>
+                    <select name="tenPackPasses">
+                        <option value="0">None</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select>
+                    <span class="h6">Ten Pack of Passes ($55 each)</span>
+                </label>
+            </div>
+            <div class="form-row">
+                <label>
+                    <select name="unlimitedPassMonths">
+                        <option value="0">None</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                    </select>
+                    <span class="h6">Unlimited Pass Months ($48/month)</span>
+                </label>
+            </div>
+            <div class="form-row">
+                <label>
+                    <select name="giftCreditDollars">
+                        <option value="0">None</option>
+                        <option value="10">$10</option>
+                        <option value="20">$20</option>
+                        <option value="25">$25</option>
+                        <option value="50">$50</option>
+                        <option value="100">$100</option>
+                        <option value="250">$250</option>
+                    </select>
+                    <span class="h6">Store Credit</span>
+                </label>
+            </div>
+
+            <footer>
+                <button type="submit" id="pay">Next - Billing Info</button>
+            </footer>
+
+        </form>
+
+        <p><a href="@com.feth.play.module.pa.controllers.routes.Authenticate.logout">Logout</a></p>
+    </section>
+
+    @if(!self && (user.guardianOf.size > 0)){
+        <script>
+            $(document).ready(function () {
+                nameHelper();
+                $("#membership").change(function(){
+                    nameHelper();
+                });
+
+            });
+            function nameHelper() {
+                if ($("#membership").val() != "") {
+                    $("#name").hide();
+                    $("#name").val("");
+                } else {
+                    $("#name").show();
+                }
+            }
+        </script>
+    }
+}

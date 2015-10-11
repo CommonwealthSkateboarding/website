@@ -17,6 +17,9 @@ GET     /events/:id                 controllers.Application.eventDetail(id: Stri
 GET     /about                      controllers.Application.about()
 GET     /contact                    controllers.Application.contact()
 GET     /profile                    controllers.Application.profile()
+GET     /profile/passes             controllers.Application.memberSales(self: Boolean ?= true)
+POST    /profile/passes             controllers.Application.newMemberSale()
+POST    /profile/passes/pay         controllers.Application.payMemberSale()
 POST    /camp/:id/register          controllers.Application.registerForCampWithStripe(id: String)
 POST    /event/:id/register         controllers.Application.registerForEventWithStripe(id: String)
 GET     /registration/:id           controllers.Application.registrationPage(id: String)
@@ -113,6 +116,10 @@ GET     /admin/unheardSale/:id/invoice          controllers.Admin.invoiceUnheard
 
 GET     /admin/bitcoin                          controllers.Admin.bitcoinSaleIndex()
 POST    /admin/bitcoin/new                      controllers.Admin.addBitcoinSale()
+
+GET     /admin/onlineSales                      controllers.Admin.onlinePassSaleIndex()
+GET     /admin/onlineSales/assign               controllers.Admin.assignOnlinePassSale(saleId: Long, memberId: Long, takeOwnership: Boolean, setGuardian: Boolean)
+GET     /admin/onlineSales/:id                  controllers.Admin.onlinePassSaleDetail(id: Long)
 
 GET     /admin/autocomplete/member/:search      controllers.Autocomplete.searchMembersByName(search)
 

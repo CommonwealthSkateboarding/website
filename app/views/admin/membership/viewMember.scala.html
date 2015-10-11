@@ -127,7 +127,7 @@
     <div class="showback">
         <h4><i class="fa fa-angle-right"></i> Online Account</h4>
         @if(member.owner != null) {
-            <h4><a href="@routes.Admin.viewUserPage(member.owner.id)">@member.owner.name</a> <i class="fa fa-barcode"></i> @member.owner.publicId</h4>
+            <h4><a href="@routes.Admin.viewUserPage(member.owner.id)">@member.owner.name</a></h4>
         } else {
         <div class="collapse-group">
             <form action="@routes.Admin.setOwner(member.id)" method="post" class="form-inline collapse text-center" role="form">
@@ -147,7 +147,7 @@
         <h4><i class="fa fa-angle-right"></i> Guardian Account</h4>
         @if(member.guardian.size > 0) {
             @for(guardian<-member.guardian) {
-                <h4><a href="@routes.Admin.viewUserPage(guardian.id)">@guardian.name</a> <i class="fa fa-barcode"></i> @guardian.publicId</h4>
+                <h4><a href="@routes.Admin.viewUserPage(guardian.id)">@guardian.name</a></h4>
             }
         }
         <div class="collapse-group">

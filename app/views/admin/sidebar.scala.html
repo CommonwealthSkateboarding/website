@@ -56,6 +56,9 @@
                 <ul class="sub">
                     <li @if(activePage=="bitcoin") { class="active" }><a href="@routes.Admin.bitcoinSaleIndex()">Bitcoin Sales</a></li>
                 </ul>
+                <ul class="sub">
+                    <li @if(activePage=="onlinePassSales") { class="active" }><a href="@routes.Admin.onlinePassSaleIndex()">Online Pass Sales</a></li>
+                </ul>
             </li>
             @restrict(la(as("CAMP"))) {
                 <li class="sub-menu">

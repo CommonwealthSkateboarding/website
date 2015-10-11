@@ -1,4 +1,4 @@
-@(user: models.security.User, localUser: models.security.User = null)
+@(user: models.security.User, logs: List[models.security.AuditRecord], localUser: models.security.User = null)
 @import admin.wrapper
 @wrapper(localUser, "user", "viewUsers") {
 
@@ -11,10 +11,6 @@
             <section id="unseen">
                 <table class="table table-bordered table-striped table-condensed">
                     <tbody>
-                        <tr>
-                            <td>ID</td>
-                            <td>@user.publicId</td>
-                        </tr>
                         <tr>
                             <td>Last Login:</td>
                             <td><span class="timeago" title="@user.lastLogin.format("yyyy-MM-dd'T'HH:mmZ")"></span></td>
@@ -40,14 +36,42 @@
                 </table>
             </section>
         </div>
+
+        <div class="showback">
+            <h4><i class="fa fa-angle-right"></i> Records Within The Last Month</h4>
+            <section id="unseen">
+                <table class="table table-bordered table-striped table-condensed">
+                    <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Action</th>
+                        <th>Time</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @for(log <- logs) {
+                    <tr>
+                        <td><img src="@log.user.photoUrl" class="img-circle" width="20"> @log.user.name</td>
+                        <td>
+                            @log.delta
+                            @if((null != log.visit) && (log.visit.isValidNow())) {
+                            <a href="@routes.Admin.undoVisit(log.visit.id)" class="pull-right">
+                                <span class="label label-warning">Undo/Refund</span></a>
+                            }
+                        </td>
+                        <td><span class="timeago" title="@log.timestamp.format("yyyy-MM-dd'T'HH:mmZ")"></span></td>
+                    </tr>
+                    }
+                    </tbody>
+                </table>
+            </section>
+        </div>
     </div>
 
     <div class="col-lg-4 col-md-4 col-sm-4">
         <div class="showback">
             <p class="text-center">
                 <img src="@user.photoUrl" class="img-responsive center-block"><br/>
-                <img src="http://www.barcodes4.me/barcode/c39/@(user.publicId).png" class="img-responsive center-block"><br/>
-                @user.publicId
             </p>
         </div>
     </div>

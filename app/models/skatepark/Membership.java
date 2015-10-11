@@ -86,6 +86,11 @@ public class Membership extends Model {
     @JoinTable(name="guardian")
     public List<User> guardian;
 
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "applied_to_id")
+    public List<OnlinePassSale> onlinePassSales;
+
     public static final Finder<Long, Membership> find = new Finder<Long, Membership>(
             Long.class, Membership.class);
 
@@ -162,5 +167,41 @@ public class Membership extends Model {
         }
 
         return passes;
+    }
+
+    public void applyOnlinePassSale(OnlinePassSale sale) {
+        if (sale.amount()>0) { //ignore empty sales
+            if (sale.twoHourPasses > 0) {
+                this.sessionPasses = this.sessionPasses + sale.twoHourPasses;
+            }
+            if (sale.tenPackPasses > 0) {
+                this.sessionPasses = this.sessionPasses + (sale.tenPackPasses * 10);
+            }
+            if (sale.unlimitedPassMonths > 0) {
+                //increment valid pass or create new one
+                UnlimitedPass pass = this.getMostValidUnlimitedPass();
+                if (null != pass && pass.isValid()) {
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTime(pass.expires);
+                    cal.add(Calendar.MONTH, sale.unlimitedPassMonths);
+                    pass.expires = cal.getTime();
+                    pass.update();
+                } else {
+                    Date now = new Date();
+                    UnlimitedPass.addNewUnlimitedPass(this, sale.purchasedBy, now, sale.unlimitedPassMonths);
+                }
+            }
+            if (sale.giftCreditDollars > 0) {
+                this.deposit(sale.giftCreditDollars * 1.0);
+            }
+            this.update();
+            sale.appliedTo = this;
+            sale.redeemed = true;
+            sale.update();
+        }
+    }
+
+    public Boolean getHasOwner() {
+        return (null != this.owner);
     }
 }

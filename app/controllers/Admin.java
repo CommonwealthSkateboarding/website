@@ -30,6 +30,8 @@ import views.html.admin.membership.*;
 import views.html.admin.news.addNews;
 import views.html.admin.news.editNews;
 import views.html.admin.news.newsIndex;
+import views.html.admin.register.onlinePassSaleDetail;
+import views.html.admin.register.onlinePassSaleIndex;
 import views.html.admin.register.unheardSaleIndex;
 import views.html.admin.register.bitcoinSale;
 import views.html.admin.users.userIndex;
@@ -524,7 +526,11 @@ public class Admin extends Controller {
     @Restrict({@Group("USER_ADMIN")})
     public static Result viewUserPage(Long id) {
         User user = User.find.byId(id);
-        return ok(userDetail.render(user, getLocalUser(session())));
+        Date lastMonth = DateUtils.addMonths(new Date(), -1);
+        lastMonth = DateUtils.ceiling(lastMonth, Calendar.DATE);
+        List<AuditRecord> logs = AuditRecord.find.where().eq("user_id", id).where().gt("timestamp", lastMonth)
+                .orderBy("timestamp DESC").findList();
+        return ok(userDetail.render(user, logs, getLocalUser(session())));
     }
 
     @Restrict({@Group("USER_ADMIN")})
@@ -1038,7 +1044,6 @@ public class Admin extends Controller {
     }
 
     public static Result closureIndex() {
-        Date now = new Date();
         List<ClosureNotice> closures = ClosureNotice.find.orderBy("created").where().eq("archived", false).findList();
         return ok(closureIndex.render(closures, getLocalUser(session())));
     }
@@ -1081,4 +1086,50 @@ public class Admin extends Controller {
         return redirect(routes.Admin.closureIndex());
     }
 
+
+    public static Result onlinePassSaleIndex() {
+        List<OnlinePassSale> unredeemedSales = OnlinePassSale.find.orderBy("created DESC").where().eq("redeemed", false).findList();
+        List<OnlinePassSale> redeemedSales = OnlinePassSale.find.orderBy("created DESC").where().eq("redeemed", true).setMaxRows(PER_PAGE).findList();
+        return ok(onlinePassSaleIndex.render(redeemedSales, unredeemedSales, getLocalUser(session())));
+    }
+
+
+    public static Result onlinePassSaleDetail(Long id) {
+        OnlinePassSale sale = OnlinePassSale.find.byId(id);
+        if (null == sale) {
+            return redirect(routes.Admin.onlinePassSaleIndex()); // not found
+        }
+
+        return ok(onlinePassSaleDetail.render(sale, getLocalUser(session())));
+    }
+
+    public static Result assignOnlinePassSale(Long saleId, Long membershipId, Boolean takeOwnership, Boolean setGuardian) {
+        OnlinePassSale sale = OnlinePassSale.find.byId(saleId);
+        Membership membership = Membership.find.byId(membershipId);
+        if (null == sale || null == membership) {
+            return redirect(routes.Admin.onlinePassSaleIndex()); // not found
+        }
+
+        membership.applyOnlinePassSale(sale);
+        sale.refresh();
+
+        if (takeOwnership && (null == sale.purchasedBy.membership)) {
+            audit("Adding " + sale.purchasedBy.name + " as owner of membership", membership, getLocalUser(session()));
+            membership.owner = sale.purchasedBy;
+            membership.update();
+        }
+        if (setGuardian && !membership.guardian.contains(sale.purchasedBy)) {
+            audit("Adding " + sale.purchasedBy.name + " as guardian of membership", membership, getLocalUser(session()));
+            List<User> guardians;
+            if (null == membership.guardian) {
+                membership.guardian = new ArrayList<>();
+            }
+            membership.guardian.add(sale.purchasedBy);
+            membership.update();
+        }
+
+        audit("Assigned online pass sale to " + sale.appliedTo.name, membership, sale);
+
+        return redirect(routes.Admin.onlinePassSaleIndex());
+    }
 }

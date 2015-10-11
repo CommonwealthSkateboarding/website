@@ -1,4 +1,5 @@
 @import com.feth.play.module.pa.views.html._
+@import models.skatepark.OnlinePassSale
 @(user: models.security.User = null)
 @main("profile", false, "My Profile | Commonwealth Skateboarding | Portland, Oregon") {
 <section id="profile">
@@ -11,18 +12,16 @@
         <p class="h1">Profile</p>
         <h3>Welcome, @user.name</h3>
 
-        <!--<p>
-            <h3>My ID</h3>
-            <img src="http://www.barcodes4.me/barcode/c39/@(user.publicId).png?IsReverseColor=1&isBorderDrawn=1"><br/>
-            <code>@user.publicId</code>
-        </p>-->
-
         @if((null == user.membership) && (0 == user.guardianOf.size)) {
             <!-- Message for unlinked users (no membership) -->
-            <h3>Check-in at the park with your barcode and skate for free!</h3>
-            <p>We'll link your online account with your membership and credit you with a free session pass.</p>
+            <p><a href="@routes.Application.memberSales()">Purchase passes online</a> and we'll link your account so you can add passes anytime.</p>
         }
+
+    @* Memberships *@
+
+        <h1>My Memberships</h1>
         @if(null != user.membership) {
+            <p><a href="@routes.Application.memberSales(true)">Purchase passes online</a></p>
             <p>
                 <h3>My Account:</h3>
                 @* Gift certificate balance: @utils.Formatter.prettyDollars(user.membership.credit)<br/> *@
@@ -39,10 +38,11 @@
             </p>
         }
         @if(user.guardianOf.size > 0) {
-            <h3>My Kids</h3>
+            <h3>My Skaters</h3>
+            <p><a href="@routes.Application.memberSales(false)">Purchase passes online for my skaters</a></p>
             @for(kid<-user.guardianOf) {
                 <p>
-                    @kid.name<br/>
+                    <h3>@kid.name</h3><br/>
                     @* Gift certificate balance: @utils.Formatter.prettyDollars(kid.credit)<br/>*@
                     @for(pass<-kid.getUnlimitedPassesForDisplay()) {
                         Unlimited pass: @pass.starts.format("MM/dd/yyyy") - @pass.expires.format("MM/dd/yyyy") @if(!pass.isValid()) { (expired) }<br/>
@@ -56,6 +56,34 @@
                     }
                 </p>
             }
+        }
+
+        @* Recent purchases section *@
+
+        <h1>Recent purchases</h1>
+        @if(user.passSales.size == 0) {
+            <p>No purchases have been made by your account.</p>
+        }
+        @for(sale<-user.passSales.reverse) {
+            <p>
+            @sale.created.format("EEEE, M/dd/yyyy")<br>
+            @if(sale.twoHourPasses>0) {
+                @sale.twoHourPasses x Session Passes (@utils.Formatter.prettyDollarsAndCents(sale.twoHourPasses*OnlinePassSale.PRICE_TWO_HOUR_PASS))<br>
+            }
+            @if(sale.tenPackPasses>0) {
+                @sale.tenPackPasses x Ten-Pack Passes (@utils.Formatter.prettyDollarsAndCents(sale.tenPackPasses*OnlinePassSale.PRICE_TEN_PACK_PASS))<br>
+            }
+            @if(sale.unlimitedPassMonths>0) {
+                @sale.unlimitedPassMonths x Months of Unlimited Pass (@utils.Formatter.prettyDollarsAndCents(sale.unlimitedPassMonths*OnlinePassSale.PRICE_UNLIMITED_PASS_PER_MONTH))<br>
+            }
+            @if(sale.giftCreditDollars>0) {
+                @utils.Formatter.prettyDollarsAndCents(sale.giftCreditDollars) gift certificate<br>
+            }
+            Total: @utils.Formatter.prettyDollarsAndCents(sale.amount)
+            @if(null != sale.appliedTo) {
+                Applied to @sale.appliedTo.name's membership
+            }
+            </p>
         }
         <br/><br/>
         <a href="@com.feth.play.module.pa.controllers.routes.Authenticate.logout">Logout</a>

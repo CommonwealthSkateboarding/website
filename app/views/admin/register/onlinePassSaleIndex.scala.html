@@ -1,0 +1,61 @@
+@(redeemedSales: List[models.skatepark.OnlinePassSale], unredeemedSales: List[models.skatepark.OnlinePassSale], localUser: models.security.User = null)
+@import admin.wrapper
+@wrapper(localUser, "register", "onlinePassSales") {
+<h3><i class="fa fa-angle-right"></i> Online Pass Sale Database</h3>
+<div class="row mb">
+
+    <div class="col-lg-12">
+        <div class="showback">
+            <h4><i class="fa fa-angle-right"></i> Unredeemed Sales</h4>
+            <section id="unseen">
+                <table class="table table-bordered table-striped table-condensed">
+                    <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Recipient</th>
+                        <th>Amount</th>
+                        <th>Redeem</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @for(sale <- unredeemedSales) {
+                        <tr>
+                            <td><img src="@sale.purchasedBy.photoUrl" class="img-circle" width="20"> <a href="@routes.Admin.viewUserPage(sale.purchasedBy.id)">@sale.purchasedBy.name</a></td>
+                            <td>@sale.recipientName</td>
+                            <td>@utils.Formatter.prettyDollarsAndCents(sale.amount)</td>
+                            <td><a href="@routes.Admin.onlinePassSaleDetail(sale.id)" class="btn btn-theme btn-block">Detail</a></td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </section>
+        </div>
+    </div>
+
+    <div class="col-lg-12">
+        <div class="showback">
+            <h4><i class="fa fa-angle-right"></i> Recent Redeemed Sales</h4>
+            <section id="unseen">
+                <table class="table table-bordered table-striped table-condensed">
+                    <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Recipient</th>
+                        <th>Amount</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @for(sale <- redeemedSales) {
+                    <tr>
+                        <td><img src="@sale.purchasedBy.photoUrl" class="img-circle" width="20"> <a href="@routes.Admin.viewUserPage(sale.purchasedBy.id)">@sale.purchasedBy.name</a></td>
+                        <td><a href="@routes.Admin.viewMemberPage(sale.appliedTo.id)">@sale.appliedTo.name</a></td>
+                        <td>@utils.Formatter.prettyDollarsAndCents(sale.amount)</td>
+                    </tr>
+                    }
+                    </tbody>
+                </table>
+            </section>
+        </div>
+    </div>
+</div>
+}

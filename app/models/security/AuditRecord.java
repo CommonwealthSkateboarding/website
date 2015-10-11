@@ -44,6 +44,9 @@ public class AuditRecord extends Model {
     @ManyToOne
     public ClosureNotice closure;
 
+    @ManyToOne
+    public OnlinePassSale onlinePassSale;
+
     public Date timestamp;
 
     public String delta;

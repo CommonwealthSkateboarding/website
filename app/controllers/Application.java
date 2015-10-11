@@ -54,7 +54,7 @@ public class Application extends Controller {
         if (news.size() == (PER_PAGE + 1)) { // if there is another page after
             hasNextPage = true;
         }
-        return ok(index.render((hasNextPage?news.subList(0,PER_PAGE-1):news), closures, page, hasNextPage));
+        return ok(index.render((hasNextPage ? news.subList(0, PER_PAGE - 1) : news), closures, page, hasNextPage));
     }
 
     public static Result showNews(String id) {
@@ -73,7 +73,7 @@ public class Application extends Controller {
         if (news.size() == (PER_PAGE + 1)) { // if there is another page after
             hasNextPage = true;
         }
-        return ok(blog.render((hasNextPage?news.subList(0,PER_PAGE-1):news), page, hasNextPage));
+        return ok(blog.render((hasNextPage ? news.subList(0, PER_PAGE - 1) : news), page, hasNextPage));
     }
 
     @Cached(key = "shop")
@@ -155,10 +155,11 @@ public class Application extends Controller {
 
             return redirect(routes.Application.registrationPage(reg.confirmationId));
         } catch (CardException e) {
+            Logger.info("Encountered a cardexception: " + e);
             return ok(campDetail.render(camp, info));
         } catch (Exception e) {
             Logger.error("Stripe error", e);
-            return internalServerError();
+            return ok(campDetail.render(camp, info));
         }
     }
 
@@ -196,10 +197,11 @@ public class Application extends Controller {
 
             return redirect(routes.Application.registrationPage(reg.confirmationId));
         } catch (CardException e) {
+            Logger.info("Encountered a cardexception: " + e);
             return ok(eventDetail.render(event, info));
         } catch (Exception e) {
             Logger.error("Stripe error", e);
-            return internalServerError();
+            return ok(eventDetail.render(event, info));
         }
     }
 
@@ -213,6 +215,10 @@ public class Application extends Controller {
             log.camp = (Camp) payload;
         } else if (payload.getClass().equals(Event.class)) {
             log.event = (Event) payload;
+        } else if (payload.getClass().equals(OnlinePassSale.class)) {
+            log.onlinePassSale = (OnlinePassSale) payload;
+            log.membership = log.onlinePassSale.appliedTo;
+            log.user = log.onlinePassSale.purchasedBy;
         }
         log.save();
         Slack.emitAuditLog(log);
@@ -246,15 +252,79 @@ public class Application extends Controller {
 
             return redirect(routes.Application.registrationPage(registration.confirmationId));
         } catch (CardException e) {
+            Logger.info("Encountered a cardexception: " + e);
             return ok(registrationPage.render(registration, info));
         } catch (Exception e) {
             Logger.error("Stripe error", e);
-            return internalServerError();
+            return ok(registrationPage.render(registration, info));
         }
     }
 
     public static Result profile() {
         User user = User.findByAuthUserIdentity(PlayAuthenticate.getUser(session()));
         return ok(profile.render(user));
+    }
+
+    public static Result memberSales(Boolean self) {
+        User user = User.findByAuthUserIdentity(PlayAuthenticate.getUser(session()));
+        return ok(memberSales.render(user, self));
+    }
+
+    public static Result newMemberSale() {
+        User user = User.findByAuthUserIdentity(PlayAuthenticate.getUser(session()));
+        OnlinePassSale sale = Form.form(OnlinePassSale.class).bindFromRequest().get();
+        if (null != sale.membershipId) {
+            Membership member = Membership.find.byId(sale.membershipId);
+            sale.recipientName = member.name;
+        }
+        return ok(newMemberSale.render(user, sale));
+    }
+
+    public static Result payMemberSale() {
+        User user = User.findByAuthUserIdentity(PlayAuthenticate.getUser(session()));
+        OnlinePassSale sale = Form.form(OnlinePassSale.class).bindFromRequest().get();
+
+        // run the charge to stripe (handle exceptions)
+        try {
+            Charge charge = Stripe.chargeStripe(sale.amount(), sale.stripeToken, "Online Pass Sale");
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy h:mm a");
+            Date now = new Date();
+
+            // add the pass to the user
+            sale.purchasedBy = user;
+            sale.created = now;
+
+            if (null != sale.membershipId) {
+                // add the pass to the membership and mark applied
+                Membership member = Membership.find.byId(sale.membershipId);
+                sale.appliedTo = member;
+                member.applyOnlinePassSale(sale);
+                sale.redeemed = true;
+            } else if (sale.self && (user.membership != null)) {
+                // add the pass to the membership and mark applied
+                sale.appliedTo = user.membership;
+                user.membership.applyOnlinePassSale(sale);
+                sale.redeemed = true;
+                sale.recipientName = user.name;
+            } else {
+                sale.redeemed = false;
+            }
+            sale.save();
+
+            audit("New online sale for " + sale.recipientName, sale);
+
+            //todo: add slack hook
+            //Slack.emitRegistrationBalancePayment(registration, amount);
+            //todo: add email hook
+
+            return redirect(routes.Application.profile());
+        } catch (CardException e) {
+            Logger.info("Encountered a cardexception: " + e);
+            return ok(newMemberSale.render(user, sale));
+        } catch (Exception e) {
+            Logger.error("Stripe error", e);
+            return ok(newMemberSale.render(user, sale));
+        }
     }
 }

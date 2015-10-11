@@ -1,0 +1,100 @@
+@import com.feth.play.module.pa.views.html._
+@(user: models.security.User, sale: models.skatepark.OnlinePassSale)
+@main("profile", false, "Buy Park Passes | Commonwealth Skateboarding | Portland, Oregon") {
+    <section id="profile">
+
+        <p class="h1">Profile</p>
+        <h3>Welcome, @user.name</h3>
+
+        @if(sale.twoHourPasses>0) {
+            @sale.twoHourPasses x Two Hour Passes (@utils.Formatter.prettyDollarsAndCents(sale.twoHourPasses * models.skatepark.OnlinePassSale.PRICE_TWO_HOUR_PASS))<br/>
+        }
+        @if(sale.tenPackPasses>0) {
+            @sale.tenPackPasses x Ten Pack of Passes (@utils.Formatter.prettyDollarsAndCents(sale.tenPackPasses * models.skatepark.OnlinePassSale.PRICE_TEN_PACK_PASS))<br/>
+        }
+        @if(sale.unlimitedPassMonths>0) {
+            @sale.unlimitedPassMonths x Months of Unlimited Pass (@utils.Formatter.prettyDollarsAndCents(sale.unlimitedPassMonths * models.skatepark.OnlinePassSale.PRICE_UNLIMITED_PASS_PER_MONTH))<br/>
+        }
+        @if(sale.giftCreditDollars>0) {
+            @utils.Formatter.prettyDollarsAndCents(sale.giftCreditDollars) in Store Credit<br/>
+        }
+
+        Total: @utils.Formatter.prettyDollarsAndCents(sale.amount)
+
+        <a href="javascript:history.back();">(Edit your order)</a>
+
+        <form id="payment-form" action="@routes.Application.payMemberSale()" method="POST">
+            <input name="twoHourPasses" value="@sale.twoHourPasses" hidden>
+            <input name="tenPackPasses" value="@sale.tenPackPasses" hidden>
+            <input name="unlimitedPassMonths" value="@sale.unlimitedPassMonths" hidden>
+            <input name="giftCreditDollars" value="@sale.giftCreditDollars" hidden>
+            <input name="self" value="@sale.self" hidden>
+            <input name="membershipId" value="@sale.membershipId" hidden>
+
+            <div class="form-row">
+                <label>
+                    <span class="h6">Recipient Name</span>
+                    @if(sale.self) {
+                        <input id="name" name="recipientName" type="text" placeholder="" value="@user.name" disabled>
+                    }
+                    @if(!sale.self && sale.membershipId != null) {
+                        <input id="name" name="recipientName" type="text" placeholder="" value="@sale.recipientName" disabled>
+                    }
+                    @if(!sale.self && sale.membershipId == null) {
+                        <input id="name" name="recipientName" type="text" placeholder="" value="@sale.recipientName" required autofocus>
+                    }
+                </label>
+            </div>
+
+            <div class="form-row">
+                <label>
+                    <span class="h6">Billing Email</span>
+                    <input id="email" name="alternativeEmailAddress" type="email" placeholder="name&#064;domain.com" value="@user.email" required>
+                </label>
+            </div>
+
+            <footer>
+                <button type="submit" id="pay">Choose A Payment Method</button>
+            </footer>
+
+        </form>
+
+        <p><a href="@com.feth.play.module.pa.controllers.routes.Authenticate.logout">Logout</a></p>
+    </section>
+
+    <script src="https://checkout.stripe.com/checkout.js"></script>
+    <script>
+            var handler = StripeCheckout.configure({
+              key: '@controllers.Stripe.STRIPE_PUBLIC_KEY',
+              image: 'https://s3.amazonaws.com/stripe-uploads/acct_154QX0FIzru1QGQUmerchant-icon-1421729277975-cw--logo--lettermark-black.png',
+              token: function(token) {
+                  var $form = $('#payment-form');
+                  // Insert the token into the form so it gets submitted to the server
+                  $form.append($('<input type="hidden" name="stripeToken" />').val(token.id));
+                  // and submit
+                  $form.get(0).submit();
+              }
+            });
+
+            $('#pay').on('click', function(e) {
+                $('#payment-form').validate();
+                if($('#payment-form').valid()) {
+			        handler.open({
+						name: 'Commonwealth Skate',
+						description: 'Online pass sale',
+						amount: @((sale.amount*100).intValue),
+						email: $('#email').val(),
+						currency: 'usd',
+						bitcoin: true
+					});
+				}
+                e.preventDefault();
+			});
+
+            // Close Checkout on page navigation
+            $(window).on('popstate', function() {
+              handler.close();
+            });
+    </script>
+
+}

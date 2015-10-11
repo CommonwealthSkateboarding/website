@@ -1,0 +1,88 @@
+@(sale: models.skatepark.OnlinePassSale, localUser: models.security.User = null)
+@import admin.wrapper
+@wrapper(localUser, "register", "onlinePassSales") {
+<h3><i class="fa fa-angle-right"></i> Online Pass Sale Database</h3>
+<div class="row mb">
+
+    <div class="col-lg-12">
+        <div class="showback">
+            <h4><i class="fa fa-angle-right"></i> Online Pass Sale Details</h4>
+            <section id="unseen">
+                <table class="table table-bordered table-striped table-condensed">
+                    <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Recipient</th>
+                        <th>Amount</th>
+                        <th>Session Passes</th>
+                        <th>Ten Pack Passes</th>
+                        <th>Unlimited Pass Months</th>
+                        <th>Store Credit</th>
+                        <th>Redeemed?</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><img src="@sale.purchasedBy.photoUrl" class="img-circle" width="20"> <a href="@routes.Admin.viewUserPage(sale.purchasedBy.id)">@sale.purchasedBy.name</a></td>
+                            <td>@sale.recipientName</td>
+                            <td>@utils.Formatter.prettyDollarsAndCents(sale.amount)</td>
+                            <td>@sale.twoHourPasses</td>
+                            <td>@sale.tenPackPasses</td>
+                            <td>@sale.unlimitedPassMonths</td>
+                            <td>@utils.Formatter.prettyDollarsAndCents(sale.giftCreditDollars)</td>
+                            <td>@if(sale.redeemed){Redeemed}else{Not yet redeemed}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </div>
+    </div>
+
+    @if(!sale.redeemed) {
+        <div class="col-lg-12">
+            <div class="form-panel">
+                <h4 class="mb"><i class="fa fa-angle-right"></i> Apply To A Member</h4>
+                <label>Name:</label><br/><input type="text" name="name" class="form-control typeahead" placeholder="Search"/>
+            </div>
+        </div>
+    }
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.min.js"></script>
+<script src="@routes.Assets.at("admin/js/typeahead.bundle.min.js")"></script>
+<script>
+    $(document).ready(function(){
+        $("span.timeago").timeago();
+
+        var members = new Bloodhound({
+          datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+          queryTokenizer: Bloodhound.tokenizers.whitespace,
+          remote: '/admin/autocomplete/member/%QUERY',
+          limit: 10
+        });
+
+        members.initialize();
+
+        $('.typeahead').typeahead({
+          hint: true,
+          highlight: true,
+          minLength: 3
+        }, {
+          name: 'members',
+          displayKey: 'name',
+          source: members.ttAdapter(),
+          templates: {
+            empty: Handlebars.compile([
+              '<div class="empty-message">',
+              'Unable to find any members named "{{query}}". <a href="/admin/members/new?name={{query}}" class="btn btn-info">Add New Member</a><br><br>If you have not <a href="/admin/members/">reloaded this page</a> in a while, you might be logged out!',
+              '</div>'
+              ].join('\n')),
+            suggestion: Handlebars.compile(['<p><h4>{{name}}</h4>',
+              '<a href="/admin/onlineSales/assign?saleId=@sale.id&memberId={{id}}&takeOwnership=false&setGuardian=false" class="btn btn-success">Assign</a> ',
+              '<a href="/admin/onlineSales/assign?saleId=@sale.id&memberId={{id}}&takeOwnership=false&setGuardian=true" class="btn btn-warning">Assign and set @sale.purchasedBy.name as Guardian of {{name}}</a> ',
+              '@if(null == sale.purchasedBy.membership){{{#if hasOwner}}{{else}}<a href="/admin/onlineSales/assign?saleId=@sale.id&memberId={{id}}&takeOwnership=true&setGuardian=false" class="btn btn-danger">Assign and set @sale.purchasedBy.name as Owner of {{name}}</a>{{/if}}}</p>'].join('\n'))
+          }
+        });
+    });
+</script>
+}
