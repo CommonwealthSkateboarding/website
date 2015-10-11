@@ -298,19 +298,17 @@ public class Application extends Controller {
             if (null != sale.membershipId) {
                 // add the pass to the membership and mark applied
                 Membership member = Membership.find.byId(sale.membershipId);
-                sale.appliedTo = member;
                 member.applyOnlinePassSale(sale);
-                sale.redeemed = true;
+                sale.refresh();
             } else if (sale.self && (user.membership != null)) {
                 // add the pass to the membership and mark applied
                 sale.appliedTo = user.membership;
                 user.membership.applyOnlinePassSale(sale);
-                sale.redeemed = true;
-                sale.recipientName = user.name;
+                sale.refresh();
             } else {
                 sale.redeemed = false;
+                sale.save();
             }
-            sale.save();
 
             audit("New online sale for " + sale.recipientName, sale);
 
