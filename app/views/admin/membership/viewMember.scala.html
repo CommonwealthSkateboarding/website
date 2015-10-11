@@ -128,19 +128,6 @@
         <h4><i class="fa fa-angle-right"></i> Online Account</h4>
         @if(member.owner != null) {
             <h4><a href="@routes.Admin.viewUserPage(member.owner.id)">@member.owner.name</a></h4>
-        } else {
-        <div class="collapse-group">
-            <form action="@routes.Admin.setOwner(member.id)" method="post" class="form-inline collapse text-center" role="form">
-                <div class="form-group">
-                    <div class="input-group">
-                        <label class="sr-only" for="publicId"><i class="fa fa-barcode"></i></label>
-                        <input type="text" name="publicId" class="form-control" id="publicId" placeholder="CW123">
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-default">Set Owner</button>
-            </form>
-            <p><a class="btn btn-xs btn-default btn-block" id="setOwner" href="#">Set an Owner &raquo;</a></p>
-        </div>
         }
     </div>
     <div class="showback">
@@ -150,18 +137,6 @@
                 <h4><a href="@routes.Admin.viewUserPage(guardian.id)">@guardian.name</a></h4>
             }
         }
-        <div class="collapse-group">
-            <form action="@routes.Admin.addGuardian(member.id)" method="post" class="form-inline collapse text-center" role="form">
-                <div class="form-group">
-                    <div class="input-group">
-                        <label class="sr-only" for="publicId">ID</label>
-                        <input type="text" name="publicId" class="form-control" id="publicId" placeholder="CW123">
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-default">Add Guardian</button>
-            </form>
-            <p><a class="btn btn-xs btn-default btn-block" id="addGuardian" href="#">Add A Guardian &raquo;</a></p>
-        </div>
     </div>
     <div class="showback">
         <h4><i class="fa fa-angle-right"></i> Records Within The Last Month</h4>

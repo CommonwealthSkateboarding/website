@@ -21,7 +21,7 @@
                     @for(sale <- unredeemedSales) {
                         <tr>
                             <td><img src="@sale.purchasedBy.photoUrl" class="img-circle" width="20"> <a href="@routes.Admin.viewUserPage(sale.purchasedBy.id)">@sale.purchasedBy.name</a></td>
-                            <td>@sale.recipientName</td>
+                            <td>@sale.recipient</td>
                             <td>@utils.Formatter.prettyDollarsAndCents(sale.amount)</td>
                             <td><a href="@routes.Admin.onlinePassSaleDetail(sale.id)" class="btn btn-theme btn-block">Detail</a></td>
                         </tr>

@@ -39,7 +39,7 @@ public class OnlinePassSale extends Model {
     @Transient
     public String stripeToken;
 
-    public String recipientName;
+    public String recipient;
 
     public Date created;
     public Boolean redeemed;

@@ -19,7 +19,7 @@ create table online_pass_sale (
   redeemed                  tinyint(1) NOT NULL DEFAULT 0,
   purchased_by_id           bigint NOT NULL,
   alternate_email_address   varchar(255),
-  recipient_name            varchar(255),
+  recipient                 varchar(255),
   applied_to_id             bigint,
   constraint pk_online_sale primary key (id))
 ;

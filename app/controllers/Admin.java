@@ -1106,17 +1106,15 @@ public class Admin extends Controller {
     public static Result assignOnlinePassSale(Long saleId, Long membershipId, Boolean takeOwnership, Boolean setGuardian) {
         OnlinePassSale sale = OnlinePassSale.find.byId(saleId);
         Membership membership = Membership.find.byId(membershipId);
-        if (null == sale || null == membership) {
-            return redirect(routes.Admin.onlinePassSaleIndex()); // not found
+        if (null == sale || null == membership || sale.redeemed) {
+            return error("Some data from your request was not available, please start again."); // not found
         }
-
-        membership.applyOnlinePassSale(sale);
-        sale.refresh();
 
         if (takeOwnership && (null == sale.purchasedBy.membership)) {
             audit("Adding " + sale.purchasedBy.name + " as owner of membership", membership, getLocalUser(session()));
-            membership.owner = sale.purchasedBy;
-            membership.update();
+            User owner  = sale.purchasedBy;
+            owner.membership = membership;
+            owner.update();
         }
         if (setGuardian && !membership.guardian.contains(sale.purchasedBy)) {
             audit("Adding " + sale.purchasedBy.name + " as guardian of membership", membership, getLocalUser(session()));
@@ -1127,6 +1125,12 @@ public class Admin extends Controller {
             membership.guardian.add(sale.purchasedBy);
             membership.update();
         }
+
+        membership.applyOnlinePassSale(sale);
+        membership.refresh();
+        sale.appliedTo = membership;
+        sale.redeemed = true;
+        sale.update();
 
         audit("Assigned online pass sale to " + sale.appliedTo.name, membership, sale);
 

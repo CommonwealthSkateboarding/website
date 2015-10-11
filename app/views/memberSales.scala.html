@@ -11,7 +11,7 @@
                 <label>
                     <span class="h6">For</span>
                     @if(self) {
-                        <input id="name" name="recipientName" type="text" placeholder="Your Name" value="@user.name" disabled>
+                        <input id="name" name="recipient" type="text" placeholder="Your Name" value="@user.name" disabled>
                         <a href="@routes.Application.memberSales(false)">(Buying for somebody other than you?)</a>
                         <input name="membershipId" value="" hidden>
                     } else {
@@ -23,7 +23,7 @@
                                 <option value="">Another Member</option>
                             </select>
                         }
-                        <input id="name" name="recipientName" type="text" placeholder="Name of recipient">
+                        <input id="name" name="recipient" type="text" placeholder="Name of recipient">
                         <a href="@routes.Application.memberSales(true)">(Buying for yourself?)</a><br>
                     }
                 </label>

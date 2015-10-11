@@ -195,9 +195,6 @@ public class Membership extends Model {
                 this.deposit(sale.giftCreditDollars * 1.0);
             }
             this.update();
-            sale.appliedTo = this;
-            sale.redeemed = true;
-            sale.update();
         }
     }
 

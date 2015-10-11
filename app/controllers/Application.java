@@ -275,7 +275,7 @@ public class Application extends Controller {
         OnlinePassSale sale = Form.form(OnlinePassSale.class).bindFromRequest().get();
         if (null != sale.membershipId) {
             Membership member = Membership.find.byId(sale.membershipId);
-            sale.recipientName = member.name;
+            sale.recipient = member.name;
         }
         return ok(newMemberSale.render(user, sale));
     }
@@ -297,20 +297,22 @@ public class Application extends Controller {
 
             if (null != sale.membershipId) {
                 // add the pass to the membership and mark applied
-                Membership member = Membership.find.byId(sale.membershipId);
-                member.applyOnlinePassSale(sale);
-                sale.refresh();
+                Membership membership = Membership.find.byId(sale.membershipId);
+                sale.appliedTo = membership;
+                sale.redeemed = true;
+                sale.save();
+                membership.applyOnlinePassSale(sale);
             } else if (sale.self && (user.membership != null)) {
-                // add the pass to the membership and mark applied
                 sale.appliedTo = user.membership;
+                sale.redeemed = true;
+                sale.save();
                 user.membership.applyOnlinePassSale(sale);
-                sale.refresh();
             } else {
                 sale.redeemed = false;
                 sale.save();
             }
 
-            audit("New online sale for " + sale.recipientName, sale);
+            audit("New online sale for " + sale.recipient, sale);
 
             //todo: add slack hook
             //Slack.emitRegistrationBalancePayment(registration, amount);
