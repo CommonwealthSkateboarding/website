@@ -1,7 +1,9 @@
 @(camp: models.skatepark.Camp, info: models.skatepark.RegistrationInfo)
 
 @main("camp-detail", false, camp.title + " | Commonwealth Skateboarding | Portland, Oregon") {
+
 <section id="camp-detail">
+
 	<p class="h1">&lt;&nbsp; <a href="@routes.Application.camp()">Back to all camps</a></p>
 	<p class="h2">@camp.title</p>
 
@@ -27,7 +29,7 @@
 				<li class="cost">
 					<p class="h6">Cost</p>
 					<p>@utils.Formatter.prettyDollars(camp.cost)</p>
-                    <p><img src="@routes.Assets.at("img/credit-cards.png")" alt="Payment Methods"></p>
+										<p><img src="@routes.Assets.at("img/credit-cards.png")" alt="Payment Methods"></p>
 				</li>
 				<li class="schedule">
 					<p class="h6">Schedule</p>
@@ -52,17 +54,17 @@
 		</div>
 
 		<div class="sign-up">
-      @if(null!=info) {
-          <p class="h4">Sorry, but there was a problem with your card</p>
-          <p>Your payment could not be processed. Try again or use another card, and if this problem persists, please <a href="/contact">contact us</a>.</p>
-      }
+			@if(null!=info) {
+					<p class="h4">Sorry, but there was a problem with your card</p>
+					<p>Your payment could not be processed. Try again or use another card, and if this problem persists, please <a href="/contact">contact us</a>.</p>
+			}
 			<p>@Html(camp.description)</p>
 
 			@if(camp.isPastRegistrationEndDate()) {
 				<p class="h4">Camp Registration</p>
 				<p>Sorry, but the date for registration has passed.</p>
 			} else {
-			  @if(camp.registrations.size() < camp.maxRegistrations) {
+				@if(camp.registrations.size() < camp.maxRegistrations) {
 				<p class="h4">Camp Registration</p>
 
 				@******************************************
@@ -71,33 +73,57 @@
 
 				<form action="@routes.Application.registerForCampWithStripe(camp.id)" method="POST" id="payment-form">
 
-        			<script src="https://checkout.stripe.com/checkout.js"></script>
+							<script src="https://checkout.stripe.com/checkout.js"></script>
 
 					<div class="form-row">
 						<label>
-							<span class="h6">Participant Name</span>
+							<span class="h6">Participant Name<span class="red">*</span></span>
 							<input id="p_name" name="name" type="text" placeholder="" @if(null!=info){value="@info.name"} required autofocus>
 						</label>
 					</div>
 					
 					<div class="form-row">
 						<label>
-							<span class="h6">Billing Name</span>
+							<span class="h6">Billing Name<span class="red">*</span></span>
 							<input id="b_name" name="billingName" type="text" placeholder="" @if(null!=info){value="@info.billingName"} required>
 						</label>
 					</div>
 
 					<div class="form-row">
 						<label>
-							<span class="h6">Billing Email</span>
+							<span class="h6">Billing Email<span class="red">*</span></span>
 							<input id="email" name="email" type="email" placeholder="name&#064;domain.com" @if(null!=info){value="@info.email"} required>
 						</label>
 					</div>
 
 					<div class="form-row">
 						<label>
-							<span class="h6">Phone Number</span>
-							<input id="tel" name="telephone" type="tel" placeholder="(555) 555-5555" @if(null!=info){value="@info.telephone"}>
+							<span class="h6">Billing Phone Number<span class="red">*</span></span>
+							<input id="tel" name="telephone" type="tel" placeholder="(555) 555-5555" @if(null!=info){value="@info.telephone"} required>
+						</label>
+					</div>
+
+					<div class="emergency form-row flex">
+						<label>
+							<span class="h6">Emergency Contact #1<span class="red">*</span></span>
+							<input id="emerg1-name" name="emergency-contact-1" type="text" placeholder="Emergency Contact Name" required>
+						</label>
+
+						<label>
+							<span class="h6">#1's Phone<span class="red">*</span></span>
+							<input id="emerg1-tel" name="telephone" type="tel" placeholder="(555) 555-5555" @if(null!=info){value="@info.telephone"} required>
+						</label>
+					</div>
+
+					<div class="emergency form-row flex">
+						<label>
+							<span class="h6">Emergency Contact #2</span>
+							<input id="emerg2-name" name="emergency-contact-2" type="text" placeholder="Emergency Contact Name">
+						</label>
+
+						<label>
+							<span class="h6">#2's Phone</span>
+							<input id="emerg1-tel" name="telephone" type="tel" placeholder="(555) 555-5555" @if(null!=info){value="@info.telephone"}>
 						</label>
 					</div>
 
@@ -137,61 +163,87 @@
 					</div>
 
 					<footer>
-						<button type="submit" id="pay">Sign Up</button>
+						<label for="agreement" class="agreement">
+							<input type="checkbox" id="agreement"> <span>I agree to the <a href="#" id="terms-link">terms and conditions</a>.</span> 
+						</label>
+						<div class="submit">
+							<button type="submit" id="pay">Sign Up</button>
+						</div>
 					</footer>
 		<script>
-            var handler = StripeCheckout.configure({
-              key: '@controllers.Stripe.STRIPE_PUBLIC_KEY',
-              image: 'https://s3.amazonaws.com/stripe-uploads/acct_154QX0FIzru1QGQUmerchant-icon-1421729277975-cw--logo--lettermark-black.png',
-              token: function(token) {
-                  var $form = $('#payment-form');
-                  // Insert the token into the form so it gets submitted to the server
-                  $form.append($('<input type="hidden" name="stripeToken" />').val(token.id));
-                  // and submit
-                  $form.get(0).submit();
-              }
-            });
+			
+			$('#terms-link').click(function(e) {
+				e.preventDefault();
+				$('.terms.modal').fadeIn(500).css('display', 'flex');
+				$('body').addClass('modal-open');
+			});
 
-            $('#pay').on('click', function(e) {
-              $('#payment-form').validate();
-              if($('#payment-form').valid()) {
-				  if($('#full-price').is(':checked')) {
-					  handler.open({
+			var handler = StripeCheckout.configure({
+				key: '@controllers.Stripe.STRIPE_PUBLIC_KEY',
+				image: 'https://s3.amazonaws.com/stripe-uploads/acct_154QX0FIzru1QGQUmerchant-icon-1421729277975-cw--logo--lettermark-black.png',
+				token: function(token) {
+						var $form = $('#payment-form');
+						// Insert the token into the form so it gets submitted to the server
+						$form.append($('<input type="hidden" name="stripeToken" />').val(token.id));
+						// and submit
+						$form.get(0).submit();
+				}
+			});
+
+			$('#pay').on('click', function(e) {
+				$('#payment-form').validate();
+				if($('#payment-form').valid()) {
+					if($('#full-price').is(':checked')) {
+						handler.open({
 						name: 'Commonwealth Skate',
 						description: '@camp.title Registration (@utils.Formatter.prettyDollars(camp.cost))',
 						amount: @((camp.cost*100).intValue),
 						email: $('#email').val(),
 						currency: 'usd',
 						bitcoin: true
-					  });
-				  } else {
+						});
+					} else {
 					handler.open({
-					  name: 'Commonwealth Skate',
-					  description: '@camp.title Deposit (@utils.Formatter.prettyDollars(controllers.Application.CAMP_DEPOSIT))',
-					  amount: @(controllers.Application.CAMP_DEPOSIT * 100),
-					  email: $('#email').val(),
-					  currency: 'usd',
-					  bitcoin: true
+						name: 'Commonwealth Skate',
+						description: '@camp.title Deposit (@utils.Formatter.prettyDollars(controllers.Application.CAMP_DEPOSIT))',
+						amount: @(controllers.Application.CAMP_DEPOSIT * 100),
+						email: $('#email').val(),
+						currency: 'usd',
+						bitcoin: true
 					});
-				  }
-			  }
-              e.preventDefault();
+					}
+				}
+				e.preventDefault();
 			});
 
-            // Close Checkout on page navigation
-            $(window).on('popstate', function() {
-              handler.close();
-            });
+			// Close Checkout on page navigation
+			$(window).on('popstate', function() {
+				handler.close();
+			});
+
 		</script>
 				</form>
-			  } else {
+				} else {
 				<p class="h4">Camp Registration</p>
 				<p>Sorry, but this camp is currently full.</p>
-			  }
+				}
 			}
 		</div>
 	</div>
-
 	
 </section>
 }
+
+<div class="terms modal full">
+
+	<div class="bg"></div>
+
+	<div id="close-modal">
+		<i class="fa fa-close"></i>
+	</div>
+
+	<section id="terms" class="content">
+		@terms()
+	</section>
+
+</div>

@@ -5,6 +5,20 @@
 		background-position: 0 0 !important;
 		background-size: contain !important;
 	}
+	.camp-detail, .event-detail {
+		.sign-up {
+			.form-row { 
+				input { width: 100% !important; }
+			}
+			.flex { 
+				flex-wrap: wrap !important; 
+				label { 
+					margin: 0 !important;
+					width: 100% !important; 
+				}
+			}
+		}
+	}
 }
 
 
@@ -102,7 +116,6 @@
 		.sign-up { order: 2 !important; width: 100% !important; margin-top: 30px !important; 
 			radiogroup input[type="radio"] + label { font-size: 15px !important; }
 			button[type="submit"] { width: 100% !important; }
-			.flex { flex-wrap: wrap !important; }
 		}
 
 		.details { 

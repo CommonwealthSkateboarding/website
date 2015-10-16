@@ -1,5 +1,5 @@
 $(document).ready(function(){
-		
+	
 	var caro = $("#carousel");
 	var header = $("header#main");
 	var mobileNav = $("header#main nav.mobile");
@@ -17,19 +17,6 @@ $(document).ready(function(){
 
 	// Apply .active to clicked nav item
 	$('header#main nav a[href$="/' + location.pathname.split("/")[1] + '"]').addClass('active');
-
-
-	// Smooth scroll + center to anchors
-	$('a[href^="#"]').on('click', function(event) {
-		var target = $(this.href);
-		if( target.length ) {
-			event.preventDefault();
-			$('html, body').animate({
-					scrollTop: target.offset().top
-			}, 1000);
-		}
-	});
-
 
 	// Slick.js Slider Settings
 	caro.slick({
@@ -87,16 +74,47 @@ $(document).ready(function(){
 	handleMQL(mqm);
 	mqm.addListener(handleMQL);
 
+	// Scroll to Anchor on Modal Close
+	function scrollToAnchor(id){
+		var aTag = $("a[id='"+ id +"']");
+		$('html,body').animate({scrollTop: aTag.offset().top - 400},'slow');
+	}
+
+	// Close Popup Modals
+	$('#close-modal').click(function(e) {
+		e.preventDefault();
+		$('.modal').fadeOut(100);
+		$('body').removeClass("modal-open");
+		scrollToAnchor('terms-link');
+	});
+
+	// ToS Agreement Triggers
+	var tos_checkbox = $('#agreement');
+	var tos_label = $('label.agreement');
+	var pay_btn = $('#pay');
+
+	$(tos_checkbox).change(function() {
+		if(this.checked) {
+			$(tos_label).addClass('checked');
+			$(pay_btn).prop('disabled', false);
+		} else {
+			$(tos_label).removeClass('checked');
+			$(pay_btn).prop('disabled', true);
+		}
+	});
+	
+	
+
 
 	// Instagram 
 	// $('#instagram').instagram({
- //    userId: 'commonwealthskate',
- //    location: {
- //   	id: 1578775
- //    },
- //    clientId: '35443b3e3ebd4d6a954ca1f10f4deba0',
- //    accessToken: ''
- //  });
+	// 	userId: 'commonwealthskate',
+	// 	location: {
+	// 	id: 1578775
+	// 	},
+	// 	clientId: '35443b3e3ebd4d6a954ca1f10f4deba0',
+	// 	accessToken: ''
+	// });
 
 		
 	// Clickable Table Rows

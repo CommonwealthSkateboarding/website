@@ -80,7 +80,24 @@ body.camp-detail {
 				&[id="p_name"], &[id="b_name"], &[id="email"] { width: 100%; }
 			}
 
-			.form-row { margin-bottom: $margin; }
+			.form-row { 
+				margin-bottom: $margin; 
+				&.flex.emergency { 
+					&:first-of-type { 
+						border-top: 1px solid $gold;
+						margin-top: $margin*3;
+					}
+					&:nth-of-type(2) { 
+						border-bottom: 1px solid $gold;
+						margin-bottom: $margin*3;
+					}
+					label { 
+						&:first-of-type { width: 70%; margin-right: $margin;  }
+						&:nth-of-type(2) { width: calc(30% - #{$margin}); min-width: 171px; }
+						input { width: 100%; }
+					}
+				}
+			}
 
 			radiogroup {
 				display: flex;
@@ -124,8 +141,78 @@ body.camp-detail {
 
 			footer { 
 				display: flex;
-				justify-content: flex-end;
-			}	
+				flex-wrap: wrap;
+				> * { 
+					display: flex;
+					justify-content: flex-end;
+					width: 100%; 
+				}
+				label.agreement {
+					align-items: center;
+					background: fade_out($gray, .9);
+					border-radius: 3px;
+					box-shadow: 0 0 60px 6px #000;
+					@include rem(font-size, 18px);
+					justify-content: flex-start;
+					margin-bottom: 15px;
+					padding: 24px 24px;
+					position: relative;
+					user-select: none;
+
+					input[type="checkbox"] {
+						-webkit-appearance: none;
+						background: none;
+						//border: 6px solid;
+						border-radius: 2px;
+						box-shadow: 0 0 0 3px $gold;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						margin-right: 18px;
+						position: relative;
+						transition: all .2s ease;
+						height: 18px;
+						width: 18px;
+						&:focus { outline: none; }
+						&::after { 
+							content: "\f00c";
+							color: transparent;
+							display: flex;
+							align-items: center;
+							justify-content: center;
+							font-family: "FontAwesome";
+							@include rem(font-size, 24px);
+							padding-top: 2px;
+							padding-left: 1px;
+						}
+					}
+
+					span { 
+						color: $gray;
+						padding-top: 1px;
+						user-select: none;
+					}
+
+					&.checked {
+						background: fade_out($gold, .6);
+
+						input[type="checkbox"] {
+							border-radius: 50%;
+							box-shadow: 0 0 0 3px $white;
+							transform: scale(1.5);
+							&:after { 
+								color: $white; 
+								transform: scale(.5);
+							}
+						}
+						span { color: $gold; }
+					}
+				}
+
+				button[id="pay"] {
+					&:disabled { background: $gray; }
+				}
+			}
 		}
 	}
 }
