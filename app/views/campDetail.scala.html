@@ -106,24 +106,24 @@
 					<div class="emergency form-row flex">
 						<label>
 							<span class="h6">Emergency Contact #1<span class="red">*</span></span>
-							<input id="emerg1-name" name="emergency-contact-1" type="text" placeholder="Emergency Contact Name" required>
+							<input id="emerg1-name" name="emergencyContactName" type="text" placeholder="Emergency Contact Name" @if(null!=info){value="@info.emergencyContactName"} required>
 						</label>
 
 						<label>
 							<span class="h6">#1's Phone<span class="red">*</span></span>
-							<input id="emerg1-tel" name="telephone" type="tel" placeholder="(555) 555-5555" @if(null!=info){value="@info.telephone"} required>
+							<input id="emerg1-tel" name="emergencyTelephone" type="tel" placeholder="(555) 555-5555" @if(null!=info){value="@info.emergencyTelephone"} required>
 						</label>
 					</div>
 
 					<div class="emergency form-row flex">
 						<label>
 							<span class="h6">Emergency Contact #2</span>
-							<input id="emerg2-name" name="emergency-contact-2" type="text" placeholder="Emergency Contact Name">
+							<input id="emerg2-name" name="alternateEmergencyContactName" type="text" placeholder="Emergency Contact Name" @if(null!=info){value="@info.alternateEmergencyContactName"}>
 						</label>
 
 						<label>
 							<span class="h6">#2's Phone</span>
-							<input id="emerg1-tel" name="telephone" type="tel" placeholder="(555) 555-5555" @if(null!=info){value="@info.telephone"}>
+							<input id="emerg2-tel" name="alternateEmergencyTelephone" type="tel" placeholder="(555) 555-5555" @if(null!=info){value="@info.alternateEmergencyTelephone"}>
 						</label>
 					</div>
 

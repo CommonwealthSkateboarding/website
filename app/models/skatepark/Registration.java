@@ -56,6 +56,11 @@ public class Registration extends Model {
 
     public String registrantEmail;
 
+    public String emergencyContactName;
+    public String emergencyTelephone;
+    public String alternateEmergencyContactName;
+    public String alternateEmergencyTelephone;
+
     @Column(columnDefinition = "text")
     public String notes;
 

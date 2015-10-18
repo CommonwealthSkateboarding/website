@@ -80,7 +80,17 @@
                             }</td>
                             <td><span class="label label-primary">@reg.paymentType</span></td>
                             <td>@utils.Formatter.prettyDollarsAndCents(reg.totalPaid)</td>
-                            <td>@Html(reg.notes)</td>
+                            <td>
+                                <p>Emergency Contacts:<br/>
+                                    @if(reg.emergencyTelephone) {
+                                        @reg.emergencyContactName: @reg.emergencyTelephone<br/>
+                                    }
+                                    @if(reg.alternateEmergencyTelephone) {
+                                        @reg.alternateEmergencyContactName: @reg.alternateEmergencyTelephone<br/>
+                                    }
+                                </p>
+                                @Html(reg.notes)
+                            </td>
                             <td><a href="@routes.Admin.editCampRegistrationPage(reg.id)" class="btn btn-primary btn-block btn-xs">Edit</a>
                                 @if(null != reg.registrantEmail & "" != reg.registrantEmail) {
                                     <a href="@routes.Admin.sendCampReminderEmail(reg.id)" class="btn btn-danger btn-block btn-xs"><i class="fa fa-envelope-o"></i> Reminder</a>

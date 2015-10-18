@@ -135,6 +135,10 @@ public class Application extends Controller {
             reg.totalPaid = (info.fullyPaid ? camp.cost : CAMP_DEPOSIT);
             reg.registrantEmail = info.email;
             reg.participantName = info.name;
+            reg.emergencyContactName = info.emergencyContactName;
+            reg.emergencyTelephone = info.emergencyTelephone;
+            reg.alternateEmergencyContactName = info.alternateEmergencyContactName;
+            reg.alternateEmergencyTelephone = info.alternateEmergencyTelephone;
             reg.paymentType = Registration.PaymentType.STRIPE;
             reg.timestamp = new Date();
             reg.notes = "Paid (" + utils.Formatter.prettyDollarsAndCents(reg.totalPaid) + ") on the web by " + info.billingName + "(" + (info.telephone.isEmpty() ? "" : "tel: " + info.telephone + ", ") + "email: " + info.email + ") and generated a stripe chargeId of: " + charge.getId();

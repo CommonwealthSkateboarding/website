@@ -662,6 +662,10 @@ public class Admin extends Controller {
         reg.notes = newReg.notes;
         reg.paid = newReg.paid;
         reg.participantName = newReg.participantName;
+        reg.emergencyContactName = newReg.emergencyContactName;
+        reg.emergencyTelephone = newReg.emergencyTelephone;
+        reg.alternateEmergencyContactName = newReg.alternateEmergencyContactName;
+        reg.alternateEmergencyTelephone = newReg.alternateEmergencyTelephone;
         reg.paymentType = newReg.paymentType;
         reg.registrantEmail = newReg.registrantEmail;
         reg.totalPaid = newReg.totalPaid;
