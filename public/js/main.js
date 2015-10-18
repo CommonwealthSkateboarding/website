@@ -88,23 +88,31 @@ $(document).ready(function(){
 		scrollToAnchor('terms-link');
 	});
 
-	// ToS Agreement Triggers
+	// Terms & Conditions Triggers
+
+	// TODO:
+	// If a member is logged in, the terms and conditions section should not show up at all (as this is assuming anyone with an account has already signed a waiver), and therefore the pay button should not be disabled by default
 	var tos_checkbox = $('#agreement');
 	var tos_label = $('label.agreement');
 	var pay_btn = $('#pay');
 
+	$(pay_btn).addClass('disabled');
+
 	$(tos_checkbox).change(function() {
 		if(this.checked) {
 			$(tos_label).addClass('checked');
-			$(pay_btn).prop('disabled', false);
+			$(pay_btn).removeClass('disabled');
 		} else {
 			$(tos_label).removeClass('checked');
-			$(pay_btn).prop('disabled', true);
+			$(pay_btn).addClass('disabled');
 		}
 	});
-	
-	
 
+	if( $(pay_btn.hasClass('disabled')) ) {
+		$(pay_btn).click(function() {
+			alert("Please agree to the terms and conditions.");
+		});
+	}
 
 	// Instagram 
 	// $('#instagram').instagram({

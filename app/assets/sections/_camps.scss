@@ -208,10 +208,6 @@ body.camp-detail {
 						span { color: $gold; }
 					}
 				}
-
-				button[id="pay"] {
-					&:disabled { background: $gray; }
-				}
 			}
 		}
 	}
