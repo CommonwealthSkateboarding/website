@@ -108,11 +108,12 @@ $(document).ready(function(){
 		}
 	});
 
-	if( $(pay_btn.hasClass('disabled')) ) {
-		$(pay_btn).click(function() {
+	$(pay_btn).click(function(e) {
+		if( $(this).hasClass('disabled') ) {
+			e.preventDefault();
 			alert("Please agree to the terms and conditions.");
-		});
-	}
+		}
+	});
 
 	// Instagram 
 	// $('#instagram').instagram({

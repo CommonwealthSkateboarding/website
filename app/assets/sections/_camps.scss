@@ -91,10 +91,10 @@ body.camp-detail {
 						border-bottom: 1px solid $gold;
 						margin-bottom: $margin*3;
 					}
-					label { 
+					> label {
 						&:first-of-type { width: 70%; margin-right: $margin;  }
 						&:nth-of-type(2) { width: calc(30% - #{$margin}); min-width: 171px; }
-						input { width: 100%; }
+						input { width: 100%; }	
 					}
 				}
 			}

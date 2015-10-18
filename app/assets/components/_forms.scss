@@ -35,6 +35,8 @@ form {
 		//&:invalid { border-color: $error; }
 	}
 
+	input[type="tel"] { width: 240px; }
+
 	[type="submit"] {
 		-webkit-appearance: none;
 		-moz-appearance: none;
@@ -70,7 +72,6 @@ form {
 		}
 	}
 
-
 	.payment-errors {
 		background: $error;
 		border-radius: 3px;
@@ -91,7 +92,19 @@ form {
 		padding: 6px 12px;
 		position: relative;
 		text-align: right;
-		width: 100%;
+		width: 240px;
 		z-index: 500;
+
+		label & {
+			input { border: $gold; }
+		}
+	}
+
+	.form-row {
+		&:not(.payment) {
+			display: flex;
+			flex-wrap: wrap;
+			*:not(input[type="tel"]) { width: 100%; }
+		}
 	}
 }
