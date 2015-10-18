@@ -92,7 +92,7 @@
                                 @Html(reg.notes)
                             </td>
                             <td><a href="@routes.Admin.editCampRegistrationPage(reg.id)" class="btn btn-primary btn-block btn-xs">Edit</a>
-                                @if(null != reg.registrantEmail & "" != reg.registrantEmail) {
+                                @if(reg.registrantEmail) {
                                     <a href="@routes.Admin.sendCampReminderEmail(reg.id)" class="btn btn-danger btn-block btn-xs"><i class="fa fa-envelope-o"></i> Reminder</a>
                                 }
                             </td>
