@@ -1,4 +1,13 @@
 form {
+
+	.form-row {
+		&:not(.payment) {
+			display: flex;
+			flex-wrap: wrap;
+			> label { width: 100%; }	
+		}
+	}
+
 	input[type="text"], input[type="email"], input[type="tel"], textarea { 
 		-webkit-appearance: none;
 		-moz-appearance: none;
@@ -35,7 +44,7 @@ form {
 		//&:invalid { border-color: $error; }
 	}
 
-	input[type="tel"] { width: 240px; }
+	input[type="tel"] { width: 210px; }
 
 	[type="submit"] {
 		-webkit-appearance: none;
@@ -97,14 +106,6 @@ form {
 
 		label & {
 			input { border: $gold; }
-		}
-	}
-
-	.form-row {
-		&:not(.payment) {
-			display: flex;
-			flex-wrap: wrap;
-			*:not(input[type="tel"]) { width: 100%; }
 		}
 	}
 }
