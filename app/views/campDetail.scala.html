@@ -146,7 +146,17 @@
 						</div>
 					</footer>
 		<script>
-			// Terms & Conditions Triggers
+
+			//																//
+			//	Terms & Conditions Triggers		//
+			//																//
+
+			// Instigate Modal
+			$('#terms-link').click(function(e) {
+				e.preventDefault();
+				$('.terms.modal').fadeIn(500).css('display', 'flex');
+				$('body').addClass('modal-open');
+			});
 
 			// TODO:
 			// If a member is logged in, the terms and conditions section should not show up at all (as this is assuming anyone with an account has already signed a waiver), and therefore the pay button should not be disabled by default
@@ -154,22 +164,23 @@
 			var tos_label = $('label.agreement');
 			var pay_btn = $('#pay');
 
-			$(pay_btn).prop("disabled",true);
+			$(pay_btn).addClass('disabled');
 
 			$(tos_checkbox).change(function() {
 				if(this.checked) {
 					$(tos_label).addClass('checked');
-					$(pay_btn).prop("disabled", false);
+					$(pay_btn).removeClass('disabled');
 				} else {
 					$(tos_label).removeClass('checked');
-					$(pay_btn).prop("disabled",true);
+					$(pay_btn).addClass('disabled');
 				}
 			});
-			
-			$('#terms-link').click(function(e) {
-				e.preventDefault();
-				$('.terms.modal').fadeIn(500).css('display', 'flex');
-				$('body').addClass('modal-open');
+
+			$(pay_btn).click(function(e) {
+				if( $(this).hasClass('disabled') ) {
+					e.preventDefault();
+					alert("Please agree to the terms and conditions.");
+				}
 			});
 
 			var handler = StripeCheckout.configure({
@@ -185,7 +196,26 @@
 			});
 
 			$('#pay').on('click', function(e) {
-				$('#payment-form').validate();
+				$('#payment-form').validate({
+					highlight: function(element) {
+						$(element).parent().addClass("error-wrapper");
+					},
+					unhighlight: function(element) {
+						$(element).parent().removeClass("error-wrapper");
+					},
+					invalidHandler: function(form, validator) {
+
+						if (!validator.numberOfInvalids())
+							return;
+
+						$('html, body').animate({
+							scrollTop: $(validator.errorList[0].element).offset().top - 45
+						}, 600, function() {
+							$(validator.errorList[0].element).focus();
+						});
+
+					}
+				});
 				if($('#payment-form').valid()) {
 					if($('#full-price').is(':checked')) {
 						handler.open({
@@ -229,7 +259,6 @@
 }
 
 <div class="terms modal full">
-
 	<div class="bg"></div>
 
 	<div id="close-modal">
@@ -239,5 +268,4 @@
 	<section id="terms" class="content">
 		@terms()
 	</section>
-
 </div>

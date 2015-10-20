@@ -92,9 +92,14 @@ body.camp-detail {
 						margin-bottom: $margin*3;
 					}
 					> label {
-						&:first-of-type { width: 70%; margin-right: $margin;  }
-						&:nth-of-type(2) { width: calc(30% - #{$margin}); min-width: 171px; }
-						input { width: 100%; }	
+						&:first-of-type { 
+							margin-right: $margin;  
+							width: calc(100% - 210px); 
+							input { width: 100%; }
+						}
+						&:nth-of-type(2) {
+							width: 210px; 
+						}	
 					}
 				}
 			}
@@ -154,8 +159,9 @@ body.camp-detail {
 					box-shadow: 0 0 60px 6px #000;
 					@include rem(font-size, 18px);
 					justify-content: flex-start;
+					line-height: 1;
 					margin-bottom: 15px;
-					padding: 24px 24px;
+					padding: 24px;
 					position: relative;
 					user-select: none;
 
@@ -168,7 +174,6 @@ body.camp-detail {
 						display: flex;
 						align-items: center;
 						justify-content: center;
-						margin-right: 18px;
 						position: relative;
 						transition: all .2s ease;
 						height: 18px;
@@ -189,6 +194,7 @@ body.camp-detail {
 
 					span { 
 						color: $gray;
+						margin-left: 21px;
 						padding-top: 1px;
 						user-select: none;
 					}
@@ -206,6 +212,22 @@ body.camp-detail {
 							}
 						}
 						span { color: $gold; }
+					}
+
+					@media screen and (max-width: 420px) {
+						@include rem(font-size, 15px);
+						padding: 15px 24px;
+						input[type="checkbox"] { 
+							min-height: 24px;
+							min-width: 24px; 
+							&::after {
+								padding-left: 0;
+							}
+						}
+						span {
+							margin-left: 27px;
+							a { display: inline-block; }
+						}
 					}
 				}
 			}
