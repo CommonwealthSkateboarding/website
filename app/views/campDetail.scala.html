@@ -66,6 +66,7 @@
 			} else {
 				@if(camp.registrations.size() < camp.maxRegistrations) {
 				<p class="h4">Camp Registration</p>
+				<p><span class="required">*</span> = Required field.</p>
 
 				@******************************************
 				* https://stripe.com/docs/tutorials/forms *
@@ -77,40 +78,40 @@
 
 					<div class="form-row">
 						<label>
-							<span class="h6">Participant Name<span class="red">*</span></span>
+							<span class="h6">Participant Name<span class="required">*</span></span>
 							<input id="p_name" name="name" type="text" placeholder="" @if(null!=info){value="@info.name"} required autofocus>
 						</label>
 					</div>
 					
 					<div class="form-row">
 						<label>
-							<span class="h6">Billing Name<span class="red">*</span></span>
+							<span class="h6">Billing Name<span class="required">*</span></span>
 							<input id="b_name" name="billingName" type="text" placeholder="" @if(null!=info){value="@info.billingName"} required>
 						</label>
 					</div>
 
 					<div class="form-row">
 						<label>
-							<span class="h6">Billing Email<span class="red">*</span></span>
+							<span class="h6">Billing Email<span class="required">*</span></span>
 							<input id="email" name="email" type="email" placeholder="name&#064;domain.com" @if(null!=info){value="@info.email"} required>
 						</label>
 					</div>
 
 					<div class="form-row">
 						<label>
-							<span class="h6">Billing Phone Number<span class="red">*</span></span>
+							<span class="h6">Billing Phone Number<span class="required">*</span></span>
 							<input id="tel" name="telephone" type="tel" placeholder="(555) 555-5555" @if(null!=info){value="@info.telephone"} required>
 						</label>
 					</div>
 
 					<div class="emergency form-row flex">
 						<label>
-							<span class="h6">Emergency Contact #1<span class="red">*</span></span>
+							<span class="h6">Emergency Contact #1<span class="required">*</span></span>
 							<input id="emerg1-name" name="emergencyContactName" type="text" placeholder="Emergency Contact Name" @if(null!=info){value="@info.emergencyContactName"} required>
 						</label>
 
 						<label>
-							<span class="h6">#1's Phone<span class="red">*</span></span>
+							<span class="h6">#1's Phone<span class="required">*</span></span>
 							<input id="emerg1-tel" name="emergencyTelephone" type="tel" placeholder="(555) 555-5555" @if(null!=info){value="@info.emergencyTelephone"} required>
 						</label>
 					</div>
@@ -139,7 +140,8 @@
 
 					<footer>
 						<label for="agreement" class="agreement">
-							<input type="checkbox" id="agreement"> <span>I agree to the <a href="#" id="terms-link">terms and conditions</a>.</span> 
+							<input type="checkbox" id="agreement"> 
+							<span>I agree to the <a href="#" id="terms-link">terms and conditions</a>.<span class="required">*</span></span> 
 						</label>
 						<div class="submit">
 							<button type="submit" id="pay">Sign Up</button>
@@ -164,22 +166,15 @@
 			var tos_label = $('label.agreement');
 			var pay_btn = $('#pay');
 
-			$(pay_btn).addClass('disabled');
+			$(pay_btn).addClass('disabled').prop("disabled", true);
 
 			$(tos_checkbox).change(function() {
 				if(this.checked) {
 					$(tos_label).addClass('checked');
-					$(pay_btn).removeClass('disabled');
+					$(pay_btn).removeClass('disabled').prop("disabled", false);
 				} else {
 					$(tos_label).removeClass('checked');
-					$(pay_btn).addClass('disabled');
-				}
-			});
-
-			$(pay_btn).click(function(e) {
-				if( $(this).hasClass('disabled') ) {
-					e.preventDefault();
-					alert("Please agree to the terms and conditions.");
+					$(pay_btn).addClass('disabled').prop("disabled", true);
 				}
 			});
 
@@ -216,6 +211,7 @@
 
 					}
 				});
+
 				if($('#payment-form').valid()) {
 					if($('#full-price').is(':checked')) {
 						handler.open({

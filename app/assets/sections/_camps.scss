@@ -147,11 +147,10 @@ body.camp-detail {
 			footer { 
 				display: flex;
 				flex-wrap: wrap;
-				> * { 
-					display: flex;
-					justify-content: flex-end;
-					width: 100%; 
-				}
+				justify-content: flex-end;
+
+				> * { display: flex; }
+
 				label.agreement {
 					align-items: center;
 					background: fade_out($gray, .9);
@@ -164,6 +163,7 @@ body.camp-detail {
 					padding: 24px;
 					position: relative;
 					user-select: none;
+					width: 100%;
 
 					input[type="checkbox"] {
 						-webkit-appearance: none;
@@ -187,12 +187,12 @@ body.camp-detail {
 							justify-content: center;
 							font-family: "FontAwesome";
 							@include rem(font-size, 24px);
-							padding-top: 2px;
+							padding-top: 1px;
 							padding-left: 1px;
 						}
 					}
 
-					span { 
+					span:not(.required) { 
 						color: $gray;
 						margin-left: 21px;
 						padding-top: 1px;
@@ -229,6 +229,12 @@ body.camp-detail {
 							a { display: inline-block; }
 						}
 					}
+				}
+
+				.submit {
+					justify-content: flex-end;
+					margin-top: 36px;
+					width: 100%;
 				}
 			}
 		}
