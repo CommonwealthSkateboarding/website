@@ -19,6 +19,7 @@ import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Security;
+import utils.PdfUtil;
 import utils.TimeUtil;
 import views.html.admin.camp.*;
 import views.html.admin.closure.closureIndex;
@@ -33,7 +34,6 @@ import views.html.admin.news.newsIndex;
 import views.html.admin.register.unheardSaleIndex;
 import views.html.admin.register.bitcoinSale;
 import views.html.admin.userIndex;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -543,6 +543,15 @@ public class Admin extends Controller {
             return redirect(routes.Admin.campIndex()); // not found
         }
         return ok(viewCamp.render(camp, getLocalUser(session())));
+    }
+
+    @Restrict({@Group("CAMP")})
+    public static Result viewCampPDF(String id) {
+        Camp camp = (Camp) new Model.Finder(String.class, Camp.class).byId(id);
+        if (null == camp) {
+            return redirect(routes.Admin.campIndex()); // not found
+        }
+        return ok(PdfUtil.getCampPDF(camp).toByteArray()).as("application/pdf");
     }
 
     @Restrict({@Group("CAMP")})
