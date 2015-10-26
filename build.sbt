@@ -1,6 +1,7 @@
 name := """cw"""
 
 resolvers += Resolver.url("Objectify Play Repository", url("http://deadbolt.ws/releases/"))(Resolver.ivyStylePatterns)
+resolvers += "jitpack" at "https://jitpack.io"
 
 organization := "com.commonwealthskateboarding"
 
@@ -21,6 +22,8 @@ libraryDependencies += "com.feth" %% "play-authenticate" % "0.6.8"
 libraryDependencies += "be.objectify" %% "deadbolt-java" % "2.3.1"
 
 libraryDependencies += "com.stripe" % "stripe-java" % "1.24.1"
+
+libraryDependencies += "com.github.dhorions" % "boxable" % "1.2"
 
 JsEngineKeys.engineType := JsEngineKeys.EngineType.Node
 

@@ -67,6 +67,13 @@ h5, .h5, h6, .h6 { color: $white;  }
 
 .notice { color: $gold; }
 
+.required { 
+		color: mix($gold, $error);
+		vertical-align: -6px;
+		margin-left: 6px;
+		@include rem(font-size, 21px);
+	}
+
 .highlight { 
 	margin: 18px 0 18px 15px;
 	text-indent: -9px;

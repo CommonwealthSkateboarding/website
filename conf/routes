@@ -70,6 +70,7 @@ GET     /admin/users/setUserRole                controllers.Admin.setUserRole(us
 GET     /admin/camps                            controllers.Admin.campIndex()
 GET     /admin/camps/new                        controllers.Admin.addCampPage()
 GET     /admin/camps/:id                        controllers.Admin.viewCampPage(id: String)
+GET     /admin/camps/:id/pdf                    controllers.Admin.viewCampPDF(id: String)
 GET     /admin/camps/:id/edit                   controllers.Admin.editCampPage(id: String)
 POST    /admin/camps/new                        controllers.Admin.addCamp()
 POST    /admin/camps/:id/edit                   controllers.Admin.updateCamp(id: String)
