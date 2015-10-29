@@ -20,7 +20,7 @@ Dependencies
 Preparation
 -------
 
-* gem install sass
+* sudo gem install sass (requires sudo to add to path)
 * brew install mysql
 * brew services start mysql (if not installed, install with 'brew tap homebrew/services')
 * mysql -uroot
