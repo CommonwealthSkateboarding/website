@@ -10,6 +10,7 @@ Happily accepting bug reports.
 Dependencies
 -------
 
+* homebrew
 * mysql
 * typesafe-activator
 * sass
@@ -20,7 +21,7 @@ Preparation
 
 * gem install sass
 * brew install mysql
-* brew services start mysql
+* brew services start mysql (if not installed, install with 'brew tap homebrew/services')
 * mysql -uroot
  	* CREATE DATABASE cw;
 	* GRANT ALL PRIVILEGES ON cw.* TO cw@localhost IDENTIFIED BY ‘sterlingarcher';
