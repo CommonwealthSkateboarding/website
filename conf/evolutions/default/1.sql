@@ -9,7 +9,7 @@ create table linked_account (
 ;
 
 create table news_item (
-  id                        bigint auto_increment not null,
+  id                        varchar(64) not null,
   expires                   tinyint(1) default 0,
   expire_date               datetime,
   create_date               datetime,
@@ -22,9 +22,9 @@ create table news_item (
 
 INSERT INTO `news_item` (`id`, `expires`, `expire_date`, `create_date`, `title`, `content`, `extended_content`, `sticky`)
 VALUES
-	(1, 0, NULL, '2014-11-18 05:00:25', 'Sticky News', 'Sticky<br><br><img src="http://i.imgur.com/iMCMwXH.gif">', '', 1),
-    (11, 0, NULL, '2014-11-18 05:00:40', 'Not sticky 2nd post', '2nd', 'Extended 2nd', 0),
-	(21, 1, '2014-11-17 00:00:00', '2014-11-18 05:00:55', 'Expires in the past', 'expired', '', 0);
+	('test1', 0, NULL, '2014-11-18 05:00:25', 'Sticky News', 'Sticky<br><br><img src="http://i.imgur.com/iMCMwXH.gif">', '', 1),
+    ('test2', 0, NULL, '2014-11-18 05:00:40', 'Not sticky 2nd post', '2nd', 'Extended 2nd', 0),
+	('test3', 1, '2014-11-17 00:00:00', '2014-11-18 05:00:55', 'Expires in the past', 'expired', '', 0);
 
 create table security_role (
   id                        bigint auto_increment not null,
