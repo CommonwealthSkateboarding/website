@@ -13,15 +13,6 @@ create table bitcoin_sale (
 
 SET FOREIGN_KEY_CHECKS=0;
 
-alter table news_item modify id bigint auto_increment not null;
-alter table audit_record modify news_item_id bigint;
-alter table event modify id bigint auto_increment not null;
-alter table audit_record modify event_id bigint;
-alter table registration modify event_id bigint;
-alter table camp modify id bigint auto_increment not null;
-alter table audit_record modify camp_id bigint;
-alter table registration modify camp_id bigint;
-
 drop table bitcoin_sale;
 
 SET FOREIGN_KEY_CHECKS=1;
