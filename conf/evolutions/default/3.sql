@@ -11,6 +11,7 @@ create table camp (
   description               text NOT NULL,
   cost                      decimal(13,2) NOT NULL,
   schedule_description      varchar(255) NOT NULL,
+  instructors               varchar(255) NOT NULL,
   archived                  tinyint(1) NOT NULL DEFAULT 0,
   constraint pk_camp primary key (id))
 ;
