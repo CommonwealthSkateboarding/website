@@ -152,3 +152,10 @@ h5, .h5, h6, .h6 { color: $white;  }
 // 	&:before { @include rem(right, 9px) }
 // 	&:after { @include rem(left, 9px) }
 // }
+
+
+// Firefox just ruinin' things.
+@-moz-document url-prefix() { 
+  * { font-smoothing: antialiased; }
+  p { font-weight: 400; }
+}

@@ -1,7 +1,11 @@
 // Blog on Homepage
 body.home [id="blog"] { 
 	margin: 0 0 0 36px; 
-	article { margin-bottom: $margin*2; }
+	article { 
+		margin-bottom: $margin*2; 
+		width: 100%;
+		footer { @include bottomBorder(); }
+	}
 }
 
 // Blog Not Homepage
@@ -11,7 +15,6 @@ body:not(.home) {
 			margin-left: -12px; 
 			width: 45%;
 			main, main p { line-height: 1.8; }
-			footer { @include bottomBorder(); }
 		}
 	}
 }
@@ -26,10 +29,7 @@ body.blog { background-image: image-url("about/2014__park-exterior-header--001.j
 	// flex-wrap: wrap;
 	width: 100%;
 
-	article { 
-		&.post-preview { 
-			width: 100%; 
-		}
+	article {
 
 		// &+& == all but the first
 		& + & { margin-top: $margin; }
@@ -39,8 +39,13 @@ body.blog { background-image: image-url("about/2014__park-exterior-header--001.j
 
 			.h5 { 
 				@include rem(font-size, 60px);
+				hyphens: auto;
+				//word-break: break-all;
+				// This one forces the word onto its own line
+				// and then breaks it when it is too long for that line
+				overflow-wrap: break-word;
 				line-height: .9;
-				padding-right: 45%;
+				padding-right: 15%;
 				a.more { 
 					box-shadow: none; 
 					font-weight: 600;
