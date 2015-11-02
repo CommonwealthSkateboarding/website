@@ -1,9 +1,14 @@
 body.contact {
 	background-image: image-url("about/2014__park-exterior-header--001.jpg");
 	[id="contact"] {
-		.h5 { margin-bottom: 6px; }
+		.h5 { 
+			color: $gold;
+			@include rem(font-size, 18px);
+			margin-bottom: 0; 
+		}
 		.grid {
 			p:not(.h5) { 
+				color: $white;
 				@include rem(font-size, 30px);
 				font-weight: 300;
 				margin: 0 0 $margin; 
@@ -12,13 +17,23 @@ body.contact {
 				width: 60%; 
 				[id="map"] { 
 					height: 400px;
-					margin-top: $margin; 
 				}
 			}
 			.contact { 
+				display: flex;
+				align-items: center;
+				flex-wrap: wrap;
 				padding-left: $margin; 
 				width: 40%; 
-				a { @include rem(font-size, 15px); }
+				> div { width: 100%; }
+				a { @include rem(font-size, 21px); }
+				ul {
+					margin-top: 6px;
+					li {
+						list-style: circle;
+						margin-left: $margin;
+					}
+				}
 			}
 		}
 	}

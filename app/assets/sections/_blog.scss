@@ -2,9 +2,15 @@
 body.home [id="blog"] { 
 	margin: 0 0 0 36px; 
 	article { 
-		margin-bottom: $margin*2; 
-		width: 100%;
-		footer { @include bottomBorder(); }
+		width: 100%; 
+
+		// &+& == all but the first
+		& + & { margin-top: $margin; }
+
+		.h5 { 
+			@include rem(font-size, 51px); 
+			line-height: 1.1;
+		}
 	}
 }
 
@@ -12,9 +18,7 @@ body.home [id="blog"] {
 body:not(.home) {
 	[id="blog"], [id="blog-entry"] {
 		article { 
-			margin-left: -12px; 
-			width: 45%;
-			main, main p { line-height: 1.8; }
+			header, main { padding: 0; }
 		}
 	}
 }
@@ -22,17 +26,12 @@ body:not(.home) {
 // Shared Blog Styles
 body.blog { background-image: image-url("about/2014__park-exterior-header--001.jpg"); }
 
-[id="blog"] { margin: 0 $margin*2; }
-
 [id="blog"], [id="blog-entry"] {
-	// display: flex;
-	// flex-wrap: wrap;
+	margin: 0 $margin*2;
 	width: 100%;
 
 	article {
-
-		// &+& == all but the first
-		& + & { margin-top: $margin; }
+		margin: $margin 0 $margin*2; 
 
 		header {
 			padding: 0 $margin/2;
@@ -40,12 +39,19 @@ body.blog { background-image: image-url("about/2014__park-exterior-header--001.j
 			.h5 { 
 				@include rem(font-size, 60px);
 				hyphens: auto;
+
+				// Does what it says on the tin
 				//word-break: break-all;
+
 				// This one forces the word onto its own line
 				// and then breaks it when it is too long for that line
 				overflow-wrap: break-word;
+
 				line-height: .9;
-				padding-right: 15%;
+				margin-top: 6px;
+				margin-bottom: 30px;
+				padding-right: 12%;
+
 				a.more { 
 					box-shadow: none; 
 					font-weight: 600;
@@ -59,15 +65,15 @@ body.blog { background-image: image-url("about/2014__park-exterior-header--001.j
 				display: flex;
 				align-content: center;
 				font-feature-settings: normal;
-				@include rem(font-size, 1rem);
+				@include rem(font-size, .9rem);
 				@include rem(letter-spacing, .003rem);
-				margin: 9px 0 0 0;
+				margin: 0;
 				text-transform: uppercase;
 
 				.date { 
 					color: $gold;
 					font-weight: 700; 
-					margin-right: $margin/2;
+					margin-right: $margin/3;
 				}
 
 				.tags {
@@ -109,8 +115,9 @@ body.blog { background-image: image-url("about/2014__park-exterior-header--001.j
 		}
 
 		footer {
-			//@include bottomBorder();
+			border-bottom: 6px solid fade_out($gold, .75); 
 			display: flex;
+			padding-top: $margin;
 
 			> * { width: calc(100%/2); }
 
@@ -127,6 +134,7 @@ body.blog { background-image: image-url("about/2014__park-exterior-header--001.j
 	}
 }
 
+// Just Individual Posts
 [id="blog-entry"] {
 	article {
 		header { 
@@ -140,6 +148,7 @@ body.blog { background-image: image-url("about/2014__park-exterior-header--001.j
 		}
 
 		footer {
+			border: none;
 			.backtrack p { 
 				@include rem(font-size, 10.5px);
 				@include rem(letter-spacing, .5px);
