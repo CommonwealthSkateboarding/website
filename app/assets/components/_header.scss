@@ -38,8 +38,8 @@ header[id="main"] {
 				width: 100%;
 
 				// Colors
-				&.front { background: linear-gradient(to bottom right, $black, lighten($gold, 10), $gold); background-size: 1000%; }
-				&.bottom { background: linear-gradient(to bottom right, lighten($gold, 10), $gold); }
+				&.front { background: linear-gradient(120deg, $black, lighten($gold, 10), $gold); background-size: 900%; }
+				&.bottom { background: linear-gradient(120deg, lighten($gold, 10), $gold); }
 
 				// Positioning
 				&.front { transform: rotateX(0deg) translateZ(50px); z-index: 9002; }

@@ -3,20 +3,17 @@
 @main("blog", false, "News & Blog | Commonwealth Skateboarding | Portland, Oregon") {
 
 <section id="blog">
-    <p class="h1">News &amp; Things</p>
-    <h2>Blog</h2>
+    <!-- <p class="h1">News &amp; Things</p>
+    <h2>Blog</h2> -->
     @for(blog <- blogs) {
         <article>
             <header>
-                <p class="h5"><a href="@routes.Application.showNews(blog.id)" class="more">@blog.title</a></p>
                 <div class="meta">
                     <div class="date">
                         <time>@blog.createDate.format("MMMM dd, yyyy")</time>
                     </div>
-                    <!-- <div class="tags">
-                        <a href="#">News</a>
-                    </div> -->
                 </div>
+                <p class="h5"><a href="@routes.Application.showNews(blog.id)" class="more">@blog.title</a></p>
             </header>
             <main>
                 @Html(blog.content)
