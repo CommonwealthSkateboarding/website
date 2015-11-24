@@ -8,10 +8,10 @@
         <div class="form-panel">
             <h4 class="mb"><i class="fa fa-angle-right"></i> Add New Event</h4>
             <form action="@routes.Admin.addEvent()" method="post" class="form-horizontal style-form" id="addEventForm">
-                <label>Event Name:</label><br/><input type="text" name="name" class="form-control" /><br/>
-                <label>Date:</label><br/><input type="text" id="date" class="form-control" data-date-format="yyyy-mm-dd" /><br/>
-                <label>Start Time:</label><br/><input type="text" id="start" class="form-control" /><br/>
-                <label>End Time:</label><br/><input type="text" id="end" class="form-control" /><br/>
+                <label>Event Name:</label><br/><input type="text" name="name" class="form-control" required /><br/>
+                <label>Date:</label><br/><input type="text" id="date" class="form-control" data-date-format="yyyy-mm-dd" required /><br/>
+                <label>Start Time:</label><br/><input type="text" id="start" class="form-control" required /><br/>
+                <label>End Time:</label><br/><input type="text" id="end" class="form-control" required /><br/>
                 </p>
 
                 <!-- Hidden form elements for model binding -->
@@ -21,9 +21,9 @@
                 <label>Public Visibility:</label><br/><input type="checkbox" name="publicVisibility" class="form-control" /><br/>
                 <label>Reserve Entire Park:</label><br/><input type="checkbox" name="reservePark" class="form-control" /><br/>
                 <label>Registrable:</label><br/><input type="checkbox" name="registrable" class="form-control" /><br/>
-                <label>Registration End Date:</label><br/><input name="registrationEndDate" id="datepicker3" class="form-control" /><br/>
-                <label>Maximum Registrations:</label><br/><input type="text" name="maxRegistrations" class="form-control" /><br/>
-                <label>Cost:</label><br/>$<input type="text" name="cost" class="form-control" /><br/>
+                <label>Registration End Date:</label><br/><input name="registrationEndDate" id="datepicker3" class="form-control" required /><br/>
+                <label>Maximum Registrations:</label><br/><input type="text" name="maxRegistrations" class="form-control" required /><br/>
+                <label>Cost:</label><br/>$<input type="text" name="cost" class="form-control" required /><br/>
                 <label>Public Notes:</label><br/><textarea name="notes" id="notes"></textarea><br/>
                 <label>Private Notes:</label><br/><textarea name="privateNotes" id="privateNotes"></textarea><br/>
                 <input type="submit" id="submit" value="Add Event" class="btn btn-theme btn-block"/>
