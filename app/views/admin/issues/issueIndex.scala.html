@@ -7,7 +7,7 @@
         <div class="showback">
             <h4 class="mb"><i class="fa fa-angle-right"></i> Add New Issue</h4>
             <form action="@routes.Admin.addIssue()" method="post" class="form-horizontal style-form">
-                <label>Issue Title:</label><br/><input type="text" name="title" class="form-control" /><br/>
+                <label>Issue Title:</label><br/><input type="text" name="title" class="form-control" required /><br/>
                 <label>Description of issue:</label><br/><textarea name="description" id="description"></textarea><br/>
                 <input type="submit" id="submit" value="Add Issue" class="btn btn-theme btn-block"/>
             </form>
