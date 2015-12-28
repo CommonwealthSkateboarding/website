@@ -17,6 +17,7 @@ import java.awt.*;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by cdelargy on 11/29/14.
@@ -100,6 +101,11 @@ public class PdfUtil {
                     cell.setFillColor(Color.yellow);
                 }
             }
+            //Timestamp
+            SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss a");
+            Row daterow = table.createRow(20f);
+            cell = daterow.createCell(100, "Generated on " + dateFormat.format(new Date()));
+            cell.setFillColor(Color.LIGHT_GRAY);
             table.draw();
             doc.save(output);
             doc.close();
