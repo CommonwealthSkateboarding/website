@@ -1,0 +1,13 @@
+mysqldb:
+  image: mysql:latest
+  environment:
+    MYSQL_DATABASE: cw
+    MYSQL_USER: cw
+    MYSQL_PASSWORD: sterlingarcher
+    MYSQL_ROOT_PASSWORD: sterlingarcher
+web2:
+  build: .
+  links:
+    - mysqldb:db
+  ports:
+    - 8888:8888
