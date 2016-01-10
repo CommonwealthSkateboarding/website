@@ -70,7 +70,7 @@ public class Square extends Controller {
                 ObjectMapper mapper = new ObjectMapper();
                 payment = mapper.readValue(response.getBody(), Payment.class);
             } catch (IOException e) {
-                Logger.error("Bad conversion of square payment (perhaps token not configured?)", e);
+                Logger.error("Bad conversion of square payment id: " + paymentId, e);
             }
         }
         return payment;

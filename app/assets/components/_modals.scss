@@ -1,0 +1,48 @@
+body.modal-open { overflow: hidden; }
+
+.modal {
+	background: fade_out($black, .03);
+	display: none;
+	position: fixed;
+	z-index: 99999;
+
+	&.full { 
+		top: 0;
+		align-items: center;
+		height: 100%;
+		width: 100%;
+	}
+
+	.bg { 
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		z-index: 99800;
+	}
+
+	.content { 
+		overflow-y: scroll; 
+		position: relative;
+		z-index: 999999;
+	}
+
+	[id="close-modal"] {
+		background: fade_out($gold, .3);
+		color: $white;
+		cursor: pointer;
+		@include rem(font-size, 30px);
+		padding: 3%;
+		user-select: none;
+		position: absolute;
+		top: 0;
+		right: 15px;
+		z-index: 99999999;
+		&:hover { color: $gold; }
+	}
+
+	@media screen and (max-width: 480) {
+		//[id="close-modal"] { padding: 15px; }
+	}
+}

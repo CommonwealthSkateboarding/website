@@ -67,6 +67,13 @@ h5, .h5, h6, .h6 { color: $white;  }
 
 .notice { color: $gold; }
 
+.required { 
+		color: mix($gold, $error);
+		vertical-align: -6px;
+		margin-left: 6px;
+		@include rem(font-size, 21px);
+	}
+
 .highlight { 
 	margin: 18px 0 18px 15px;
 	text-indent: -9px;
@@ -145,3 +152,10 @@ h5, .h5, h6, .h6 { color: $white;  }
 // 	&:before { @include rem(right, 9px) }
 // 	&:after { @include rem(left, 9px) }
 // }
+
+
+// Firefox just ruinin' things.
+@-moz-document url-prefix() { 
+  * { font-smoothing: antialiased; }
+  p { font-weight: 400; }
+}

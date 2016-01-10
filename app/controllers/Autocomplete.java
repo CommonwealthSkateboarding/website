@@ -19,9 +19,13 @@ import java.util.List;
 @Security.Authenticated(Secured.class)
 public class Autocomplete extends Controller {
 
+    private static final int MINIMUM_AUTOCOMPLETE_SEARCH_LENGTH = 3;
+
     public static Result searchMembersByName(String partial) {
-        List<Membership> results = Membership.find.where().like("name", "%" + partial + "%")
-                .orderBy(Admin.RECENT_VISIT_ORDER).setMaxRows(10).findList();
+        List<Membership> results = (partial.length() < MINIMUM_AUTOCOMPLETE_SEARCH_LENGTH) ?
+                null :
+                Membership.find.where().like("name", "%" + partial + "%").orderBy(Admin.RECENT_VISIT_ORDER)
+                        .setMaxRows(100).findList();
         return ok(Json.toJson(results));
     }
 }

@@ -52,7 +52,7 @@ create table audit_record (
   id                        bigint auto_increment not null,
   user_id                   bigint,
   membership_id             bigint,
-  news_item_id              bigint,
+  news_item_id              varchar(64),
   unlimited_pass_id         bigint,
   visit_id                  bigint,
   timestamp                 datetime,

@@ -19,6 +19,7 @@ import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Security;
+import utils.PdfUtil;
 import utils.TimeUtil;
 import views.html.admin.camp.*;
 import views.html.admin.closure.closureIndex;
@@ -36,7 +37,6 @@ import views.html.admin.register.unheardSaleIndex;
 import views.html.admin.register.bitcoinSale;
 import views.html.admin.users.userIndex;
 import views.html.admin.users.userDetail;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -565,6 +565,15 @@ public class Admin extends Controller {
     }
 
     @Restrict({@Group("CAMP")})
+    public static Result viewCampPDF(String id) {
+        Camp camp = (Camp) new Model.Finder(String.class, Camp.class).byId(id);
+        if (null == camp) {
+            return redirect(routes.Admin.campIndex()); // not found
+        }
+        return ok(PdfUtil.getCampPDF(camp).toByteArray()).as("application/pdf");
+    }
+
+    @Restrict({@Group("CAMP")})
     public static Result addCampPage() {
         return ok(addCamp.render(getLocalUser(session())));
     }
@@ -681,6 +690,10 @@ public class Admin extends Controller {
         reg.notes = newReg.notes;
         reg.paid = newReg.paid;
         reg.participantName = newReg.participantName;
+        reg.emergencyContactName = newReg.emergencyContactName;
+        reg.emergencyTelephone = newReg.emergencyTelephone;
+        reg.alternateEmergencyContactName = newReg.alternateEmergencyContactName;
+        reg.alternateEmergencyTelephone = newReg.alternateEmergencyTelephone;
         reg.paymentType = newReg.paymentType;
         reg.registrantEmail = newReg.registrantEmail;
         reg.totalPaid = newReg.totalPaid;

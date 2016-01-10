@@ -1,7 +1,9 @@
 @(camp: models.skatepark.Camp, info: models.skatepark.RegistrationInfo)
 
 @main("camp-detail", false, camp.title + " | Commonwealth Skateboarding | Portland, Oregon") {
+
 <section id="camp-detail">
+
 	<p class="h1">&lt;&nbsp; <a href="@routes.Application.camp()">Back to all camps</a></p>
 	<p class="h2">@camp.title</p>
 
@@ -27,7 +29,7 @@
 				<li class="cost">
 					<p class="h6">Cost</p>
 					<p>@utils.Formatter.prettyDollars(camp.cost)</p>
-                    <p><img src="@routes.Assets.at("img/credit-cards.png")" alt="Payment Methods"></p>
+										<p><img src="@routes.Assets.at("img/credit-cards.png")" alt="Payment Methods"></p>
 				</li>
 				<li class="schedule">
 					<p class="h6">Schedule</p>
@@ -39,7 +41,7 @@
 						<a href="#">@camp.instructors</a>
 					</p>
 				</li>
-				<li class="description">
+				<!-- <li class="description">
 					<p class="h6">Summer Camps</p>
 					<p>Our summer skateboard camps are the one of the funnest and fastest ways to get better at skateboarding and experience all of the best outdoor skate parks in the greater Portland area. Each day we warm up at Commonwealth for an hour before loading up in our camp van and heading out to 2 or 3 different skateparks each day.</p>
 
@@ -47,23 +49,24 @@
 					<p>Children between ages 6-14.</p>
 					<p>All abilities welcome!</p>
 					<p class="notice"><strong>A $100 non-refundable deposit is required for each participant.</strong></p>
-				</li>
+				</li> -->
 			</ul>
 		</div>
 
 		<div class="sign-up">
-      @if(null!=info) {
-          <p class="h4">Sorry, but there was a problem with your card</p>
-          <p>Your payment could not be processed. Try again or use another card, and if this problem persists, please <a href="/contact">contact us</a>.</p>
-      }
+			@if(null!=info) {
+					<p class="h4">Sorry, but there was a problem with your card</p>
+					<p>Your payment could not be processed. Try again or use another card, and if this problem persists, please <a href="/contact">contact us</a>.</p>
+			}
 			<p>@Html(camp.description)</p>
 
 			@if(camp.isPastRegistrationEndDate()) {
 				<p class="h4">Camp Registration</p>
 				<p>Sorry, but the date for registration has passed.</p>
 			} else {
-			  @if(camp.registrations.size() < camp.maxRegistrations) {
+				@if(camp.registrations.size() < camp.maxRegistrations) {
 				<p class="h4">Camp Registration</p>
+				<p><span class="required">*</span> = Required field.</p>
 
 				@******************************************
 				* https://stripe.com/docs/tutorials/forms *
@@ -71,60 +74,59 @@
 
 				<form action="@routes.Application.registerForCampWithStripe(camp.id)" method="POST" id="payment-form">
 
-        			<script src="https://checkout.stripe.com/checkout.js"></script>
+							<script src="https://checkout.stripe.com/checkout.js"></script>
 
 					<div class="form-row">
 						<label>
-							<span class="h6">Participant Name</span>
+							<span class="h6">Participant Name<span class="required">*</span></span>
 							<input id="p_name" name="name" type="text" placeholder="" @if(null!=info){value="@info.name"} required autofocus>
 						</label>
 					</div>
 					
 					<div class="form-row">
 						<label>
-							<span class="h6">Billing Name</span>
+							<span class="h6">Billing Name<span class="required">*</span></span>
 							<input id="b_name" name="billingName" type="text" placeholder="" @if(null!=info){value="@info.billingName"} required>
 						</label>
 					</div>
 
 					<div class="form-row">
 						<label>
-							<span class="h6">Billing Email</span>
+							<span class="h6">Billing Email<span class="required">*</span></span>
 							<input id="email" name="email" type="email" placeholder="name&#064;domain.com" @if(null!=info){value="@info.email"} required>
 						</label>
 					</div>
 
 					<div class="form-row">
 						<label>
-							<span class="h6">Phone Number</span>
-							<input id="tel" name="telephone" type="tel" placeholder="(555) 555-5555" @if(null!=info){value="@info.telephone"}>
+							<span class="h6">Billing Phone Number<span class="required">*</span></span>
+							<input id="tel" name="telephone" type="tel" placeholder="(555) 555-5555" @if(null!=info){value="@info.telephone"} required>
 						</label>
 					</div>
 
-					<!--
-
-					<div class="form-row flex">
-						<label class="card">
-							<span class="h6">Card Number</span>
-							<input id="card" type="text" pattern="[0-9]{13,16}" size="20" data-stripe="number" placeholder="#" required>
+					<div class="emergency form-row flex">
+						<label>
+							<span class="h6">Emergency Contact #1<span class="required">*</span></span>
+							<input id="emerg1-name" name="emergencyContactName" type="text" placeholder="Emergency Contact Name" @if(null!=info){value="@info.emergencyContactName"} required>
 						</label>
 
-						<label class="cvc">
-							<span class="h6">CVC</span>
-							<input id="cvc" type="text" size="4" data-stripe="cvc" placeholder="#" required>
-						</label>
-
-						<label class="expiration-month">
-							<span class="h6">Expiration (MM/YYYY)</span>
-							<input id="exp-month" type="text" size="2" data-stripe="exp-month" placeholder="MM" required>
-							<span> / </span>
-						</label>
-						<label class="expiration-year">
-							<input id="exp-year" type="text" pattern="[0-9]{4}" size="4" data-stripe="exp-year" placeholder="YYYY" required>
+						<label>
+							<span class="h6">#1's Phone<span class="required">*</span></span>
+							<input id="emerg1-tel" name="emergencyTelephone" type="tel" placeholder="(555) 555-5555" @if(null!=info){value="@info.emergencyTelephone"} required>
 						</label>
 					</div>
 
-					-->
+					<div class="emergency form-row flex">
+						<label>
+							<span class="h6">Emergency Contact #2</span>
+							<input id="emerg2-name" name="alternateEmergencyContactName" type="text" placeholder="Emergency Contact Name" @if(null!=info){value="@info.alternateEmergencyContactName"}>
+						</label>
+
+						<label>
+							<span class="h6">#2's Phone</span>
+							<input id="emerg2-tel" name="alternateEmergencyTelephone" type="tel" placeholder="(555) 555-5555" @if(null!=info){value="@info.alternateEmergencyTelephone"}>
+						</label>
+					</div>
 
 					<div class="form-row payment">
 						<p class="h6">Choose Payment Amount</p>
@@ -137,61 +139,129 @@
 					</div>
 
 					<footer>
-						<button type="submit" id="pay">Sign Up</button>
+						<label for="agreement" class="agreement">
+							<input type="checkbox" id="agreement"> 
+							<span>I agree to the <a href="#" id="terms-link">terms and conditions</a>.<span class="required">*</span></span> 
+						</label>
+						<div class="submit">
+							<button type="submit" id="pay">Sign Up</button>
+						</div>
 					</footer>
 		<script>
-            var handler = StripeCheckout.configure({
-              key: '@controllers.Stripe.STRIPE_PUBLIC_KEY',
-              image: 'https://s3.amazonaws.com/stripe-uploads/acct_154QX0FIzru1QGQUmerchant-icon-1421729277975-cw--logo--lettermark-black.png',
-              token: function(token) {
-                  var $form = $('#payment-form');
-                  // Insert the token into the form so it gets submitted to the server
-                  $form.append($('<input type="hidden" name="stripeToken" />').val(token.id));
-                  // and submit
-                  $form.get(0).submit();
-              }
-            });
 
-            $('#pay').on('click', function(e) {
-              $('#payment-form').validate();
-              if($('#payment-form').valid()) {
-				  if($('#full-price').is(':checked')) {
-					  handler.open({
+			//																//
+			//	Terms & Conditions Triggers		//
+			//																//
+
+			// Instigate Modal
+			$('#terms-link').click(function(e) {
+				e.preventDefault();
+				$('.terms.modal').fadeIn(500).css('display', 'flex');
+				$('body').addClass('modal-open');
+			});
+
+			// TODO:
+			// If a member is logged in, the terms and conditions section should not show up at all (as this is assuming anyone with an account has already signed a waiver), and therefore the pay button should not be disabled by default
+			var tos_checkbox = $('#agreement');
+			var tos_label = $('label.agreement');
+			var pay_btn = $('#pay');
+
+			$(pay_btn).addClass('disabled').prop("disabled", true);
+
+			$(tos_checkbox).change(function() {
+				if(this.checked) {
+					$(tos_label).addClass('checked');
+					$(pay_btn).removeClass('disabled').prop("disabled", false);
+				} else {
+					$(tos_label).removeClass('checked');
+					$(pay_btn).addClass('disabled').prop("disabled", true);
+				}
+			});
+
+			var handler = StripeCheckout.configure({
+				key: '@controllers.Stripe.STRIPE_PUBLIC_KEY',
+				image: 'https://s3.amazonaws.com/stripe-uploads/acct_154QX0FIzru1QGQUmerchant-icon-1421729277975-cw--logo--lettermark-black.png',
+				token: function(token) {
+						var $form = $('#payment-form');
+						// Insert the token into the form so it gets submitted to the server
+						$form.append($('<input type="hidden" name="stripeToken" />').val(token.id));
+						// and submit
+						$form.get(0).submit();
+				}
+			});
+
+			$('#pay').on('click', function(e) {
+				$('#payment-form').validate({
+					highlight: function(element) {
+						$(element).parent().addClass("error-wrapper");
+					},
+					unhighlight: function(element) {
+						$(element).parent().removeClass("error-wrapper");
+					},
+					invalidHandler: function(form, validator) {
+
+						if (!validator.numberOfInvalids())
+							return;
+
+						$('html, body').animate({
+							scrollTop: $(validator.errorList[0].element).offset().top - 45
+						}, 600, function() {
+							$(validator.errorList[0].element).focus();
+						});
+
+					}
+				});
+
+				if($('#payment-form').valid()) {
+					if($('#full-price').is(':checked')) {
+						handler.open({
 						name: 'Commonwealth Skate',
 						description: '@camp.title Registration (@utils.Formatter.prettyDollars(camp.cost))',
 						amount: @((camp.cost*100).intValue),
 						email: $('#email').val(),
 						currency: 'usd',
 						bitcoin: true
-					  });
-				  } else {
+						});
+					} else {
 					handler.open({
-					  name: 'Commonwealth Skate',
-					  description: '@camp.title Deposit (@utils.Formatter.prettyDollars(controllers.Application.CAMP_DEPOSIT))',
-					  amount: @(controllers.Application.CAMP_DEPOSIT * 100),
-					  email: $('#email').val(),
-					  currency: 'usd',
-					  bitcoin: true
+						name: 'Commonwealth Skate',
+						description: '@camp.title Deposit (@utils.Formatter.prettyDollars(controllers.Application.CAMP_DEPOSIT))',
+						amount: @(controllers.Application.CAMP_DEPOSIT * 100),
+						email: $('#email').val(),
+						currency: 'usd',
+						bitcoin: true
 					});
-				  }
-			  }
-              e.preventDefault();
+					}
+				}
+				e.preventDefault();
 			});
 
-            // Close Checkout on page navigation
-            $(window).on('popstate', function() {
-              handler.close();
-            });
+			// Close Checkout on page navigation
+			$(window).on('popstate', function() {
+				handler.close();
+			});
+
 		</script>
 				</form>
-			  } else {
+				} else {
 				<p class="h4">Camp Registration</p>
 				<p>Sorry, but this camp is currently full.</p>
-			  }
+				}
 			}
 		</div>
 	</div>
-
 	
 </section>
 }
+
+<div class="terms modal full">
+	<div class="bg"></div>
+
+	<div id="close-modal">
+		<i class="fa fa-close"></i>
+	</div>
+
+	<section id="terms" class="content">
+		@terms()
+	</section>
+</div>

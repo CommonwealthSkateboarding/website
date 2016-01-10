@@ -8,15 +8,15 @@
         <div class="form-panel">
             <h4 class="mb"><i class="fa fa-angle-right"></i> Add New Camp</h4>
             <form action="@routes.Admin.addCamp()" method="post" class="form-horizontal style-form">
-                <label>Title:</label><br/><input type="text" name="title" class="form-control" /><br/>
-                <label>Start Date:</label><br/><input name="startDate" id="datepicker1" class="form-control" /><br/>
-                <label>End Date:</label><br/><input name="endDate" id="datepicker2" class="form-control" /><br/>
-                <label>Registration End Date:</label><br/><input name="registrationEndDate" id="datepicker3" class="form-control" /><br/>
-                <label>Maximum Registrations:</label><br/><input type="text" name="maxRegistrations" class="form-control" /><br/>
+                <label>Title:</label><br/><input type="text" name="title" class="form-control" required /><br/>
+                <label>Start Date:</label><br/><input name="startDate" id="datepicker1" class="form-control" required /><br/>
+                <label>End Date:</label><br/><input name="endDate" id="datepicker2" class="form-control" required /><br/>
+                <label>Registration End Date:</label><br/><input name="registrationEndDate" id="datepicker3" class="form-control" required /><br/>
+                <label>Maximum Registrations:</label><br/><input type="text" name="maxRegistrations" class="form-control" required /><br/>
                 <label>Description:</label><br/><textarea name="description" id="description"></textarea><br/>
-                <label>Cost:</label><br/>$<input type="text" name="cost" class="form-control" /><br/>
-                <label>Schedule Description:</label><br/><input type="text" name="scheduleDescription" class="form-control" /><br/>
-                <label>Instructors:</label><br/><input type="text" name="instructors" class="form-control" /><br/>
+                <label>Cost:</label><br/>$<input type="text" name="cost" class="form-control" required /><br/>
+                <label>Schedule Description:</label><br/><input type="text" name="scheduleDescription" class="form-control" required /><br/>
+                <label>Instructors:</label><br/><input type="text" name="instructors" class="form-control" required /><br/>
                 <input type="submit" id="submit" value="Add Camp" class="btn btn-theme btn-block"/>
             </form>
         </div>

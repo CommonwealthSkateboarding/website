@@ -7,15 +7,13 @@
     @for(item <- news) {
         <article class="post-preview">
             <header>
-                <p class="h5"><a href="@routes.Application.showNews(item.id)" class="more">@item.title</a></p>
-                <div class="meta">
+                 <div class="meta">
                     <div class="date">
                         <time>@item.createDate.format("MMMM dd, yyyy")</time>
                     </div>
-                    <!-- <div class="tags">
-                        <a href="#">News</a>
-                    </div> -->
                 </div>
+
+                <p class="h5"><a href="@routes.Application.showNews(item.id)" class="more">@item.title</a></p>
             </header>
             <main>
                 @Html(item.content)

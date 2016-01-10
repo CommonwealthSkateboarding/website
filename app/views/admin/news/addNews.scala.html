@@ -7,7 +7,7 @@
         <div class="form-panel">
             <h4 class="mb"><i class="fa fa-angle-right"></i> Add New News Item</h4>
             <form action="@routes.Admin.addNewsItem()" method="post" class="form-horizontal style-form">
-                <label>Title:</label><br/><input type="text" name="title" class="form-control" /><br/>
+                <label>Title:</label><br/><input type="text" name="title" class="form-control" required /><br/>
                 <label>Content:</label><br/><textarea name="content" id="newContent" class="form-control"></textarea><br/>
                 <label>Extended Content:</label><br/><textarea name="extendedContent" id="newExtendedContent" class="form-control"></textarea><br/>
                 <label>Front Page:</label><br/><input type="checkbox" name="frontPage" class="form-control" /><br/>

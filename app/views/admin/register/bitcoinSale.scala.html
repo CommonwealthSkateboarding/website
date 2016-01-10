@@ -9,8 +9,8 @@
         <div class="showback">
             <h4><i class="fa fa-angle-right"></i> New Bitcoin Sale</h4>
             <form action="@routes.Admin.addBitcoinSale()" method="post" id="payment-form" class="form-horizontal style-form">
-                <label>Sale Description (items, etc):</label><br/><input type="text" name="description" id="description" class="form-control" placeholder="Description"/><br/>
-                <label>Total Amount:</label><br/><input type="text" name="amount" id="amount" class="form-control" placeholder="0.00"/><br/>
+                <label>Sale Description (items, etc):</label><br/><input type="text" name="description" id="description" class="form-control" placeholder="Description" required/><br/>
+                <label>Total Amount:</label><br/><input type="text" name="amount" id="amount" class="form-control" placeholder="0.00" required/><br/>
 
                 <button type="submit" id="pay" class="btn btn-theme btn-block">Get Bitcoin Payment Screen</button>
                 <script src="https://checkout.stripe.com/checkout.js"></script>
@@ -28,14 +28,18 @@
                     });
 
                     $('#pay').on('click', function(e) {
-                        handler.open({
-                            name: 'Commonwealth Skate',
-                            description: $('#description').val(),
-                            amount: parseInt($('#amount').val()*100),
-                            email: "info@@commonwealthskateboarding.com",
-                            currency: 'usd',
-                            bitcoin: true
-                        });
+                        if ($('#description').val() && $('#amount').val()) {
+                            handler.open({
+                                name: 'Commonwealth Skate',
+                                description: $('#description').val(),
+                                amount: parseInt($('#amount').val()*100),
+                                email: "info@@commonwealthskateboarding.com",
+                                currency: 'usd',
+                                bitcoin: true
+                            });
+                        } else {
+                            alert('Please include description and amount');
+                        }
                       e.preventDefault();
                     });
 

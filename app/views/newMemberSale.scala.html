@@ -35,10 +35,12 @@
                 <label>
                     <span class="h6">Recipient Name</span>
                     @if(sale.self) {
-                        <input id="name" name="recipient" type="text" placeholder="" value="@user.name" required>
+                        @user.name
+                        <input name="recipient" value="@user.name" hidden>
                     } else {
                         @if(sale.membershipId != null) {
-                            <input id="name" name="recipient" type="text" placeholder="" value="@sale.recipient" required>
+                            @sale.recipient
+                            <input name="recipient" value="@sale.recipient" hidden>
                         }
                         @if(sale.membershipId == null) {
                             <input id="name" name="recipient" type="text" placeholder="" value="@sale.recipient" required autofocus>

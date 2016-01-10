@@ -7,7 +7,7 @@
         <div class="showback">
             <h4 class="mb"><i class="fa fa-angle-right"></i> Add New Closure Notice</h4>
             <form action="@routes.Admin.addClosure()" method="post" class="form-horizontal style-form">
-                <label>Message:</label><br/><input type="text" name="message" class="form-control" /><br/>
+                <label>Message:</label><br/><input type="text" name="message" class="form-control" required /><br/>
                 <label>Make active immediately:</label><br/><input type="checkbox" name="enabled" class="form-control" /><br/>
                 <input type="submit" id="submit" value="Add Closure Notice" class="btn btn-theme btn-block"/>
             </form>
