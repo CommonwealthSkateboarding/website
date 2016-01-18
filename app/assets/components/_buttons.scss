@@ -1,0 +1,13 @@
+@mixin button($bg: transparent, $color: $gold) {
+	background: $bg;
+	border: 1px solid $color;
+	color: $color;
+	@include rem(font-size, 12px);
+	font-weight: 500px;
+	padding: 12px;
+	text-transform: uppercase;
+}
+
+.btn, a.btn {
+	@include button();
+} 

@@ -3,6 +3,8 @@
 //
 
 $base-font-size: 15px;
+$roboto: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+$typewriter: "Special Elite", "Helvetica Neue", Helvetica, Arial, sans-serif;
 
 h1, .h1,
 h2, .h2,
@@ -20,6 +22,7 @@ p { margin: 15px 0 1px; }
 p a, .link {
 	box-shadow: inset 0 -3px 0 0 fade_out($gray, .3);
 	transition: box-shadow .3s, color .3s;
+
 	&:hover { 
 		box-shadow: inset 0 -3px 0 0 $gold; 
 		transition: box-shadow .3s;
@@ -68,24 +71,28 @@ h5, .h5, h6, .h6 { color: $white;  }
 .notice { color: $gold; }
 
 .required { 
-		color: mix($gold, $error);
-		vertical-align: -6px;
-		margin-left: 6px;
-		@include rem(font-size, 21px);
-	}
+	color: mix($gold, $error);
+	vertical-align: -6px;
+	margin-left: 6px;
+	@include rem(font-size, 21px);
+}
 
-.highlight { 
+.handwriting { font-family: $typewriter; }
+.monospace { }
+
+@mixin highlight($font: $typewriter, $bg: $gold, $color: $white) { 
+	font-family: $font;
 	margin: 18px 0 18px 15px;
 	text-indent: -9px;
 	transform: rotate(-.6deg);
 	-webkit-backface-visibility: hidden;
 
 	span {
-		background: fade_out($gold, .3);
-		box-shadow:	 9px 0 0 fade_out($gold, .3), 
-								-9px 0 0 fade_out($gold, .3);
+		background: fade_out($bg, .3);
+		box-shadow:	 9px 0 0 fade_out($bg, .3), 
+								-9px 0 0 fade_out($bg, .3);
 		box-decoration-break: clone;
-		color: $white; 
+		color: $color; 
 		display: inline;
 		@include rem(font-size, $margin);
 		line-height: 1.15;
@@ -93,8 +100,11 @@ h5, .h5, h6, .h6 { color: $white;  }
 	}
 }
 
-.handwriting { font-family: "Special Elite"; }
-.monospace { }
+.highlight {
+	@include highlight();
+}
+
+
 
 //
 //** BANNER TYPOGRAPHY
@@ -137,6 +147,7 @@ h5, .h5, h6, .h6 { color: $white;  }
 	&:before { @include rem(right, 9px) }
 	&:after { @include rem(left, 9px) }
 }
+
 // @mixin linethrough($font-size: 2.2rem/2.5) {
 // 	display: table;
 // 	overflow: hidden;

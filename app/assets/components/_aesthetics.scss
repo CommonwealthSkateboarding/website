@@ -1,6 +1,7 @@
-// Creates a topless box.
+// Applies a border to an element without border-top.
 // Usage: Apply to blog footer, inputs
-// @include bottomborder();
+// 				@include bottomborder();
+
 @mixin bottomBorder() {
 	border: 3px solid fade_out($gray, .75);
 	border-top: none;
@@ -11,9 +12,12 @@
 	padding: $margin/2;
 }
 
+//
+
 // Generates styles for data tables, such as camps and events.
 // Usage: Apply to a table
-// @include dataTable();
+// 				@include dataTable();
+
 @mixin dataTable() {
 	text-align: center;
 

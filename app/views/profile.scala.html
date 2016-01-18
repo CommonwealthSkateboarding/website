@@ -3,90 +3,118 @@
 @(user: models.security.User = null)
 @main("profile", false, "My Profile | Commonwealth Skateboarding | Portland, Oregon") {
 <section id="profile">
+    <h1>My Profile</h1>
     @if(user == null) {
         @* This condition occurs when not currently logged in *@
-        <a href="/authenticate/facebook" class="btn"><i class="fa fa-facebook-square"></i> Sign in with Facebook</a><br/><br/>
-        <a href="/authenticate/google" class="btn"><i class="fa fa-google-plus-square"></i> Sign in with Google</a>
+        <div class="sign-in">
+            <h3>Sign In</h3>
+
+            <div class="auth">
+                <a href="/authenticate/facebook" class="btn"><i class="fa fa-facebook-square"></i> Sign in with Facebook</a><br/><br/>
+                <a href="/authenticate/google" class="btn"><i class="fa fa-google-plus-square"></i> Sign in with Google</a>
+            </div>
+
+            <div class="about">
+                <p class="hightlight"><span>What is this?</span></p>
+                <p>User accounts allow skaters (and parents or guardians) to
+                    <ul>
+                        <li>easily purchase passes and gift certificates</li>
+                        <li>view active/unused passes</li>
+                        <li>review pass payment history</li>
+                    </ul>
+                </p>
+            </div>
+
+            <div class="note">
+                <p class="hightlight"><span>Note:</span></p>
+                <p>Both new users and existing can authenticate using the
+
+                <p class="hightlight"><span>Am I a new user even if I'm already signed a waiver at the park?</span></p>
+                <p>Yes! If you haven't created a profile on this site, you are a new user. Anyone that has 
+            </div>
+        </div>
     } else {
         @* This condition occurs when currently logged in *@
-        <p class="h1">Profile</p>
-        <h3>Welcome, @user.name</h3>
+        <div class="user-profile">
+            <p class="h1">Profile</p>
+            <h3>Welcome, @user.name.split("\\s+")[0]</h3>
 
-        @if((null == user.membership) && (0 == user.guardianOf.size)) {
-            <!-- Message for unlinked users (no membership) -->
-            <p><a href="@routes.Application.memberSales()">Purchase passes online</a> and we'll link your account so you can add passes anytime.</p>
-        }
+            @if((null == user.membership) && (0 == user.guardianOf.size)) {
+                <!-- Message for unlinked users (no membership) -->
+                <p><a href="@routes.Application.memberSales()">Purchase passes online</a> and we'll link your account so you can add passes anytime.</p>
+            }
 
-    @* Memberships *@
+        @* Memberships *@
 
-        <h1>My Memberships</h1>
-        @if(null != user.membership) {
-            <p><a href="@routes.Application.memberSales(true)">Purchase passes online</a></p>
-            <p>
-                <h3>My Account:</h3>
-                @* Gift certificate balance: @utils.Formatter.prettyDollars(user.membership.credit)<br/> *@
-                @for(pass<-user.membership.getUnlimitedPassesForDisplay()) {
-                    Unlimited pass: @pass.starts.format("MM/dd/yyyy") - @pass.expires.format("MM/dd/yyyy") @if(!pass.isValid()) { (expired) }<br/>
-                }
-                Saved passes: @user.membership.sessionPasses session, @user.membership.allDayPasses all-day<br/>
-                Last visited:
-                @if(null != user.membership.lastVisit) {
-                    @user.membership.lastVisit.time.format("EEEE, M/dd/yyyy")
-                } else {
-                    <i>Never</i>
-                }
-            </p>
-        }
-        @if(user.guardianOf.size > 0) {
-            <h3>My Skaters</h3>
-            <p><a href="@routes.Application.memberSales(false)">Purchase passes online for my skaters</a></p>
-            @for(kid<-user.guardianOf) {
+            <h1>My Memberships</h1>
+            @if(null != user.membership) {
+                <p><a href="@routes.Application.memberSales(true)">Purchase passes online</a></p>
                 <p>
-                    <h3>@kid.name</h3><br/>
-                    @* Gift certificate balance: @utils.Formatter.prettyDollars(kid.credit)<br/>*@
-                    @for(pass<-kid.getUnlimitedPassesForDisplay()) {
+                    <h3>My Account:</h3>
+                    @* Gift certificate balance: @utils.Formatter.prettyDollars(user.membership.credit)<br/> *@
+                    @for(pass<-user.membership.getUnlimitedPassesForDisplay()) {
                         Unlimited pass: @pass.starts.format("MM/dd/yyyy") - @pass.expires.format("MM/dd/yyyy") @if(!pass.isValid()) { (expired) }<br/>
                     }
-                    Saved passes: @kid.sessionPasses session, @kid.allDayPasses all-day<br/>
+                    Saved passes: @user.membership.sessionPasses session, @user.membership.allDayPasses all-day<br/>
                     Last visited:
-                    @if(null != kid.lastVisit) {
-                        @kid.lastVisit.time.format("EEEE, M/dd/yyyy")
+                    @if(null != user.membership.lastVisit) {
+                        @user.membership.lastVisit.time.format("EEEE, M/dd/yyyy")
                     } else {
                         <i>Never</i>
                     }
                 </p>
             }
-        }
+            @if(user.guardianOf.size > 0) {
+                <h3>My Skaters</h3>
+                <p><a href="@routes.Application.memberSales(false)">Purchase passes online for my skaters</a></p>
+                @for(kid<-user.guardianOf) {
+                    <p>
+                        <h3>@kid.name</h3><br/>
+                        @* Gift certificate balance: @utils.Formatter.prettyDollars(kid.credit)<br/>*@
+                        @for(pass<-kid.getUnlimitedPassesForDisplay()) {
+                            Unlimited pass: @pass.starts.format("MM/dd/yyyy") - @pass.expires.format("MM/dd/yyyy") @if(!pass.isValid()) { (expired) }<br/>
+                        }
+                        Saved passes: @kid.sessionPasses session, @kid.allDayPasses all-day<br/>
+                        Last visited:
+                        @if(null != kid.lastVisit) {
+                            @kid.lastVisit.time.format("EEEE, M/dd/yyyy")
+                        } else {
+                            <i>Never</i>
+                        }
+                    </p>
+                }
+            }
 
-        @* Recent purchases section *@
+            @* Recent purchases section *@
 
-        <h1>Recent purchases</h1>
-        @if(user.passSales.size == 0) {
-            <p>No purchases have been made by your account.</p>
-        }
-        @for(sale<-user.passSales.reverse) {
-            <p>
-            @sale.created.format("EEEE, M/dd/yyyy")<br>
-            @if(sale.twoHourPasses>0) {
-                @sale.twoHourPasses x Session Passes (@utils.Formatter.prettyDollarsAndCents(sale.twoHourPasses*OnlinePassSale.PRICE_TWO_HOUR_PASS))<br>
+            <h1>Recent purchases</h1>
+            @if(user.passSales.size == 0) {
+                <p>No purchases have been made by your account.</p>
             }
-            @if(sale.tenPackPasses>0) {
-                @sale.tenPackPasses x Ten-Pack Passes (@utils.Formatter.prettyDollarsAndCents(sale.tenPackPasses*OnlinePassSale.PRICE_TEN_PACK_PASS))<br>
+            @for(sale<-user.passSales.reverse) {
+                <p>
+                @sale.created.format("EEEE, M/dd/yyyy")<br>
+                @if(sale.twoHourPasses>0) {
+                    @sale.twoHourPasses x Session Passes (@utils.Formatter.prettyDollarsAndCents(sale.twoHourPasses*OnlinePassSale.PRICE_TWO_HOUR_PASS))<br>
+                }
+                @if(sale.tenPackPasses>0) {
+                    @sale.tenPackPasses x Ten-Pack Passes (@utils.Formatter.prettyDollarsAndCents(sale.tenPackPasses*OnlinePassSale.PRICE_TEN_PACK_PASS))<br>
+                }
+                @if(sale.unlimitedPassMonths>0) {
+                    @sale.unlimitedPassMonths x Months of Unlimited Pass (@utils.Formatter.prettyDollarsAndCents(sale.unlimitedPassMonths*OnlinePassSale.PRICE_UNLIMITED_PASS_PER_MONTH))<br>
+                }
+                @if(sale.giftCreditDollars>0) {
+                    @utils.Formatter.prettyDollarsAndCents(sale.giftCreditDollars) gift certificate<br>
+                }
+                Total: @utils.Formatter.prettyDollarsAndCents(sale.amount)
+                @if(null != sale.appliedTo) {
+                    Applied to @sale.appliedTo.name's membership
+                }
+                </p>
             }
-            @if(sale.unlimitedPassMonths>0) {
-                @sale.unlimitedPassMonths x Months of Unlimited Pass (@utils.Formatter.prettyDollarsAndCents(sale.unlimitedPassMonths*OnlinePassSale.PRICE_UNLIMITED_PASS_PER_MONTH))<br>
-            }
-            @if(sale.giftCreditDollars>0) {
-                @utils.Formatter.prettyDollarsAndCents(sale.giftCreditDollars) gift certificate<br>
-            }
-            Total: @utils.Formatter.prettyDollarsAndCents(sale.amount)
-            @if(null != sale.appliedTo) {
-                Applied to @sale.appliedTo.name's membership
-            }
-            </p>
-        }
-        <br/><br/>
-        <a href="@com.feth.play.module.pa.controllers.routes.Authenticate.logout">Logout</a>
+            <br/><br/>
+            <a href="@com.feth.play.module.pa.controllers.routes.Authenticate.logout">Logout</a>
+        </div>
     }
 </section>
 

@@ -25,8 +25,11 @@ form {
 		}
 
 		&:in-range { border-color: $success; }
+
 		&:disabled { opacity: .3; }
+
 		&:invalid { border-color: pink; }
+		
 		&:required { 
 			border-color: fade_out($gold, .6);
 			label & { 

@@ -14,7 +14,6 @@ html, body {
 }
 
 body {
-	font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-weight: normal;
 	line-height: 1.3;
 	-webkit-font-smoothing: antialiased;
@@ -30,14 +29,8 @@ p, figure { margin: 0; }
 
 ul { 
 	list-style: none; 
-	-webkit-margin-before: 0;
-	-webkit-margin-after: 0;
-	-webkit-padding-start: 0;
-	-moz-margin-start: 0;
-	-moz-margin-before: 0;
-	-moz-margin-after: 0;
-	-moz-padding-start: 0;
 	margin: 0;
+	padding: 0;
 }
 
 .fade { transition: all .1s ease-in; }

@@ -11,12 +11,13 @@
 
 // COMPONENTS
 @import "components/aesthetics",
-				"components/alerts",
+				"components/alerts", 
 				"components/animations", 
 				"components/header", 
 				"components/mobile",
 				"components/body", 
-				"components/footer", 
+				"components/footer",
+				"components/buttons",
 				"components/carousels", 
 				"components/sidebar", 
 				"components/tables", 
@@ -31,7 +32,8 @@
 				"sections/blog",  
 				"sections/about", 
 				"sections/terms",
-				"sections/contact";
+				"sections/contact",
+				"sections/profile"; 
 
 // OVERRIDES
-@import "components/modals";
+@import "components/modals"; 

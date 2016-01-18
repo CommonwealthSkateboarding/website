@@ -1,0 +1,31 @@
+// PROFILE
+[id="profile"] {
+
+	// Sign In
+	.sign-in {
+		display: flex;
+
+		.about {
+			order: 1;
+			background: green;
+			width: 50%;
+		}
+
+		.auth {
+			order: 2;
+			background: fade-out(yellow, .5);
+			display: flex;
+			flex-wrap: wrap;
+			width: 50%;
+		}
+
+		.note {
+			background: red;
+			width: 100%;
+		}
+	}
+
+	.user-profile {
+
+	}
+}

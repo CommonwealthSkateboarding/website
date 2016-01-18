@@ -127,3 +127,8 @@ GET     /admin/autocomplete/member/:search      controllers.Autocomplete.searchM
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
+
+
+# Gulp
+GET     /ui         com.github.mmizutani.playgulp.Gulp.index
+->      /ui/        gulp.Routes
