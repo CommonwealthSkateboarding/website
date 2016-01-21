@@ -3,19 +3,15 @@ package models.security;
 import java.util.*;
 
 import javax.persistence.*;
+import com.avaje.ebean.*;
 
 import be.objectify.deadbolt.core.models.Permission;
 import be.objectify.deadbolt.core.models.Subject;
 import com.feth.play.module.pa.user.*;
 import models.skatepark.Membership;
 import models.skatepark.OnlinePassSale;
-import org.apache.commons.lang.RandomStringUtils;
 import play.data.format.Formats;
 import play.data.validation.Constraints;
-import play.db.ebean.Model;
-
-import com.avaje.ebean.Ebean;
-import com.avaje.ebean.ExpressionList;
 
 /**
  * Created by cdelargy on 11/17/14.
@@ -130,7 +126,7 @@ public class User extends Model implements Subject {
         }
 
         user.save();
-        user.saveManyToManyAssociations("roles");
+        //user.saveManyToManyAssociations("roles"); - removed from Model in 2.4?
         return user;
     }
 

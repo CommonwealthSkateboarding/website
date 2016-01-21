@@ -1,16 +1,10 @@
 package models.site;
 
 import com.avaje.ebean.Expr;
-import net.sf.ehcache.Ehcache;
-import play.Play;
-import play.api.cache.EhCachePlugin;
-import play.cache.*;
 import play.data.format.Formats;
-import play.data.validation.Constraints;
 import play.db.ebean.Model;
 
 import javax.persistence.*;
-import javax.persistence.Cache;
 import java.util.Date;
 import java.util.List;
 
@@ -52,19 +46,19 @@ public class NewsItem extends Model {
 
     @Override
     public void save() {
-        clearCachedPages();
+        //clearCachedPages();
         play.cache.Cache.set("news"+id, this);
         super.save();
     }
 
     @Override
     public void update() {
-        clearCachedPages();
+        //clearCachedPages();
         play.cache.Cache.set("news"+id, this);
         super.update();
     }
 
-    private void clearCachedPages() {
+/*    private void clearCachedPages() {
         List keys = Play.application().plugin(EhCachePlugin.class).cache().getKeys();
         for(Object key : keys)
         {
@@ -72,12 +66,12 @@ public class NewsItem extends Model {
                 play.cache.Cache.remove(key.toString());
             }
         }
-    }
+    }*/
 
     public static List<NewsItem> getCachedPagedNews(boolean frontPage, Long page, int perPage) {
-        String cacheKey = NEWS_PAGE_CACHE_PREFIX + (frontPage?"FP":"BL") + perPage + "pp" + page;
-        List<NewsItem> news = (List<NewsItem>) play.cache.Cache.get(cacheKey);
-        if (null == news) {
+        //String cacheKey = NEWS_PAGE_CACHE_PREFIX + (frontPage?"FP":"BL") + perPage + "pp" + page;
+        List<NewsItem> news;// = (List<NewsItem>) play.cache.Cache.get(cacheKey);
+        //if (null == news) {
             Date now = new Date();
             if (frontPage) {
                 news = NewsItem.find
@@ -88,8 +82,8 @@ public class NewsItem extends Model {
                         .where().or(Expr.eq("expires", false), Expr.gt("expireDate", now)).setMaxRows(perPage + 1)
                         .setFirstRow(page.intValue() * perPage).orderBy(STICKY_REVERSE_DATE_ORDER).findList();
             }
-            play.cache.Cache.set(cacheKey, news);
-        }
+            //play.cache.Cache.set(cacheKey, news);
+        //}
         return news;
     }
 

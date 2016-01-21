@@ -11,6 +11,10 @@
 * typesafe-activator
 * sass
 * nodejs
+* gulp (npm install gulp)
+* gulp-sass (npm install gulp-sass)
+* gulp-autoprefixer (npm install gulp-autoprefixer)
+* browser-sync (npm install browser-sync)
 
 ## Preparation
 1. `gem install sass`*

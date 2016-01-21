@@ -1,17 +1,19 @@
 package services;
 
-        import models.security.User;
-        import play.Application;
+import models.security.User;
+import play.Application;
 
-        import com.feth.play.module.pa.user.AuthUser;
-        import com.feth.play.module.pa.user.AuthUserIdentity;
-        import com.feth.play.module.pa.service.UserServicePlugin;
+import com.feth.play.module.pa.user.AuthUser;
+import com.feth.play.module.pa.user.AuthUserIdentity;
+import com.feth.play.module.pa.service.UserServicePlugin;
+
+import javax.inject.Inject;
 
 /**
  * Created by cdelargy on 11/17/14.
  */
 public class AdminUserServicePlugin extends UserServicePlugin {
-
+    @Inject
     public AdminUserServicePlugin(final Application app) {
         super(app);
     }

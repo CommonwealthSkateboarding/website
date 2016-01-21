@@ -11,38 +11,45 @@ import be.objectify.deadbolt.core.models.Subject;
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.user.AuthUserIdentity;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
+
 public class MyDeadboltHandler extends AbstractDeadboltHandler {
 
-    @Override
-    public F.Promise<Result> beforeAuthCheck(final Http.Context context) {
+    public F.Promise<Optional<Result>> beforeAuthCheck(final Http.Context context) {
         if (PlayAuthenticate.isLoggedIn(context.session())) {
             // user is logged in
-            return F.Promise.pure(null);
+            return F.Promise.pure(Optional.empty());
         } else {
             PlayAuthenticate.storeOriginalUrl(context);
-            return F.Promise.promise(new F.Function0<Result>()
+            return F.Promise.promise(new F.Function0<Optional<Result>>()
             {
                 @Override
-                public Result apply() throws Throwable
+                public Optional<Result> apply() throws Throwable
                 {
-                    return redirect(PlayAuthenticate.getResolver().login());
+                    return Optional.of(redirect(PlayAuthenticate.getResolver().login()));
                 }
             });
         }
     }
 
     @Override
-    public Subject getSubject(final Http.Context context) {
+    public F.Promise<Optional<Subject>> getSubject(final Http.Context context) {
         final AuthUserIdentity u = PlayAuthenticate.getUser(context);
-        // Caching might be a good idea here
-        return (Subject)User.findByAuthUserIdentity(u);
+        return F.Promise.promise(new F.Function0<Optional<Subject>>()
+        {
+            @Override
+            public Optional<Subject> apply() throws Throwable
+            {
+                // Caching might be a good idea here
+                return Optional.of((Subject)User.findByAuthUserIdentity(u));
+            }
+        });
     }
 
-    @Override
-    public DynamicResourceHandler getDynamicResourceHandler(
-            final Http.Context context) {
-        return null;
-    }
 
     @Override
     public F.Promise<Result> onAuthFailure(final Http.Context context,

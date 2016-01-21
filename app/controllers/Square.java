@@ -38,13 +38,13 @@ public class Square extends Controller {
     //https://connect.squareup.com/v1/me/inventory
 
     public static Promise<JsonNode> getInventory() {
-        WSRequestHolder holder = WS.url(INVENTORY_URL).setHeader(AUTHORIZATION_HEADER, BEARER_TOKEN);
-        return holder.get().map(response -> response.asJson());
+        WSRequest request = WS.url(INVENTORY_URL).setHeader(AUTHORIZATION_HEADER, BEARER_TOKEN);
+        return request.get().map(response -> response.asJson());
     }
 
     public static List<Order> getOrders() {
-        WSRequestHolder holder = WS.url(ORDERS_URL).setHeader(AUTHORIZATION_HEADER, BEARER_TOKEN);
-        WSResponse response = holder.get().get(1000);
+        WSRequest request = WS.url(ORDERS_URL).setHeader(AUTHORIZATION_HEADER, BEARER_TOKEN);
+        WSResponse response = request.get().get(1000);
         Order[] orders = null;
         if (response.getStatus() != OK) {
             Logger.error("Got bad response from square when getting orders: " + response.getBody().toString());
@@ -60,8 +60,8 @@ public class Square extends Controller {
     }
 
     private static Payment getPayment(String paymentId) {
-        WSRequestHolder holder = WS.url(PAYMENT_URL + "/" + paymentId).setHeader(AUTHORIZATION_HEADER, BEARER_TOKEN);
-        WSResponse response = holder.get().get(10000);
+        WSRequest request = WS.url(PAYMENT_URL + "/" + paymentId).setHeader(AUTHORIZATION_HEADER, BEARER_TOKEN);
+        WSResponse response = request.get().get(10000);
         Payment payment = null;
         if (response.getStatus() != OK) {
             Logger.error("Got bad response from square when getting payment: " + response.getBody().toString());
@@ -79,9 +79,9 @@ public class Square extends Controller {
     public static void runSlackPaymentsReport(Date since) throws TimeoutException {
         Payment[] payments = null;
         if (enabled) {
-            WSRequestHolder holder = WS.url(PAYMENT_URL).setHeader(AUTHORIZATION_HEADER, BEARER_TOKEN)
+            WSRequest request = WS.url(PAYMENT_URL).setHeader(AUTHORIZATION_HEADER, BEARER_TOKEN)
                     .setQueryParameter("begin_time", TimeUtil.getISO8601Date(since));
-            WSResponse response = holder.get().get(30000);
+            WSResponse response = request.get().get(30000);
             if (response.getStatus() != OK) {
                 Logger.error("Got bad response from square when getting payments: " + response.getBody().toString());
             } else {
