@@ -31,3 +31,7 @@ gulp.task('bs', function () {
 });
 
 gulp.task('default', ['sass', 'bs']);
+
+gulp.task('clean', function () {
+});
+//If other sbt tasks are missing, check https://github.com/mmizutani/sbt-play-gulp#how-this-works
