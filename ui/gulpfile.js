@@ -58,3 +58,6 @@ gulp.task('clean', function() {});
 
 gulp.task('default', ['watch']);
 gulp.task('build', ['watch']);
+
+// If other sbt tasks are missing, check https://github.com/mmizutani/sbt-play-gulp#how-this-works
+
