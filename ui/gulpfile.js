@@ -8,11 +8,14 @@ var browserSync =	require('browser-sync');
 var reload		=	browserSync.reload;
 
 var src = {
-	scss: 		'/app/assets/*.scss',
-	css: 		'/dist/',
-	js: 		'/public/js/',
-	html:  		'/app/views/*.scala.html'
+	scss: 		'../app/assets/*.scss',
+	js: 		'../public/js/',
+	html:  		'../app/views/*.scala.html'
 };
+
+var dest = {
+    css:        '../target/web/public/main'
+}
 
 var sassOptions = {
 	outputStyle: 'compressed',
@@ -45,7 +48,7 @@ gulp.task('sass', function() {
     	.src(src.scss)
         .pipe(sass(sassOptions).on('error', sass.logError))
         .pipe(prefix(prefixerOptions))
-        .pipe(gulp.dest(src.css))
+        .pipe(gulp.dest(dest.css))
         .pipe(reload({stream:true}));
 });
 
