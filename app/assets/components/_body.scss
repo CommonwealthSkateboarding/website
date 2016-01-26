@@ -33,16 +33,20 @@ body {
 .grid {
 	display: flex;
 	flex-wrap: wrap;
+	justify-content: space-between;
+
 	> * {
 		margin-bottom: 30px;
 		width: calc(50% - #{$margin}); 
 		&:nth-of-type(odd) { margin-right: $margin*2; }
 	}
+
 	&.no-margin { 
 		> * {
 			margin: 0;
 		}
 	}
+	
 	img { margin-top: $margin/2; }
 }
 

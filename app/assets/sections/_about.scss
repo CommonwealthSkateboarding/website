@@ -3,15 +3,6 @@ body.about {
 
 	.story, .features { margin-top: 30px; }
 
-	.story {
-		.highlight span {
-			@extend .handwriting;
-			@include rem(font-size, 21px);
-			line-height: 1.32;
-			padding: 9px 0 3px; 
-		}
-	}
-
 	.features {
 		img {
 			margin-top: $margin/2;

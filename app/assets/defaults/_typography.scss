@@ -17,7 +17,21 @@ h6, .h6 {
 	margin: 15px 0 6px;
 }
 
+strong { color: $gold; }
+
 p { margin: 15px 0 1px; }
+
+p, figure { margin: 0; }
+
+ul { 
+	list-style: none; 
+	margin: 0;
+	padding: 0;
+
+	&.list {
+		list-style: inside disc;
+	}
+}
 
 p a, .link {
 	box-shadow: inset 0 -3px 0 0 fade_out($gray, .3);
@@ -68,6 +82,9 @@ h6, .h6, p { @include rem(font-size, 15px); font-weight: 500; }
 
 h5, .h5, h6, .h6 { color: $white;  }
 
+
+.center { text-align: center; }
+
 .notice { color: $gold; }
 
 .required { 
@@ -98,13 +115,19 @@ h5, .h5, h6, .h6 { color: $white;  }
 		line-height: 1.15;
 		padding: 3px 0;
 	}
+
+	&.small {
+		span {
+			@include rem(font-size, 21px);
+		  line-height: 1.32;
+		  padding: 9px 0 3px;
+		}
+	}
 }
 
 .highlight {
 	@include highlight();
 }
-
-
 
 //
 //** BANNER TYPOGRAPHY

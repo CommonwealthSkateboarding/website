@@ -3,41 +3,63 @@
 @(user: models.security.User = null)
 @main("profile", false, "My Profile | Commonwealth Skateboarding | Portland, Oregon") {
 <section id="profile">
-    <h1>My Profile</h1>
+    <h1>Check Your Account</h1>
     @if(user == null) {
         @* This condition occurs when not currently logged in *@
         <div class="sign-in">
-            <h3>Sign In</h3>
+            <h3>my profile</h3>
 
-            <div class="auth">
-                <a href="/authenticate/facebook" class="btn"><i class="fa fa-facebook-square"></i> Sign in with Facebook</a><br/><br/>
-                <a href="/authenticate/google" class="btn"><i class="fa fa-google-plus-square"></i> Sign in with Google</a>
-            </div>
 
-            <div class="about">
-                <p class="hightlight"><span>What is this?</span></p>
-                <p>User accounts allow skaters (and parents or guardians) to
-                    <ul>
-                        <li>easily purchase passes and gift certificates</li>
-                        <li>view active/unused passes</li>
-                        <li>review pass payment history</li>
-                    </ul>
-                </p>
-            </div>
+            <div class="grid">
+                <div class="auth">
+                    <p class="h5">Login</p>
 
-            <div class="note">
-                <p class="hightlight"><span>Note:</span></p>
-                <p>Both new users and existing can authenticate using the
+                    <div class="buttons">
+                        <!-- <a href="/authenticate/facebook" class="fb btn"><span class="icon"><i class="fa fa-facebook"></i></span>Facebook</a>
 
-                <p class="hightlight"><span>Am I a new user even if I'm already signed a waiver at the park?</span></p>
-                <p>Yes! If you haven't created a profile on this site, you are a new user. Anyone that has 
+                        <a href="/authenticate/google" class="goog btn"><span class="icon"><i class="fa fa-google"></i></span>Google</a> -->
+
+                        <a href="#" class="fb btn" id="modal_1"><span class="icon"><i class="fa fa-facebook"></i></span>Facebook</a>
+
+                        <a href="#" class="goog btn" id="modal_2"><span class="icon"><i class="fa fa-google"></i></span>Google</a>
+                    </div>
+
+                    <p class="center"><strong>New Users:</strong> Choose the service you use most.</p>
+                </div>
+
+                <div class="faq">
+                    <p class="h5">FAQ</p>
+
+                    <p class="small highlight"><span>What are user accounts?</span></p>
+                    <p>User accounts allow skaters (and parents or guardians) to
+                        <ul class="list">
+                            <li>sign digital waivers</li>
+                            <li>easily purchase passes and gift certificates</li>
+                            <li>add in-store credit</li>
+                            <li>view active/unused passes</li>
+                            <li>review pass payment history</li>
+                            <li>leave us feedback</li>
+                        </ul>
+                    </p>
+
+                    <p class="small highlight" id="faq_new_user"><span>Am I a new user even if I've already signed a waiver at Commonwealth?</span></p>
+                    <p>Yes! If you haven't created a profile on this site, you are considered a "new user". You will be able to connect this account to the one we have for you in the park's membership database using your <a href="#faq_skater_id">ID number</a>.
+
+                    <p class="small highlight" id="faq_skater_id"><span>What is a Skater ID and how do I get one?</span></p>
+                    <p>Your Skater ID is a number associated with your account at Commonwealth. It can be used to check-in at the park and can be associated with <a href="#faq_guardian_account">Guardian Accounts</a>. If you don't have one yet, you can obtain it in-person at the shop.</p>
+
+                    <p class="small highlight" id="faq_guardian_account"><span>What can a Guardian account do?</span></p>
+                    <p>This account type allows legal guardians to have administrative access over their skater's account. Guardian accounts can be affiliated with multiple skaters, and allows for quickly adding passes or in-shop credit to their accounts and looking at purchase and check-in history*.</p>
+
+                    <p>*This information does not include specifics like when they might have left and come back, or how long they stayed. It simply allows you to see when they first checked-in.</p>
+                </div>
             </div>
         </div>
     } else {
         @* This condition occurs when currently logged in *@
         <div class="user-profile">
             <p class="h1">Profile</p>
-            <h3>Welcome, @user.name.split("\\s+")[0]</h3>
+            <h3>Welcome, @user.name</h3>
 
             @if((null == user.membership) && (0 == user.guardianOf.size)) {
                 <!-- Message for unlinked users (no membership) -->

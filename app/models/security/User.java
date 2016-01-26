@@ -31,6 +31,11 @@ public class User extends Model implements Subject {
     public String email;
 
     public String name;
+    
+    //public String fullName;
+    //public String firstName;
+    //public String lastName;
+    //public String nickName;
 
     public String photoUrl;
 

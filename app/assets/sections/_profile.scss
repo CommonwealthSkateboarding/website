@@ -3,25 +3,53 @@
 
 	// Sign In
 	.sign-in {
-		display: flex;
 
-		.about {
-			order: 1;
-			background: green;
-			width: 50%;
+		.grid {
+			margin: 30px 0;
 		}
-
 		.auth {
-			order: 2;
-			background: fade-out(yellow, .5);
-			display: flex;
-			flex-wrap: wrap;
-			width: 50%;
+			//width: 50%;
+
+			.buttons {
+				background: fade-out($gray, .88);
+				border-radius: 6px;
+				display: flex;
+				flex-wrap: wrap;
+				margin-top: 15px;
+				padding: 15px;
+			}
+
+			.btn {
+				align-items: center;
+				display: flex;
+				max-width: 600px;
+				padding: 0;
+				width: 100%; 
+
+				.fa { margin: 0; }
+
+				.icon {
+					
+				}
+
+				&.fb { margin-bottom: 15px; }
+			}
 		}
 
-		.note {
-			background: red;
-			width: 100%;
+		.faq {
+			.small.highlight {
+				padding-top: 45px;
+			}
+
+			.h5 + .small.highlight { padding-top: 12px; }
+
+			p:not(.h5) {
+				margin: 15px 0;
+			}
+
+			li {
+				margin: 6px 0 6px 15px;
+			}
 		}
 	}
 
