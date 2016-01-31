@@ -542,7 +542,8 @@ public class Admin extends Controller {
         if (null == camp) {
             return redirect(routes.Admin.campIndex()); // not found
         }
-        return ok(viewCamp.render(camp, getLocalUser(session())));
+        List<AuditRecord> logs = AuditRecord.find.where().eq("camp_id", id).orderBy("timestamp DESC").findList();
+        return ok(viewCamp.render(camp, logs, getLocalUser(session())));
     }
 
     @Restrict({@Group("CAMP")})
@@ -757,7 +758,8 @@ public class Admin extends Controller {
         if (null == event) {
             return redirect(routes.Admin.eventIndex()); // not found
         }
-        return ok(viewEvent.render(event, getLocalUser(session())));
+        List<AuditRecord> logs = AuditRecord.find.where().eq("event_id", id).orderBy("timestamp DESC").findList();
+        return ok(viewEvent.render(event, logs, getLocalUser(session())));
     }
 
     @Restrict({@Group("EVENTS")})
