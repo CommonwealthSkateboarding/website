@@ -13,6 +13,7 @@
                     <tr>
                         <th>Name</th>
                         <th>Balance</th>
+                        <th>Last Visited</th>
                         <th>View</th>
                     </tr>
                     </thead>
@@ -22,6 +23,7 @@
                             <tr>
                                 <td>@member.name</td>
                                 <td>@utils.Formatter.prettyDollarsAndCents(member.credit)</td>
+                                <td>@if((null == member.lastVisit) || (null == member.lastVisit.time)) { Never } else { @member.lastVisit.time.format("MM/dd/yyyy") }</td>
                                 <td><a href="@routes.Admin.viewMemberPage(member.id)" class="btn btn-theme btn-block">View</a></td>
                             </tr>
                         }
