@@ -248,9 +248,10 @@
             <!-- Removing sidebar checkin buttons
                 <a href="@routes.Admin.sessionVisit(member.id)" class="btn btn-theme btn-block @if(0 == member.sessionPasses || member.isCheckedInToday()) { disabled } ">Check In</a></p>
             -->
-            <a href="@routes.Admin.addSessionPass(member.id, 1)" class="btn btn-xs btn-default btn-block">Add 1 Pass</a>
-            <a href="@routes.Admin.addSessionPass(member.id, 10)" class="btn btn-xs btn-default btn-block">Add 10 Passes</a>
-            <a href="@routes.Admin.subtractSessionPass(member.id)" class="btn btn-xs btn-default btn-block @if(0 == member.sessionPasses) { disabled }">Subtract</a>
+            <a href="@routes.Admin.addSessionPass(member.id, 1, false)" class="btn btn-xs btn-default btn-block">Buy 1 Pass</a>
+            <a href="@routes.Admin.addSessionPass(member.id, 1, true)" class="btn btn-xs btn-default btn-block">Add 1 Promotional Pass</a>
+            <a href="@routes.Admin.addSessionPass(member.id, 10, false)" class="btn btn-xs btn-default btn-block">Buy 10 Passes</a>
+            <a href="@routes.Admin.subtractSessionPass(member.id)" class="btn btn-xs btn-default btn-block @if(0 == member.sessionPasses) { disabled }">Subtract 1 Pass</a>
     </div>
 </div>
 

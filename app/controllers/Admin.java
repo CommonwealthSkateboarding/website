@@ -243,11 +243,11 @@ public class Admin extends Controller {
         return redirect(routes.Admin.viewMemberPage(pass.membership.id));
     }
 
-    public static Result addSessionPass(Long id, int passes) {
+    public static Result addSessionPass(Long id, int passes, boolean promotional) {
         Membership member = Membership.find.byId(id);
         member.sessionPasses = (member.sessionPasses + passes);
         member.save();
-        audit("Added " + passes + " session " + ((passes == 1)?"pass":"passes") + " for " + member.name, member, null);
+        audit("Added " + passes + (promotional ? " promotional":"") + " session " + ((passes == 1)?"pass":"passes") + " for " + member.name, member, null);
         return redirect(routes.Admin.viewMemberPage(id));
     }
 
