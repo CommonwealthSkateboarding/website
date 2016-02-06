@@ -234,7 +234,7 @@
                     </select>
                     <input type="submit" id="submit_unlimited_pass" value="Add Unlimited Pass" class="btn btn-theme btn-block"/>
                 </form>
-                <p><a class="btn btn-xs btn-default btn-block" id="addUnlimitedPass" href="#">Add Unlimited Pass &raquo;</a></p>
+                <p><a class="btn btn-sm btn-success btn-block" id="addUnlimitedPass" href="#">Add Unlimited Pass &raquo;</a></p>
             </div>
         </div>
     </div>
@@ -248,10 +248,10 @@
             <!-- Removing sidebar checkin buttons
                 <a href="@routes.Admin.sessionVisit(member.id)" class="btn btn-theme btn-block @if(0 == member.sessionPasses || member.isCheckedInToday()) { disabled } ">Check In</a></p>
             -->
-            <a href="@routes.Admin.addSessionPass(member.id, 1, false)" class="btn btn-xs btn-default btn-block">Buy 1 Pass</a>
-            <a href="@routes.Admin.addSessionPass(member.id, 1, true)" class="btn btn-xs btn-default btn-block">Add 1 Promotional Pass</a>
-            <a href="@routes.Admin.addSessionPass(member.id, 10, false)" class="btn btn-xs btn-default btn-block">Buy 10 Passes</a>
-            <a href="@routes.Admin.subtractSessionPass(member.id)" class="btn btn-xs btn-default btn-block @if(0 == member.sessionPasses) { disabled }">Subtract 1 Pass</a>
+            <a href="@routes.Admin.addSessionPass(member.id, 1, false)" class="btn btn-sm btn-success btn-block"><i class="fa fa-money"></i> Buy 1 Pass</a>
+            <a href="@routes.Admin.addSessionPass(member.id, 1, true)" class="btn btn-sm btn-info btn-block"><i class="fa fa-shopping-bag"></i> Add 1 Promotional Pass</a>
+            <a href="@routes.Admin.addSessionPass(member.id, 10, false)" class="btn btn-sm btn-success btn-block"><i class="fa fa-money"></i> Buy <b>10</b> Passes</a>
+            <a href="@routes.Admin.subtractSessionPass(member.id)" class="btn btn-sm btn-danger btn-block @if(0 == member.sessionPasses) { disabled }">Subtract 1 Pass</a>
     </div>
 </div>
 
@@ -263,8 +263,8 @@
             <!-- Removing sidebar checkin buttons
                 <a href="@routes.Admin.allDayVisit(member.id)" class="btn btn-theme btn-block @if(0 == member.allDayPasses || member.isCheckedInToday()) { disabled } ">Check In</a></p>
             -->
-            <a href="@routes.Admin.addAllDayPass(member.id)" class="btn btn-xs btn-default btn-block">Add</a>
-            <a href="@routes.Admin.subtractAllDayPass(member.id)" class="btn btn-xs btn-default btn-block @if(0 == member.allDayPasses) { disabled }">Subtract</a>
+            <a href="@routes.Admin.addAllDayPass(member.id)" class="btn btn-sm btn-warning btn-block"><i class="fa fa-money"></i> Buy 1 Pass</a>
+            <a href="@routes.Admin.subtractAllDayPass(member.id)" class="btn btn-sm btn-danger btn-block @if(0 == member.allDayPasses) { disabled }">Subtract 1 Pass</a>
     </div>
 </div>
 <script>
