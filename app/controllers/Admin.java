@@ -34,6 +34,8 @@ import views.html.admin.news.newsIndex;
 import views.html.admin.register.unheardSaleIndex;
 import views.html.admin.register.bitcoinSale;
 import views.html.admin.userIndex;
+import views.html.email.inlineCampReminderEmail;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -687,21 +689,26 @@ public class Admin extends Controller {
     }
 
     @Restrict({@Group("CAMP")})
-    public static Result sendCampReminderEmail(Long id) {
+    public static Result sendCampReminderEmail(Long id, Boolean confirm) {
         Registration reg = (Registration) new Model.Finder(Long.class, Registration.class).byId(id);
         if (null == reg) {
             return notFound("Bad registration id");
         };
-        Email.sendCampReminderEmail(reg.registrantEmail, reg);
 
-        audit("Sent camp reminder to " + reg.registrantEmail + " re: " + reg.camp.title, null, reg.camp);
+        if (!confirm) {
+            return ok(inlineCampReminderEmail.render(reg));
+        } else {
+            Email.sendCampReminderEmail(reg.registrantEmail, reg);
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy h:mm a");
-        Date now = new Date();
-        reg.notes = reg.notes + "<br>At " + dateFormat.format(now) + " sent reminder of camp to " + reg.registrantEmail;
-        reg.update();
+            audit("Sent camp reminder to " + reg.registrantEmail + " re: " + reg.camp.title, null, reg.camp);
 
-        return redirect(routes.Admin.viewCampPage(reg.camp.id));
+            SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy h:mm a");
+            Date now = new Date();
+            reg.notes = reg.notes + "<br>At " + dateFormat.format(now) + " sent reminder of camp to " + reg.registrantEmail;
+            reg.update();
+
+            return redirect(routes.Admin.viewCampPage(reg.camp.id));
+        }
     }
 
 

@@ -126,7 +126,8 @@
                             </td>
                             <td><a href="@routes.Admin.editCampRegistrationPage(reg.id)" class="btn btn-primary btn-block btn-xs">Edit</a>
                                 @if(reg.registrantEmail) {
-                                    <a href="@routes.Admin.sendCampReminderEmail(reg.id)" class="btn btn-danger btn-block btn-xs"><i class="fa fa-envelope-o"></i> Reminder</a>
+                                    <a href="@routes.Admin.sendCampReminderEmail(reg.id, false)" class="btn btn-warning btn-block btn-xs"><i class="fa fa-envelope-o"></i> Preview Reminder</a>
+                                    <a href="@routes.Admin.sendCampReminderEmail(reg.id, true)" class="btn btn-danger btn-block btn-xs"><i class="fa fa-envelope-o"></i> Send Reminder</a>
                                 }
                             </td>
                         </tr>
