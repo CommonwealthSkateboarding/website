@@ -1161,6 +1161,12 @@ PANELS CONFIGURATIONS
 	margin-left: 10px;
 }
 
+.content-panel img {
+   max-width: 80%;
+   width: auto;
+   height: auto;
+}
+
 /*WEATHER PANELS*/
 
 /* Weather 1 */
