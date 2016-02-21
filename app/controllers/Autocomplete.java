@@ -24,8 +24,8 @@ public class Autocomplete extends Controller {
     public static Result searchMembersByName(String partial) {
         List<Membership> results = (partial.length() < MINIMUM_AUTOCOMPLETE_SEARCH_LENGTH) ?
                 null :
-                Membership.find.where().like("name", "%" + partial + "%").orderBy(Admin.RECENT_VISIT_ORDER)
-                        .setMaxRows(100).findList();
+                Membership.find.where().eq("duplicate", false).like("name", "%" + partial + "%")
+                        .orderBy(Admin.RECENT_VISIT_ORDER).setMaxRows(100).findList();
         return ok(Json.toJson(results));
     }
 }

@@ -47,7 +47,9 @@
         </div>
     }
     <div class="showback">
-        <a href="@routes.Admin.editMemberPage(member.id)" class="btn btn-theme pull-right">Edit</a>
+        <div class="pull-right">
+            <a href="@routes.Admin.markDuplicate(member.id, !(member.duplicate))" class="btn btn-warning"><i class="fa fa-warning"></i> @(if (member.duplicate) "Unmark this member as a duplicate" else "Mark this member as a duplicate")</a> <a href="@routes.Admin.editMemberPage(member.id)" class="btn btn-theme">Edit Info</a>
+        </div>
         <h4><i class="fa fa-angle-right"></i> Member Details</h4>
         <table class="table table-bordered">
             <tr>

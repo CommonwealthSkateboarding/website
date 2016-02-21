@@ -17,6 +17,8 @@ alter table registration add emergency_telephone varchar(255);
 alter table registration add alternate_emergency_contact_name varchar(255);
 alter table registration add alternate_emergency_telephone varchar(255);
 
+alter table membership add duplicate tinyint(1) NOT NULL;
+
 # --- !Downs
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -29,5 +31,7 @@ alter table registration drop column emergency_contact_name;
 alter table registration drop column emergency_telephone;
 alter table registration drop column alternate_emergency_contact_name;
 alter table registration drop column alternate_emergency_telephone;
+
+alter table membership drop duplicate;
 
 SET FOREIGN_KEY_CHECKS=1;

@@ -61,6 +61,7 @@ POST    /admin/members/new                      controllers.Admin.addMember()
 GET     /admin/members/:page                    controllers.Admin.memberIndex(page: Long)
 POST    /admin/members/:id/addCredit            controllers.Admin.addCredit(id: Long)
 POST    /admin/members/:id/subtractCredit       controllers.Admin.subtractCredit(id: Long)
+GET     /admin/members/:id/markDuplicate        controllers.Admin.markDuplicate(id: Long, state: Boolean)
 
 GET     /admin/log                              controllers.Admin.logIndex(page: Long ?=0)
 

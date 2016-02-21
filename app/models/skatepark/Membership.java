@@ -76,6 +76,8 @@ public class Membership extends Model {
     @OneToOne
     public Visit lastVisit;
 
+    public boolean duplicate;
+
     public static final Finder<Long, Membership> find = new Finder<Long, Membership>(
             Long.class, Membership.class);
 

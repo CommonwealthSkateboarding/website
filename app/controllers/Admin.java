@@ -143,7 +143,8 @@ public class Admin extends Controller {
 
     public static Result memberIndex(Long page) {
         boolean hasNextPage = false;
-        List<Membership> list = Membership.find.orderBy(RECENT_VISIT_ORDER).setMaxRows(PER_PAGE + 1)
+        List<Membership> list = Membership.find.where().eq("duplicate", false)
+                .orderBy(RECENT_VISIT_ORDER).setMaxRows(PER_PAGE + 1)
                 .setFirstRow(page.intValue() * PER_PAGE).findList();
         if (list.size() == (PER_PAGE + 1)) { // if there is another page after
             list.remove(PER_PAGE);
@@ -198,7 +199,7 @@ public class Admin extends Controller {
     public static Result findMember() {
         Long page = new Long(0);
         String searchName = (String) Form.form().bindFromRequest().get().getData().get("name");
-        List<Membership> results = Membership.find.where()
+        List<Membership> results = Membership.find.where().eq("duplicate", false)
                 .like("name", "%" + searchName + "%").orderBy(RECENT_VISIT_ORDER).findList();
         return ok(memberIndex.render(results, page, false, getLocalUser(session())));
     }
@@ -335,6 +336,20 @@ public class Admin extends Controller {
         member.save();
 
         audit("Updated " + member.name + " in the membership database", member, null);
+
+        return redirect(routes.Admin.viewMemberPage(member.id));
+    }
+    public static Result markDuplicate(Long id, Boolean state) {
+        Membership member = (Membership) new Model.Finder(Long.class, Membership.class).byId(id);
+        if (null == member) {
+            return notFound("Bad member id");
+        };
+
+        member.duplicate = state;
+
+        member.save();
+
+        audit((state?"Marked ":"Unmarked ") + member.name + " as a duplicate in the membership database", member, null);
 
         return redirect(routes.Admin.viewMemberPage(member.id));
     }
