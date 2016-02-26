@@ -16,4 +16,14 @@ body.shop {
 			}
 		}
 	}
+
+	.features { margin-top: 30px; }
+
+	.features {
+		img {
+			margin-top: $margin/2;
+			//max-width: 648px;
+			width: 100%;
+		}
+	}
 }
