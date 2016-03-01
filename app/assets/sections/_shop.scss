@@ -17,13 +17,22 @@ body.shop {
 		}
 	}
 
-	.features { margin-top: 30px; }
+	.features .overview { margin-top: 30px; }
 
 	.features {
 		img {
 			margin-top: $margin/2;
 			//max-width: 648px;
 			width: 100%;
+		}
+	}
+
+	.overview {
+		.highlight span {
+			@extend .handwriting;
+			@include rem(font-size, 21px);
+			line-height: 1.32;
+			padding: 9px 0 3px;
 		}
 	}
 }
