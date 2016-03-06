@@ -125,14 +125,14 @@ public class Application extends Controller {
         RegistrationInfo info = Form.form(RegistrationInfo.class).bindFromRequest().get();
 
         try {
-            Charge charge = Stripe.chargeStripe(info.fullyPaid?camp.cost:CAMP_DEPOSIT, info.stripeToken, "Registration for " + camp.title);
+            Charge charge = Stripe.chargeStripe(info.fullyPaid?camp.getCurrentCost():CAMP_DEPOSIT, info.stripeToken, "Registration for " + camp.title);
 
             Registration reg = new Registration();
 
             reg.registrationType = Registration.RegistrationType.CAMP;
             reg.camp = camp;
             reg.paid = info.fullyPaid.booleanValue();
-            reg.totalPaid = (info.fullyPaid ? camp.cost : CAMP_DEPOSIT);
+            reg.totalPaid = (info.fullyPaid ? camp.getCurrentCost() : CAMP_DEPOSIT);
             reg.registrantEmail = info.email;
             reg.participantName = info.name;
             reg.emergencyContactName = info.emergencyContactName;
