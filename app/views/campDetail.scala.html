@@ -66,6 +66,10 @@
 					<p>Your payment could not be processed. Try again or use another card, and if this problem persists, please <a href="/contact">contact us</a>.</p>
 			}
 			<p>@Html(camp.description)</p>
+			@if(!camp.isPastEarlyRegistrationEndDate()) {
+				<p>An early registration discount of @utils.Formatter.prettyDollars(camp.earlyRegistrationDiscount) is available off of the full price of @utils.Formatter.prettyDollars(camp.cost) for registrations which are paid in full before @camp.earlyRegistrationEndDate.format("MMMMM d")@utils.TimeUtil.getDayOfMonthSuffix(camp.earlyRegistrationEndDate.format("d")), @camp.earlyRegistrationEndDate.format("yyyy"). A deposit will reserve your spot but must be paid in full before the deadline to receive the discount.</p>
+			}
+			<p></p>
 
 			@if(camp.isPastRegistrationEndDate()) {
 				<p class="h4">Camp Registration</p>
