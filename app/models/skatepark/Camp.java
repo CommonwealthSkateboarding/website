@@ -37,6 +37,10 @@ public class Camp extends Model {
 
     @Temporal(TemporalType.DATE)
     @Formats.DateTime(pattern="MM/dd/yyyy")
+    public Date earlyRegistrationEndDate;
+
+    @Temporal(TemporalType.DATE)
+    @Formats.DateTime(pattern="MM/dd/yyyy")
     public Date registrationEndDate;
 
     public Integer maxRegistrations;
@@ -45,6 +49,8 @@ public class Camp extends Model {
     public String description;
 
     public Double cost;
+
+    public Double earlyRegistrationDiscount;
 
     public String scheduleDescription;
 
@@ -56,6 +62,23 @@ public class Camp extends Model {
 
     public boolean isPastRegistrationEndDate() {
         return registrationEndDate.before(new Date());
+    }
+
+    public boolean isPastEarlyRegistrationEndDate() {
+        return (null == earlyRegistrationEndDate || earlyRegistrationEndDate.before(new Date()));
+    }
+
+    // Return cost including any early discount
+    public Double getCurrentCost() {
+        if (
+                (null != earlyRegistrationEndDate) &&
+                (null != earlyRegistrationDiscount) &&
+                !earlyRegistrationEndDate.before(new Date())
+        ) {
+            return (cost - earlyRegistrationDiscount);
+        } else {
+            return cost;
+        }
     }
 
     @Override

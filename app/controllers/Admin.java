@@ -621,6 +621,8 @@ public class Admin extends Controller {
         camp.endDate = newCamp.endDate;
         camp.maxRegistrations = newCamp.maxRegistrations;
         camp.registrationEndDate = newCamp.registrationEndDate;
+        camp.earlyRegistrationEndDate = newCamp.earlyRegistrationEndDate;
+        camp.earlyRegistrationDiscount = newCamp.earlyRegistrationDiscount;
         camp.scheduleDescription = newCamp.scheduleDescription;
         camp.startDate = newCamp.startDate;
         camp.title = newCamp.title;

@@ -28,8 +28,15 @@
 				</li>
 				<li class="cost">
 					<p class="h6">Cost</p>
-					<p>@utils.Formatter.prettyDollars(camp.cost)</p>
-										<p><img src="@routes.Assets.at("img/credit-cards.png")" alt="Payment Methods"></p>
+					<p>
+						@if(camp.isPastEarlyRegistrationEndDate) {
+							@utils.Formatter.prettyDollars(camp.cost)
+						} else {
+							<s>@utils.Formatter.prettyDollars(camp.cost)</s> @utils.Formatter.prettyDollars(camp.getCurrentCost())
+							until @camp.earlyRegistrationEndDate.format("M/d")!
+						}
+					</p>
+					<p><img src="@routes.Assets.at("img/credit-cards.png")" alt="Payment Methods"></p>
 				</li>
 				<li class="schedule">
 					<p class="h6">Schedule</p>
@@ -131,7 +138,7 @@
 					<div class="form-row payment">
 						<p class="h6">Choose Payment Amount</p>
 						<radiogroup>
-							<input type="radio" name="fullyPaid" id="full-price" @if(null!=info && (info.fullyPaid != true)){} else { checked } value="true"><label for="full-price"> <i class="fa fa-check"></i> <strong>Full</strong>&nbsp;(@utils.Formatter.prettyDollars(camp.cost))</label>
+							<input type="radio" name="fullyPaid" id="full-price" @if(null!=info && (info.fullyPaid != true)){} else { checked } value="true"><label for="full-price"> <i class="fa fa-check"></i> <strong>Full</strong>&nbsp;(@utils.Formatter.prettyDollars(camp.getCurrentCost()))</label>
 							@if(camp.cost>controllers.Application.CAMP_DEPOSIT) {
 								<input type="radio" name="fullyPaid" id="deposit" @if(null!=info && (info.fullyPaid != true)){ checked } else {} value="false"><label for="deposit"> <i class="fa fa-check"></i> <strong>Deposit</strong>&nbsp;(@utils.Formatter.prettyDollars(controllers.Application.CAMP_DEPOSIT))</label>
 							}
@@ -217,7 +224,7 @@
 						handler.open({
 						name: 'Commonwealth Skate',
 						description: '@camp.title Registration (@utils.Formatter.prettyDollars(camp.cost))',
-						amount: @((camp.cost*100).intValue),
+						amount: @((camp.getCurrentCost()*100).intValue),
 						email: $('#email').val(),
 						currency: 'usd',
 						bitcoin: true

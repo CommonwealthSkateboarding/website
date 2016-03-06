@@ -40,6 +40,14 @@
                     <td>@utils.Formatter.prettyDollars(camp.cost)</td>
                 </tr>
                 <tr>
+                    <td>Early Registration Discount</td>
+                    <td>@if(null != camp.earlyRegistrationDiscount) { @utils.Formatter.prettyDollars(camp.earlyRegistrationDiscount) }</td>
+                </tr>
+                <tr>
+                    <td>Early Registration End Date</td>
+                    <td>@if(null != camp.earlyRegistrationEndDate) { @camp.earlyRegistrationEndDate.format("MM/dd/yyyy") }</td>
+                </tr>
+                <tr>
                     <td>Schedule</td>
                     <td>@camp.scheduleDescription</td>
                 </tr>

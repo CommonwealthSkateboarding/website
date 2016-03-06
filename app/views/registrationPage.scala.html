@@ -4,7 +4,7 @@
     <section id="registration">
       <p class="h1">Congrats!</p>
       <h2>Registration Confirmed</h2>
-      <p class="h5">Thank you for making your online registration, your registration will be sent to your email address.</p>
+      <p class="h5">Thank you for making your online registration!<br>A record of your registration was sent to your email address.</p>
       @if(reg != null) {
         @if(reg.getRemainingDue()>0) {
           <div class="grid no-margin">
@@ -15,6 +15,16 @@
               }
               <p class="h4">Registration Balance Payment</p>
 
+              <p> Deposit Paid: @utils.Formatter.prettyDollars(reg.totalPaid)<br>
+                Amount Remaining:
+                @if(reg.camp.isPastEarlyRegistrationEndDate) {
+                  @utils.Formatter.prettyDollars(reg.getRemainingDue())
+                } else {
+                  <s>@utils.Formatter.prettyDollars(reg.getRemainingDue()+reg.camp.earlyRegistrationDiscount)</s> @utils.Formatter.prettyDollars(reg.getRemainingDue())
+                  if paid before early registration deadline of @reg.camp.earlyRegistrationEndDate.format("M/d")!
+                }
+              </p>
+
               @******************************************
               * https://stripe.com/docs/tutorials/forms *
               ******************************************@
@@ -24,7 +34,7 @@
                 <script src="https://checkout.stripe.com/checkout.js"></script>
                 <footer>
                   <button type="submit" id="pay">Pay @utils.Formatter.prettyDollars(reg.getRemainingDue())</button>
-                  <img src="@routes.Assets.at("img/credit-cards.png")" alt="Payment Methods">
+                  <br><img src="@routes.Assets.at("img/credit-cards.png")" alt="Payment Methods">
                 </footer>
                 <script>
                 var handler = StripeCheckout.configure({

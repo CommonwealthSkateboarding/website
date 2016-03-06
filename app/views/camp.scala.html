@@ -26,7 +26,7 @@
 		@for(camp <- camps) {
 		<tr>
 			<td><a href="@routes.Application.campDetail(camp.id)">@camp.title</a></td>
-			<td>@camp.startDate.format("M/dd") - @camp.endDate.format("M/dd")</td>
+			<td>@camp.startDate.format("M/d") - @camp.endDate.format("M/d")</td>
 			<td>
 				@if(0 >= (camp.maxRegistrations - camp.registrations.size())) {
 					Sold out!
@@ -34,7 +34,14 @@
 					@(camp.maxRegistrations - camp.registrations.size()) left
 				}
 			</td>
-			<td>@utils.Formatter.prettyDollars(camp.cost)</td>
+			<td>
+				@if(camp.isPastEarlyRegistrationEndDate) {
+					@utils.Formatter.prettyDollars(camp.cost)
+				} else {
+					<s>@utils.Formatter.prettyDollars(camp.cost)</s> @utils.Formatter.prettyDollars(camp.getCurrentCost())
+					until @camp.earlyRegistrationEndDate.format("M/d")!
+				}
+			</td>
 		</tr>
 		}
 		@if(camps.size == 0) {

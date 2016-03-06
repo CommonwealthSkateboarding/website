@@ -19,6 +19,9 @@ alter table registration add alternate_emergency_telephone varchar(255);
 
 alter table membership add duplicate tinyint(1) NOT NULL;
 
+alter table camp add early_registration_end_date datetime;
+alter table camp add early_registration_discount decimal(13,2);
+
 # --- !Downs
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -33,5 +36,8 @@ alter table registration drop column alternate_emergency_contact_name;
 alter table registration drop column alternate_emergency_telephone;
 
 alter table membership drop duplicate;
+
+alter table camp drop early_registration_end_date;
+alter table camp drop early_registration_discount;
 
 SET FOREIGN_KEY_CHECKS=1;

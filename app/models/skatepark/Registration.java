@@ -72,11 +72,13 @@ public class Registration extends Model {
 
     public Double getRemainingDue() {
         Double remaining = 0.0;
-        switch (this.registrationType) {
-            case CAMP: remaining = (this.camp.cost - this.totalPaid);
-                break;
-            case EVENT: remaining = (this.event.cost - this.totalPaid);
-                break;
+        if (!paid) {
+            switch (this.registrationType) {
+                case CAMP: remaining = (this.camp.getCurrentCost() - this.totalPaid);
+                    break;
+                case EVENT: remaining = (this.event.cost - this.totalPaid);
+                    break;
+            }
         }
         return remaining;
     }

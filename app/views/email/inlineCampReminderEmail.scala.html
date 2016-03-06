@@ -212,7 +212,7 @@
 						<table class="gold notice" width="100%" style="border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;border-radius: 3px;margin: 15px 0;background: #222;">
 							<tr>
 								<th style="padding: 20px 30px 0 30px;text-align: left;"> 
-									<p style="margin: 0;color: #FFF;font-family: &quot;Helvetica Nueue&quot;, Helvetica, Arial, sans-serif;font-size: 18px;line-height: 1.5;">You have a remainder of @utils.Formatter.prettyDollarsAndCents(registration.camp.cost - registration.totalPaid) that will be due by 9:30AM on @registration.camp.startDate.format("MM/dd").</p> 
+									<p style="margin: 0;color: #FFF;font-family: &quot;Helvetica Nueue&quot;, Helvetica, Arial, sans-serif;font-size: 18px;line-height: 1.5;">You have a remainder of @utils.Formatter.prettyDollarsAndCents(registration.getRemainingDue()) that will be due by 9:30AM on @registration.camp.startDate.format("MM/dd").</p>
 								</th>
 							</tr>
 							<tr>
