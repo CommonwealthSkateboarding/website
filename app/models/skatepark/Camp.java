@@ -1,5 +1,6 @@
 package models.skatepark;
 
+import org.apache.commons.lang3.time.DateUtils;
 import play.data.format.Formats;
 import play.db.ebean.Model;
 
@@ -61,19 +62,22 @@ public class Camp extends Model {
     public static final Finder<String, Camp> find = new Finder<>(String.class, Camp.class);
 
     public boolean isPastRegistrationEndDate() {
-        return registrationEndDate.before(new Date());
+        Date tomorrow = DateUtils.addDays(new Date(), 1);
+        return registrationEndDate.before(tomorrow); //inclusive of end date
     }
 
     public boolean isPastEarlyRegistrationEndDate() {
-        return (null == earlyRegistrationEndDate || earlyRegistrationEndDate.before(new Date()));
+        Date tomorrow = DateUtils.addDays(new Date(), 1);
+        return (null == earlyRegistrationEndDate || earlyRegistrationEndDate.before(tomorrow)); //inclusive of end date)
     }
 
     // Return cost including any early discount
     public Double getCurrentCost() {
+        Date tomorrow = DateUtils.addDays(new Date(), 1);
         if (
                 (null != earlyRegistrationEndDate) &&
                 (null != earlyRegistrationDiscount) &&
-                !earlyRegistrationEndDate.before(new Date())
+                !earlyRegistrationEndDate.before(tomorrow) //inclusive of end date
         ) {
             return (cost - earlyRegistrationDiscount);
         } else {
