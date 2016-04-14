@@ -62,22 +62,22 @@ public class Camp extends Model {
     public static final Finder<String, Camp> find = new Finder<>(String.class, Camp.class);
 
     public boolean isPastRegistrationEndDate() {
-        Date tomorrow = DateUtils.addDays(new Date(), 1);
-        return registrationEndDate.before(tomorrow); //inclusive of end date
+        Date yesterday = DateUtils.addDays(new Date(), -1);
+        return registrationEndDate.before(yesterday); //inclusive of end date
     }
 
     public boolean isPastEarlyRegistrationEndDate() {
-        Date tomorrow = DateUtils.addDays(new Date(), 1);
-        return (null == earlyRegistrationEndDate || earlyRegistrationEndDate.before(tomorrow)); //inclusive of end date)
+        Date yesterday = DateUtils.addDays(new Date(), -1);
+        return (null == earlyRegistrationEndDate || earlyRegistrationEndDate.before(yesterday)); //inclusive of end date)
     }
 
     // Return cost including any early discount
     public Double getCurrentCost() {
-        Date tomorrow = DateUtils.addDays(new Date(), 1);
+        Date yesterday = DateUtils.addDays(new Date(), -1);
         if (
                 (null != earlyRegistrationEndDate) &&
                 (null != earlyRegistrationDiscount) &&
-                !earlyRegistrationEndDate.before(tomorrow) //inclusive of end date
+                !earlyRegistrationEndDate.before(yesterday) //inclusive of end date
         ) {
             return (cost - earlyRegistrationDiscount);
         } else {
