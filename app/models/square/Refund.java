@@ -19,4 +19,6 @@ public class Refund {
     public String processed_at;
 
     public String payment_id;
+
+    public String merchant_id;
 }
