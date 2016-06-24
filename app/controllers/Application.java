@@ -109,6 +109,11 @@ public class Application extends Controller {
         return ok(about.render());
     }
 
+    @Cached(key = "store")
+    public static Result store(){
+        return ok(store.render());
+    }
+
     @Cached(key = "contact")
     public static Result contact(){
         return ok(contact.render());

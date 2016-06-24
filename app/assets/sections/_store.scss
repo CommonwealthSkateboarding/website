@@ -1,0 +1,17 @@
+body.store {
+
+	.item {
+		a.img {
+			display: block;
+
+			img { 
+				border: 6px solid fade-out($gold, .5);
+				margin: 0; 
+				&:hover {
+					border-color: $gold;
+				}
+			}
+		}
+	}
+
+}
