@@ -38,7 +38,7 @@ body.blog { background-image: image-url("about/2014__park-exterior-header--001.j
 			padding: 0 $margin/2;
 
 			.h5 { 
-				@include rem(font-size, 60px);
+				@include rem(font-size, 36px);
 				hyphens: auto;
 
 				// Does what it says on the tin
