@@ -107,11 +107,6 @@ POST    /admin/closures/new                     controllers.Admin.addClosure()
 GET     /admin/closures/:id/archive             controllers.Admin.archiveClosure(id: Long)
 GET     /admin/closures/:id/toggle              controllers.Admin.toggleClosure(id: Long, state: Boolean)
 
-GET     /admin/unheardSale                      controllers.Admin.unheardSaleIndex()
-POST    /admin/unheardSale/new                  controllers.Admin.addUnheardSale()
-GET     /admin/unheardSale/:id/delete           controllers.Admin.deleteUnheardSale(id: Long)
-GET     /admin/unheardSale/:id/invoice          controllers.Admin.invoiceUnheardSale(id: Long)
-
 GET     /admin/bitcoin                          controllers.Admin.bitcoinSaleIndex()
 POST    /admin/bitcoin/new                      controllers.Admin.addBitcoinSale()
 
