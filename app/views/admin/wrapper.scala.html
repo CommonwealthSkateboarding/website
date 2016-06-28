@@ -35,7 +35,49 @@
     <script src="@routes.Assets.at("admin/js/ckeditor/ckeditor.js")"></script>
     <script src="@routes.Assets.at("admin/js/ckeditor/adapters/jquery.js")"></script>
     <script src="@routes.Assets.at("admin/js/jquery.timepicker.min.js")"></script>
-    <script src="@routes.Assets.at("admin/js/admin.js")"></script>
+    <script src="@routes.Assets.at("admin/js/admin.js")"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.min.js"></script>
+    <script src="@routes.Assets.at("admin/js/typeahead.bundle.min.js")"></script>
+    <script>
+        $(document).ready(function(){
+            $("span.timeago").timeago();
+            Handlebars.registerHelper('checkinable', function (checkedInToday, sessionPasses, allDayPasses, validUnlimitedPass, options) {
+               return ((!checkedInToday && (null == validUnlimitedPass) && (sessionPasses > 0 || allDayPasses > 0)) ? options.fn(this) : options.inverse(this));
+            });
+            Handlebars.registerHelper('poortown', function (checkedInToday, sessionPasses, allDayPasses, validUnlimitedPass, options) {
+               return ((!checkedInToday && (sessionPasses == 0) && (allDayPasses == 0) && (validUnlimitedPass == null)) ? options.fn(this) : options.inverse(this));
+            });
+            Handlebars.registerHelper('unlimable', function (checkedInToday, validUnlimitedPass, options) {
+               return ((!checkedInToday && (validUnlimitedPass != null)) ? options.fn(this) : options.inverse(this));
+            });
+
+            var members = new Bloodhound({
+              datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+              queryTokenizer: Bloodhound.tokenizers.whitespace,
+              remote: '/admin/autocomplete/member/%QUERY',
+              limit: 100
+            });
+
+            members.initialize();
+
+            $('.typeahead').typeahead({
+              hint: true,
+              highlight: true,
+              minLength: 3
+            }, {
+              name: 'members',
+              displayKey: 'name',
+              source: members.ttAdapter(),
+              templates: {
+                empty: Handlebars.compile([
+                  '<div class="empty-message">',
+                  'Unable to find any members named "{{query}}". <a href="/admin/members/new?name={{query}}" class="btn btn-info">Add New Member</a><br><br>If you have not <a href="/admin/members/">reloaded this page</a> in a while, you might be logged out!',
+                  '</div>'
+                  ].join('\n')),
+                suggestion: Handlebars.compile('<p><h4>{{name}} {{#checkedInToday}}<span class="label label-success"><i class="fa fa-check"></i></span>{{/checkedInToday}}{{^checkedInToday}}<span class="label label-danger"><i class="fa fa-ban"></i></span>{{/checkedInToday}} <a href="/admin/members/{{id}}/view" class="label label-info">View</a></h4> Actions: {{#checkinable checkedInToday sessionPasses allDayPasses mostValidUnlimitedPass}}{{#if allDayPasses}}<a href="/admin/members/{{id}}/visit/allday" class="btn btn-info">Check in With All Day Pass ({{allDayPasses}} left)</a>{{/if}}{{#if sessionPasses}}<a href="/admin/members/{{id}}/visit/session" class="btn btn-info">Check in With Session Pass ({{sessionPasses}} left)</a>{{/if}}{{/checkinable}} {{#poortown checkedInToday sessionPasses allDayPasses mostValidUnlimitedPass}}<a href="/admin/members/{{id}}/visit/session?immediate=true" class="btn btn-danger">Sell a <strong>session</strong> pass for today</a> <a href="/admin/members/{{id}}/visit/allday?immediate=true" class="btn btn-warning">Sell an <strong>all-day</strong> pass for today</a>{{/poortown}} {{#unlimable checkedInToday mostValidUnlimitedPass}}<a href="/admin/members/{{id}}/visit/{{mostValidUnlimitedPass.id}}" class="btn btn-success">Check in with unlimited pass</a>{{/unlimable}}</p>')
+              }
+            });
+        });
+    </script>
 </head>
 
 <body>
@@ -57,6 +99,9 @@
             </div>
             <div class="top-menu">
                 <ul class="nav pull-right top-menu">
+                    <li>
+                        <input type="text" class="form-control typeahead hidden-phone" placeholder="Quick Search" style="width: 600px; display: block; margin-top: 15px; margin-right: 15px"/>
+                    </li>
                     <li class="hidden-phone"><a class="logout" href="@routes.Admin.issueIndex()"><i class="fa fa-warning"></i> Report Issue</a></li>
                     <li><a class="logout" href="/logout">Logout</a></li>
                     <li class="hidden-phone"><a class="logout" href="https://accounts.google.com/logout" target="_blank">Google Logout</a></li>
