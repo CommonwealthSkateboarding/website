@@ -100,7 +100,11 @@
             <div class="top-menu">
                 <ul class="nav pull-right top-menu">
                     <li>
-                        <input type="text" class="form-control typeahead hidden-phone" placeholder="Quick Search" style="width: 600px; display: block; margin-top: 15px; margin-right: 15px"/>
+                        <form action="@routes.Admin.findMember()" method="post">
+                            <input type="text" name="name" class="form-control typeahead hidden-phone" placeholder="Quick Search" style="width: 600px; display: block; margin-top: 15px; margin-right: 15px"/>
+                            <input type="submit" id="submit_name" value="Find Member" hidden/>
+                        </form>
+
                     </li>
                     <li class="hidden-phone"><a class="logout" href="@routes.Admin.issueIndex()"><i class="fa fa-warning"></i> Report Issue</a></li>
                     <li><a class="logout" href="/logout">Logout</a></li>
