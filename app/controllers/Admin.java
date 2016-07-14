@@ -11,6 +11,8 @@ import models.site.ClosureNotice;
 import models.site.Issue;
 import models.site.NewsItem;
 import models.skatepark.*;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.text.WordUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import play.Logger;
 import play.data.Form;
@@ -193,7 +195,9 @@ public class Admin extends Controller {
     }
 
     public static Result addMemberPage(String name) {
-        return ok(addMember.render(name, getLocalUser(session())));
+        Membership member = new Membership();
+        member.name = name;
+        return ok(addMember.render(member, false, getLocalUser(session())));
     }
 
     public static Result findMember() {
@@ -354,14 +358,27 @@ public class Admin extends Controller {
         return redirect(routes.Admin.viewMemberPage(member.id));
     }
 
-    public static Result addMember() {
+    public static Result addMember(boolean ignoreDuplicate) {
         Membership membership = Form.form(Membership.class).bindFromRequest().get();
         membership.createDate = new Date();
-        membership.save();
 
-        audit("Added " + membership.name + " to the membership database", membership, null);
+        //remove trailing and extra whitespace, add appropriate capitalization
+        membership.name = WordUtils.capitalize(StringUtils.stripToEmpty(membership.name.replaceAll("\\s+", " ")));
 
-        return redirect(routes.Admin.viewMemberPage(membership.id));
+        List<Membership> results = Membership.find.where().eq("duplicate", false)
+                .like("name", "%" + membership.name + "%").orderBy(RECENT_VISIT_ORDER).findList();
+
+        if (ignoreDuplicate || results.isEmpty()) {
+            membership.save();
+
+            audit("Added " + membership.name + " to the membership database", membership, null);
+
+            return redirect(routes.Admin.viewMemberPage(membership.id));
+        } else {
+            // display warning re: duplicate name case
+            return ok(addMember.render(membership, true, getLocalUser(session())));
+        }
+
     }
 
     public static Result sessionVisit(Long memberId, boolean soldOnSpot) {

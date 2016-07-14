@@ -1,4 +1,4 @@
-@(name: String, localUser: models.security.User = null)
+@(member: models.skatepark.Membership, duplicateWarning: Boolean, localUser: models.security.User = null)
 @import admin.wrapper
 @wrapper(localUser, "member", "addMember") {
 
@@ -7,24 +7,30 @@
     <div class="col-lg-8">
         <div class="showback">
             <h4 class="mb"><i class="fa fa-angle-right"></i> Add New Member</h4>
-            <form action="@routes.Admin.addMember()" method="post" class="form-horizontal style-form">
-                <label>Name:</label><br/><input type="text" name="name" value="@if(null != name){@name}" class="form-control" required /><br/>
-                <label>Parent Name:</label><br/><input type="text" name="parentName" class="form-control" /><br/>
-                <label>Address:</label><br/><input type="text" name="address" class="form-control" /><br/>
-                <label>City:</label><br/><input type="text" name="city" class="form-control" /><br/>
-                <label>State:</label><br/><input type="text" name="state" class="form-control" /><br/>
-                <label>Zipcode:</label><br/><input type="text" name="zipcode" class="form-control" /><br/>
-                <label>Country:</label><br/><input type="text" name="country" class="form-control" /><br/>
-                <label>Birth Date:</label><br/><input name="birthDate" id="datepicker" class="form-control" /><br/>
-                <label>Telephone:</label><br/><input type="text" name="telephone" class="form-control" /><br/>
-                <label>Email Address:</label><br/><input type="text" name="email" class="form-control" /><br/>
-                <label>Emergency Contact Name:</label><br/><input type="text" name="emergencyContactName" class="form-control" /><br/>
-                <label>Emergency Contact Number:</label><br/><input type="text" name="emergencyContactNumber" class="form-control" /><br/>
-                <label>Emergency Contact Name #2:</label><br/><input type="text" name="emergencyContactNameB" class="form-control" /><br/>
-                <label>Emergency Contact Number #2:</label><br/><input type="text" name="emergencyContactNumberB" class="form-control" /><br/>
-                <label>Emergency Contact Name #3:</label><br/><input type="text" name="emergencyContactNameC" class="form-control" /><br/>
-                <label>Emergency Contact Number #3:</label><br/><input type="text" name="emergencyContactNumberC" class="form-control" /><br/>
-                <label>Notes:</label><br/><textarea name="notes" id="notes"></textarea><br/>
+            @if(duplicateWarning) {
+                <div class="alert alert-danger">
+                    <h2 class="text-center"><i class="fa fa-warning"></i> A member named @member.name is already present in the database!</h2>
+                    <p class="text-center">Are you sure you want to add a duplicate? This is probably not a good idea. But if you must, verify the info and submit again.</p>
+                </div>
+            }
+            <form action="@routes.Admin.addMember(duplicateWarning)" method="post" class="form-horizontal style-form">
+                <label>Name:</label><br/><input type="text" name="name" value="@member.name" class="form-control" required /><br/>
+                <label>Parent Name:</label><br/><input type="text" name="parentName" value="@member.parentName" class="form-control" /><br/>
+                <label>Address:</label><br/><input type="text" name="address" value="@member.address" class="form-control" /><br/>
+                <label>City:</label><br/><input type="text" name="city" value="@member.city" class="form-control" /><br/>
+                <label>State:</label><br/><input type="text" name="state" value="@member.state" class="form-control" /><br/>
+                <label>Zipcode:</label><br/><input type="text" name="zipcode" value="@member.zipcode" class="form-control" /><br/>
+                <label>Country:</label><br/><input type="text" name="country" value="@member.country" class="form-control" /><br/>
+                <label>Birth Date:</label><br/><input name="birthDate" id="datepicker" value="@member.birthDate" class="form-control" /><br/>
+                <label>Telephone:</label><br/><input type="text" name="telephone" value="@member.telephone" class="form-control" /><br/>
+                <label>Email Address:</label><br/><input type="text" name="email" value="@member.email" class="form-control" /><br/>
+                <label>Emergency Contact Name:</label><br/><input type="text" name="emergencyContactName" value="@member.emergencyContactName" class="form-control" /><br/>
+                <label>Emergency Contact Number:</label><br/><input type="text" name="emergencyContactNumber" value="@member.emergencyContactNumber" class="form-control" /><br/>
+                <label>Emergency Contact Name #2:</label><br/><input type="text" name="emergencyContactNameB" value="@member.emergencyContactNameB" class="form-control" /><br/>
+                <label>Emergency Contact Number #2:</label><br/><input type="text" name="emergencyContactNumberB" value="@member.emergencyContactNumberB" class="form-control" /><br/>
+                <label>Emergency Contact Name #3:</label><br/><input type="text" name="emergencyContactNameC" value="@member.emergencyContactNameC" class="form-control" /><br/>
+                <label>Emergency Contact Number #3:</label><br/><input type="text" name="emergencyContactNumberC" value="@member.emergencyContactNumberC" class="form-control" /><br/>
+                <label>Notes:</label><br/><textarea name="notes" id="notes">@member.notes</textarea><br/>
                 <label>Session Passes:</label><br/>
                 <select name="sessionPasses" class="form-control">
                     <option value="0">0</option>
