@@ -44,6 +44,7 @@ import java.util.*;
 public class Admin extends Controller {
 
     public static final int PER_PAGE = 25;
+    public static final int MAX_RECENT_AUDIT_DISPLAY = 50;
     public static final String RECENT_VISIT_ORDER = "lastVisit.time DESC, name";
     public static final String RECENT_EVENT_ORDER = "timestamp DESC";
     public static final String USER_LAST_LOGIN_ORDER = "lastLogin DESC";
@@ -293,8 +294,8 @@ public class Admin extends Controller {
 
         Date lastMonth = DateUtils.addMonths(new Date(), -1);
         lastMonth = DateUtils.ceiling(lastMonth, Calendar.DATE);
-        List<AuditRecord> logs = AuditRecord.find.where().eq("membership_id", id).where().gt("timestamp", lastMonth)
-                .orderBy("timestamp DESC").findList();
+        List<AuditRecord> logs = AuditRecord.find.where().eq("membership_id", id).where().orderBy("timestamp DESC")
+                .setMaxRows(MAX_RECENT_AUDIT_DISPLAY).findList();
         return ok(viewMember.render(member, logs, getLocalUser(session())));
     }
 

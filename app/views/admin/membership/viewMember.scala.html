@@ -4,6 +4,11 @@
 @wrapper(localUser, "member", "existingMembers") {
 <h3><i class="fa fa-angle-right"></i> Membership Database</h3>
 <div class="col-lg-8 col-md-8 col-sm-8">
+    @if(!member.isVisited) {
+        <div class="alert alert-danger">
+            <h2 class="text-center"><i class="fa fa-warning"></i> @member.name Has Never Checked In!</h2>
+        </div>
+    }
     @if(member.isCheckedInToday()) {
         @if(member.lastVisit.isValidNow()) {
             <div class="alert alert-success">
@@ -127,7 +132,7 @@
         </table>
     </div>
     <div class="showback">
-        <h4><i class="fa fa-angle-right"></i> Records Within The Last Month</h4>
+        <h4><i class="fa fa-angle-right"></i> Last 50 Records</h4>
         <section id="unseen">
             <table class="table table-bordered table-striped table-condensed">
                 <thead>
