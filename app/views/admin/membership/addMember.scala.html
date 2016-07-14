@@ -21,7 +21,7 @@
                 <label>State:</label><br/><input type="text" name="state" value="@member.state" class="form-control" /><br/>
                 <label>Zipcode:</label><br/><input type="text" name="zipcode" value="@member.zipcode" class="form-control" /><br/>
                 <label>Country:</label><br/><input type="text" name="country" value="@member.country" class="form-control" /><br/>
-                <label>Birth Date:</label><br/><input name="birthDate" id="datepicker" value="@member.birthDate" class="form-control" /><br/>
+                <label>Birth Date:</label><br/><input name="birthDate" id="datepicker" value="@if(null != member.birthDate) { @member.birthDate.format("MM/dd/yyyy") }" class="form-control" /><br/>
                 <label>Telephone:</label><br/><input type="text" name="telephone" value="@member.telephone" class="form-control" /><br/>
                 <label>Email Address:</label><br/><input type="text" name="email" value="@member.email" class="form-control" /><br/>
                 <label>Emergency Contact Name:</label><br/><input type="text" name="emergencyContactName" value="@member.emergencyContactName" class="form-control" /><br/>
