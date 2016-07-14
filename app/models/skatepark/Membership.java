@@ -76,6 +76,10 @@ public class Membership extends Model {
     @OneToOne
     public Visit lastVisit;
 
+    public boolean isVisited() {
+        return (null != lastVisit);
+    }
+
     public boolean duplicate;
 
     public static final Finder<Long, Membership> find = new Finder<Long, Membership>(

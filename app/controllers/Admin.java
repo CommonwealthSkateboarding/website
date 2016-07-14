@@ -44,7 +44,7 @@ import java.util.*;
 public class Admin extends Controller {
 
     public static final int PER_PAGE = 25;
-    public static final String RECENT_VISIT_ORDER = "lastVisit.time DESC";
+    public static final String RECENT_VISIT_ORDER = "lastVisit.time DESC, name";
     public static final String RECENT_EVENT_ORDER = "timestamp DESC";
     public static final String USER_LAST_LOGIN_ORDER = "lastLogin DESC";
 
