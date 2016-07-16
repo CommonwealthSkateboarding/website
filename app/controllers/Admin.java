@@ -197,7 +197,7 @@ public class Admin extends Controller {
     public static Result addMemberPage(String name) {
         Membership member = new Membership();
         member.name = name;
-        return ok(addMember.render(member, false, getLocalUser(session())));
+        return ok(addMember.render(member, false, null, getLocalUser(session())));
     }
 
     public static Result findMember() {
@@ -365,10 +365,10 @@ public class Admin extends Controller {
         //remove trailing and extra whitespace, add appropriate capitalization
         membership.name = WordUtils.capitalize(StringUtils.stripToEmpty(membership.name.replaceAll("\\s+", " ")));
 
-        List<Membership> results = Membership.find.where().eq("duplicate", false)
+        List<Membership> existingMembersWithName = Membership.find.where().eq("duplicate", false)
                 .like("name", "%" + membership.name + "%").orderBy(RECENT_VISIT_ORDER).findList();
 
-        if (ignoreDuplicate || results.isEmpty()) {
+        if (ignoreDuplicate || existingMembersWithName.isEmpty()) {
             membership.save();
 
             audit("Added " + membership.name + " to the membership database", membership, null);
@@ -376,7 +376,7 @@ public class Admin extends Controller {
             return redirect(routes.Admin.viewMemberPage(membership.id));
         } else {
             // display warning re: duplicate name case
-            return ok(addMember.render(membership, true, getLocalUser(session())));
+            return ok(addMember.render(membership, true, existingMembersWithName, getLocalUser(session())));
         }
 
     }
