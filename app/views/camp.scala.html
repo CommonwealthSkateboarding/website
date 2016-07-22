@@ -28,7 +28,7 @@
 			<td><a href="@routes.Application.campDetail(camp.id)">@camp.title</a></td>
 			<td>@camp.startDate.format("M/d") - @camp.endDate.format("M/d")</td>
 			<td>
-				@if(0 >= (camp.maxRegistrations - camp.registrations.size())) {
+				@if((0 >= (camp.maxRegistrations - camp.registrations.size())) || camp.isPastRegistrationEndDate()) {
 					Sold out!
 				} else {
 					@(camp.maxRegistrations - camp.registrations.size()) left

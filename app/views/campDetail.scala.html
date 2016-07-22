@@ -19,7 +19,7 @@
 				<li class="registrants">
 					<p class="h6">Spots Available</p>
 					<p>
-						@if(0 >= (camp.maxRegistrations - camp.registrations.size())) {
+						@if((0 >= (camp.maxRegistrations - camp.registrations.size())) || camp.isPastRegistrationEndDate()) {
 							Sold out!
 						} else {
 							@(camp.maxRegistrations - camp.registrations.size()) left
