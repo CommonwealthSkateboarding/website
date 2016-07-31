@@ -376,6 +376,7 @@ public class Admin extends Controller {
             return redirect(routes.Admin.viewMemberPage(membership.id));
         } else {
             // display warning re: duplicate name case
+            Logger.info("Intercepted duplicate member name '" + membership.name +"', requesting confirmation to add");
             return ok(addMember.render(membership, true, existingMembersWithName, getLocalUser(session())));
         }
 
