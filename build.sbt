@@ -11,6 +11,20 @@ herokuAppName in Compile := "lastplace"
 
 lazy val root = (project in file(".")).enablePlugins(PlayJava)
 
+enablePlugins(sbtdocker.DockerPlugin)
+enablePlugins(JavaServerAppPackaging)
+
+dockerfile in docker := {
+  val appDir: File = stage.value
+  val targetDir = "/app"
+
+  new Dockerfile {
+    from("java")
+    entryPoint(s"$targetDir/bin/${executableScriptName.value}")
+    copy(appDir, targetDir)
+  }
+}
+
 scalaVersion := "2.11.7"
 
 libraryDependencies += "mysql" % "mysql-connector-java" % "5.1.34"
