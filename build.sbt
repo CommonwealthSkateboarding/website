@@ -7,8 +7,6 @@ organization := "com.commonwealthskateboarding"
 
 version := "1.0-SNAPSHOT"
 
-herokuAppName in Compile := "lastplace"
-
 lazy val root = (project in file(".")).enablePlugins(PlayJava)
 
 enablePlugins(sbtdocker.DockerPlugin)
