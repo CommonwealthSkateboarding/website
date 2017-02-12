@@ -69,35 +69,32 @@
         </div>
     </div>
 </div>
-<link rel="stylesheet" href="http://cdn.oesmith.co.uk/morris-0.4.3.min.css">
-<script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-<script src="http://cdn.oesmith.co.uk/morris-0.4.3.min.js"></script>
 <script>
-$(document).ready(function(){
-    Morris.Area({
-        element: 'hero-area',
-        data: [
-            @defining(utils.ChartUtil.breakDownVisitsToDays(visits)) { map =>
-                @for((key, value) <- map) {
-                    {period: '@key',
-                        @for((key2, value2) <- value) {
-                            @key2: @value2,
-                        }
-                    },
+    $(document).ready(function(){
+        Morris.Area({
+            element: 'hero-area',
+            data: [
+                @defining(utils.ChartUtil.breakDownVisitsToDays(visits)) { map =>
+                    @for((key, value) <- map) {
+                        {period: '@key',
+                            @for((key2, value2) <- value) {
+                                @key2: @value2,
+                            }
+                        },
+                    }
                 }
-            }
-        ],
+            ],
 
-          xkey: 'period',
-          ykeys: ['SESSION', 'ALL_DAY', 'UNLIMITED'],
-          labels: ['Session Passes', 'All Day Passes', 'Unlimited Passes'],
-          hideHover: 'auto',
-          lineWidth: 1,
-          pointSize: 5,
-          lineColors: ['#4a8bc2', '#ff6c60', '#a9d86e'],
-          fillOpacity: 0.5,
-          smooth: true
+              xkey: 'period',
+              ykeys: ['SESSION', 'ALL_DAY', 'UNLIMITED'],
+              labels: ['Session Passes', 'All Day Passes', 'Unlimited Passes'],
+              hideHover: 'auto',
+              lineWidth: 1,
+              pointSize: 5,
+              lineColors: ['#4a8bc2', '#ff6c60', '#a9d86e'],
+              fillOpacity: 0.5,
+              smooth: true
+        });
     });
-});
 </script>
 }
