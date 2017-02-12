@@ -3,7 +3,7 @@ package models.security;
 import models.site.ClosureNotice;
 import models.site.NewsItem;
 import models.skatepark.*;
-import play.db.ebean.Model;
+import com.avaje.ebean.Model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

@@ -4,7 +4,7 @@ import be.objectify.deadbolt.java.views.html.pattern;
 import com.avaje.ebean.Expr;
 import play.data.format.Formats;
 import play.data.validation.Constraints;
-import play.db.ebean.Model;
+import com.avaje.ebean.Model;
 
 import javax.persistence.*;
 import java.util.ArrayList;

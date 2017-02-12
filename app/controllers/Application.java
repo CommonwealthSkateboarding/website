@@ -9,7 +9,6 @@ import models.skatepark.*;
 import play.Logger;
 import play.cache.Cached;
 import play.data.Form;
-import play.db.ebean.Model;
 import play.mvc.*;
 
 import views.html.*;
@@ -42,7 +41,7 @@ public class Application extends Controller {
 
         boolean hasNextPage = false;
 
-        List<NewsItem> news = NewsItem.getCachedPagedNews(true, page, PER_PAGE);
+        List<NewsItem> news = NewsItem.getNewsItems(true, page.intValue(), PER_PAGE);
         
         if (news.size() == (PER_PAGE + 1)) { // if there is another page after
             hasNextPage = true;

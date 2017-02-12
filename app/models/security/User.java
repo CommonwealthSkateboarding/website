@@ -5,12 +5,11 @@ import java.util.*;
 import javax.persistence.*;
 
 import be.objectify.deadbolt.core.models.Permission;
-import be.objectify.deadbolt.core.models.Role;
 import be.objectify.deadbolt.core.models.Subject;
 import com.feth.play.module.pa.user.*;
 import play.data.format.Formats;
 import play.data.validation.Constraints;
-import play.db.ebean.Model;
+import com.avaje.ebean.Model;
 
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.ExpressionList;
@@ -123,7 +122,7 @@ public class User extends Model implements Subject {
         }
 
         user.save();
-        user.saveManyToManyAssociations("roles");
+        Ebean.saveManyToManyAssociations(user,"roles");
         return user;
     }
 

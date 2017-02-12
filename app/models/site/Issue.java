@@ -1,7 +1,7 @@
 package models.site;
 
 import models.security.User;
-import play.db.ebean.Model;
+import com.avaje.ebean.Model;
 
 import javax.persistence.*;
 import java.util.Date;

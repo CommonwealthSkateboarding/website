@@ -1,16 +1,11 @@
 package models.site;
 
 import com.avaje.ebean.Expr;
-import net.sf.ehcache.Ehcache;
-import play.Play;
-import play.api.cache.EhCachePlugin;
-import play.cache.*;
+import controllers.Application;
 import play.data.format.Formats;
-import play.data.validation.Constraints;
-import play.db.ebean.Model;
+import com.avaje.ebean.Model;
 
 import javax.persistence.*;
-import javax.persistence.Cache;
 import java.util.Date;
 import java.util.List;
 
@@ -52,46 +47,39 @@ public class NewsItem extends Model {
 
     @Override
     public void save() {
-        clearCachedPages();
         play.cache.Cache.set("news"+id, this);
         super.save();
     }
 
     @Override
     public void update() {
-        clearCachedPages();
         play.cache.Cache.set("news"+id, this);
         super.update();
     }
 
-    private void clearCachedPages() {
-        List keys = Play.application().plugin(EhCachePlugin.class).cache().getKeys();
-        for(Object key : keys)
-        {
-            if(key.toString().contains(NEWS_PAGE_CACHE_PREFIX)) {
-                play.cache.Cache.remove(key.toString());
-            }
-        }
-    }
-
-    public static List<NewsItem> getCachedPagedNews(boolean frontPage, Long page, int perPage) {
-        String cacheKey = NEWS_PAGE_CACHE_PREFIX + (frontPage?"FP":"BL") + perPage + "pp" + page;
-        List<NewsItem> news = (List<NewsItem>) play.cache.Cache.get(cacheKey);
+    public static List<NewsItem> getCachedFrontPageNews() {
+        List<NewsItem> news = (List<NewsItem>) play.cache.Cache.get("frontPageNews");
         if (null == news) {
-            Date now = new Date();
-            if (frontPage) {
-                news = NewsItem.find
-                        .where().or(Expr.eq("expires", false), Expr.gt("expireDate", now)).where().eq("frontPage", true)
-                        .setMaxRows(perPage + 1).setFirstRow(page.intValue() * perPage).orderBy(STICKY_REVERSE_DATE_ORDER).findList();
-            } else {
-                news = NewsItem.find
-                        .where().or(Expr.eq("expires", false), Expr.gt("expireDate", now)).setMaxRows(perPage + 1)
-                        .setFirstRow(page.intValue() * perPage).orderBy(STICKY_REVERSE_DATE_ORDER).findList();
-            }
-            play.cache.Cache.set(cacheKey, news);
+            news = getNewsItems(true, 0, Application.PER_PAGE);
+            play.cache.Cache.set("frontPageNews", news);
         }
         return news;
     }
+
+    public static List<NewsItem> getNewsItems(boolean frontPage, int page, int perPage) {
+            Date now = new Date();
+            List<NewsItem> news;
+            if (frontPage) {
+                news = NewsItem.find
+                        .where().or(Expr.eq("expires", false), Expr.gt("expireDate", now)).where().eq("frontPage", true)
+                        .setMaxRows(perPage + 1).setFirstRow(page * perPage).orderBy(STICKY_REVERSE_DATE_ORDER).findList();
+            } else {
+                news = NewsItem.find
+                        .where().or(Expr.eq("expires", false), Expr.gt("expireDate", now)).setMaxRows(perPage + 1)
+                        .setFirstRow(page * perPage).orderBy(STICKY_REVERSE_DATE_ORDER).findList();
+            }
+            return news;
+        }
 
     public static NewsItem getCachedNews(String id) {
         NewsItem news = (NewsItem) play.cache.Cache.get("news"+id);

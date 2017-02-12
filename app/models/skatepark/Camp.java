@@ -2,7 +2,7 @@ package models.skatepark;
 
 import org.apache.commons.lang3.time.DateUtils;
 import play.data.format.Formats;
-import play.db.ebean.Model;
+import com.avaje.ebean.Model;
 
 import javax.persistence.*;
 import java.util.Date;

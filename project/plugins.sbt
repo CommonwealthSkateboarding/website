@@ -5,9 +5,7 @@ resolvers += Resolver.url("GitHub repository", url("http://shaggyyeti.github.io/
 addSbtPlugin("default" % "sbt-sass" % "0.1.9")
 
 // The Play plugin
-addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.3.8")
+addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.4.3")
+addSbtPlugin("com.typesafe.sbt" % "sbt-play-ebean" % "3.0.0")
 
-lazy val root = project.in(file(".")).dependsOn(sbtAutoprefixer)
-lazy val sbtAutoprefixer = uri("git://github.com/cdelargy/sbt-autoprefixer-temp")
-
-addSbtPlugin("com.heroku" % "sbt-heroku" % "0.3.4")
+addSbtPlugin("com.heroku" % "sbt-heroku" % "1.0.0")

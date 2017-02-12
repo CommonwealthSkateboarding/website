@@ -1,10 +1,8 @@
 package models.site;
 
 import models.security.User;
-import play.cache.*;
 import play.cache.Cache;
-import play.data.format.Formats;
-import play.db.ebean.Model;
+import com.avaje.ebean.Model;
 
 import javax.persistence.*;
 import java.util.Date;

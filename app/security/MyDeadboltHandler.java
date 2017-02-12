@@ -1,62 +1,67 @@
 package security;
 
-import models.security.User;
-import play.libs.F;
-import play.mvc.Http;
-import play.mvc.Result;
 import be.objectify.deadbolt.java.AbstractDeadboltHandler;
 import be.objectify.deadbolt.java.DynamicResourceHandler;
-import be.objectify.deadbolt.core.models.Subject;
-
+import be.objectify.deadbolt.java.ExecutionContextProvider;
+import be.objectify.deadbolt.java.models.Subject;
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.user.AuthUserIdentity;
+import models.security.User;
+import play.mvc.Http;
+import play.mvc.Result;
+
+import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 
 public class MyDeadboltHandler extends AbstractDeadboltHandler {
 
+    private final PlayAuthenticate auth;
+
+    public MyDeadboltHandler(final PlayAuthenticate auth, final ExecutionContextProvider exContextProvider) {
+        super(exContextProvider);
+        this.auth = auth;
+    }
+
     @Override
-    public F.Promise<Result> beforeAuthCheck(final Http.Context context) {
-        if (PlayAuthenticate.isLoggedIn(context.session())) {
+    public CompletionStage<Optional<Result>> beforeAuthCheck(final Http.Context context) {
+        if (this.auth.isLoggedIn(context.session())) {
             // user is logged in
-            return F.Promise.pure(null);
+            return CompletableFuture.completedFuture(Optional.empty());
         } else {
-            PlayAuthenticate.storeOriginalUrl(context);
-            return F.Promise.promise(new F.Function0<Result>()
-            {
-                @Override
-                public Result apply() throws Throwable
-                {
-                    return redirect(PlayAuthenticate.getResolver().login());
-                }
-            });
+            // user is not logged in
+
+            // call this if you want to redirect your visitor to the page that
+            // was requested before sending him to the login page
+            // if you don't call this, the user will get redirected to the page
+            // defined by your resolver
+            final String originalUrl = this.auth.storeOriginalUrl(context);
+
+            context.flash().put("error",
+                    "You need to log in first, to view '" + originalUrl + "'");
+            return CompletableFuture.completedFuture(Optional.ofNullable(redirect(this.auth.getResolver().login())));
         }
     }
 
     @Override
-    public Subject getSubject(final Http.Context context) {
-        final AuthUserIdentity u = PlayAuthenticate.getUser(context);
+    public CompletionStage<Optional<? extends Subject>> getSubject(final Http.Context context) {
+        final AuthUserIdentity u = this.auth.getUser(context);
         // Caching might be a good idea here
-        return (Subject)User.findByAuthUserIdentity(u);
+        return CompletableFuture.completedFuture(Optional.ofNullable((Subject)User.findByAuthUserIdentity(u)));
     }
 
     @Override
-    public DynamicResourceHandler getDynamicResourceHandler(
+    public CompletionStage<Optional<DynamicResourceHandler>> getDynamicResourceHandler(
             final Http.Context context) {
-        return null;
+        return CompletableFuture.completedFuture(Optional.empty());
     }
 
     @Override
-    public F.Promise<Result> onAuthFailure(final Http.Context context,
-                                           final String content) {
+    public CompletionStage<Result> onAuthFailure(final Http.Context context,
+                                                 final Optional<String> content) {
         // if the user has a cookie with a valid user and the local user has
         // been deactivated/deleted in between, it is possible that this gets
         // shown. You might want to consider to sign the user out in this case.
-        return F.Promise.promise(new F.Function0<Result>()
-        {
-            @Override
-            public Result apply() throws Throwable
-            {
-                return forbidden("This resource is not available to you based on your current roles.");
-            }
-        });
+        return CompletableFuture.completedFuture(forbidden("Forbidden"));
     }
 }

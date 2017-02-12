@@ -3,7 +3,7 @@ package models.skatepark;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import models.security.User;
 import play.data.format.Formats;
-import play.db.ebean.Model;
+import com.avaje.ebean.Model;
 
 import javax.persistence.*;
 import java.util.Calendar;
