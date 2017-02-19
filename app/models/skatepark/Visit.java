@@ -19,6 +19,8 @@ public class Visit extends Model {
     public static final int SESSION_PASS_LENGTH_IN_HOURS = 2;
 
     public enum VisitType {
+        @EnumValue("PROMO")
+        PROMO,
         @EnumValue("SESSION")
         SESSION,
         @EnumValue("ALL_DAY")

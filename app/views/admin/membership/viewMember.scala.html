@@ -35,6 +35,10 @@
             }
             @if(null == member.getMostValidUnlimitedPass()) {
                 <p class="text-center">
+
+                    @if(member.getDisplayPromoPasses() > 0) {
+                        <a href="@routes.Admin.promoVisit(member.id)" class="btn btn-success">Use a promo pass (@member.getDisplayPromoPasses() left)</a>
+                    }
                     @if(member.sessionPasses > 0) {
                         <a href="@routes.Admin.sessionVisit(member.id, false)" class="btn btn-success">Use a saved session pass (@member.sessionPasses left)</a>
                     } else {
@@ -249,15 +253,25 @@
 
 <div class="col-lg-4 col-md-4 col-sm-4">
     <div class="showback">
+        <h4 class="pull-right"><span class="label label-default">@member.getDisplayPromoPasses() Remaining</span></h4>
+        <h4><i class="fa fa-angle-right"></i> Promotional Passes</h4>
+        <p>
+
+            @if(null != member.lastActive) { Expiration Date: @member.promoPassExpirationDate.format("MM/dd/yyyy") }
+            <a href="@routes.Admin.addPromoPass(member.id, 1, "Sales")" class="btn btn-sm btn-info btn-block"><i class="fa fa-shopping-bag"></i> Add 1 Sales Promotional Pass</a>
+            <a href="@routes.Admin.addPromoPass(member.id, 1, "Lesson")" class="btn btn-sm btn-info btn-block"><i class="fa fa-shopping-bag"></i> Add 1 Lesson Promotional Pass</a>
+            <a href="@routes.Admin.addPromoPass(member.id, 1, "Making Amends")" class="btn btn-sm btn-info btn-block"><i class="fa fa-shopping-bag"></i> Add 1 Making Amends Promotional Pass</a>
+            <a href="@routes.Admin.subtractPromoPass(member.id)" class="btn btn-sm btn-danger btn-block @if(0 == member.getDisplayPromoPasses()) { disabled }">Subtract 1 Pass</a>
+    </div>
+</div>
+
+<div class="col-lg-4 col-md-4 col-sm-4">
+    <div class="showback">
         <h4 class="pull-right"><span class="label label-default">@member.sessionPasses Remaining</span></h4>
         <h4><i class="fa fa-angle-right"></i> Session Passes</h4>
         <p>
-            <!-- Removing sidebar checkin buttons
-                <a href="@routes.Admin.sessionVisit(member.id)" class="btn btn-theme btn-block @if(0 == member.sessionPasses || member.isCheckedInToday()) { disabled } ">Check In</a></p>
-            -->
-            <a href="@routes.Admin.addSessionPass(member.id, 1, false)" class="btn btn-sm btn-success btn-block"><i class="fa fa-money"></i> Buy 1 Pass</a>
-            <a href="@routes.Admin.addSessionPass(member.id, 1, true)" class="btn btn-sm btn-info btn-block"><i class="fa fa-shopping-bag"></i> Add 1 Promotional Pass</a>
-            <a href="@routes.Admin.addSessionPass(member.id, 10, false)" class="btn btn-sm btn-success btn-block"><i class="fa fa-money"></i> Buy <b>10</b> Passes</a>
+            <a href="@routes.Admin.addSessionPass(member.id, 1)" class="btn btn-sm btn-success btn-block"><i class="fa fa-money"></i> Buy 1 Pass</a>
+            <a href="@routes.Admin.addSessionPass(member.id, 10)" class="btn btn-sm btn-success btn-block"><i class="fa fa-money"></i> Buy <b>10</b> Passes</a>
             <a href="@routes.Admin.subtractSessionPass(member.id)" class="btn btn-sm btn-danger btn-block @if(0 == member.sessionPasses) { disabled }">Subtract 1 Pass</a>
     </div>
 </div>

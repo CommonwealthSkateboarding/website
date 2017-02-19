@@ -215,6 +215,7 @@ public class Admin extends Controller {
             Date startDate = formatter.parse((String) Form.form().bindFromRequest().data().get("startDate"));
             int duration = Integer.parseInt((String) Form.form().bindFromRequest().data().get("length"));
             Membership member = Membership.find.byId(id);
+            member.lastActive = new Date();
             UnlimitedPass pass = UnlimitedPass.addNewUnlimitedPass(member, getLocalUser(session()), startDate, duration);
             audit("Added an unlimited pass for " + pass.membership.name, pass.membership, pass);
         } catch (ParseException e) {
@@ -250,11 +251,33 @@ public class Admin extends Controller {
         return redirect(routes.Admin.viewMemberPage(pass.membership.id));
     }
 
-    public static Result addSessionPass(Long id, int passes, boolean promotional) {
+    public static Result addPromoPass(Long id, int passes, String reason) {
+        Membership member = Membership.find.byId(id);
+        member.promoPasses = (member.promoPasses + passes);
+        member.lastActive = new Date();
+        member.save();
+        audit("Added " + passes + " promotional " + ((passes == 1)?"pass":"passes") + " for " + member.name + " (" + reason + ")", member, null);
+        return redirect(routes.Admin.viewMemberPage(id));
+    }
+
+    public static Result subtractPromoPass(Long id) {
+        Membership member = Membership.find.byId(id);
+        if (member.promoPasses < 1) {
+            return unauthorized("Member does not have an available promo pass");
+        } else {
+            member.promoPasses = (member.promoPasses - 1);
+            member.save();
+            audit("Deducted a promo pass from " + member.name, member, null);
+            return redirect(routes.Admin.viewMemberPage(id));
+        }
+    }
+
+    public static Result addSessionPass(Long id, int passes) {
         Membership member = Membership.find.byId(id);
         member.sessionPasses = (member.sessionPasses + passes);
+        member.lastActive = new Date();
         member.save();
-        audit("Added " + passes + (promotional ? " promotional":"") + " session " + ((passes == 1)?"pass":"passes") + " for " + member.name, member, null);
+        audit("Added " + passes + " session " + ((passes == 1)?"pass":"passes") + " for " + member.name, member, null);
         return redirect(routes.Admin.viewMemberPage(id));
     }
 
@@ -273,6 +296,7 @@ public class Admin extends Controller {
     public static Result addAllDayPass(Long id) {
         Membership member = Membership.find.byId(id);
         member.allDayPasses = (member.allDayPasses + 1);
+        member.lastActive = new Date();
         member.save();
         audit("Added an all day pass for " + member.name, member, null);
         return redirect(routes.Admin.viewMemberPage(id));
@@ -361,6 +385,7 @@ public class Admin extends Controller {
     public static Result addMember(boolean ignoreDuplicate) {
         Membership membership = Form.form(Membership.class).bindFromRequest().get();
         membership.createDate = new Date();
+        membership.lastActive = new Date();
 
         //remove trailing and extra whitespace, add appropriate capitalization
         membership.name = WordUtils.capitalize(StringUtils.stripToEmpty(membership.name.replaceAll("\\s+", " ")));
@@ -396,9 +421,30 @@ public class Admin extends Controller {
             member.sessionPasses = (member.sessionPasses - 1);
         }
         member.lastVisit = visit;
+        member.lastActive = new Date();
         member.save();
 
         audit("Checked in " + member.name + " with a" + (soldOnSpot?"":" saved") + " session pass", member, visit);
+
+        return redirect(routes.Admin.viewMemberPage(memberId));
+    }
+
+    public static Result promoVisit(Long memberId) {
+        Membership member = (Membership) new Model.Finder(Long.class, Membership.class).byId(memberId);
+        if (null == member) {
+            return notFound("Bad member id");
+        };
+        if (member.promoPasses == 0) {
+            return badRequest("Member doesn't have enough promo passes");
+        }
+
+        Visit visit = Visit.addVisit(member, getLocalUser(session()), Visit.VisitType.PROMO);
+        member.promoPasses = (member.promoPasses - 1);
+        member.lastVisit = visit;
+        member.lastActive = new Date();
+        member.save();
+
+        audit("Checked in " + member.name + " with a promo pass", member, visit);
 
         return redirect(routes.Admin.viewMemberPage(memberId));
     }
@@ -417,6 +463,7 @@ public class Admin extends Controller {
             member.allDayPasses = (member.allDayPasses - 1);
         }
         member.lastVisit = visit;
+        member.lastActive = new Date();
         member.save();
 
         audit("Checked in " + member.name + " with a" + (soldOnSpot?"n":" saved") + " all day pass", member, visit);
@@ -439,6 +486,7 @@ public class Admin extends Controller {
 
         Visit visit = Visit.addVisit(member, getLocalUser(session()), Visit.VisitType.UNLIMITED);
         member.lastVisit = visit;
+        member.lastActive = new Date();
         member.save();
 
         audit("Checked in " + member.name + " with an unlimited pass", member, visit);
@@ -454,6 +502,9 @@ public class Admin extends Controller {
         if (visit.visitType == Visit.VisitType.SESSION) {
             visit.membership.sessionPasses = (visit.membership.sessionPasses + 1);
             audit("Undid a session pass visit from " + visit.membership.name + " and refunded a session pass", visit.membership, null);
+        } else if (visit.visitType == Visit.VisitType.PROMO) {
+            visit.membership.promoPasses = (visit.membership.promoPasses + 1);
+            audit("Undid a promotional pass visit from " + visit.membership.name + " and refunded a promotional pass", visit.membership, null);
         } else if (visit.visitType == Visit.VisitType.ALL_DAY) {
             visit.membership.allDayPasses = (visit.membership.allDayPasses + 1);
             audit("Undid an all day pass visit from " + visit.membership.name + " and refunded an all day pass", visit.membership, null);

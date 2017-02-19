@@ -2,6 +2,8 @@ package models.skatepark;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import controllers.Admin;
+import org.apache.commons.lang3.time.DateUtils;
 import play.data.format.Formats;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
@@ -61,6 +63,7 @@ public class Membership extends Model {
 
     public int sessionPasses;
     public int allDayPasses;
+    public int promoPasses;
 
     public Double credit;
 
@@ -71,6 +74,28 @@ public class Membership extends Model {
     @Temporal(TemporalType.DATE)
     @Formats.DateTime(pattern="MM/dd/yyyy")
     public Date createDate;
+
+    @Temporal(TemporalType.DATE)
+    @Formats.DateTime(pattern="MM/dd/yyyy")
+    public Date lastActive;
+
+    public Date promoPassExpirationDate() {
+        return DateUtils.addDays(this.lastActive, 60);
+    }
+
+    public boolean isPromoPassExpired() {
+        boolean expired = (this.lastActive==null)?true:(new Date().after(promoPassExpirationDate()));
+        if (promoPasses > 0 && expired) {
+            Admin.audit("Automatically expired " + this.promoPasses + " promotional pass(es) due to inactivity (last active: " + this.lastActive.toString() + ")", this, null);
+            this.promoPasses = 0;
+            save();
+        }
+        return expired;
+    }
+
+    public int getDisplayPromoPasses() {
+        return (isPromoPassExpired()?0:promoPasses);
+    }
 
     @JsonIgnore
     @OneToOne
