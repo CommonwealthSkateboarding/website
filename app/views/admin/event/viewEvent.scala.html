@@ -15,10 +15,6 @@
                 <td>@event.name</td>
             </tr>
             <tr>
-                <td>Public Visibility</td>
-                <td>@if(event.publicVisibility) { <i class="fa fa-2x fa-check-circle"></i> }
-            </tr>
-            <tr>
                 <td>Reserve Entire Park</td>
                 <td>@if(event.reservePark) { <i class="fa fa-2x fa-check-circle"></i> }
             </tr>
@@ -39,6 +35,14 @@
                 <td>@if(null != event.endTime) { @event.endTime.format("h:mm a") }</td>
             </tr>
             <tr>
+                <td>Private Notes</td>
+                <td>@Html(event.privateNotes)</td>
+            </tr>
+            <tr>
+                <td>Public Visibility</td>
+                <td>@if(event.publicVisibility) { <i class="fa fa-2x fa-check-circle"></i> }
+            </tr>
+            <tr>
                 <td>Registrable</td>
                 <td>@if(event.registrable) { <i class="fa fa-2x fa-check-circle"></i> }
             </tr>
@@ -57,10 +61,6 @@
             <tr>
                 <td>Public Notes</td>
                 <td>@Html(event.notes)</td>
-            </tr>
-            <tr>
-                <td>Private Notes</td>
-                <td>@Html(event.privateNotes)</td>
             </tr>
         </table>
     </div>

@@ -17,16 +17,18 @@
                 <!-- Hidden form elements for model binding -->
                 <input type="text" name="startTime" id="startTime" value="@event.startTime.format("yyyy-MM-dd hh:mm a")" hidden/>
                 <input type="text" name="endTime" id="endTime" value="@event.endTime.format("yyyy-MM-dd hh:mm a")" hidden/>
+                <label>Reserve Entire Park:</label><br/><input type="checkbox" name="reservePark" @if(event.reservePark){checked} class="form-control" /><br/>
+                <label>Private Notes:</label><br/><textarea name="privateNotes" id="privateNotes">@event.privateNotes</textarea><br/>
+
+                <h3>Public Info</h3>
 
                 <label>Public Visibility:</label><br/><input type="checkbox" name="publicVisibility" @if(event.publicVisibility){checked} class="form-control" /><br/>
-                <label>Reserve Entire Park:</label><br/><input type="checkbox" name="reservePark" @if(event.reservePark){checked} class="form-control" /><br/>
                 <label>Registrable:</label><br/><input type="checkbox" name="registrable" @if(event.registrable){checked} class="form-control" /><br/>
                 <label>Registration End Date:</label><br/><input name="registrationEndDate" id="datepicker3" value="@if(event.registrationEndDate != null){@event.registrationEndDate.format("MM/dd/yyyy")}" class="form-control" /><br/>
                 <label>Maximum Registrations:</label><br/><input type="text" name="maxRegistrations" value="@event.maxRegistrations" class="form-control" /><br/>
-                <label>Cost:</label><br/>$<input type="text" name="cost" value="@event.cost" class="form-control" /><br/>
+                <label>Registration Cost (omit $ sign):</label><br/><input type="text" name="cost" value="@event.cost" class="form-control" /><br/>
                 <label>Archived/Hidden:</label><br/><input type="checkbox" name="archived" @if(event.archived){checked} class="form-control" /><br/>
                 <label>Public Notes:</label><br/><textarea name="notes" id="notes">@event.notes</textarea><br/>
-                <label>Private Notes:</label><br/><textarea name="privateNotes" id="privateNotes">@event.privateNotes</textarea><br/>
                 <input type="submit" id="submit" value="Edit Event" class="btn btn-theme btn-block"/>
             </form>
         </div>
