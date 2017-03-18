@@ -81,4 +81,18 @@ public class Event extends Model {
         }
         return events;
     }
+    
+    @Override
+    public void save() {
+        play.cache.Cache.remove(ACTIVE_EVENTS_CACHE_NAME);
+        play.cache.Cache.set(this.id.toString(), this);
+        super.save();
+    }
+
+    @Override
+    public void update() {
+        play.cache.Cache.remove(ACTIVE_EVENTS_CACHE_NAME);
+        play.cache.Cache.set(this.id.toString(), this);
+        super.update();
+    }
 }
