@@ -13,11 +13,11 @@
 			<ul>
 				<li class="start-date">
 					<p class="h6">First Day of Camp</p>
-					<p>@camp.startDate.format("EEEE MMM d")</p>
+					<p>@camp.startDate.format("EEEE MMMM d")@utils.TimeUtil.getDayOfMonthSuffix(camp.startDate.format("d"))</p>
 				</li>
 				<li class="end-date">
 					<p class="h6">Last Day of Camp</p>
-					<p>@camp.endDate.format("EEEE MMM d")</p>
+					<p>@camp.endDate.format("EEEE MMMM d")@utils.TimeUtil.getDayOfMonthSuffix(camp.endDate.format("d"))</p>
 				</li>
 				<li class="schedule">
 					<p class="h6">Schedule</p>
@@ -29,7 +29,7 @@
 				</li>
 				<li class="registration-end">
 					<p class="h6">Registration Ends</p>
-					<p>@camp.registrationEndDate.format("EEEE MMM d")</p>
+					<p>@camp.registrationEndDate.format("EEEE MMMM d")@utils.TimeUtil.getDayOfMonthSuffix(camp.registrationEndDate.format("d"))</p>
 					<!--<p>@camp.registrationEndDate.format("MMMMM d")@utils.TimeUtil.getDayOfMonthSuffix(camp.registrationEndDate.format("d")),
 						@camp.registrationEndDate.format("yyyy")</p>-->
 				</li>
