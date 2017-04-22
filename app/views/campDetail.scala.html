@@ -11,10 +11,27 @@
 		<div class="details">
 			<p class="h4">Camp Details</p>
 			<ul>
+				<li class="start-date">
+					<p class="h6">First Day of Camp</p>
+					<p>@camp.startDate.format("EEEE MMM d")</p>
+				</li>
+				<li class="end-date">
+					<p class="h6">Last Day of Camp</p>
+					<p>@camp.endDate.format("EEEE MMM d")</p>
+				</li>
+				<li class="schedule">
+					<p class="h6">Schedule</p>
+					<p>@camp.scheduleDescription</p>
+				</li>
+				<li class="instructors">
+					<p class="h6">Instructors</p>
+					<p>@camp.instructors</p>
+				</li>
 				<li class="registration-end">
 					<p class="h6">Registration Ends</p>
-					<p>@camp.registrationEndDate.format("MMMMM d")@utils.TimeUtil.getDayOfMonthSuffix(camp.registrationEndDate.format("d")),
-						@camp.registrationEndDate.format("yyyy")</p>
+					<p>@camp.registrationEndDate.format("EEEE MMM d")</p>
+					<!--<p>@camp.registrationEndDate.format("MMMMM d")@utils.TimeUtil.getDayOfMonthSuffix(camp.registrationEndDate.format("d")),
+						@camp.registrationEndDate.format("yyyy")</p>-->
 				</li>
 				<li class="registrants">
 					<p class="h6">Spots Available</p>
@@ -37,16 +54,6 @@
 						}
 					</p>
 					<p><img src="@routes.Assets.at("img/credit-cards.png")" alt="Payment Methods"></p>
-				</li>
-				<li class="schedule">
-					<p class="h6">Schedule</p>
-					<p>@camp.scheduleDescription</p>
-				</li>
-				<li class="instructors">
-					<p class="h6">Instructors</p>
-					<p>
-						<a href="#">@camp.instructors</a>
-					</p>
 				</li>
 				<!-- <li class="description">
 					<p class="h6">Summer Camps</p>
