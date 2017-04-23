@@ -86,7 +86,7 @@ public class Membership extends Model {
     public boolean isPromoPassExpired() {
         boolean expired = (this.lastActive==null)?true:(new Date().after(promoPassExpirationDate()));
         if (promoPasses > 0 && expired) {
-            Admin.audit("Automatically expired " + this.promoPasses + " promotional pass(es) due to inactivity (last active: " + this.lastActive.toString() + ")", this, null);
+            Admin.audit("Automatically expired " + this.promoPasses + " promotional pass(es) for " + this.name + " due to inactivity (last active: " + this.lastActive.toString() + ")", this, null);
             this.promoPasses = 0;
             save();
         }
