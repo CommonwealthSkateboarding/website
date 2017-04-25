@@ -134,6 +134,7 @@
                             </td>
                             <td><a href="@routes.Admin.editCampRegistrationPage(reg.id)" class="btn btn-primary btn-block btn-xs"><i class="fa fa-edit"></i> Edit</a>
                                 <a href="@routes.Admin.moveCampRegistrationPage(reg.id)" class="btn btn-success btn-block btn-xs"><i class="fa fa-arrows-h"></i> Move Registration</a>
+                                <a href="@routes.Admin.removeCampRegistration(reg.id, false)" class="btn btn-danger btn-block btn-xs"><i class="fa fa-remove"></i> Remove Registration</a>
                                 @if(reg.registrantEmail) {
                                     <a href="@routes.Admin.sendCampReminderEmail(reg.id, false)" class="btn btn-warning btn-block btn-xs"><i class="fa fa-envelope-o"></i> Preview Reminder</a>
                                     <a href="@routes.Admin.sendCampReminderEmail(reg.id, true)" class="btn btn-danger btn-block btn-xs"><i class="fa fa-envelope-o"></i> Send Reminder</a>

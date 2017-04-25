@@ -806,6 +806,22 @@ public class Admin extends Controller {
     }
 
     @Restrict({@Group("CAMP")})
+    public static Result removeCampRegistration(Long id, Boolean confirm) {
+        Registration reg = (Registration) new Model.Finder(Long.class, Registration.class).byId(id);
+        if (null == reg) {
+            return notFound("Bad registration id");
+        }
+
+        if (!confirm) {
+            return ok(removeCampRegistration.render(reg, getLocalUser(session())));
+        } else {
+            reg.delete();
+            audit("Deleted registration of " + reg.participantName + " for " + reg.camp.title, null, reg.camp);
+            return redirect(routes.Admin.viewCampPage(reg.camp.id));
+        }
+    }
+
+    @Restrict({@Group("CAMP")})
     public static Result sendCampReminderEmail(Long id, Boolean confirm) {
         Registration reg = (Registration) new Model.Finder(Long.class, Registration.class).byId(id);
         if (null == reg) {

@@ -85,6 +85,7 @@ GET     /admin/camps/registration/:id/edit      controllers.Admin.editCampRegist
 POST    /admin/camps/registration/:id/edit      controllers.Admin.editCampRegistration(id: Long)
 GET     /admin/camps/registration/:id/move      controllers.Admin.moveCampRegistrationPage(id: Long)
 GET     /admin/camps/registration/:regId/move/:campId      controllers.Admin.moveCampRegistration(regId: Long, campId: String)
+GET     /admin/camps/registration/:id/remove    controllers.Admin.removeCampRegistration(id: Long, confirm: Boolean ?=false)
 GET     /admin/camps/registration/:id/reminder  controllers.Admin.sendCampReminderEmail(id: Long, confirm: Boolean ?=false)
 GET     /admin/camps/:id/archive                controllers.Admin.archiveCamp(id: String)
 

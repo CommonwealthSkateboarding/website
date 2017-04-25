@@ -1,4 +1,4 @@
-@(reg: models.skatepark.Registration, camps: List[models.skatepark.Camp], localUser: models.security.User = null)
+@(reg: models.skatepark.Registration, localUser: models.security.User = null)
 @import admin.wrapper
 @wrapper(localUser, "camps", "viewCamp") {
 
@@ -43,30 +43,10 @@
                     </td>
                 </tr>
             </table>
-            <h4><i class="fa fa-angle-right"></i> Move Registration to new Camp</h4>
+            <h4><i class="fa fa-angle-right"></i> Remove Registration</h4>
             <p>
-                @for(camp <- camps) {
-                    @if(reg.camp.id != camp.id){
-
-            <h3>@camp.title (@camp.startDate.format("MM/dd/yyyy")-@camp.endDate.format("MM/dd/yyyy"))</h3>
-            <table class="table table-bordered">
-                <tr>
-                    <td>Registrations</td>
-                    <td>@camp.registrations.size()/@camp.maxRegistrations</td>
-                </tr>
-                <tr>
-                    <td>Cost</td>
-                    <td>@utils.Formatter.prettyDollars(camp.cost)</td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <a href="@routes.Admin.moveCampRegistration(reg.id, camp.id)" class="btn btn-theme btn-block">Move to @camp.title</a>
-                    </td>
-                </tr>
-            </table>
-            <br/>
-                    }
-                }
+                <a href="@routes.Admin.removeCampRegistration(reg.id, true)" class="btn btn-danger btn-block">Permanently Remove Registration (Can't Undo)</a>
+                <a href="@routes.Admin.viewCampPage(reg.camp.id)" class="btn btn-theme btn-block">Cancel</a>
             </p>
         </div>
     </div>
