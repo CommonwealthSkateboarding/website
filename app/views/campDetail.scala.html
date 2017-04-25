@@ -13,11 +13,11 @@
 			<ul>
 				<li class="start-date">
 					<p class="h6">First Day of Camp</p>
-					<p>@camp.startDate.format("EEEE MMMM d")@utils.TimeUtil.getDayOfMonthSuffix(camp.startDate.format("d"))</p>
+					<p>@camp.startDate.format("EEEE, MMMM d")@utils.TimeUtil.getDayOfMonthSuffix(camp.startDate.format("d"))</p>
 				</li>
 				<li class="end-date">
 					<p class="h6">Last Day of Camp</p>
-					<p>@camp.endDate.format("EEEE MMMM d")@utils.TimeUtil.getDayOfMonthSuffix(camp.endDate.format("d"))</p>
+					<p>@camp.endDate.format("EEEE, MMMM d")@utils.TimeUtil.getDayOfMonthSuffix(camp.endDate.format("d"))</p>
 				</li>
 				<li class="schedule">
 					<p class="h6">Schedule</p>
@@ -29,7 +29,7 @@
 				</li>
 				<li class="registration-end">
 					<p class="h6">Registration Ends</p>
-					<p>@camp.registrationEndDate.format("EEEE MMMM d")@utils.TimeUtil.getDayOfMonthSuffix(camp.registrationEndDate.format("d"))</p>
+					<p>@camp.registrationEndDate.format("EEEE, MMMM d")@utils.TimeUtil.getDayOfMonthSuffix(camp.registrationEndDate.format("d"))</p>
 					<!--<p>@camp.registrationEndDate.format("MMMMM d")@utils.TimeUtil.getDayOfMonthSuffix(camp.registrationEndDate.format("d")),
 						@camp.registrationEndDate.format("yyyy")</p>-->
 				</li>
@@ -45,15 +45,17 @@
 				</li>
 				<li class="cost">
 					<p class="h6">Cost</p>
-					<p>
-						@if(camp.isPastEarlyRegistrationEndDate) {
-							@utils.Formatter.prettyDollars(camp.cost)
-						} else {
-							<s>@utils.Formatter.prettyDollars(camp.cost)</s> @utils.Formatter.prettyDollars(camp.getCurrentCost())
-							until @camp.earlyRegistrationEndDate.format("M/d")!
-						}
-					</p>
-					<p><img src="@routes.Assets.at("img/credit-cards.png")" alt="Payment Methods"></p>
+					<div class="price-payment">
+						<p class="price">
+							@if(camp.isPastEarlyRegistrationEndDate) {
+								@utils.Formatter.prettyDollars(camp.cost)
+							} else {
+								<s>@utils.Formatter.prettyDollars(camp.cost)</s> @utils.Formatter.prettyDollars(camp.getCurrentCost())
+								until @camp.earlyRegistrationEndDate.format("M/d")!
+							}
+						</p>
+						<p class="payment"><img src="@routes.Assets.at("img/credit-cards.png")" alt="Payment Methods" class="cc"></p>
+					</div>
 				</li>
 				<!-- <li class="description">
 					<p class="h6">Summer Camps</p>
@@ -72,14 +74,20 @@
 					<p class="h4">Sorry, but there was a problem with your card</p>
 					<p>Your payment could not be processed. Try again or use another card, and if this problem persists, please <a href="/contact">contact us</a>.</p>
 			}
-			<p>@Html(camp.description)</p>
+
+			<div class="description">@Html(camp.description)</div>
+
 			@if(!camp.isPastEarlyRegistrationEndDate()) {
-				<p>An early registration discount of @utils.Formatter.prettyDollars(camp.earlyRegistrationDiscount) is available off of the full price of @utils.Formatter.prettyDollars(camp.cost) for registrations which are paid in full before @camp.earlyRegistrationEndDate.format("MMMMM d")@utils.TimeUtil.getDayOfMonthSuffix(camp.earlyRegistrationEndDate.format("d")), @camp.earlyRegistrationEndDate.format("yyyy"). A deposit will reserve your spot but must be paid in full before the deadline to receive the discount.</p>
+				<div class="early-bird">
+					<p class="h6">Early Bird Pricing</p>
+					<p>An early registration discount of @utils.Formatter.prettyDollars(camp.earlyRegistrationDiscount) is available off of the full price of @utils.Formatter.prettyDollars(camp.cost) for registrations which are paid in full <u>before</u> <strong>@camp.earlyRegistrationEndDate.format("MMMMM d")@utils.TimeUtil.getDayOfMonthSuffix(camp.earlyRegistrationEndDate.format("d")), @camp.earlyRegistrationEndDate.format("yyyy")</strong>. A deposit will reserve your spot but must be paid in full before the deadline to receive the discount.</p>
+				</div>
 			}
-			<p></p>
+
+			<hr>
 
 			@if(camp.isPastRegistrationEndDate()) {
-				<p class="h4">Camp Registration</p>
+				<p class="h4">Camp Registration Closed</p>
 				<p>Sorry, but the date for registration has passed.</p>
 			} else {
 				@if(camp.registrations.size() < camp.maxRegistrations) {
