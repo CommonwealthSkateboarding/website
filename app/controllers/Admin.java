@@ -775,6 +775,37 @@ public class Admin extends Controller {
     }
 
     @Restrict({@Group("CAMP")})
+    public static Result moveCampRegistrationPage(Long id) {
+        Registration reg = (Registration) new Model.Finder(Long.class, Registration.class).byId(id);
+        List<Camp> camps = Camp.find.where().eq("archived", false).orderBy("startDate").findList();
+        if (null == reg) {
+            return notFound("Bad registration id");
+        };
+        return ok(moveCampRegistration.render(reg, camps, getLocalUser(session())));
+
+    }
+
+    @Restrict({@Group("CAMP")})
+    public static Result moveCampRegistration(Long regId, String campId) {
+        Registration reg = (Registration) new Model.Finder(Long.class, Registration.class).byId(regId);
+        if (null == reg) {
+            return notFound("Bad registration id");
+        };
+
+        Camp newCamp = (Camp) new Model.Finder(Long.class, Camp.class).byId(campId);
+        if (null == newCamp) {
+            return notFound("Bad camp id");
+        };
+
+        reg.camp = newCamp;
+        reg.save();
+
+        audit("Moved registration for " + reg.participantName + " to " + reg.camp.title, null, reg.camp);
+
+        return redirect(routes.Admin.viewCampPage(reg.camp.id));
+    }
+
+    @Restrict({@Group("CAMP")})
     public static Result sendCampReminderEmail(Long id, Boolean confirm) {
         Registration reg = (Registration) new Model.Finder(Long.class, Registration.class).byId(id);
         if (null == reg) {
