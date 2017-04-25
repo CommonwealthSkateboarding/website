@@ -22,17 +22,20 @@ body.camp-detail {
 	background-position: 75% bottom;
 	
 	[id="camp-detail"] {
+
 		// "Back to all camps"
 		a .h1 { 
 			display: inline-block; 
 			margin-top: 15px;
 		}
+
 		// Camp Title
 		> .h2 { margin-top: 30px; }
 		.h4 { 
 			color: $gold;
 			margin-top: 30px; 
 		}
+
 		.h6 { 
 			display: block; 
 			@include rem(font-size, 12px);
@@ -46,14 +49,38 @@ body.camp-detail {
 			line-height: 1.2;
 		}
 
+		.description p {
+			color: $white;
+			@include rem(font-size, 24px);
+			font-weight: 300;
+		}
+
+		.early-bird {
+			background: fade-out($gold, .81);
+			border-radius: 3px;
+			margin-bottom: 30px;
+			margin-top: 15px;
+			padding: 9px 12px;
+
+			.h6 {
+				color: $white;
+				margin: 0;
+				padding-top: 6px;
+			}
+
+			p {
+				color: $gold;
+			}
+		}
+
+		// Camp Details
 		.details {
 			order: 2;
 			margin-left: $margin;
 			width: calc(34% - #{$margin/2});
+
 			ul {
-				//margin-top: $margin;
 				li {
-					//background: fade_out($gray, .96);
 					background: fade_out($black, .45);
 					border-bottom: 3px solid $black;
 					display: flex;
@@ -62,16 +89,20 @@ body.camp-detail {
 					margin: 0;
 					padding: 18px 0 9px 0;
 					width: 100%;
+
 					&:not(:first-of-type) {
 						margin-top: 3px;
 					}
+
+					// Sidebar Text
 					&:not(.description) {
 						p:not(.h6) {
-							@include rem(font-size, 27px); 
+							@include rem(font-size, 24px); 
 							font-weight: 300;
 							margin: 0;
 						}
 					}
+
 					&:last-of-type { padding-bottom: 18px; }
 					.h6 { 
 						color: $gray;
@@ -80,6 +111,18 @@ body.camp-detail {
 					p { color: $white; }
 				}
 			}
+
+			.price-payment {
+				display: flex;
+				justify-content: space-between;
+			}
+
+			.price,
+			.payment {
+				width: 50%;
+			}
+
+			img.cc { margin-top: 0; }
 		}
 
 		.sign-up {
@@ -167,7 +210,7 @@ body.camp-detail {
 					align-items: center;
 					background: fade_out($gray, .9);
 					border-radius: 3px;
-					box-shadow: 0 0 60px 6px #000;
+					box-shadow: 0 0 120px 6px fade-out(#000, .75);
 					@include rem(font-size, 18px);
 					justify-content: flex-start;
 					line-height: 1;
