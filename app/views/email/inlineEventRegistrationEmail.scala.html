@@ -169,7 +169,7 @@
 					<td width="600" style="border-collapse: collapse;padding-top: 30px;">
 						<p class="h2" style="margin: 1em 0;color: #858585;font-family: &quot;Courier New&quot;;font-size: 24px;line-height: 1.2;margin-top: 0;">Thanks for registering for Commonwealth Skatepark's event, @registration.event.name.</p>
 
-						<p style="margin: 1em 0;color: #858585;font-family: &quot;Courier New&quot;;font-size: 18px;line-height: 1.2;">This registration's confirmation ID is @registration.confirmationId and is valid for @registration.participantName.</p>
+						<p style="margin: 1em 0;color: #858585;font-family: &quot;Courier New&quot;;font-size: 18px;line-height: 1.2;">This registration's confirmation ID is @registration.confirmationId and is valid for @registration.participantName. For childcare reimbursement, our EIN# is 27-4461340.</p>
 						@if(!registration.paid) {
 						<p style="margin: 1em 0;color: #858585;font-family: &quot;Courier New&quot;;font-size: 18px;line-height: 1.2;">Your payment of @utils.Formatter.prettyDollarsAndCents(registration.totalPaid) has been received, and the remaining @utils.Formatter.prettyDollarsAndCents(registration.event.cost - registration.totalPaid) is due by @registration.event.startTime.format("MM/dd/yyyy").</p>
 						}
