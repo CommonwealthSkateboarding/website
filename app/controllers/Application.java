@@ -98,7 +98,7 @@ public class Application extends Controller {
 
     public static Result eventDetail(String id) {
         Event event = Event.find.byId(id);
-        if (null == event) {
+        if (null == event || !event.publicVisibility) {
             return redirect(routes.Application.events()); // not found
         }
         return ok(eventDetail.render(event, null));
