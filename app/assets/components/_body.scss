@@ -1,5 +1,5 @@
-body { 
-	background: $black; 
+body {
+	background: $black;
 	background-attachment: fixed;
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -32,17 +32,40 @@ body {
 .grid {
 	display: flex;
 	flex-wrap: wrap;
+
 	> * {
 		margin-bottom: 30px;
-		width: calc(50% - #{$margin}); 
+		width: calc(50% - #{$margin});
 		&:nth-of-type(odd) { margin-right: $margin*2; }
 	}
-	&.no-margin { 
+
+	&.no-margin {
 		> * {
 			margin: 0;
 		}
 	}
+
 	img { margin-top: $margin/2; }
+}
+
+.masonry {
+	column-count: 2;
+	column-gap: $margin*4;
+
+	> * {
+		margin-bottom: 60px;
+		overflow: hidden; // Brings back top margin on secondary columns
+		width: 100%;
+
+		-webkit-column-break-inside: avoid;
+		page-break-inside: avoid;
+		break-inside: avoid;
+	}
+
+	@media screen and (max-width: 800px) {
+		column-count: 1;
+		column-gap: $margin*2;
+	}
 }
 
 img { max-width: 100%; }
@@ -53,14 +76,12 @@ img.full-width {
 }
 
 figure {
-	img.full-width {
-		margin: 0;
-	}
+	img.full-width { margin: 0; }
+
 	figcaption {
 		background: fade_out($gray, .9);
 		border-radius: 0 0 3px 3px;
 		@include rem(font-size, 12px);
-		//font-style: italic;
 		margin-top: -5px;
 		padding: 6px 9px;
 		text-align: right;
