@@ -1,3 +1,4 @@
+import controllers.Admin;
 import controllers.Slack;
 import controllers.Square;
 import models.square.Payment;
@@ -21,12 +22,15 @@ import play.mvc.Http;
 import play.mvc.Result;
 import scala.concurrent.duration.Duration;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import static play.mvc.Controller.session;
 import static play.mvc.Results.internalServerError;
 import static play.mvc.Results.notFound;
 
@@ -37,14 +41,16 @@ public class Global extends GlobalSettings {
 
     public F.Promise<Result> onError(Http.RequestHeader request, Throwable t) {
         Logger.info("Request failed", t);
+        StringWriter sw = new StringWriter();
+        t.printStackTrace(new PrintWriter(sw));
         return F.Promise.<Result>pure(internalServerError(
-                views.html.errorPage.render("Sorry, but your request could not be completed")
+                views.html.errorPage.render("Sorry, but your request could not be completed", Admin.getLocalUser(session()), t, sw.toString())
         ));
     }
 
     public F.Promise<Result> onHandlerNotFound(Http.RequestHeader request) {
         return F.Promise.<Result>pure(notFound(
-                views.html.errorPage.render("The page you requested cannot be found")
+                views.html.errorPage.render("The page you requested cannot be found", null, null, null)
         ));
     }
 

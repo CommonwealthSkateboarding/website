@@ -1,9 +1,15 @@
-@(error: String)
+@(message: String, localUser: models.security.User = null, error: Throwable = null, stacktrace: String = null)
 
 @main("error", false, "Error! | Commonwealth Skateboarding | Portland, Oregon") {
 <section id="about">
 	<p class="h4">Oh no!</p>
-    <p class="h1">@error</p>
+    <p class="h1">@message</p>
     <p>If you need immediate assistance, please contact us at <a href="mailto:info@@commonwealthskateboarding.com">info@@commonwealthskateboarding.com</a>.</p>
+    @if(localUser != null) {
+        <h2>Error</h2>
+        <pre>@error</pre>
+        <h2>Stacktrace</h2>
+        <pre>@stacktrace</pre>
+    }
 </section>
 }
