@@ -1,7 +1,9 @@
 import controllers.Admin;
 import controllers.Slack;
 import controllers.Square;
+import models.skatepark.Membership;
 import models.square.Payment;
+import org.apache.commons.lang3.time.DateUtils;
 import org.joda.time.DateTime;
 import org.joda.time.Seconds;
 import play.Application;
@@ -109,6 +111,26 @@ public class Global extends GlobalSettings {
             }
         });
 
+        Akka.system().scheduler().schedule(
+                //11:30 PM Local Time
+                Duration.create(nextExecutionInSeconds(23,30), TimeUnit.SECONDS),
+                Duration.create(24, TimeUnit.HOURS),
+                () -> {
+                    Logger.info("Scanning for expired passes");
+                    List<Membership> list = Membership.find.where().gt("promo_passes", 0).lt("last_active", DateUtils.addDays(new Date(), -60)).findList();
+
+                    Logger.info("Found " + list.size() + " members with expired passes");
+                    for (Membership member : list)
+                    {
+                        member.isPromoPassExpired(); // No need to take action, model will enforce
+                        try {
+                            Thread.sleep(3000); // Throttle the database updates
+                        } catch (InterruptedException e) {}
+                    }
+
+                }, Akka.system().dispatcher()
+        );
+
         /**
         Akka.system().scheduler().schedule(
                 //2200 hours = 10PM in local timezone
@@ -138,7 +160,7 @@ public class Global extends GlobalSettings {
         );
          **/
     }
-/**
+
     private static int nextExecutionInSeconds(int hour, int minute){
         return Seconds.secondsBetween(
                 new DateTime(),
@@ -157,5 +179,4 @@ public class Global extends GlobalSettings {
                 ? next.plusHours(24)
                 : next;
     }
-**/
 }

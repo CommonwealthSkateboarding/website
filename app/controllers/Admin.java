@@ -558,7 +558,11 @@ public class Admin extends Controller {
     public static void audit(String description, Membership membership, Object payload) {
         AuditRecord log = new AuditRecord();
         log.delta = description;
-        log.user = getLocalUser(session());
+        try {
+            log.user = getLocalUser(session());
+        } catch (RuntimeException e) {
+            // catches case where no user HTTP context exists when audit fires
+        }
         log.timestamp = new Date();
         log.membership = membership;
         if (null == payload) {

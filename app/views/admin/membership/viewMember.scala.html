@@ -149,7 +149,13 @@
                 <tbody>
                 @for(log <- logs) {
                     <tr>
-                        <td><img src="@log.user.photoUrl" class="img-circle" width="20"> @log.user.name</td>
+                        <td>
+                            @if(log.user != null) {
+                            <img src="@log.user.photoUrl" class="img-circle" width="20"> @log.user.name
+                            } else {
+                            <img src="@routes.Assets.at("img/cw--logo--lettermark-black.png")" class="img-circle" width="20"> System
+                            }
+                        </td>
                         <td>
                             @log.delta
                             @if((null != log.visit) && (log.visit.isValidNow())) {
