@@ -65,4 +65,6 @@ public class Tender {
     public String receipt_url;
 
     public String employee_id;
+
+    public Boolean is_exchange;
 }
