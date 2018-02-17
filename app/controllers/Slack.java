@@ -2,6 +2,7 @@ package controllers;
 
 import com.stripe.model.Charge;
 import models.security.AuditRecord;
+import models.security.User;
 import models.site.Issue;
 import models.skatepark.Registration;
 import models.skatepark.Visit;
@@ -50,6 +51,11 @@ public class Slack {
         } else {
             Logger.info(msg.prepare().toString());
         }
+    }
+
+    public static void emitLogin() {
+        User user = getLocalUser(session());
+        dispatch(new SlackMessage(SLACKBOT_AUDIT_CHANNEL, ((null == user)?null:user.name), "Logged in"));
     }
 
     public static void emitAuditLog(AuditRecord log) {

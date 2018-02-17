@@ -555,6 +555,7 @@ public class Admin extends Controller {
         return redirect(routes.Admin.viewMemberPage(memberId));
     }
 
+    //TODO: Extract to own interface?
     public static void audit(String description, Membership membership, Object payload) {
         AuditRecord log = new AuditRecord();
         log.delta = description;
