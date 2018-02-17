@@ -53,9 +53,8 @@ public class Slack {
         }
     }
 
-    public static void emitLogin() {
-        User user = getLocalUser(session());
-        dispatch(new SlackMessage(SLACKBOT_AUDIT_CHANNEL, ((null == user)?null:user.name), "Logged in"));
+    public static void emitLogin(User knownUser) {
+        dispatch(new SlackMessage(SLACKBOT_AUDIT_CHANNEL, ((null == knownUser)?null:knownUser.name), "Logged in"));
     }
 
     public static void emitAuditLog(AuditRecord log) {

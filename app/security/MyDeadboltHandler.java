@@ -1,6 +1,5 @@
 package security;
 
-import controllers.Slack;
 import models.security.User;
 import play.libs.F;
 import play.mvc.Http;
@@ -18,7 +17,6 @@ public class MyDeadboltHandler extends AbstractDeadboltHandler {
     public F.Promise<Result> beforeAuthCheck(final Http.Context context) {
         if (PlayAuthenticate.isLoggedIn(context.session())) {
             // user is logged in
-            Slack.emitLogin();
             return F.Promise.pure(null);
         } else {
             PlayAuthenticate.storeOriginalUrl(context);

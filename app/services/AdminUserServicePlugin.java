@@ -1,5 +1,6 @@
 package services;
 
+        import controllers.Slack;
         import models.security.User;
         import play.Application;
 
@@ -57,6 +58,7 @@ public class AdminUserServicePlugin extends UserServicePlugin {
     public AuthUser update(final AuthUser knownUser) {
         // User logged in again, bump last login date
         User.setLastLoginDate(knownUser);
+        Slack.emitLogin(User.findByAuthUserIdentity(knownUser));
         return knownUser;
     }
 }
