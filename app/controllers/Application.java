@@ -5,6 +5,7 @@ import com.stripe.model.Charge;
 import models.security.AuditRecord;
 import models.site.ClosureNotice;
 import models.site.NewsItem;
+import utils.VisitCounter;
 import models.skatepark.*;
 import play.Logger;
 import play.cache.Cached;
@@ -253,5 +254,17 @@ public class Application extends Controller {
             Logger.error("Stripe error", e);
             return internalServerError();
         }
+    }
+
+    public static Result visitCounter() {
+        return ok(visitCounter.render());
+    }
+
+    public static WebSocket<String> visitCounterWebsocket(){
+        return new WebSocket<String>(){
+            public void onReady(WebSocket.In<String> in, WebSocket.Out<String> out){
+                VisitCounter.start(in, out);
+            }
+        };
     }
 }

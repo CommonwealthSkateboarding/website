@@ -2,12 +2,12 @@ package models.skatepark;
 
 import com.avaje.ebean.annotation.EnumValue;
 import models.security.User;
+import utils.VisitCounter;
 import org.apache.commons.lang3.time.DateUtils;
 import play.data.format.Formats;
 import play.db.ebean.Model;
 
 import javax.persistence.*;
-import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -72,6 +72,8 @@ public class Visit extends Model {
 
         ret.save();
 
+        VisitCounter.newVisit();
+
         return ret;
     }
 
@@ -84,5 +86,9 @@ public class Visit extends Model {
             return true;
         }
         return false;
+    }
+
+    public static int countSince2015() {
+        return find.where().gt("time", "2015-01-01").findRowCount();
     }
 }

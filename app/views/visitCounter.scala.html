@@ -1,0 +1,61 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Visits</title>
+    <script src="@routes.Assets.at("admin/js/jquery.js")"></script>
+    <script type="text/javascript" src="@routes.Assets.at("segment-display.js")"></script>
+    <script type="text/javascript">
+
+        $(function(){
+
+          var display = new SegmentDisplay("display");
+          display.pattern         = "#####";
+          display.displayAngle    = 5;
+          display.digitHeight     = 48;
+          display.digitWidth      = 22;
+          display.digitDistance   = 3.7;
+          display.segmentWidth    = 3.5;
+          display.segmentDistance = 1.7;
+          display.segmentCount    = 7;
+          display.cornerType      = 1;
+          display.colorOn         = "#24dd22";
+          display.colorOff        = "#040c00";
+          display.draw();
+
+            var WS = window['MozWebSocket'] ? window['MozWebSocket'] : WebSocket;
+            var socket = new WS('wss://cwskate.com/ws/visits');
+            var writeMessages = function(event){
+                display.setValue(event.data);
+                console.log(event.data)
+            }
+
+            socket.onmessage = writeMessages;
+            console.log("init");
+
+            var canvas = document.getElementById('display'),
+            context = canvas.getContext('2d');
+
+            // resize the canvas to fill browser window dynamically
+            window.addEventListener('resize', resizeCanvas, false);
+
+            function resizeCanvas() {
+                    canvas.width = (window.innerWidth-20);
+                    canvas.height = (window.innerHeight-20);
+
+                    drawStuff();
+            }
+            resizeCanvas();
+
+            function drawStuff() {
+                    display.draw();
+            }
+        });
+    </script>
+</head>
+
+<body bgcolor="#000000">
+<canvas id="display">
+ Derp.
+</canvas>
+</body>
+</html>

@@ -21,6 +21,8 @@ POST    /camp/:id/register          controllers.Application.registerForCampWithS
 POST    /event/:id/register         controllers.Application.registerForEventWithStripe(id: String)
 GET     /registration/:id           controllers.Application.registrationPage(id: String)
 POST    /registration/:id/pay       controllers.Application.registrationPayBalance(id: String)
+GET     /ws/visits                  controllers.Application.visitCounterWebsocket()
+GET     /visitcounter               controllers.Application.visitCounter()
 
 # Session
 GET     /login                      controllers.Application.login()
