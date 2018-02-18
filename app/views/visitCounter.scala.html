@@ -30,7 +30,14 @@
             }
 
             socket.onmessage = writeMessages;
-            console.log("init");
+            socket.onclose = function(event) {
+                console.log("connection lost, reloading in 5 seconds");
+                setTimeout(function(){ location.reload(); }, 5000);
+            }
+            setInterval( function(){
+                console.log("keepalive broadcast");
+                socket.send("keepalive");
+            }, 15000);
 
             var canvas = document.getElementById('display'),
             context = canvas.getContext('2d');
