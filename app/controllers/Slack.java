@@ -8,6 +8,7 @@ import models.skatepark.Registration;
 import models.skatepark.Visit;
 import models.square.Payment;
 import models.square.PaymentItemization;
+import models.square.Refund;
 import models.square.Tender;
 import net.gpedro.integrations.slack.SlackApi;
 import net.gpedro.integrations.slack.SlackMessage;
@@ -78,7 +79,7 @@ public class Slack {
             Long interval = (now.getTime() - created.getTime());
 
             // if payment happened more than 15 minutes ago...
-            if (interval > FIFTEEN_MINUTES_IN_MILLISECONDS) {
+            if (interval > FIFTEEN_MINUTES_IN_MILLISECONDS && (null == payment.refunds || payment.refunds.length == 0)) {
                 sb.append("_Created " + TimeUtil.millisToLongDHMS(interval) + " ago_ :troll:\n");
             }
         } catch (ParseException e) {
@@ -90,6 +91,11 @@ public class Slack {
             sb.append("\n" + item.quantity.intValue() + "x " + item.name +
                     (item.name.contains("Custom Amount")?" ಠ_ಠ":"") +
                     " (" + prettyDollarsAndCents(item.total_money.amount/100) + ")");
+        }
+        if (null != payment.refunds && payment.refunds.length > 0) {
+            for (Refund refund : Arrays.asList(payment.refunds)) {
+                sb.append("\n" + "Refunded " + prettyDollarsAndCents(refund.refunded_money.amount / 100));
+            }
         }
         dispatch(new SlackMessage(SLACKBOT_FINANCE_CHANNEL, null, sb.toString()));
 
