@@ -13,8 +13,12 @@ public class Refund {
     public String reason;
 
     public Money refunded_money;
-    
+
     public Money refunded_processing_fee_money;
+
+    public Money refunded_additive_tax_money;
+
+    public Money refunded_inclusive_tax_money;
 
     public String created_at;
 
