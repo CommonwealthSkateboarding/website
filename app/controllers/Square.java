@@ -76,7 +76,7 @@ public class Square extends Controller {
         return payment;
     }
 
-    public static void runSlackPaymentsReport(Date since) throws TimeoutException {
+    public static void runSlackPaymentsReport(Date since) {
         Payment[] payments = null;
         if (enabled) {
             WSRequestHolder holder = WS.url(PAYMENT_URL).setHeader(AUTHORIZATION_HEADER, BEARER_TOKEN)
@@ -94,9 +94,9 @@ public class Square extends Controller {
             }
         }
         if (null != payments && payments.length > 0) {
-            List<Payment> p = Arrays.asList(payments);
-            Logger.info("Received " + p.size() + " square payments, emitting to slack");
-            p.forEach(Slack::emitPaymentDetails);
+            List<Payment> paymentList = Arrays.asList(payments);
+            Logger.info("Received " + paymentList.size() + " square payments, emitting to slack");
+            Slack.emitDailyPaymentReport(paymentList);
         }
     }
 

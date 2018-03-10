@@ -102,6 +102,14 @@ public class Slack {
         return null;
     }
 
+    public static void emitDailyPaymentReport(List<Payment> payments) {
+        Double totalSales = 0.00;
+        for(Payment p : payments) {
+            totalSales += p.total_collected_money.amount / 100.0;
+        }
+        dispatch(new SlackMessage(SLACKBOT_FINANCE_CHANNEL, null, "Daily payment report! :tada:\nIn the last 24 hours, " + payments.size() + " payments were collected for a total revenue of " + prettyDollarsAndCents(totalSales)));
+    }
+
     public static void notifyOfNewIssue(Issue issue) {
         dispatch(new SlackMessage(SLACKBOT_GENERAL_CHANNEL, issue.createdBy.name, ("New issue created: " + issue.title +
                 " [<" + BASE_URL + routes.Admin.issueIndex()) + "|View Issues>]"));

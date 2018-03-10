@@ -131,6 +131,16 @@ public class Global extends GlobalSettings {
                 }, Akka.system().dispatcher()
         );
 
+        Akka.system().scheduler().schedule(
+                //8:00 AM Local Time
+                Duration.create(nextExecutionInSeconds(8,00), TimeUnit.SECONDS),
+                Duration.create(24, TimeUnit.HOURS),
+                () -> {
+                    Logger.info("Performing 24 hour sales report");
+                    Square.runSlackPaymentsReport(DateUtils.addDays(new Date(), -1));
+                }, Akka.system().dispatcher()
+        );
+
         /**
         Akka.system().scheduler().schedule(
                 //2200 hours = 10PM in local timezone
