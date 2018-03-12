@@ -31,8 +31,8 @@
 
             socket.onmessage = writeMessages;
             socket.onclose = function(event) {
-                console.log("connection lost, reloading in 120 seconds");
-                setTimeout(function(){ location.reload(); }, 120000);
+                console.log("connection lost, reloading in 180 seconds");
+                setTimeout(function(){ location.reload(); }, 180000);
             }
             setInterval( function(){
                 console.log("keepalive broadcast");
