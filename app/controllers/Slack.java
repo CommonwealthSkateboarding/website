@@ -36,6 +36,7 @@ public class Slack {
     private static String SLACKBOT_KEYS = Play.application().configuration().getString("slackbot.keys");
 
     private static final String SLACKBOT_AUDIT_CHANNEL = "#audit";
+    private static final String SLACKBOT_BUSINESS_CHANNEL = "#business";
     private static final String SLACKBOT_FINANCE_CHANNEL = "#finance";
     private static final String SLACKBOT_GENERAL_CHANNEL = "#general";
     private static final long FIFTEEN_MINUTES_IN_MILLISECONDS = 1000*60*15;
@@ -107,7 +108,7 @@ public class Slack {
         for(Payment p : payments) {
             totalSales += p.total_collected_money.amount / 100.0;
         }
-        dispatch(new SlackMessage(SLACKBOT_FINANCE_CHANNEL, null, "Daily payment report! :tada:\nIn the last 24 hours, " + payments.size() + " payments were collected for a total revenue of " + prettyDollarsAndCents(totalSales)));
+        dispatch(new SlackMessage(SLACKBOT_BUSINESS_CHANNEL, null, "Daily payment report! :tada:\nIn the last 24 hours, " + payments.size() + " payments were collected for a total revenue of " + prettyDollarsAndCents(totalSales)));
     }
 
     public static void notifyOfNewIssue(Issue issue) {
