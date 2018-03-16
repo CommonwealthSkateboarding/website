@@ -135,7 +135,7 @@ public class Slack {
 
     public static void emitRegistrationBalancePayment(Registration reg, Double amount) {
         dispatch(new SlackMessage(SLACKBOT_FINANCE_CHANNEL, reg.participantName, ("Balance payment of "
-                + prettyDollarsAndCents(amount) + " for registration of " + reg.participantName)));
+                + prettyDollarsAndCents(amount) + " for " + (reg.registrationType.equals(Registration.RegistrationType.CAMP)?reg.camp.title:reg.event.name) + " registration of " + reg.participantName)));
     }
 
     public static void emitBitcoinPayment(Charge charge) {
