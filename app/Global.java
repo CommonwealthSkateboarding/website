@@ -1,3 +1,4 @@
+import akka.actor.Cancellable;
 import controllers.Admin;
 import controllers.Slack;
 import controllers.Square;
@@ -111,7 +112,7 @@ public class Global extends GlobalSettings {
             }
         });
 
-        Akka.system().scheduler().schedule(
+        Cancellable expiredPassTask = Akka.system().scheduler().schedule(
                 //11:30 PM Local Time
                 Duration.create(nextExecutionInSeconds(23,30), TimeUnit.SECONDS),
                 Duration.create(24, TimeUnit.HOURS),
@@ -131,7 +132,7 @@ public class Global extends GlobalSettings {
                 }, Akka.system().dispatcher()
         );
 
-        Akka.system().scheduler().schedule(
+        Cancellable reportTask = Akka.system().scheduler().schedule(
                 //8:00 AM Local Time
                 Duration.create(nextExecutionInSeconds(8,00), TimeUnit.SECONDS),
                 Duration.create(24, TimeUnit.HOURS),
@@ -140,6 +141,16 @@ public class Global extends GlobalSettings {
                     Square.runSlackPaymentsReport(DateUtils.addDays(new Date(), -1));
                 }, Akka.system().dispatcher()
         );
+
+        Thread cancelTasksOnShutdown = new Thread("shutdownHook") {
+            public void run() {
+                Logger.info("Cancelling akka tasks for application shutdown");
+                reportTask.cancel();
+                expiredPassTask.cancel();
+            }
+        };
+
+        Akka.system().registerOnTermination(cancelTasksOnShutdown);
 
         /**
         Akka.system().scheduler().schedule(
