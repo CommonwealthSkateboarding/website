@@ -62,6 +62,8 @@ public class Tender {
 
     public Money refunded_money;
 
+    public Money tip_money;
+
     public String receipt_url;
 
     public String employee_id;
