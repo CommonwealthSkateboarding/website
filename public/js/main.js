@@ -1,3 +1,14 @@
+// Refresh on Orientation Change
+if (window.DeviceOrientationEvent) {
+  window.addEventListener(
+    "orientationchange",
+    function() {
+      location.reload();
+    },
+    false
+  );
+}
+
 $(document).ready(function() {
   var caro = $("#carousel");
   var header = $("header#main");
