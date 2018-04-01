@@ -4,32 +4,33 @@
 @import "site.scss";
 
 // DEFAULTS
-@import "defaults/variables", 
-				"defaults/defaults", 
-				"defaults/rem", 
+@import "defaults/variables",
+				"defaults/helpers",
+				"defaults/defaults",
+				"defaults/rem",
 				"defaults/typography";
 
 // COMPONENTS
 @import "components/aesthetics",
 				"components/alerts",
-				"components/animations", 
-				"components/header", 
+				"components/animations",
+				"components/header",
 				"components/mobile",
-				"components/body", 
-				"components/footer", 
-				"components/carousels", 
-				"components/sidebar", 
-				"components/tables", 
+				"components/body",
+				"components/footer",
+				"components/carousels",
+				"components/sidebar",
+				"components/tables",
 				"components/forms";
 
 // PAGES
-@import "sections/home", 
-				"sections/shop", 
-				"sections/camps", 
+@import "sections/home",
+				"sections/shop",
+				"sections/camps",
 				"sections/events",
 				"sections/sessions",
-				"sections/blog",  
-				"sections/about", 
+				"sections/blog",
+				"sections/about",
 				"sections/store",
 				"sections/terms",
 				"sections/contact";
