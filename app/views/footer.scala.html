@@ -5,7 +5,7 @@
 <!-- End Repuso widget code -->
 
 <footer>
-	<div class="sponsors">
+	<!-- <div class="sponsors">
 		<p class="h6">Partners in Crime</p>
 		<div class="logos">
 			<ul class="gold">
@@ -16,55 +16,60 @@
 					<a href="http://lifebloodskateboards.com/" target="_blank"><img src="@routes.Assets.at("img/sponsors/lifeblood.svg")" alt="Lifeblood Skateboards"></a>
 				</li>
 			</ul>
-			<!-- <ul class="silver">
+			<ul class="silver">
 				<li>Sponsor</li>
 				<li>Sponsor</li>
 				<li>Sponsor</li>
 				<li>Sponsor</li>
-			</ul> -->
+			</ul>
 		</div>
-	</div>
+	</div> -->
 
 	<div class="info">
 		<div class="contact">
 			<div class="address">
-				<span><a href="https://www.google.com/maps/place/1425+SE+20th+Ave,+Portland,+OR+97214/" target="_blank"><i class="fa fa-map-marker"></i></a> 1425 SE 20<sup>th</sup> <wbr>Portland,&nbsp;OR</span>
+
+				<div class="map">
+					<div id="footerMap"></div>
+				</div>
+
+				<a href="https://www.google.com/maps/place/1425+SE+20th+Ave,+Portland,+OR+97214/" target="_blank"><i class="far fa-map-marker"></i> 1425 SE 20<sup>th</sup> <wbr>Portland,&nbsp;OR</a>
 			</div>
 
 			<ul class="social">
 				<li data-name="Instagram">
 					<a href="http://instagram.com/commonwealthskate" title="Instagram">
-						<i class="fa fa-instagram"></i>
+						<i class="fab fa-instagram"></i>
 					</a>
 				</li>
 				<li data-name="Facebook">
 					<a href="https://www.facebook.com/pages/Commonwealth-Skateboarding/193644940661093" title="Facebook">
-						<i class="fa fa-facebook-official"></i>
+						<i class="fab fa-facebook"></i>
 					</a>
 				</li>
 				<li data-name="Twitter">
 					<a href="https://twitter.com/commonwealthsk8">
-						<i class="fa fa-twitter"></i>
+						<i class="fab fa-twitter"></i>
 					</a>
 				</li>
 				<!-- <li data-name="Reddit">
 					<a href="https://www.reddit.com/r/commonwealthpdx" title="Subreddit">
-						<i class="fa fa-reddit"></i>
+						<i class="fab fa-reddit"></i>
 					</a>
 				</li> -->
 				<!-- <li data-name="Vine">
 					<a href="https://vine.co/u/932449579813724160">
-						<i class="fa fa-vine"></i>
+						<i class="fab fa-vine"></i>
 					</a>
 				</li> -->
 				<!-- <li data-name="YouTube">
 					<a href="https://www.youtube.com/user/commonwealthskate">
-						<i class="fa fa-youtube"></i>
+						<i class="fab fa-youtube"></i>
 					</a>
 				</li> -->
 				<!-- <li data-name="Google+">
 					<a href="https://plus.google.com/110130398862580513394">
-						<i class="fa fa-google-plus"></i>
+						<i class="fab fa-google-plus"></i>
 					</a>
 				</li> -->
 			</ul>
@@ -116,6 +121,111 @@
 			</ul>
 			<div class="copyright"><span>&copy;</span> Commonwealth Skateboarding 2017</div>
 		</nav>
-			
+
 	</div>
+
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAdzEGBNfSFsKWKYhs0Sn0I5Z08Z93yf58"></script>
+	<script>
+	$(document).ready(function() {
+  // Google Map
+  var myLatLng = new google.maps.LatLng(45.512455, -122.645703);
+  var mapOptions = {
+    zoom: 13,
+    disableDefaultUI: true,
+    center: myLatLng,
+    mapTypeId: google.maps.MapTypeId.ROADMAP,
+    styles: [
+      {
+        featureType: "all",
+        elementType: "labels.text.fill",
+        stylers: [{ saturation: 36 }, { color: "#000000" }, { lightness: 58 }]
+      },
+      {
+        featureType: "all",
+        elementType: "labels.text.stroke",
+        stylers: [{ visibility: "on" }, { color: "#000000" }, { lightness: 16 }]
+      },
+      {
+        featureType: "all",
+        elementType: "labels.icon",
+        stylers: [{ visibility: "off" }]
+      },
+      {
+        featureType: "administrative",
+        elementType: "geometry.fill",
+        stylers: [{ color: "#000000" }, { lightness: 20 }]
+      },
+      {
+        featureType: "administrative",
+        elementType: "geometry.stroke",
+        stylers: [{ color: "#000000" }, { lightness: 17 }, { weight: 1.2 }]
+      },
+      {
+        featureType: "landscape",
+        elementType: "geometry",
+        stylers: [{ color: "#000000" }, { lightness: 23 }]
+      },
+      {
+        featureType: "poi",
+        elementType: "geometry",
+        stylers: [{ color: "#000000" }, { lightness: 21 }]
+      },
+      {
+        featureType: "road.highway",
+        elementType: "geometry.fill",
+        stylers: [{ color: "#000000" }, { lightness: 15 }]
+      },
+      {
+        featureType: "road.highway",
+        elementType: "geometry.stroke",
+        stylers: [{ color: "#000000" }, { lightness: 15 }, { weight: 0.2 }]
+      },
+      {
+        featureType: "road.arterial",
+        elementType: "geometry",
+        stylers: [{ color: "#000000" }, { lightness: 15 }]
+      },
+      {
+        featureType: "road.local",
+        elementType: "geometry",
+        stylers: [{ color: "#000000" }, { lightness: 15 }]
+      },
+      {
+        featureType: "transit",
+        elementType: "geometry",
+        stylers: [{ color: "#000000" }, { lightness: 15 }]
+      },
+      {
+        featureType: "water",
+        elementType: "geometry",
+        stylers: [{ color: "#000000" }, { lightness: 17 }]
+      }
+    ]
+  };
+  var map = new google.maps.Map(
+    document.getElementById("footerMap"),
+    mapOptions
+  );
+  var icon = {
+    url: "/assets/img/gmap.svg",
+    size: new google.maps.Size(60, 60),
+    origin: new google.maps.Point(0, 0),
+    anchor: new google.maps.Point(30, 60)
+  };
+  var marker = new google.maps.Marker({
+    position: myLatLng,
+    map: map,
+    draggable: false,
+    icon: icon,
+    title: "Commonwealth Skateboarding"
+  });
+
+  // Map Centered on Resize
+  google.maps.event.addDomListener(window, "resize", function() {
+    var center = map.getCenter();
+    google.maps.event.trigger(map, "resize");
+    map.setCenter(center);
+  });
+});
+</script>
 </footer>
