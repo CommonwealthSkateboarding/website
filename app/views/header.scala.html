@@ -1,15 +1,7 @@
-<header id="main">
-
 <!-- Mobile -->
-	<nav class="mobile">
-		<div class="menu">
-			<div class="circle">
-				<div class="wrapper">
-					<i class="fa fa-list"></i>&nbsp;<span class="h6">Menu</span>
-				</div>
-			</div>
-		</div>
-		<ul class="nav">
+<nav id="mobile" class="mobile__nav">
+	<div class="mobile__nav-content">
+		<ul class="mobile__nav-items">
 			<li>
 				<a href="/">
 					Home
@@ -25,13 +17,18 @@
 			<li><a href="/about">About</a></li>
 			<li><a href="/contact">Contact</a></li>
 		</ul>
-	</nav>
-
-	<div class="logo--extended">
-		<img src="@routes.Assets.at("img/cw--logo--extended.svg")" alt="Commonwealth Skateboarding">
 	</div>
-	<!-- /Mobile -->
 
+	<div class="mobile__nav-toggle">
+		<i class="fas fa-bars"></i>
+	</div>
+</nav>
+
+<div class="logo--extended hide">
+	<img src="/assets/img/cw--logo--extended.svg" alt="Commonwealth Skateboarding">
+</div>
+
+<header id="main">
 	<div class="logo">
 			<a href="/">
 		<span class="front">
