@@ -2,11 +2,11 @@
 @import admin.wrapper
 @wrapper(localUser, "camps", "viewCamp") {
 
-<h3><i class="fa fa-angle-right"></i> Camp Database</h3>
+<h3><i class="fas fa-angle-right"></i> Camp Database</h3>
 <div class="row mt">
     <div class="col-lg-12">
         <div class="showback">
-            <h4><i class="fa fa-angle-right"></i> Existing Camp Registration Info</h4>
+            <h4><i class="fas fa-angle-right"></i> Existing Camp Registration Info</h4>
             <table class="table table-bordered">
                 <tr>
                     <td>Registrant Email</td>
@@ -43,7 +43,7 @@
                     </td>
                 </tr>
             </table>
-            <h4><i class="fa fa-angle-right"></i> Remove Registration</h4>
+            <h4><i class="fas fa-angle-right"></i> Remove Registration</h4>
             <p>
                 <a href="@routes.Admin.removeCampRegistration(reg.id, true)" class="btn btn-danger btn-block">Permanently Remove Registration (Can't Undo)</a>
                 <a href="@routes.Admin.viewCampPage(reg.camp.id)" class="btn btn-theme btn-block">Cancel</a>

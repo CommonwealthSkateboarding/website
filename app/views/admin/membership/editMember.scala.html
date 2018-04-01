@@ -1,12 +1,12 @@
 @(member: models.skatepark.Membership, localUser: models.security.User = null)
 @import admin.wrapper
 @wrapper(localUser, "member", "existingMembers") {
-<h3><i class="fa fa-angle-right"></i> Membership Database</h3>
+<h3><i class="fas fa-angle-right"></i> Membership Database</h3>
 <div class="row mt">
     <div class="col-lg-8">
         <div class="showback">
             <a href="@routes.Admin.viewMemberPage(member.id)" class="btn btn-theme pull-right">View</a>
-            <h4 class="mb"><i class="fa fa-angle-right"></i> Edit Member</h4>
+            <h4 class="mb"><i class="fas fa-angle-right"></i> Edit Member</h4>
             <form action="@routes.Admin.updateMembership(member.id)" method="post" class="form-horizontal style-form">
                 <label>Name:</label><br/><input type="text" name="name" value="@member.name" class="form-control" /><br/>
                 <label>Parent Name:</label><br/><input type="text" name="parentName" value="@member.parentName" class="form-control" /><br/>
@@ -31,7 +31,7 @@
     </div>
     <div class="col-lg-4">
         <div class="showback">
-            <h4><i class="fa fa-angle-right"></i> Some ideas:</h4>
+            <h4><i class="fas fa-angle-right"></i> Some ideas:</h4>
             <p class="alert alert-info">
                 Make sure to enter names accurately (so you can find them with search)
             </p>

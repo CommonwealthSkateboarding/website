@@ -2,11 +2,11 @@
 @import admin.wrapper
 @wrapper(localUser, "log", "viewLog") {
 
-<h3><i class="fa fa-angle-right"></i> Audit Log</h3>
+<h3><i class="fas fa-angle-right"></i> Audit Log</h3>
 <div class="row mb">
     <div class="col-lg-12">
         <div class="form-panel">
-            <h4><i class="fa fa-angle-right"></i> Recently Logged</h4>
+            <h4><i class="fas fa-angle-right"></i> Recently Logged</h4>
             <section id="unseen">
                 @if(hasNextPage||page>=1) {
                 <nav>
@@ -40,11 +40,11 @@
                         </td>
                         <td>
                             @log.delta
-                                @if(null != log.newsItem) { <a href="@routes.Application.showNews(log.newsItem.id)"><span class="label label-primary pull-right"><i class="fa fa-pencil-square"></i></span></a> }
-                                @if(null != log.membership) { <a href="@routes.Admin.viewMemberPage(log.membership.id)"><span class="label label-primary pull-right"><i class="fa fa-user"></i></span></a> }
-                                @if(null != log.camp) { <a href="@routes.Admin.viewCampPage(log.camp.id)"><span class="label label-primary pull-right"><i class="fa fa-group"></i></span></a> }
-                                @if(null != log.event) { <a href="@routes.Admin.viewEventPage(log.event.id)"><span class="label label-primary pull-right"><i class="fa fa-calendar"></i></span></a> }
-                                @if(null != log.closure) { <a href="@routes.Admin.closureIndex()"><span class="label label-primary pull-right"><i class="fa fa-bell"></i></span></a> }
+                                @if(null != log.newsItem) { <a href="@routes.Application.showNews(log.newsItem.id)"><span class="label label-primary pull-right"><i class="fas fa-pen-square"></i></span></a> }
+                                @if(null != log.membership) { <a href="@routes.Admin.viewMemberPage(log.membership.id)"><span class="label label-primary pull-right"><i class="fas fa-user"></i></span></a> }
+                                @if(null != log.camp) { <a href="@routes.Admin.viewCampPage(log.camp.id)"><span class="label label-primary pull-right"><i class="fas fa-users"></i></span></a> }
+                                @if(null != log.event) { <a href="@routes.Admin.viewEventPage(log.event.id)"><span class="label label-primary pull-right"><i class="far fa-calendar-alt"></i></span></a> }
+                                @if(null != log.closure) { <a href="@routes.Admin.closureIndex()"><span class="label label-primary pull-right"><i class="fas fa-bell"></i></span></a> }
                         </td>
                         <td><span class="timeago" title="@log.timestamp.format("yyyy-MM-dd'T'HH:mmZ")"></span></td>
                     </tr>
@@ -69,8 +69,8 @@
 </div>
 
 <script>
-    $(document).ready(function(){
-        $("span.timeago").timeago();
-    });
+$(document).ready(function() {
+  $("span.timeago").timeago();
+});
 </script>
 }
