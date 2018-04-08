@@ -2,17 +2,17 @@
 @import admin.wrapper
 @import models.skatepark.Visit._
 @wrapper(localUser, "member", "existingMembers") {
-<h3><i class="fa fa-angle-right"></i> Membership Database</h3>
+<h3><i class="fas fa-angle-right"></i> Membership Database</h3>
 <div class="col-lg-8 col-md-8 col-sm-8">
     @if(!member.isVisited) {
         <div class="alert alert-danger">
-            <h2 class="text-center"><i class="fa fa-warning"></i> @member.name Has Never Checked In!</h2>
+            <h2 class="text-center"><i class="fas fa-exclamation-triangle""></i> @member.name Has Never Checked In!</h2>
         </div>
     }
     @if(member.isCheckedInToday()) {
         @if(member.lastVisit.isValidNow()) {
             <div class="alert alert-success">
-                <h2 class="text-center"><i class="fa fa-check-circle"></i> @member.name Checked In Today!</h2>
+                <h2 class="text-center"><i class="far fa-check-circle"></i> @member.name Checked In Today!</h2>
                 @if(member.lastVisit.visitType == VisitType.SESSION) {
                     <p class="text-center">The pass will expire in <span class="timeago" title="@member.lastVisit.expires.format("yyyy-MM-dd'T'HH:mmZ")"></span></p>
                     <p class="text-center"><a href="@routes.Admin.extendSessionVisit(member.lastVisit.id)" class="btn btn-success btn-block">Upgrade the pass to all-day</a></p>
@@ -20,7 +20,7 @@
             </div>
         } else {
             <div class="alert alert-danger">
-                <h2 class="text-center"><i class="fa fa-check-circle"></i> @member.name Checked In Today!</h2>
+                <h2 class="text-center"><i class="far fa-check-circle"></i> @member.name Checked In Today!</h2>
                 <p class="text-center">But the pass expired <span class="timeago" title="@member.lastVisit.expires.format("yyyy-MM-dd'T'HH:mmZ")"></span></p>
                 @if(member.lastVisit.visitType == VisitType.SESSION) {
                     <p class="text-center"><a href="@routes.Admin.extendSessionVisit(member.lastVisit.id)" class="btn btn-danger btn-block">Upgrade the pass to all-day</a></p>
@@ -42,12 +42,12 @@
                     @if(member.sessionPasses > 0) {
                         <a href="@routes.Admin.sessionVisit(member.id, false)" class="btn btn-success">Use a saved session pass (@member.sessionPasses left)</a>
                     } else {
-                        <a href="@routes.Admin.sessionVisit(member.id, true)" class="btn btn-danger"><i class="fa fa-money"></i> Buy a session pass for today</a>
+                        <a href="@routes.Admin.sessionVisit(member.id, true)" class="btn btn-danger"><i class="fas fa-money-bill-alt"></i> Buy a session pass for today</a>
                     }
                     @if(member.allDayPasses > 0) {
                         <a href="@routes.Admin.allDayVisit(member.id, false)" class="btn btn-info">Use a saved all-day pass (@member.allDayPasses left)</a>
                     } else {
-                        <a href="@routes.Admin.allDayVisit(member.id, true)" class="btn btn-warning"><i class="fa fa-money"></i> Buy an all-day pass for today</a>
+                        <a href="@routes.Admin.allDayVisit(member.id, true)" class="btn btn-warning"><i class="fas fa-money-bill-alt"></i> Buy an all-day pass for today</a>
                     }
                 </p>
             } else {
@@ -57,9 +57,9 @@
     }
     <div class="showback">
         <div class="pull-right">
-            <a href="@routes.Admin.markDuplicate(member.id, !(member.duplicate))" class="btn btn-warning"><i class="fa fa-warning"></i> @(if (member.duplicate) "Unmark this member as a duplicate" else "Mark this member as a duplicate")</a> <a href="@routes.Admin.editMemberPage(member.id)" class="btn btn-theme">Edit Info</a>
+            <a href="@routes.Admin.markDuplicate(member.id, !(member.duplicate))" class="btn btn-warning"><i class="fas fa-exclamation-triangle""></i> @(if (member.duplicate) "Unmark this member as a duplicate" else "Mark this member as a duplicate")</a> <a href="@routes.Admin.editMemberPage(member.id)" class="btn btn-theme">Edit Info</a>
         </div>
-        <h4><i class="fa fa-angle-right"></i> Member Details</h4>
+        <h4><i class="fas fa-angle-right"></i> Member Details</h4>
         <table class="table table-bordered">
             <tr>
                 <td>Name</td>
@@ -136,7 +136,7 @@
         </table>
     </div>
     <div class="showback">
-        <h4><i class="fa fa-angle-right"></i> Last 50 Records</h4>
+        <h4><i class="fas fa-angle-right"></i> Last 50 Records</h4>
         <section id="unseen">
             <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -175,7 +175,7 @@
 <div class="col-lg-4 col-md-4 col-sm-4">
     <div class="showback">
         <h4 class="pull-right"><span class="label @if(member.credit != null && member.credit<0){label-danger}else{label-default}">@utils.Formatter.prettyDollarsAndCents(member.credit)</span></h4>
-        <h4><i class="fa fa-angle-right"></i> Food Credit</h4>
+        <h4><i class="fas fa-angle-right"></i> Food Credit</h4>
         <div class="collapse-group">
             <form action="@routes.Admin.addCredit(member.id)" method="post" class="form-inline collapse text-center" role="form">
                 <div class="form-group">
@@ -209,7 +209,7 @@
 
 <div class="col-lg-4 col-md-4 col-sm-4">
     <div class="showback">
-        <h4><i class="fa fa-angle-right"></i> Unlimited Passes</h4>
+        <h4><i class="fas fa-angle-right"></i> Unlimited Passes</h4>
         <div class="row">
         @for(pass <- member.getUnlimitedPassesForDisplay()) {
             <div class="col-md-12 @if(pass.isValid()) { bg-success } else { bg-warning }">
@@ -260,13 +260,13 @@
 <div class="col-lg-4 col-md-4 col-sm-4">
     <div class="showback">
         <h4 class="pull-right"><span class="label label-default">@member.getDisplayPromoPasses() Remaining</span></h4>
-        <h4><i class="fa fa-angle-right"></i> Promotional Passes</h4>
+        <h4><i class="fas fa-angle-right"></i> Promotional Passes</h4>
         <p>
 
             @if(null != member.lastActive) { Expiration Date: @member.promoPassExpirationDate.format("MM/dd/yyyy") }
-            <a href="@routes.Admin.addPromoPass(member.id, 1, "Sales")" class="btn btn-sm btn-info btn-block"><i class="fa fa-shopping-bag"></i> Add 1 Sales Promotional Pass</a>
-            <a href="@routes.Admin.addPromoPass(member.id, 1, "Lesson")" class="btn btn-sm btn-info btn-block"><i class="fa fa-shopping-bag"></i> Add 1 Lesson Promotional Pass</a>
-            <a href="@routes.Admin.addPromoPass(member.id, 1, "Making Amends")" class="btn btn-sm btn-info btn-block"><i class="fa fa-shopping-bag"></i> Add 1 Making Amends Promotional Pass</a>
+            <a href="@routes.Admin.addPromoPass(member.id, 1, "Sales")" class="btn btn-sm btn-info btn-block"><i class="fas fa-shopping-basket"></i> Add 1 Sales Promotional Pass</a>
+            <a href="@routes.Admin.addPromoPass(member.id, 1, "Lesson")" class="btn btn-sm btn-info btn-block"><i class="fas fa-shopping-basket"></i> Add 1 Lesson Promotional Pass</a>
+            <a href="@routes.Admin.addPromoPass(member.id, 1, "Making Amends")" class="btn btn-sm btn-info btn-block"><i class="fas fa-shopping-basket"></i> Add 1 Making Amends Promotional Pass</a>
             <a href="@routes.Admin.subtractPromoPass(member.id)" class="btn btn-sm btn-danger btn-block @if(0 == member.getDisplayPromoPasses()) { disabled }">Subtract 1 Pass</a>
     </div>
 </div>
@@ -274,10 +274,10 @@
 <div class="col-lg-4 col-md-4 col-sm-4">
     <div class="showback">
         <h4 class="pull-right"><span class="label label-default">@member.sessionPasses Remaining</span></h4>
-        <h4><i class="fa fa-angle-right"></i> Session Passes</h4>
+        <h4><i class="fas fa-angle-right"></i> Session Passes</h4>
         <p>
-            <a href="@routes.Admin.addSessionPass(member.id, 1)" class="btn btn-sm btn-success btn-block"><i class="fa fa-money"></i> Buy 1 Pass</a>
-            <a href="@routes.Admin.addSessionPass(member.id, 10)" class="btn btn-sm btn-success btn-block"><i class="fa fa-money"></i> Buy <b>10</b> Passes</a>
+            <a href="@routes.Admin.addSessionPass(member.id, 1)" class="btn btn-sm btn-success btn-block"><i class="fas fa-money-bill-alt"></i> Buy 1 Pass</a>
+            <a href="@routes.Admin.addSessionPass(member.id, 10)" class="btn btn-sm btn-success btn-block"><i class="fas fa-money-bill-alt"></i> Buy <b>10</b> Passes</a>
             <a href="@routes.Admin.subtractSessionPass(member.id)" class="btn btn-sm btn-danger btn-block @if(0 == member.sessionPasses) { disabled }">Subtract 1 Pass</a>
     </div>
 </div>
@@ -285,12 +285,12 @@
 <div class="col-lg-4 col-md-4 col-sm-4">
     <div class="showback">
         <h4 class="pull-right"><span class="label label-default">@member.allDayPasses Remaining</span></h4>
-        <h4><i class="fa fa-angle-right"></i> All Day Passes</h4>
+        <h4><i class="fas fa-angle-right"></i> All Day Passes</h4>
         <p>
             <!-- Removing sidebar checkin buttons
                 <a href="@routes.Admin.allDayVisit(member.id)" class="btn btn-theme btn-block @if(0 == member.allDayPasses || member.isCheckedInToday()) { disabled } ">Check In</a></p>
             -->
-            <a href="@routes.Admin.addAllDayPass(member.id)" class="btn btn-sm btn-warning btn-block"><i class="fa fa-money"></i> Buy 1 Pass</a>
+            <a href="@routes.Admin.addAllDayPass(member.id)" class="btn btn-sm btn-warning btn-block"><i class="fas fa-money-bill-alt"></i> Buy 1 Pass</a>
             <a href="@routes.Admin.subtractAllDayPass(member.id)" class="btn btn-sm btn-danger btn-block @if(0 == member.allDayPasses) { disabled }">Subtract 1 Pass</a>
     </div>
 </div>

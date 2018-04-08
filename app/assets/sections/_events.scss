@@ -1,136 +1,261 @@
 body.events {
-	background-image: image-url("events/2014__lock-in-header--001.jpg");
-	background-position: center center;
+  background-image: image-url("events/2014__lock-in-header--001.jpg");
+  background-position: center center;
 
-	[id="events"] {
+  [id="events"] {
+    table[id="events"] {
+      @include dataTable();
+      td.no-events {
+        text-align: center;
+        color: $white;
+        cursor: default;
+        &:hover {
+          background: none;
+        }
+      }
+    }
 
-		table[id="events"] {
-			@include dataTable();
-			td.no-events {
-				text-align: center;
-				color: $white;
-				cursor: default;
-				&:hover {
-					background: none;
-				}
-			}
-		}
-
-		.park-rental {
-			ul {
-				display: flex;
-				flex-wrap: wrap;
-				list-style: disc;
-				margin-top: $margin/2;
-				margin-left: 18px;
-				li {
-					padding: 3px 0;
-					width: 50%;
-				}
-			}
-		}
-	}
+    .park-rental {
+      ul {
+        display: flex;
+        flex-wrap: wrap;
+        list-style: disc;
+        margin-top: $margin/2;
+        margin-left: 18px;
+        li {
+          padding: 3px 0;
+          width: 50%;
+        }
+      }
+    }
+  }
 }
 
 body.event-detail {
-	[id="event-detail"] {
-		a .h1 {  display: inline-block; }
-		.h4 { color: $gold; }
-		.h6 { 
-			display: block; 
-			@include rem(font-size, 12px);
-			font-weight: 900;
-			margin: 18px 0 6px 12px;
-			text-transform: uppercase;
-		}
+  [id="event-detail"] {
+    a .h1 {
+      display: inline-block;
+    }
+    .h4 {
+      color: $gold;
+    }
+    .h6 {
+      display: block;
+      @include rem(font-size, 12px);
+      font-weight: 900;
+      margin: 18px 0 6px 12px;
+      text-transform: uppercase;
+    }
 
-		.details {
-			order: 2;
-			margin-left: $margin;
-			width: calc(34% - #{$margin/2});
-			ul {
-				//margin-top: $margin;
-				li {
-					//background: fade_out($gray, .96);
-					background: fade_out($black, .45);
-					border-bottom: 3px solid $black;
-					display: flex;
-					flex-direction: column;
-					flex-wrap: wrap;
-					margin: 0;
-					padding: 18px 24px 9px 24px;
-					width: 100%;
-					&:not(:first-of-type) {
-						margin-top: 3px;
-					}
-					&:not(.description) {
-						p:not(.h6) {
-							@include rem(font-size, 27px); 
-							font-weight: 300;
-							margin: 0;
-						}
-					}
-					&:last-of-type { padding-bottom: 18px; }
-					.h6 { margin: 0; }
-				}
-			}
-		}
+    .details {
+      order: 2;
+      margin-left: $margin;
+      width: calc(34% - #{$margin/2});
+      ul {
+        //margin-top: $margin;
+        li {
+          //background: fade_out($gray, .96);
+          background: fade_out($black, 0.45);
+          border-bottom: 3px solid $black;
+          display: flex;
+          flex-direction: column;
+          flex-wrap: wrap;
+          margin: 0;
+          padding: 18px 24px 9px 24px;
+          width: 100%;
+          &:not(:first-of-type) {
+            margin-top: 3px;
+          }
+          &:not(.description) {
+            p:not(.h6) {
+              @include rem(font-size, 27px);
+              font-weight: 300;
+              margin: 0;
+            }
+          }
+          &:last-of-type {
+            padding-bottom: 18px;
+          }
+          .h6 {
+            margin: 0;
+          }
+        }
+      }
+    }
 
-		.sign-up {
-			order: 1;
-			width: calc(66% - #{$margin/2}) ;
-		}
-		
-		form {
-			input[type] {
-				&[id="p_name"], &[id="b_name"], &[id="email"] { width: 100%; }
-			}
-			.form-row { margin-bottom: $margin; }
-			radiogroup {
-				display: flex;
-				align-content: center;
-				align-items: center;
-				@include rem(font-size, 18px);
-				margin-top: 9px;
-				width: 100%;
-				input[type="radio"] {
-					display: none;
-					+ label {
-						display: flex;
-						justify-content: center;
-						align-items: center;
-						border: 1px solid $gold;
-						color: fade_out($gold, .3);
-						cursor: pointer;
-						height: 45px;
-						//padding: 12px $margin*2;
-						position: relative;
-						transition: background .3s, color .3s;
-						width: 50%;
-						i.fa {
-							margin-left: -6px;
-							margin-right: 6px;
-							margin-top: -1px;
-							visibility: hidden;
-						}
-						&:not(:first-of-type) { margin: 0 -2px; }
-					}
-					&:first-of-type + label { border-radius: 3px 0 0 3px; }
-					&:last-of-type + label { border-radius: 0 3px 3px 0; }
-					&:checked + label {
-						background: $gold;
-						color: $white;
-						i.fa { visibility: visible; }
-					}
-					// If there is only one amount
-					//&:only-of-type + label { border-radius: 3px; cursor: default; opacity: .15; }
-				}
-			}
+    .sign-up {
+      order: 1;
+      width: calc(66% - #{$margin/2});
+    }
 
-			footer {
-				display: flex;
-				justify-content: flex-end;
-			}
-		}
-	}
+    form {
+      input[type] {
+        &[id="p_name"],
+        &[id="b_name"],
+        &[id="email"] {
+          width: 100%;
+        }
+      }
+      .form-row {
+        margin-bottom: $margin;
+      }
+      radiogroup {
+        display: flex;
+        align-content: center;
+        align-items: center;
+        @include rem(font-size, 18px);
+        margin-top: 9px;
+        width: 100%;
+
+        input[type="radio"] {
+          display: none;
+
+          + label {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid $gold;
+            color: fade_out($gold, 0.3);
+            cursor: pointer;
+            height: 45px;
+            position: relative;
+            transition: background 0.3s, color 0.3s;
+            width: 50%;
+
+            [data-icon] {
+              margin-left: -6px;
+              margin-right: 6px;
+              margin-top: -1px;
+              visibility: hidden;
+            }
+            &:not(:first-of-type) {
+              margin: 0 -2px;
+            }
+          }
+          &:first-of-type + label {
+            border-radius: 3px 0 0 3px;
+          }
+          &:last-of-type + label {
+            border-radius: 0 3px 3px 0;
+          }
+          &:checked + label {
+            background: $gold;
+            color: $white;
+            [data-icon] {
+              visibility: visible;
+            }
+          }
+          // If there is only one amount
+          //&:only-of-type + label { border-radius: 3px; cursor: default; opacity: .15; }
+        }
+      }
+
+      footer {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+
+        > * {
+          display: flex;
+        }
+
+        label.agreement {
+          align-items: center;
+          background: fade_out($gray, 0.9);
+          border-radius: 3px;
+          box-shadow: 0 0 120px 6px fade-out(#000, 0.75);
+          @include rem(font-size, 18px);
+          justify-content: flex-start;
+          line-height: 1;
+          margin-bottom: 15px;
+          padding: 24px;
+          position: relative;
+          user-select: none;
+          width: 100%;
+
+          input[type="checkbox"] {
+            -webkit-appearance: none;
+            background: none;
+            //border: 6px solid;
+            border-radius: 2px;
+            box-shadow: 0 0 0 3px $gold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transition: all 0.2s ease;
+            height: 18px;
+            width: 18px;
+
+            &:focus {
+              outline: none;
+            }
+
+            &::after {
+              // font-family: $fontawesome;
+              // content: "\f00c";
+              content: "\2714";
+              color: transparent;
+              display: none;
+              align-items: center;
+              justify-content: center;
+              @include rem(font-size, 24px);
+              padding-top: -1px;
+              padding-left: 2px;
+            }
+          }
+
+          span:not(.required) {
+            color: $gray;
+            margin-left: 21px;
+            margin-top: 6px;
+            user-select: none;
+          }
+
+          &.checked {
+            background: fade_out($gold, 0.6);
+
+            input[type="checkbox"] {
+              border-radius: 50%;
+              box-shadow: 0 0 0 3px $white;
+              transform: scale(1.5);
+
+              &::after {
+                color: $white;
+                display: flex;
+                transform: scale(0.5);
+              }
+            }
+            span {
+              color: $gold;
+            }
+          }
+
+          @media screen and (max-width: 420px) {
+            @include rem(font-size, 15px);
+            padding: 15px 24px;
+            input[type="checkbox"] {
+              min-height: 24px;
+              min-width: 24px;
+              &::after {
+                padding-left: 0;
+              }
+            }
+            span {
+              margin-left: 27px;
+              a {
+                display: inline-block;
+              }
+            }
+          }
+        }
+
+        .submit {
+          justify-content: flex-end;
+          margin-top: 36px;
+          width: 100%;
+        }
+      }
+    }
+  }
 }

@@ -11,7 +11,6 @@
     <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("img/favicon.ico")">
 
     <link href="@routes.Assets.at("admin/css/bootstrap.css")" rel="stylesheet">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="@routes.Assets.at("admin/js/bootstrap-datepicker/css/datepicker.css")" />
     <link rel="stylesheet" type="text/css" href="@routes.Assets.at("admin/js/jquery.timepicker.css")">
     <link href="@routes.Assets.at("admin/css/style.css")" rel="stylesheet">
@@ -22,6 +21,10 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <!-- FontAwesome -->
+    <script>FontAwesomeConfig = { searchPseudoElements: true };</script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
 
     <script src="@routes.Assets.at("admin/js/jquery.js")"></script>
     <script src="@routes.Assets.at("admin/js/bootstrap.min.js")"></script>
@@ -38,46 +41,83 @@
     <script src="@routes.Assets.at("admin/js/admin.js")"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.min.js"></script>
     <script src="@routes.Assets.at("admin/js/typeahead.bundle.min.js")"></script>
     <script>
-        $(document).ready(function(){
-            $("span.timeago").timeago();
-            Handlebars.registerHelper('checkinable', function (checkedInToday, displayPromoPasses, sessionPasses, allDayPasses, validUnlimitedPass, options) {
-               return ((!checkedInToday && (null == validUnlimitedPass) && (displayPromoPasses > 0 || sessionPasses > 0 || allDayPasses > 0)) ? options.fn(this) : options.inverse(this));
-            });
-            Handlebars.registerHelper('poortown', function (checkedInToday, displayPromoPasses, sessionPasses, allDayPasses, validUnlimitedPass, options) {
-               return ((!checkedInToday && (displayPromoPasses == 0) && (sessionPasses == 0) && (allDayPasses == 0) && (validUnlimitedPass == null)) ? options.fn(this) : options.inverse(this));
-            });
-            Handlebars.registerHelper('unlimable', function (checkedInToday, validUnlimitedPass, options) {
-               return ((!checkedInToday && (validUnlimitedPass != null)) ? options.fn(this) : options.inverse(this));
-            });
+    $(document).ready(function() {
+  $("span.timeago").timeago();
+  Handlebars.registerHelper("checkinable", function(
+    checkedInToday,
+    displayPromoPasses,
+    sessionPasses,
+    allDayPasses,
+    validUnlimitedPass,
+    options
+  ) {
+    return !checkedInToday &&
+      null == validUnlimitedPass &&
+      (displayPromoPasses > 0 || sessionPasses > 0 || allDayPasses > 0)
+      ? options.fn(this)
+      : options.inverse(this);
+  });
+  Handlebars.registerHelper("poortown", function(
+    checkedInToday,
+    displayPromoPasses,
+    sessionPasses,
+    allDayPasses,
+    validUnlimitedPass,
+    options
+  ) {
+    return !checkedInToday &&
+      displayPromoPasses == 0 &&
+      sessionPasses == 0 &&
+      allDayPasses == 0 &&
+      validUnlimitedPass == null
+      ? options.fn(this)
+      : options.inverse(this);
+  });
+  Handlebars.registerHelper("unlimable", function(
+    checkedInToday,
+    validUnlimitedPass,
+    options
+  ) {
+    return !checkedInToday && validUnlimitedPass != null
+      ? options.fn(this)
+      : options.inverse(this);
+  });
 
-            var members = new Bloodhound({
-              datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
-              queryTokenizer: Bloodhound.tokenizers.whitespace,
-              remote: '/admin/autocomplete/member/%QUERY',
-              limit: 100
-            });
+  var members = new Bloodhound({
+    datumTokenizer: Bloodhound.tokenizers.obj.whitespace("value"),
+    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    remote: "/admin/autocomplete/member/%QUERY",
+    limit: 100
+  });
 
-            members.initialize();
+  members.initialize();
 
-            $('.typeahead').typeahead({
-              hint: true,
-              highlight: true,
-              minLength: 3
-            }, {
-              name: 'members',
-              displayKey: 'name',
-              source: members.ttAdapter(),
-              templates: {
-                empty: Handlebars.compile([
-                  '<div class="empty-message">',
-                  'Unable to find any members named "{{query}}". <a href="/admin/members/new?name={{query}}" class="btn btn-info">Add New Member</a><br><br>If you have not <a href="/admin/members/">reloaded this page</a> in a while, you might be logged out!',
-                  '</div>'
-                  ].join('\n')),
-                suggestion: Handlebars.compile('<p><h4>{{name}} {{#checkedInToday}}<span class="label label-success"><i class="fa fa-check"></i> Checked In Today</span>{{/checkedInToday}}{{^checkedInToday}}<span class="label label-danger"><i class="fa fa-ban"></i>{{#visited}} Not Checked In{{/visited}}{{^visited}} Never Visited!{{/visited}}</span>{{/checkedInToday}} <a href="/admin/members/{{id}}/view" class="label label-info">View</a></h4> Actions: {{#checkinable checkedInToday displayPromoPasses sessionPasses allDayPasses mostValidUnlimitedPass}}{{#if allDayPasses}}<a href="/admin/members/{{id}}/visit/allday" class="btn btn-info">Check in With All Day Pass ({{allDayPasses}} left)</a>{{/if}}{{#if sessionPasses}}<a href="/admin/members/{{id}}/visit/session" class="btn btn-info">Check in With Session Pass ({{sessionPasses}} left)</a>{{/if}}{{#if displayPromoPasses}}<a href="/admin/members/{{id}}/visit/promo" class="btn btn-info">Check in With Promo Pass ({{displayPromoPasses}} left)</a>{{/if}}{{/checkinable}} {{#poortown checkedInToday displayPromoPasses sessionPasses allDayPasses mostValidUnlimitedPass}}<a href="/admin/members/{{id}}/visit/session?immediate=true" class="btn btn-danger">Sell a <strong>session</strong> pass for today</a> <a href="/admin/members/{{id}}/visit/allday?immediate=true" class="btn btn-warning">Sell an <strong>all-day</strong> pass for today</a>{{/poortown}} {{#unlimable checkedInToday mostValidUnlimitedPass}}<a href="/admin/members/{{id}}/visit/{{mostValidUnlimitedPass.id}}" class="btn btn-success">Check in with unlimited pass</a>{{/unlimable}}</p>')
-              }
-            });
-        });
-    </script>
+  $(".typeahead").typeahead(
+    {
+      hint: true,
+      highlight: true,
+      minLength: 3
+    },
+    {
+      name: "members",
+      displayKey: "name",
+      source: members.ttAdapter(),
+      templates: {
+        empty: Handlebars.compile(
+          [
+            '<div class="empty-message">',
+            'Unable to find any members named "{{query}}". <a href="/admin/members/new?name={{query}}" class="btn btn-info">Add New Member</a><br><br>If you have not <a href="/admin/members/">reloaded this page</a> in a while, you might be logged out!',
+            "</div>"
+          ].join("\n")
+        ),
+        suggestion: Handlebars.compile(
+          '<p><h4>{{name}} {{#checkedInToday}}<span class="label label-success"><i class="fas fa-check"></i> Checked In Today</span>{{/checkedInToday}}{{^checkedInToday}}<span class="label label-danger"><i class="fas fa-ban"></i>{{#visited}} Not Checked In{{/visited}}{{^visited}} Never Visited!{{/visited}}</span>{{/checkedInToday}} <a href="/admin/members/{{id}}/view" class="label label-info">View</a></h4> Actions: {{#checkinable checkedInToday displayPromoPasses sessionPasses allDayPasses mostValidUnlimitedPass}}{{#if allDayPasses}}<a href="/admin/members/{{id}}/visit/allday" class="btn btn-info">Check in With All Day Pass ({{allDayPasses}} left)</a>{{/if}}{{#if sessionPasses}}<a href="/admin/members/{{id}}/visit/session" class="btn btn-info">Check in With Session Pass ({{sessionPasses}} left)</a>{{/if}}{{#if displayPromoPasses}}<a href="/admin/members/{{id}}/visit/promo" class="btn btn-info">Check in With Promo Pass ({{displayPromoPasses}} left)</a>{{/if}}{{/checkinable}} {{#poortown checkedInToday displayPromoPasses sessionPasses allDayPasses mostValidUnlimitedPass}}<a href="/admin/members/{{id}}/visit/session?immediate=true" class="btn btn-danger">Sell a <strong>session</strong> pass for today</a> <a href="/admin/members/{{id}}/visit/allday?immediate=true" class="btn btn-warning">Sell an <strong>all-day</strong> pass for today</a>{{/poortown}} {{#unlimable checkedInToday mostValidUnlimitedPass}}<a href="/admin/members/{{id}}/visit/{{mostValidUnlimitedPass.id}}" class="btn btn-success">Check in with unlimited pass</a>{{/unlimable}}</p>'
+        )
+      }
+    }
+  );
+});
+</script>
 
     <link rel="stylesheet" href="@routes.Assets.at("admin/css/morris-0.4.3.min.css")">
     <script src="@routes.Assets.at("admin/js/raphael-min.js")"></script>
@@ -110,7 +150,7 @@
                         </form>
 
                     </li>
-                    <li class="hidden-phone"><a class="logout" href="@routes.Admin.issueIndex()"><i class="fa fa-warning"></i> Report Issue</a></li>
+                    <li class="hidden-phone"><a class="logout" href="@routes.Admin.issueIndex()"><i class="fas fa-exclamation-triangle""></i> Report Issue</a></li>
                     <li><a class="logout" href="/logout">Logout</a></li>
                     <li class="hidden-phone"><a class="logout" href="https://accounts.google.com/logout" target="_blank">Google Logout</a></li>
                 </ul>
@@ -131,7 +171,7 @@
             <div class="text-center">
                 Commonwealth Skateboarding / Last Place Footwear
                 <a href="#" class="go-top">
-                    <i class="fa fa-angle-up"></i>
+                    <i class="fas fa-angle-up"></i>
                 </a>
             </div>
         </footer>

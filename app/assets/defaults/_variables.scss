@@ -1,24 +1,36 @@
 // Palettes
 
 $black: #131313;
-.black { color: $black; }
+.black {
+  color: $black;
+}
+
+$white: #ffffff;
+.white {
+  color: $white;
+}
 
 $gray: #858585;
-.gray { color: $gray; }
+.gray {
+  color: $gray;
+}
+
+$gray-l: mix($white, $gray);
+$gray-d: mix($black, $gray);
 
 $gold: #9a8b60;
-.gold { color: $gold; }
-
-$white: #FFF;
-.white { color: $white; }
+.gold {
+  color: $gold;
+}
 
 $blue: #0066ae;
 
 $success: #369958;
-$error: #DB2F31;
+$error: #db2f31;
 
 // Defaults
 
+$fontawesome: "Font Awesome 5 Solid";
 $margin: 30px;
 
 // Sizes

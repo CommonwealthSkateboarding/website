@@ -2,11 +2,11 @@
 @import admin.wrapper
 @wrapper(localUser, "news", "existingNews") {
 
-<h3><i class="fa fa-angle-right"></i> News/Blog Entries</h3>
+<h3><i class="fas fa-angle-right"></i> News/Blog Entries</h3>
 <div class="row mt">
     <div class="col-lg-12">
         <div class="content-panel">
-            <h4><i class="fa fa-angle-right"></i> Edit Existing News</h4>
+            <h4><i class="fas fa-angle-right"></i> Edit Existing News</h4>
             <form action="@routes.Admin.updateNewsItem(news.id)" method="post" class="form-horizontal style-form">
                 <label>Title:</label><br/><input type="text" name="title" value="@news.title" class="form-control"/><br/>
                 <label>Content:</label><br/><textarea name="content" id="newContent" class="form-control">@news.content</textarea><br/>

@@ -1,297 +1,336 @@
 body.camp {
-	background-image: image-url("camps/2014__enzo--001.jpg");
-	background-position: 78% center;
+  background-image: image-url("camps/2014__enzo--001.jpg");
+  background-position: 78% center;
 
-	[id="camp"] {
-		table[id="camps"] {
-			@include dataTable();
-			td.no-camps {
-				text-align: center;
-				color: $white;
-				cursor: default;
-				&:hover {
-					background: none;
-				}
-			}
-		}
-	}
+  [id="camp"] {
+    table[id="camps"] {
+      @include dataTable();
+      td.no-camps {
+        text-align: center;
+        color: $white;
+        cursor: default;
+        &:hover {
+          background: none;
+        }
+      }
+    }
+  }
 }
 
 body.camp-detail {
-	background-image: image-url("camps/2014__sampson--001b.jpg");
-	background-position: 75% bottom;
-	
-	[id="camp-detail"] {
+  background-image: image-url("camps/2014__sampson--001b.jpg");
+  background-position: 75% bottom;
 
-		// "Back to all camps"
-		a .h1 { 
-			display: inline-block; 
-			margin-top: 15px;
-		}
+  [id="camp-detail"] {
+    // "Back to all camps"
+    a .h1 {
+      display: inline-block;
+      margin-top: 15px;
+    }
 
-		// Camp Title
-		> .h2 { margin-top: 30px; }
-		.h4 { 
-			color: $gold;
-			margin-top: 30px; 
-		}
+    // Camp Title
+    > .h2 {
+      margin-top: 30px;
+    }
+    .h4 {
+      color: $gold;
+      margin-top: 30px;
+    }
 
-		.h6 { 
-			display: block; 
-			@include rem(font-size, 12px);
-			font-weight: 900;
-			margin: 18px 0 6px 12px;
-			text-transform: uppercase;
-		}
-		
-		.highlight span { 
-			@include rem(font-size, 24px); 
-			line-height: 1.2;
-		}
+    .h6 {
+      display: block;
+      @include rem(font-size, 12px);
+      font-weight: 900;
+      margin: 18px 0 6px 12px;
+      text-transform: uppercase;
+    }
 
-		.description p {
-			color: $white;
-			@include rem(font-size, 24px);
-			font-weight: 300;
-		}
+    .highlight span {
+      @include rem(font-size, 24px);
+      line-height: 1.2;
+    }
 
-		.early-bird {
-			background: fade-out($gold, .81);
-			border-radius: 3px;
-			margin-bottom: 30px;
-			margin-top: 15px;
-			padding: 9px 12px;
+    .description p {
+      color: $white;
+      @include rem(font-size, 24px);
+      font-weight: 300;
+    }
 
-			.h6 {
-				color: $white;
-				margin: 0;
-				padding-top: 6px;
-			}
+    .early-bird {
+      background: fade-out($gold, 0.81);
+      border-radius: 3px;
+      margin-bottom: 30px;
+      margin-top: 15px;
+      padding: 9px 12px;
 
-			p {
-				color: $gold;
-			}
-		}
+      .h6 {
+        color: $white;
+        margin: 0;
+        padding-top: 6px;
+      }
 
-		// Camp Details
-		.details {
-			order: 2;
-			margin-left: $margin;
-			width: calc(34% - #{$margin/2});
+      p {
+        color: $gold;
+      }
+    }
 
-			ul {
-				li {
-					background: fade_out($black, .45);
-					border-bottom: 3px solid $black;
-					display: flex;
-					flex-direction: column;
-					flex-wrap: wrap;
-					margin: 0;
-					padding: 18px 0 9px 0;
-					width: 100%;
+    // Camp Details
+    .details {
+      order: 2;
+      margin-left: $margin;
+      width: calc(34% - #{$margin/2});
 
-					&:not(:first-of-type) {
-						margin-top: 3px;
-					}
+      ul {
+        li {
+          background: fade_out($black, 0.45);
+          border-bottom: 3px solid $black;
+          display: flex;
+          flex-direction: column;
+          flex-wrap: wrap;
+          margin: 0;
+          padding: 18px 0 9px 0;
+          width: 100%;
 
-					// Sidebar Text
-					&:not(.description) {
-						p:not(.h6) {
-							@include rem(font-size, 24px); 
-							font-weight: 300;
-							margin: 0;
-						}
-					}
+          &:not(:first-of-type) {
+            margin-top: 3px;
+          }
 
-					&:last-of-type { padding-bottom: 18px; }
-					.h6 { 
-						color: $gray;
-						margin: 0 0 3px 0; 
-					}
-					p { color: $white; }
-				}
-			}
+          // Sidebar Text
+          &:not(.description) {
+            p:not(.h6) {
+              @include rem(font-size, 24px);
+              font-weight: 300;
+              margin: 0;
+            }
+          }
 
-			.price-payment {
-				display: flex;
-				justify-content: space-between;
-			}
+          &:last-of-type {
+            padding-bottom: 18px;
+          }
+          .h6 {
+            color: $gray;
+            margin: 0 0 3px 0;
+          }
+          p {
+            color: $white;
+          }
+        }
+      }
 
-			.price,
-			.payment {
-				width: 50%;
-			}
+      .price-payment {
+        display: flex;
+        justify-content: space-between;
+      }
 
-			img.cc { margin-top: 0; }
-		}
+      .price,
+      .payment {
+        width: 50%;
+      }
 
-		.sign-up {
-			order: 1;
-			width: calc(66% - #{$margin/2}) ;
-		}
+      img.cc {
+        margin-top: 0;
+      }
+    }
 
-		form {
-			input[type] { 
-				&[id="p_name"], &[id="b_name"], &[id="email"] { width: 100%; }
-			}
+    .sign-up {
+      order: 1;
+      width: calc(66% - #{$margin/2});
+    }
 
-			.form-row { 
-				margin-bottom: $margin; 
-				&.flex.emergency { 
-					&:first-of-type { 
-						border-top: 1px solid $gold;
-						margin-top: $margin*3;
-					}
-					&:nth-of-type(2) { 
-						border-bottom: 1px solid $gold;
-						margin-bottom: $margin*3;
-					}
-					> label {
-						&:first-of-type { 
-							margin-right: $margin;  
-							width: calc(100% - 210px); 
-							input { width: 100%; }
-						}
-						&:nth-of-type(2) {
-							width: 210px; 
-						}	
-					}
-				}
-			}
+    form {
+      input[type] {
+        &[id="p_name"],
+        &[id="b_name"],
+        &[id="email"] {
+          width: 100%;
+        }
+      }
 
-			radiogroup {
-				display: flex;
-				align-content: center;
-				align-items: center;
-				@include rem(font-size, 18px);
-				margin-top: 9px;
-				width: 100%;
-				input[type="radio"] { 
-					display: none; 
-					+ label {
-						display: flex;
-						justify-content: center;
-						align-items: center;
-						border: 1px solid $gold;
-						color: fade_out($gold, .3);
-						cursor: pointer;
-						height: 51px;
-						//padding: 12px $margin*2;
-						position: relative;
-						transition: background .3s, color .3s;
-						width: 50%;
-						i.fa { 
-							margin-left: -6px;
-							margin-right: 6px;
-							margin-top: -1px;
-							visibility: hidden;
-						}
-						&:not(:first-of-type) { margin: 0 -2px; }
-						&:hover { background: fade_out($gold, .9); color: $white; }
-					}
-					&:first-of-type + label { border-radius: 3px 0 0 3px; }
-					&:last-of-type + label { border-radius: 0 3px 3px 0; }
-					&:checked + label {
-						background: $gold;
-						color: $white;
-						i.fa { visibility: visible; }
-					}
-				}
-			}
+      .form-row {
+        margin-bottom: $margin;
+        &.flex.emergency {
+          &:first-of-type {
+            border-top: 1px solid $gold;
+            margin-top: $margin * 3;
+          }
+          &:nth-of-type(2) {
+            border-bottom: 1px solid $gold;
+            margin-bottom: $margin * 3;
+          }
+          > label {
+            &:first-of-type {
+              margin-right: $margin;
+              width: calc(100% - 210px);
+              input {
+                width: 100%;
+              }
+            }
+            &:nth-of-type(2) {
+              width: 210px;
+            }
+          }
+        }
+      }
 
-			footer { 
-				display: flex;
-				flex-wrap: wrap;
-				justify-content: flex-end;
+      radiogroup {
+        display: flex;
+        align-content: center;
+        align-items: center;
+        @include rem(font-size, 18px);
+        margin-top: 9px;
+        width: 100%;
+        input[type="radio"] {
+          display: none;
 
-				> * { display: flex; }
+          + label {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid $gold;
+            color: fade_out($gold, 0.3);
+            cursor: pointer;
+            height: 51px;
+            //padding: 12px $margin*2;
+            position: relative;
+            transition: background 0.3s, color 0.3s;
+            width: 50%;
 
-				label.agreement {
-					align-items: center;
-					background: fade_out($gray, .9);
-					border-radius: 3px;
-					box-shadow: 0 0 120px 6px fade-out(#000, .75);
-					@include rem(font-size, 18px);
-					justify-content: flex-start;
-					line-height: 1;
-					margin-bottom: 15px;
-					padding: 24px;
-					position: relative;
-					user-select: none;
-					width: 100%;
+            [data-icon] {
+              margin-left: -6px;
+              margin-right: 6px;
+              margin-top: -1px;
+              visibility: hidden;
+            }
+            &:not(:first-of-type) {
+              margin: 0 -2px;
+            }
+            &:hover {
+              background: fade_out($gold, 0.9);
+              color: $white;
+            }
+          }
+          &:first-of-type + label {
+            border-radius: 3px 0 0 3px;
+          }
+          &:last-of-type + label {
+            border-radius: 0 3px 3px 0;
+          }
+          &:checked + label {
+            background: $gold;
+            color: $white;
+            [data-icon] {
+              visibility: visible;
+            }
+          }
+        }
+      }
 
-					input[type="checkbox"] {
-						-webkit-appearance: none;
-						background: none;
-						//border: 6px solid;
-						border-radius: 2px;
-						box-shadow: 0 0 0 3px $gold;
-						display: flex;
-						align-items: center;
-						justify-content: center;
-						position: relative;
-						transition: all .2s ease;
-						height: 18px;
-						width: 18px;
-						&:focus { outline: none; }
-						&::after { 
-							content: "\f00c";
-							color: transparent;
-							display: flex;
-							align-items: center;
-							justify-content: center;
-							font-family: "FontAwesome";
-							@include rem(font-size, 24px);
-							padding-top: 1px;
-							padding-left: 1px;
-						}
-					}
+      footer {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
 
-					span:not(.required) { 
-						color: $gray;
-						margin-left: 21px;
-						margin-top: 6px;
-						user-select: none;
-					}
+        > * {
+          display: flex;
+        }
 
-					&.checked {
-						background: fade_out($gold, .6);
+        label.agreement {
+          align-items: center;
+          background: fade_out($gray, 0.9);
+          border-radius: 3px;
+          box-shadow: 0 0 120px 6px fade-out(#000, 0.75);
+          @include rem(font-size, 18px);
+          justify-content: flex-start;
+          line-height: 1;
+          margin-bottom: 15px;
+          padding: 24px;
+          position: relative;
+          user-select: none;
+          width: 100%;
 
-						input[type="checkbox"] {
-							border-radius: 50%;
-							box-shadow: 0 0 0 3px $white;
-							transform: scale(1.5);
-							&:after { 
-								color: $white; 
-								transform: scale(.5);
-							}
-						}
-						span { color: $gold; }
-					}
+          input[type="checkbox"] {
+            -webkit-appearance: none;
+            background: none;
+            //border: 6px solid;
+            border-radius: 2px;
+            box-shadow: 0 0 0 3px $gold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transition: all 0.2s ease;
+            height: 18px;
+            width: 18px;
 
-					@media screen and (max-width: 420px) {
-						@include rem(font-size, 15px);
-						padding: 15px 24px;
-						input[type="checkbox"] { 
-							min-height: 24px;
-							min-width: 24px; 
-							&::after {
-								padding-left: 0;
-							}
-						}
-						span {
-							margin-left: 27px;
-							a { display: inline-block; }
-						}
-					}
-				}
+            &:focus {
+              outline: none;
+            }
 
-				.submit {
-					justify-content: flex-end;
-					margin-top: 36px;
-					width: 100%;
-				}
-			}
-		}
-	}
+            &::after {
+              // font-family: $fontawesome;
+              // content: "\f00c";
+              content: "\2714";
+              color: transparent;
+              display: none;
+              align-items: center;
+              justify-content: center;
+              @include rem(font-size, 24px);
+              padding-top: -1px;
+              padding-left: 2px;
+            }
+          }
+
+          span:not(.required) {
+            color: $gray;
+            margin-left: 21px;
+            margin-top: 6px;
+            user-select: none;
+          }
+
+          &.checked {
+            background: fade_out($gold, 0.6);
+
+            input[type="checkbox"] {
+              border-radius: 50%;
+              box-shadow: 0 0 0 3px $white;
+              transform: scale(1.5);
+
+              &::after {
+                color: $white;
+                display: flex;
+                transform: scale(0.5);
+              }
+            }
+            span {
+              color: $gold;
+            }
+          }
+
+          @media screen and (max-width: 420px) {
+            @include rem(font-size, 15px);
+            padding: 15px 24px;
+            input[type="checkbox"] {
+              min-height: 24px;
+              min-width: 24px;
+              &::after {
+                padding-left: 0;
+              }
+            }
+            span {
+              margin-left: 27px;
+              a {
+                display: inline-block;
+              }
+            }
+          }
+        }
+
+        .submit {
+          justify-content: flex-end;
+          margin-top: 36px;
+          width: 100%;
+        }
+      }
+    }
+  }
 }

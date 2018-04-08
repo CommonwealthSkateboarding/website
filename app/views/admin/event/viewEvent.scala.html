@@ -1,13 +1,13 @@
 @(event: models.skatepark.Event, logs: List[models.security.AuditRecord], localUser: models.security.User = null)
 @import admin.wrapper
 @wrapper(localUser, "events", "viewEvent") {
-<h3><i class="fa fa-angle-right"></i> Event Database</h3>
+<h3><i class="fas fa-angle-right"></i> Event Database</h3>
 <div class="col-lg-12">
     <div class="showback">
         <a href="@routes.Admin.editEventPage(event.id)" class="btn btn-theme pull-right">Edit</a>
-        <h4><i class="fa fa-angle-right"></i> Event Details</h4>
+        <h4><i class="fas fa-angle-right"></i> Event Details</h4>
         @for(warn <- event.findConflicts()){
-            <a href="@routes.Admin.viewEventPage(warn.id)" class="btn btn-danger btn-block"><i class="fa fa-warning"></i> @warn.name is scheduled at the same time!</a>
+            <a href="@routes.Admin.viewEventPage(warn.id)" class="btn btn-danger btn-block"><i class="fas fa-exclamation-triangle""></i> @warn.name is scheduled at the same time!</a>
         }
         <table class="table table-bordered">
             <tr>
@@ -16,11 +16,11 @@
             </tr>
             <tr>
                 <td>Reserve Entire Park</td>
-                <td>@if(event.reservePark) { <i class="fa fa-2x fa-check-circle"></i> }
+                <td>@if(event.reservePark) { <i class="far fa-check-circle"></i> }
             </tr>
             <tr>
                 <td>Archived/Hidden</td>
-                <td>@if(event.archived) { <i class="fa fa-2x fa-check-circle"></i> }
+                <td>@if(event.archived) { <i class="far fa-check-circle"></i> }
             </tr>
             <tr>
                 <td>Date</td>
@@ -40,11 +40,11 @@
             </tr>
             <tr>
                 <td>Public Visibility</td>
-                <td>@if(event.publicVisibility) { <i class="fa fa-2x fa-check-circle"></i> }
+                <td>@if(event.publicVisibility) { <i class="far fa-check-circle"></i> }
             </tr>
             <tr>
                 <td>Registrable</td>
-                <td>@if(event.registrable) { <i class="fa fa-2x fa-check-circle"></i> }
+                <td>@if(event.registrable) { <i class="far fa-check-circle"></i> }
             </tr>
             <tr>
                 <td>Registration End Date</td>
@@ -65,7 +65,7 @@
         </table>
     </div>
     <div class="showback">
-        <h4><i class="fa fa-angle-right"></i> Audit Records</h4>
+        <h4><i class="fas fa-angle-right"></i> Audit Records</h4>
         <section id="unseen">
             <table class="table table-bordered table-striped table-condensed">
                 <thead>
@@ -102,7 +102,7 @@
             @if(event.registrable) {
                 <a href="@routes.Admin.eventRegistrationPage(event.id)" class="btn btn-theme pull-right">Add Registration</a>
             }
-            <h4><i class="fa fa-angle-right"></i> Registration Details</h4>
+            <h4><i class="fas fa-angle-right"></i> Registration Details</h4>
             @if(event.registrations.size() == 0) {
             <i>No registrations currently recorded</i>
             } else {

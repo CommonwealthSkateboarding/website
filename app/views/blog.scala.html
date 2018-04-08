@@ -33,10 +33,10 @@
     }
 
     @if(page >= 1) {
-        <p><a href="@routes.Application.blog(page-1)" class="btn"><i class="fa fa-arrow-left"></i> Previous Page</a></p>
+        <p><a href="@routes.Application.blog(page-1)" class="btn"><i class="fas fa-arrow-left"></i> Previous Page</a></p>
     }
     @if(hasNextPage) {
-        <p><a href="@routes.Application.blog(page+1)" class="btn">Next Page <i class="fa fa-arrow-right"></i></a></p>
+        <p><a href="@routes.Application.blog(page+1)" class="btn">Next Page <i class="fas fa-arrow-right"></i></a></p>
     }
 </section> <!-- /#blog -->
 

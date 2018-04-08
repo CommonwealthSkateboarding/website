@@ -49,7 +49,7 @@
 			</ul>
 		</div>
 
-<!-- 
+<!--
 	<table class="table table-bordered table-striped table-condensed">
 		<thead>
 		<tr>
@@ -153,18 +153,40 @@
 			<div class="form-row">
 				<p class="h6">Choose Payment Amount</p>
 				<radiogroup>
-					<input type="radio" name="fullyPaid" id="full-price" @if(null!=info && (info.fullyPaid != true)){} else { checked } value="true"><label for="full-price"> <i class="fa fa-check"></i> <strong>Full</strong>&nbsp;(@utils.Formatter.prettyDollars(event.cost))</label>
+					<input type="radio" name="fullyPaid" id="full-price" @if(null!=info && (info.fullyPaid != true)){} else { checked } value="true"><label for="full-price"> <i class="fas fa-check"></i> <strong>Full</strong>&nbsp;(@utils.Formatter.prettyDollars(event.cost))</label>
 					@if(event.cost>controllers.Application.EVENT_DEPOSIT) {
-						<input type="radio" name="fullyPaid" id="deposit" @if(null!=info && (info.fullyPaid != true)){ checked } else {} value="false"><label for="deposit"> <i class="fa fa-check"></i> <strong>Deposit</strong>&nbsp;(@utils.Formatter.prettyDollars(controllers.Application.EVENT_DEPOSIT))</label>
+						<input type="radio" name="fullyPaid" id="deposit" @if(null!=info && (info.fullyPaid != true)){ checked } else {} value="false"><label for="deposit"> <i class="fas fa-check"></i> <strong>Deposit</strong>&nbsp;(@utils.Formatter.prettyDollars(controllers.Application.EVENT_DEPOSIT))</label>
 					}
 				</radiogroup>
 			</div>
 			<footer>
-				<input type="checkbox" id="agreement"> <label for="agreement">I agree to the <a href="#">terms and conditions</a>.</label> 
-				<button type="submit" id="pay">Sign Up</button>
-			</footer>
+        <label for="agreement" class="agreement">
+          <input type="checkbox" id="agreement">
+          <span>I agree to the <a href="#" id="terms-link">terms and conditions</a>.<span class="required">*</span></span>
+        </label>
+        <div class="submit">
+          <button type="submit" id="pay">Sign Up</button>
+        </div>
+      </footer>
 		</div>
 			<script>
+
+      var tos_checkbox = $('#agreement');
+			var tos_label = $('label.agreement');
+			var pay_btn = $('#pay');
+
+			$(pay_btn).addClass('disabled').prop("disabled", true);
+
+			$(tos_checkbox).change(function() {
+				if(this.checked) {
+					$(tos_label).addClass('checked');
+					$(pay_btn).removeClass('disabled').prop("disabled", false);
+				} else {
+					$(tos_label).removeClass('checked');
+					$(pay_btn).addClass('disabled').prop("disabled", true);
+				}
+			});
+      
 			var handler = StripeCheckout.configure({
 			  key: '@controllers.Stripe.STRIPE_PUBLIC_KEY',
 			  image: 'https://s3.amazonaws.com/stripe-uploads/acct_154QX0FIzru1QGQUmerchant-icon-1421729277975-cw--logo--lettermark-black.png',

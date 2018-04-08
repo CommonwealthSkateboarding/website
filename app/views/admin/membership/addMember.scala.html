@@ -4,14 +4,14 @@
 @import models.skatepark.Visit._
 @wrapper(localUser, "member", "addMember") {
 
-<h3><i class="fa fa-angle-right"></i> Membership Database</h3>
+<h3><i class="fas fa-angle-right"></i> Membership Database</h3>
 <div class="row mt">
     <div class="col-lg-8">
         <div class="showback">
-            <h4 class="mb"><i class="fa fa-angle-right"></i> Add New Member</h4>
+            <h4 class="mb"><i class="fas fa-angle-right"></i> Add New Member</h4>
             @if(duplicateWarning) {
                 <div class="alert alert-danger">
-                    <h2 class="text-center"><i class="fa fa-warning"></i> A member named @member.name is already present in the database!</h2>
+                    <h2 class="text-center"><i class="fas fa-exclamation-triangle""></i> A member named @member.name is already present in the database!</h2>
                     <p class="text-center">Are you sure you want to add a duplicate? This is probably not a good idea. But if you must, verify the info and submit again.</p>
 
                     <table class="table table-bordered table-striped table-condensed">
@@ -107,7 +107,7 @@
     </div>
     <div class="col-lg-4">
         <div class="showback">
-            <h4><i class="fa fa-angle-right"></i> Some ideas:</h4>
+            <h4><i class="fas fa-angle-right"></i> Some ideas:</h4>
             <p class="alert alert-info">
                 Make sure to enter names accurately (so you can find them with search)
             </p>

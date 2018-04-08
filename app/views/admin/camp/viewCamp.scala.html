@@ -1,11 +1,11 @@
 @(camp: models.skatepark.Camp, logs: List[models.security.AuditRecord], localUser: models.security.User = null)
 @import admin.wrapper
 @wrapper(localUser, "camps", "viewCamp") {
-    <h3><i class="fa fa-angle-right"></i> Camp Database</h3>
+    <h3><i class="fas fa-angle-right"></i> Camp Database</h3>
     <div class="col-lg-12">
         <div class="showback">
             <a href="@routes.Admin.editCampPage(camp.id)" class="btn btn-theme pull-right">Edit</a>
-            <h4><i class="fa fa-angle-right"></i> Camp Details</h4>
+            <h4><i class="fas fa-angle-right"></i> Camp Details</h4>
             <table class="table table-bordered">
                 <tr>
                     <td>Title</td>
@@ -60,7 +60,7 @@
             <a href="@routes.Admin.viewCampPDF(camp.id)" class="btn btn-theme btn-block">Get PDF with Registrant Info</a>
         </div>
         <div class="showback">
-            <h4><i class="fa fa-angle-right"></i> Audit Records</h4>
+            <h4><i class="fas fa-angle-right"></i> Audit Records</h4>
             <section id="unseen">
                 <table class="table table-bordered table-striped table-condensed">
                     <thead>
@@ -94,7 +94,7 @@
     <div class="col-lg-12">
         <div class="showback">
             <a href="@routes.Admin.campRegistrationPage(camp.id)" class="btn btn-theme pull-right">Add Registration</a>
-            <h4><i class="fa fa-angle-right"></i> Registration Details</h4>
+            <h4><i class="fas fa-angle-right"></i> Registration Details</h4>
             @if(camp.registrations.size() == 0) {
                 <i>No registrations currently recorded</i>
             } else {
@@ -132,12 +132,12 @@
                                 </p>
                                 @Html(reg.notes)
                             </td>
-                            <td><a href="@routes.Admin.editCampRegistrationPage(reg.id)" class="btn btn-primary btn-block btn-xs"><i class="fa fa-edit"></i> Edit</a>
-                                <a href="@routes.Admin.moveCampRegistrationPage(reg.id)" class="btn btn-success btn-block btn-xs"><i class="fa fa-arrows-h"></i> Move Registration</a>
-                                <a href="@routes.Admin.removeCampRegistration(reg.id, false)" class="btn btn-danger btn-block btn-xs"><i class="fa fa-remove"></i> Remove Registration</a>
+                            <td><a href="@routes.Admin.editCampRegistrationPage(reg.id)" class="btn btn-primary btn-block btn-xs"><i class="far pencil-square-o""></i> Edit</a>
+                                <a href="@routes.Admin.moveCampRegistrationPage(reg.id)" class="btn btn-success btn-block btn-xs"><i class="fas fa-arrows-alt-h"></i> Move Registration</a>
+                                <a href="@routes.Admin.removeCampRegistration(reg.id, false)" class="btn btn-danger btn-block btn-xs"><i class="fas fa-times"></i> Remove Registration</a>
                                 @if(reg.registrantEmail) {
-                                    <a href="@routes.Admin.sendCampReminderEmail(reg.id, false)" class="btn btn-warning btn-block btn-xs"><i class="fa fa-envelope-o"></i> Preview Reminder</a>
-                                    <a href="@routes.Admin.sendCampReminderEmail(reg.id, true)" class="btn btn-danger btn-block btn-xs"><i class="fa fa-envelope-o"></i> Send Reminder</a>
+                                    <a href="@routes.Admin.sendCampReminderEmail(reg.id, false)" class="btn btn-warning btn-block btn-xs"><i class="far fa-envelope"></i> Preview Reminder</a>
+                                    <a href="@routes.Admin.sendCampReminderEmail(reg.id, true)" class="btn btn-danger btn-block btn-xs"><i class="far fa-envelope"></i> Send Reminder</a>
                                 }
                             </td>
                         </tr>

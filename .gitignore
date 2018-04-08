@@ -14,11 +14,9 @@ dist
 /RUNNING_PID
 /.settings
 .sass-cache
-/node_modules
-
 *.codekit
 gulpfile.js
-
 public/js/modernizr2.js
-
 public/js/modernizr3.js
+node_modules/
+.npmrc

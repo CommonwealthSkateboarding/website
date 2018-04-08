@@ -1,212 +1,230 @@
 aside[id="info"] {
-	color: $white;
-	@include rem(font-size, 15px);
-	order: 2;
-	padding: 0 2% 0 6%;
-	width: 40%;
+  color: $white;
+  @include rem(font-size, 15px);
+  order: 2;
+  padding: 0 2% 0 6%;
+  width: 40%;
 
-	p { margin: 0; }
+  p {
+    margin: 0;
+  }
 
-	strong { 
-		color: $gold; 
-		font-weight: 400; 
-	}
+  strong {
+    color: $gold;
+    font-weight: 400;
+  }
 
-	a { @extend .link; }
+  a:not(.button) {
+    @extend .link;
+  }
 
-	> *:not(.pricing) { padding: 0 6%; }
+  > *:not(.pricing) {
+    padding: 0 6%;
+  }
 
-	> *:not(:first-of-type) { 
-		margin-top: $margin;
-	}
+  > *:not(:first-of-type) {
+    margin-top: $margin;
+  }
 
-	.hours {
+  .hours {
+    ul {
+      display: flex;
+      flex-wrap: wrap;
 
-		ul {
-			display: flex;
-			flex-wrap: wrap;
+      li {
+        padding-right: 6px;
+        width: 50%;
 
-			li {
-				padding-right: 6px;
-				width: 50%;
+        &.heading {
+          margin-top: 0;
+          margin-bottom: 3px;
+          width: 100%;
+        }
 
-				&.heading { 
-					margin-top: 0;
-					margin-bottom: 3px;
-					width: 100%; 
-				}
+        &:not(:nth-of-type(-n + 3)) {
+          margin-top: 20px;
+        }
 
-				&:not(:nth-of-type(-n+3)) {
-					margin-top: 20px;
-				}
+        > * {
+          display: block;
+        }
+      }
+    }
 
-				> * { display: block; }
-				
-			}
-		}	
+    p {
+      font-weight: 300;
 
-		p { 
-			font-weight: 300; 
+      &.day {
+        color: lighten($gray, 27%);
+        @include rem(font-size, 18px);
+      }
+      &.time {
+        color: $white;
+        @include rem(font-size, 21px);
+        margin-top: -3px;
+      }
 
-			&.day { 
-				color: lighten($gray, 27%); 
-				@include rem(font-size, 18px);
-			}
-			&.time { 
-				color: $white; 
-				@include rem(font-size, 21px);
-				margin-top: -3px;
-			}
+      &.note {
+        color: $gray;
+        @include rem(font-size, 0.8rem);
+        font-weight: 400;
+        margin-top: 6px;
+      }
+    }
 
-			&.note {
-				color: $gray;
-				@include rem(font-size, .8rem);
-				font-weight: 400;
-				margin-top: 6px;
-			}
-		}
+    .name {
+      color: $gray;
+      @include rem(font-size, 9px);
+      font-weight: 700;
+      margin-top: 3px;
+      text-transform: uppercase;
 
-		.name { 
-			color: $gray; 
-			@include rem(font-size, 9px);
-			font-weight: 700;
-			margin-top: 3px;
-			text-transform: uppercase;
-			
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-		}
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
-		.general { 
-			strong { margin: 0; }
-			p { @include rem(font-size, 24px); }
-		}
+    .general {
+      strong {
+        margin: 0;
+      }
+      p {
+        @include rem(font-size, 24px);
+      }
+    }
 
-		.sessions {
-			margin-top: $margin/2;
+    .sessions {
+      margin-top: $margin/2;
+    }
+  }
 
-			ul {
-				li {
+  .pricing {
+    padding: $margin/2 0;
 
-				}
-			}
-		}
-	}
+    border: 2px solid fade_out($gold, 0.75);
+    border-right: none;
+    border-left: none;
 
-	.pricing {
-		padding: $margin/2 0; 
+    ul {
+      display: flex;
+      justify-content: center;
 
-		border: 2px solid fade_out($gold, .75);
-		border-right: none;
-		border-left: none;
+      width: 100%;
 
-		ul {
-			display: flex;
-			justify-content: center;
+      li {
+        text-align: center;
+        width: 30%;
 
-			//background: red;
-			width: 100%;
+        &:nth-child(2) {
+          border: 1px solid fade_out($gold, 0.9);
+          border-top: none;
+          border-bottom: none;
+        }
 
-			li {
-				//background: yellow;
-				text-align: center;
-				width: 30%;
+        &:nth-child(1),
+        &:nth-child(2) {
+          min-width: 56px;
+        }
 
-				&:nth-child(2) { 
-					border: 1px solid fade_out($gold, .9);
-					border-top: none;
-					border-bottom: none;
-				}
+        &:nth-child(3) {
+          width: 40%;
+        }
 
-				&:nth-child(1), &:nth-child(2) {
-					min-width: 56px;
-				}
+        p {
+          @include rem(font-size, 27px);
+          font-weight: 300;
+          letter-spacing: -0.1rem;
 
-				&:nth-child(3) { width: 40%; }
+          sup {
+            @include rem(font-size, 18px);
+            @include rem(vertical-align, -4px);
+          }
+        }
+      }
+    }
+  }
 
-				//&:last-child { padding-right: 10px; }
+  .contact {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
 
-				p { 
-					@include rem(font-size, 27px);
-					font-weight: 300;
-					letter-spacing: -.1rem;
+    strong {
+      margin-bottom: 6px;
+      width: 100%;
+    }
 
-					sup {
-						@include rem(font-size, 18px);
-						//margin-right: 1px;
-						@include rem(vertical-align, -4px);
-					}
-				}
-			}
-		}
-	}
+    a.button {
+      background: mix($black, $gray-d);
+      border-radius: 3px;
+      color: $white;
+      font-weight: 500;
 
-	.contact {
-		p { 
-			@include rem(font-size, 24px);
-			font-weight: 300;
-			line-height: 1.5;
-			margin-bottom: 6px;
-			width: 100%;
-			i.fa { 
-				color: fade_out($gray, .6);
-				margin-right: 9px;
-				&.fa-phone { 
-					@include rem(font-size, 18px); 
-					vertical-align: -1px;
-				}
-				&.fa-envelope { 
-					@include rem(font-size, 15px); 
-					vertical-align: 3px;
-				}
-			}
-			a { font-weight: 400; }
-		}
-	}
+      display: flex;
+      align-items: center;
 
-	.instafeed {
-		border-top: 2px solid fade_out($gold, .75);
-		padding-top: $margin/2;
-		p { 
-			@include rem(font-size, 24px);
-			font-weight: 300;
-			line-height: 1.5;
-			margin-bottom: $margin/2;
-			margin-top: $margin/2;
-			width: 100%;
-			i.fa { 
-				color: fade_out($gray, .6);
-				margin-right: 9px;
-			}
-			a { 
-				@include rem(font-size, 18px);
-				font-weight: 500;
-				vertical-align: 4px;
-			}
-		}
-	}
+      margin-top: 6px;
+      padding: 15px 18px;
+      text-decoration: none;
+      width: 100%;
 
-	.location {
+      [data-icon] {
+        color: $gray-d;
+        font-size: 1.2rem;
+        margin-right: 15px;
+      }
 
-	}
+      &:hover {
+        background: $gold;
+      }
+    }
 
-	.sponsors {
-		ul {
-			li {
-				float: left;
-				font-weight: 300;
-				padding: 10px 0;
-				text-align: center;
-				width: 50%;
-				&.tier-1 {
-					@include rem(font-size, 1rem);
-				}
-				&.tier-2 {
-					color: $gray;
-					@include rem(font-size, .25rem);
-				}
-			}
-		}
-	}
+    @element 'aside[id="info"] .contact' and (min-width: 500px) {
+      a.button {
+        width: calc(50% - 3px);
+      }
+    }
+  }
+
+  .instafeed {
+    border-top: 2px solid fade_out($gold, 0.75);
+    padding-top: $margin/2;
+
+    p {
+      @include rem(font-size, 24px);
+      font-weight: 300;
+      line-height: 1.5;
+      margin-bottom: $margin/2;
+      margin-top: $margin/2;
+      width: 100%;
+      i.fa {
+        color: fade_out($gray, 0.6);
+        margin-right: 9px;
+      }
+      a {
+        @include rem(font-size, 18px);
+        font-weight: 500;
+        vertical-align: 4px;
+      }
+    }
+  }
+
+  .sponsors {
+    ul {
+      li {
+        float: left;
+        font-weight: 300;
+        padding: 10px 0;
+        text-align: center;
+        width: 50%;
+        &.tier-1 {
+          @include rem(font-size, 1rem);
+        }
+        &.tier-2 {
+          color: $gray;
+          @include rem(font-size, 0.25rem);
+        }
+      }
+    }
+  }
 }
