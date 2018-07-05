@@ -701,6 +701,7 @@ public class Admin extends Controller {
         camp.startDate = newCamp.startDate;
         camp.title = newCamp.title;
         camp.instructors = newCamp.instructors;
+        camp.privateNotes = newCamp.privateNotes;
 
         camp.save();
 

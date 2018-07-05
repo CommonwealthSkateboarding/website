@@ -59,6 +59,9 @@ public class Camp extends Model {
 
     public boolean archived;
 
+    @Column(columnDefinition = "text")
+    public String privateNotes;
+
     public static final Finder<String, Camp> find = new Finder<>(String.class, Camp.class);
 
     public boolean isPastRegistrationEndDate() {

@@ -58,19 +58,19 @@ public class PdfUtil {
             table.setHeader(headerRow);
 
             //Create Fact header row
-            Row factHeaderrow = table.createRow(20f);
+            Row factHeaderRow = table.createRow(20f);
 
-            cell = factHeaderrow.createCell(50, "Name");
+            cell = factHeaderRow.createCell(50, "Name");
             cell.setFont(PDType1Font.HELVETICA);
             cell.setFontSize(12);
             cell.setFillColor(Color.LIGHT_GRAY);
 
-            cell = factHeaderrow.createCell(40, "Emergency Contact Info");
+            cell = factHeaderRow.createCell(40, "Emergency Contact Info");
             cell.setFont(PDType1Font.HELVETICA);
             cell.setFontSize(12);
             cell.setFillColor(Color.LIGHT_GRAY);
 
-            cell = factHeaderrow.createCell(10, "Paid?");
+            cell = factHeaderRow.createCell(10, "Paid?");
             cell.setFillColor(Color.LIGHT_GRAY);
             cell.setFont(PDType1Font.HELVETICA_OBLIQUE);
             cell.setFontSize(12);
@@ -101,6 +101,16 @@ public class PdfUtil {
                     cell.setFillColor(Color.yellow);
                 }
             }
+
+
+            if (!camp.privateNotes.isEmpty()){
+                //Create private notes area
+                Row privateNotesRow = table.createRow(24f);
+                cell = privateNotesRow.createCell(100, camp.privateNotes);
+                cell.setFont(PDType1Font.HELVETICA);
+                cell.setFontSize(14);
+            }
+
             //Timestamp
             SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss a");
             Row daterow = table.createRow(20f);
