@@ -94,4 +94,10 @@ public class Registration extends Model {
         play.cache.Cache.remove(Camp.ACTIVE_CAMPS_CACHE_NAME);
         super.update();
     }
+
+    @Override
+    public void delete() {
+        play.cache.Cache.remove(Camp.ACTIVE_CAMPS_CACHE_NAME);
+        super.delete();
+    }
 }
