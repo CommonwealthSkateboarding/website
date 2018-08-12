@@ -18,22 +18,20 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @if(current.size > 0) {
-                        @for((member, pass) <- current) {
-                            @if(pass.isValid()) {
-                                <tr>
-                                    <td>@member.name</td>
-                                    <td><a href="@routes.Admin.viewMemberPage(member.id)" class="btn btn-theme btn-block">View</a></td>
-                                    <td>Pass expires @pass.expires.format("MM/dd/yyyy")
-                                        (<span class="timeago" title="@pass.expires.format("yyyy-MM-dd'T'HH:mmZ")"></span>)
-                                        @if(null != member.lastVisit) {
-                                            <br/>
-                                            Last visited @member.lastVisit.time.format("MM/dd/yyyy")
-                                            (<span class="timeago" title="@member.lastVisit.time.format("yyyy-MM-dd'T'HH:mmZ")"></span>)
-                                        }
-                                    </td>
-                                </tr>
-                            }
+                    @for((member, pass) <- current) {
+                        @if(pass.isValid()) {
+                            <tr>
+                                <td>@member.name</td>
+                                <td><a href="@routes.Admin.viewMemberPage(member.id)" class="btn btn-theme btn-block">View</a></td>
+                                <td>Pass expires @pass.expires.format("MM/dd/yyyy")
+                                    (<span class="timeago" title="@pass.expires.format("yyyy-MM-dd'T'HH:mmZ")"></span>)
+                                    @if(null != member.lastVisit) {
+                                        <br/>
+                                        Last visited @member.lastVisit.time.format("MM/dd/yyyy")
+                                        (<span class="timeago" title="@member.lastVisit.time.format("yyyy-MM-dd'T'HH:mmZ")"></span>)
+                                    }
+                                </td>
+                            </tr>
                         }
                     }
                     </tbody>
@@ -55,23 +53,25 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @if(expired.size > 0) {
-                        @for((member, pass) <- expired) {
-                            @if(!pass.isValid()) {
-                                <tr>
-                                    <td>@member.name</td>
-                                    <td><a href="@routes.Admin.viewMemberPage(member.id)" class="btn btn-theme btn-block">View</a></td>
-                                    <td>Pass expired @pass.expires.format("MM/dd/yyyy")
-                                        (<span class="timeago" title="@pass.expires.format("yyyy-MM-dd'T'HH:mmZ")"></span>)
-                                        @if(null != member.lastVisit) {
-                                            <br/>
-                                            Last visited @member.lastVisit.time.format("MM/dd/yyyy")
-                                            (<span class="timeago" title="@member.lastVisit.time.format("yyyy-MM-dd'T'HH:mmZ")"></span>)
-                                        }
-                                    </td>
-                                    <td>@if(member.lastVisit.time.after(pass.expires)) { <i class="far fa-check-circle"></i> }</td>
-                                </tr>
-                            }
+                    @for((member, pass) <- expired) {
+                        @if(!pass.isValid()) {
+                            <tr>
+                                <td>@member.name</td>
+                                <td><a href="@routes.Admin.viewMemberPage(member.id)" class="btn btn-theme btn-block">View</a></td>
+                                <td>Pass expired @pass.expires.format("MM/dd/yyyy")
+                                    (<span class="timeago" title="@pass.expires.format("yyyy-MM-dd'T'HH:mmZ")"></span>)
+                                    @if(null != member.lastVisit) {
+                                        <br/>
+                                        Last visited @member.lastVisit.time.format("MM/dd/yyyy")
+                                        (<span class="timeago" title="@member.lastVisit.time.format("yyyy-MM-dd'T'HH:mmZ")"></span>)
+                                    }
+                                </td>
+                                <td>
+                                    @if(null != member.lastVisit) {
+                                        @if(member.lastVisit.time.after(pass.expires)) { <i class="far fa-check-circle"></i> }
+                                    }
+                                </td>
+                            </tr>
                         }
                     }
                     </tbody>
