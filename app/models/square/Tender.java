@@ -1,8 +1,11 @@
 package models.square;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * Created by cdelargy on 12/25/14.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Tender {
 
     public enum Type {
