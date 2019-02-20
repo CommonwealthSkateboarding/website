@@ -88,4 +88,9 @@ public class TimeUtil {
         return dateFormat.format(date);
     }
 
+    public static String getMonthDayYearString(Date date) {
+        DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+        return dateFormat.format(date);
+    }
+
 }

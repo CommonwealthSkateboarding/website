@@ -142,6 +142,16 @@ public class Global extends GlobalSettings {
                 }, Akka.system().dispatcher()
         );
 
+        Cancellable openClosuresTask = Akka.system().scheduler().schedule(
+                //8:05 AM Local Time
+                Duration.create(nextExecutionInSeconds(8,05), TimeUnit.SECONDS),
+                Duration.create(24, TimeUnit.HOURS),
+                () -> {
+                    Logger.info("Performing 24 hour active closures report");
+                    Admin.runSlackClosureReport();
+                }, Akka.system().dispatcher()
+        );
+
         Thread cancelTasksOnShutdown = new Thread("shutdownHook") {
             public void run() {
                 Logger.info("Cancelling akka tasks for application shutdown");

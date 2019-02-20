@@ -1137,5 +1137,12 @@ public class Admin extends Controller {
         return redirect(routes.Admin.closureIndex());
     }
 
+    public static void runSlackClosureReport() {
+        List<ClosureNotice> closures = ClosureNotice.find.where().eq("enabled", true).findList();
+        if (null != closures && closures.size() > 0) {
+            Logger.info("Currently " + closures.size() + " active closures, emitting to slack");
+            Slack.emitClosuresReport(closures);
+        }
+    }
 
 }

@@ -3,6 +3,7 @@ package controllers;
 import com.stripe.model.Charge;
 import models.security.AuditRecord;
 import models.security.User;
+import models.site.ClosureNotice;
 import models.site.Issue;
 import models.skatepark.Registration;
 import models.skatepark.Visit;
@@ -109,6 +110,13 @@ public class Slack {
             totalSales += p.total_collected_money.amount / 100.0;
         }
         dispatch(new SlackMessage(SLACKBOT_BUSINESS_CHANNEL, null, "Daily payment report! :tada:\nIn the last 24 hours, " + payments.size() + " payments were collected for a total revenue of " + prettyDollarsAndCents(totalSales)));
+    }
+
+    public static void emitClosuresReport(List<ClosureNotice> closures) {
+        dispatch(new SlackMessage(SLACKBOT_BUSINESS_CHANNEL, null, "Active closure report! :tada:"));
+        for(ClosureNotice closure : closures) {
+            dispatch(new SlackMessage(SLACKBOT_BUSINESS_CHANNEL, null, (closure.message + "\nCreated " + TimeUtil.getMonthDayYearString(closure.created) + " by " + closure.createdBy.name + " [<" + BASE_URL + routes.Admin.closureIndex()) + "|Edit]"));
+        }
     }
 
     public static void notifyOfNewIssue(Issue issue) {
