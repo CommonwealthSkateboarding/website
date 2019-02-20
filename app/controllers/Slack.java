@@ -115,7 +115,7 @@ public class Slack {
     public static void emitClosuresReport(List<ClosureNotice> closures) {
         dispatch(new SlackMessage(SLACKBOT_BUSINESS_CHANNEL, null, "Active closure report! :tada:"));
         for(ClosureNotice closure : closures) {
-            dispatch(new SlackMessage(SLACKBOT_BUSINESS_CHANNEL, null, (closure.message + "\nCreated " + TimeUtil.getMonthDayYearString(closure.created) + " by " + closure.createdBy.name + " [<" + BASE_URL + routes.Admin.closureIndex()) + "|Edit]"));
+            dispatch(new SlackMessage(SLACKBOT_BUSINESS_CHANNEL, null, (closure.message + "\nCreated " + TimeUtil.getMonthDayYearString(closure.created) + " by " + closure.createdBy.name + " [<" + BASE_URL + routes.Admin.closureIndex()) + "|Edit>]"));
         }
     }
 
