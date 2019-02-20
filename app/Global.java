@@ -156,6 +156,7 @@ public class Global extends GlobalSettings {
             public void run() {
                 Logger.info("Cancelling akka tasks for application shutdown");
                 reportTask.cancel();
+                openClosuresTask.cancel();
                 expiredPassTask.cancel();
             }
         };
