@@ -1,6 +1,6 @@
 {
   "dependencies": {
     "autoprefixer": "5.1.0",
-    "node-sass": "3.3.3"
+    "node-sass": "3.13.1"
   }
 }
