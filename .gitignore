@@ -20,3 +20,4 @@ public/js/modernizr2.js
 public/js/modernizr3.js
 node_modules/
 .npmrc
+.configvars

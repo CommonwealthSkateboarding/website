@@ -7,7 +7,7 @@ organization := "com.commonwealthskateboarding"
 
 version := "1.0-SNAPSHOT"
 
-lazy val root = (project in file(".")).enablePlugins(PlayJava)
+lazy val root = (project in file(".")).enablePlugins(PlayJava, SbtWeb)
 
 enablePlugins(sbtdocker.DockerPlugin)
 enablePlugins(JavaServerAppPackaging)
@@ -46,5 +46,8 @@ libraryDependencies ++= Seq(
   cache,
   javaWs
 )
+
+import org.irundaia.sbt.sass._
+SassKeys.useDartSass := true
 
 pipelineStages in Assets := Seq(autoprefixer)
