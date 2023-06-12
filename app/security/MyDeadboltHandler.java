@@ -32,10 +32,16 @@ public class MyDeadboltHandler extends AbstractDeadboltHandler {
     }
 
     @Override
-    public Subject getSubject(final Http.Context context) {
+    public F.Promise<Subject> getSubject(final Http.Context context) {
         final AuthUserIdentity u = PlayAuthenticate.getUser(context);
         // Caching might be a good idea here
-        return (Subject)User.findByAuthUserIdentity(u);
+        return F.Promise.promise(new F.Function0<Subject>()
+        {
+            @Override 
+            public Subject apply() throws Throwable {
+                return User.findByAuthUserIdentity(u);
+            }
+        });
     }
 
     @Override

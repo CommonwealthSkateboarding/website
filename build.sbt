@@ -31,7 +31,7 @@ libraryDependencies += "com.typesafe.play.plugins" %% "play-plugins-mailer" % "2
 
 libraryDependencies += "com.feth" %% "play-authenticate" % "0.6.8"
 
-libraryDependencies += "be.objectify" %% "deadbolt-java" % "2.3.1"
+libraryDependencies += "be.objectify" %% "deadbolt-java" % "2.3.2"
 
 libraryDependencies += "com.stripe" % "stripe-java" % "1.24.1"
 
@@ -46,8 +46,3 @@ libraryDependencies ++= Seq(
   cache,
   javaWs
 )
-
-import org.irundaia.sbt.sass._
-SassKeys.useDartSass := true
-
-pipelineStages in Assets := Seq(autoprefixer)

@@ -6,38 +6,35 @@
 
 ## Dependencies
 * homebrew
+* sdkman
 * java
 * mysql
-* typesafe-activator
+* sbt
 * sass
 * nodejs
 
 ## Preparation
-1. `gem install sass`*
-2. `brew install mysql`
-3. `brew tap homebrew/services`
-4. `brew services start mysql`
-5. `mysql -uroot`
+1. `npm install node-sass`
+1. `brew install mysql`
+1. `brew tap homebrew/services`
+1. `brew services start mysql` or `mysql.server start`
+1. `mysql -u root`
     * `CREATE DATABASE cw;`
-    * `GRANT ALL PRIVILEGES ON cw.* TO cw@localhost IDENTIFIED BY ‘sterlingarcher';`
+    * `GRANT ALL PRIVILEGES ON cw.* TO cw@localhost IDENTIFIED BY 'sterlingarcher';`
     * `exit;`
+1. `sdk install sbt` ([See note under Homebrew installation command](https://www.scala-sbt.org/download.html) as to the issues with using Homebrew for `sbt`)
 
-6. `brew install typesafe-activator`
 
-*If you're getting permissions issues, add the following to your `~/.bashrc` file:
-```
-export GEM_HOME=~/.gem
-export GEM_PATH=~/.gem
-```
+
 
 ## Running
-From within the project directory, in Terminal, type `activator run`.
+From within the project directory, in Terminal, type `sbt run`.
 
 Application will be running on [http://localhost:9000](http://localhost:9000)
 
 **Note:** To access the admin interface, you will need to grant administrative permissions to your personal user account. The first account must be bootstrapped with permissions to access the permissions administrative interface. This can be accomplished by running the following commands AFTER you have logged in and been denied permissions at [http://localhost:9000/admin](http://localhost:9000/admin):
 
-1. `mysql -uroot`
+1. `mysql -u root`
 
 2. ``INSERT INTO `users_security_role` (`users_id`, `security_role_id`) VALUES (1, 2), (1, 5), (1, 6), (1, 7), (1, 8);``
 
