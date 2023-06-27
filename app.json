@@ -1,7 +1,7 @@
 {
   "name":"website",
   "scripts":{},
-  "env":{
+  "environments":{
     "BUILDPACK_URL":{
       "required":true
     },
@@ -29,5 +29,6 @@
   },
   "addons":[
     "cleardb"
-  ]
+  ],
+  "stack": "heroku-22"
 }

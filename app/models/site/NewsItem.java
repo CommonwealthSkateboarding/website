@@ -3,14 +3,14 @@ package models.site;
 import com.avaje.ebean.Expr;
 import net.sf.ehcache.Ehcache;
 import play.Play;
-import play.api.cache.EhCachePlugin;
+import play.api.cache.EhCacheModule;
 import play.cache.*;
 import play.data.format.Formats;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
 
 import javax.persistence.*;
-import javax.persistence.Cache;
+import javax.persistence.Cache; 
 import java.util.Date;
 import java.util.List;
 
